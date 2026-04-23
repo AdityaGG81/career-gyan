@@ -14,8 +14,17 @@ return new class extends Migration {
             $table->string('location');
             $table->string('state');
             $table->string('fees_range');
-            $table->enum('type', ['Government', 'Private', 'Deemed', 'Central']);
+            $table->enum('type', ['Government', 'Private', 'Deemed', 'Central', 'Autonomous']);
             $table->string('website')->nullable();
+            
+            // New columns for detailed top college view
+            $table->integer('rank')->nullable();
+            $table->string('popular_branches')->nullable();
+            $table->string('cutoff')->nullable();
+            $table->text('placement_support')->nullable();
+            $table->text('facilities')->nullable();
+            $table->text('description')->nullable();
+
             $table->timestamps();
         });
     }

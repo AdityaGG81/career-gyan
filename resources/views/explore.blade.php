@@ -77,6 +77,64 @@
                 <i class="fa-solid {{ $field->icon }}"></i>
             </div>
             <div class="cat-name">{{ $field->name }}</div>
+            
+            @if($field->slug === 'technology-engineering')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.engineering-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'arts-humanities')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.arts-humanities-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f5f3ff; color:#7c3aed;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'science')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.science-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#dbeafe; color:#1d4ed8;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'commerce')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.commerce-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#ecfdf5; color:#059669;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'agriculture')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.agriculture-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f0fdf4; color:#166534;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'medical')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.medical-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#dcfce7; color:#16a34a;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'hotel-management')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.hotel-management-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fef3c7; color:#b45309;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'traditional')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.traditional-careers') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f1f5f9; color:#1e3a8a;">Explore Paths &rarr;</a>
+                </div>
+            @elseif($field->slug === 'small-scale')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.small-scale-business') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fffcf0; color:#fbbf24;">Explore Ideas &rarr;</a>
+                </div>
+            @elseif($field->slug === 'business')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.management-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#dbeafe; color:#1d4ed8;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'pharmacy')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.pharmacy-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fce7f3; color:#db2777;">View Top Colleges &rarr;</a>
+                </div>
+            @elseif($field->slug === 'sports')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.sports-careers') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fee2e2; color:#b91c1c;">View Sports Careers &rarr;</a>
+                </div>
+            @elseif($field->slug === 'skill-development')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.skill-development') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#e0e7ff; color:#312e81;">Explore Skills &rarr;</a>
+                </div>
+            @elseif($field->slug === 'ayush-allied')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.non-mbbs-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#ecfdf5; color:#059669;">View Top Colleges &rarr;</a>
+                </div>
+            @endif
         </div>
         @endforeach
     </div>

@@ -22,6 +22,16 @@ class DatabaseSeeder extends Seeder
             SubjectsSeeder::class,
             CareersSeeder::class,
             CollegesSeeder::class,
+            EngineeringCollegeSeeder::class,
+            MedicalCollegeSeeder::class,
+            HotelManagementCollegeSeeder::class,
+            ManagementCollegeSeeder::class,
+            PharmacyCollegeSeeder::class,
+            NonMbbsCollegeSeeder::class,
+            ScienceCollegeSeeder::class,
+            ArtsCollegeSeeder::class,
+            CommerceCollegeSeeder::class,
+            AgricultureCollegeSeeder::class,
         ]);
     }
 }
