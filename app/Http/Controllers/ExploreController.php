@@ -6,6 +6,12 @@ use App\Models\Career;
 use App\Models\College;
 use App\Models\Field;
 use App\Models\Subject;
+use App\Models\BusinessIdea;
+use App\Models\SkillCourse;
+use App\Models\CompetitiveExam;
+use App\Models\NonTraditionalCareer;
+use App\Models\TraditionalCareer;
+use App\Models\SportCareer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -342,42 +348,39 @@ class ExploreController extends Controller
     {
         $field = Field::where('slug', 'skill-development')->firstOrFail();
         
-        $categories = [
-            [
-                'title' => 'Programming & IT',
-                'icon' => 'fa-code',
-                'skills' => [
-                    ['name' => 'Web Development', 'desc' => 'Building websites and web apps', 'tools' => 'HTML, CSS, JS, React, PHP', 'duration' => '4-6 Months', 'diff' => 'Intermediate', 'salary' => '₹4L - ₹12L', 'jobs' => 'Frontend, Backend, Fullstack Developer'],
-                    ['name' => 'Python for Data Science', 'desc' => 'Analyzing data and building AI models', 'tools' => 'Python, Pandas, NumPy, Scikit-learn', 'duration' => '6 Months', 'diff' => 'Intermediate', 'salary' => '₹5L - ₹15L', 'jobs' => 'Data Analyst, ML Engineer'],
-                ]
-            ],
-            [
-                'title' => 'Design & Creative',
-                'icon' => 'fa-palette',
-                'skills' => [
-                    ['name' => 'Graphic Design', 'desc' => 'Visual communication and branding', 'tools' => 'Photoshop, Illustrator, Canva', 'duration' => '3 Months', 'diff' => 'Beginner', 'salary' => '₹3L - ₹8L', 'jobs' => 'UI Designer, Brand Identity Artist'],
-                    ['name' => 'Video Editing', 'desc' => 'Creating and polishing video content', 'tools' => 'Premiere Pro, After Effects', 'duration' => '3-4 Months', 'diff' => 'Intermediate', 'salary' => '₹4L - ₹10L', 'jobs' => 'Video Editor, Motion Graphics Designer'],
-                ]
-            ],
-            [
-                'title' => 'Business & Finance',
-                'icon' => 'fa-chart-pie',
-                'skills' => [
-                    ['name' => 'Tally & GST', 'desc' => 'Modern accounting and taxation', 'tools' => 'Tally Prime, Excel, GST Portal', 'duration' => '2 Months', 'diff' => 'Beginner', 'salary' => '₹2.5L - ₹6L', 'jobs' => 'Accountant, GST Consultant'],
-                    ['name' => 'Stock Market Trading', 'desc' => 'Technical analysis and investment', 'tools' => 'TradingView, Zerodha', 'duration' => '3 Months', 'diff' => 'Advanced', 'salary' => 'Profit-based', 'jobs' => 'Portfolio Manager, Trader'],
-                ]
-            ],
-            [
-                'title' => 'Digital Marketing',
-                'icon' => 'fa-bullhorn',
-                'skills' => [
-                    ['name' => 'Social Media Marketing', 'desc' => 'Growing brands on FB, IG, LinkedIn', 'tools' => 'Meta Ads, Buffer, Analytics', 'duration' => '3 Months', 'diff' => 'Beginner', 'salary' => '₹3L - ₹9L', 'jobs' => 'SMM Specialist, Content Planner'],
-                    ['name' => 'SEO Specialist', 'desc' => 'Ranking websites on Google', 'tools' => 'Ahrefs, Semrush, Console', 'duration' => '4 Months', 'diff' => 'Intermediate', 'salary' => '₹4L - ₹10L', 'jobs' => 'SEO Strategist, Web Analyst'],
-                ]
-            ]
-        ];
+        $skillCourses = SkillCourse::where('field_id', $field->id)->get();
+        
+        // Group by category_title for the view
+        $categories = $skillCourses->groupBy('category_title')->map(function ($items, $title) {
+            return [
+                'title' => $title,
+                'icon' => $this->getCategoryIcon($title),
+                'skills' => $items->map(function ($item) {
+                    return [
+                        'name' => $item->name,
+                        'desc' => $item->description,
+                        'tools' => $item->tools,
+                        'duration' => $item->duration,
+                        'diff' => $item->difficulty,
+                        'salary' => $item->salary_potential,
+                        'jobs' => $item->job_roles,
+                    ];
+                })
+            ];
+        })->values();
 
         return view('colleges.skills', compact('field', 'categories'));
+    }
+
+    private function getCategoryIcon($title)
+    {
+        return match($title) {
+            'Programming & IT' => 'fa-code',
+            'Design & Creative' => 'fa-palette',
+            'Business & Finance' => 'fa-chart-pie',
+            'Digital Marketing' => 'fa-bullhorn',
+            default => 'fa-star',
+        };
     }
 
     /* ─────────────────────────────────────────────
@@ -388,22 +391,15 @@ class ExploreController extends Controller
     {
         $field = Field::where('slug', 'sports')->firstOrFail();
 
-        $sports = [
-            ['name' => 'Cricket', 'icon' => 'fa-baseball-bat-ball', 'desc' => 'The most popular sport in India with vast career scope in IPL and National teams.'],
-            ['name' => 'Football', 'icon' => 'fa-futbol', 'desc' => 'Rapidly growing with ISL and local leagues, offering paths for players and coaches.'],
-            ['name' => 'Badminton', 'icon' => 'fa-shuttlecock', 'desc' => 'Highly competitive with strong international presence from India.'],
-            ['name' => 'Hockey', 'icon' => 'fa-hockey-puck', 'desc' => 'Our national pride with dedicated academies across the country.'],
-            ['name' => 'Athletics', 'icon' => 'fa-person-running', 'desc' => 'Focus on Track & Field, Sprinting, and Olympics-based training.'],
-            ['name' => 'Martial Arts', 'icon' => 'fa-user-ninja', 'desc' => 'Self-defense, Mixed Martial Arts (MMA), and Karate-based careers.'],
-        ];
+        $sports = SportCareer::all();
 
-        $careers = [
-            ['role' => 'Professional Athlete', 'salary' => '₹5L - ₹50Cr+', 'scope' => 'Leagues, National Teams, Sponsorships'],
-            ['role' => 'Sports Coach', 'salary' => '₹3L - ₹15L', 'scope' => 'Schools, Clubs, Private Academies'],
-            ['role' => 'Sports Manager', 'salary' => '₹4L - ₹20L', 'scope' => 'Event Management companies, Talent agencies'],
-            ['role' => 'Sports Analyst', 'salary' => '₹4L - ₹12L', 'scope' => 'Broadcasting channels, Team scouting'],
-            ['role' => 'Physiotherapist', 'salary' => '₹3L - ₹10L', 'scope' => 'Hospitals, Sports Teams, Rehabilitation Centers'],
-        ];
+        $careers = Career::where('field_id', $field->id)->get()->map(function($c) {
+            return [
+                'role' => $c->name,
+                'salary' => $c->salary_range,
+                'scope' => $c->qualification . ' | ' . $c->description,
+            ];
+        });
 
         return view('colleges.sports', compact('field', 'sports', 'careers'));
     }
@@ -416,38 +412,29 @@ class ExploreController extends Controller
     {
         $field = Field::where('slug', 'small-scale')->firstOrFail();
 
+        $ideas = BusinessIdea::where('field_id', $field->id)->get();
+        
+        // Mock categories for the view logic
         $businessCategories = [
             [
                 'title' => 'Food & Catering',
                 'icon' => 'fa-utensils',
-                'ideas' => [
-                    ['name' => 'Homemade Cloud Kitchen', 'invest' => '₹20K - 50K', 'profit' => '20-40%', 'risk' => 'Low', 'desc' => 'Start a food delivery business from your own home kitchen using Zomato/Swiggy.'],
-                    ['name' => 'Stall / Food Truck', 'invest' => '₹1L - 3L', 'profit' => '30-50%', 'risk' => 'Medium', 'desc' => 'Sell specialized snacks (Momo, Burgers, Chai) in high-traffic areas.'],
-                ]
+                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Homemade Cloud Kitchen', 'Stall / Food Truck']))->values()
             ],
             [
                 'title' => 'Digital & Online',
                 'icon' => 'fa-globe',
-                'ideas' => [
-                    ['name' => 'E-Commerce Reselling', 'invest' => '₹5K - 20K', 'profit' => '15-30%', 'risk' => 'Low', 'desc' => 'Sell products via Instagram or WhatsApp Business by sourcing from wholesalers.'],
-                    ['name' => 'Content Creation Studio', 'invest' => '₹50K - 1L', 'profit' => 'High', 'risk' => 'Low', 'desc' => 'Offer video editing or social media management services to local brands.'],
-                ]
+                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['E-Commerce Reselling', 'Content Creation Studio']))->values()
             ],
             [
                 'title' => 'Fashion & Clothing',
                 'icon' => 'fa-shirt',
-                'ideas' => [
-                    ['name' => 'Custom Embroidery/Tailoring', 'invest' => '₹10K - 30K', 'profit' => '40-60%', 'risk' => 'Low', 'desc' => 'Offer personalized boutique services or alterations from an at-home studio.'],
-                    ['name' => 'Print-on-Demand Store', 'invest' => '₹15K - 40K', 'profit' => '20-30%', 'risk' => 'Low', 'desc' => 'Design custom t-shirts or hoodies and sell them via your own online brand.'],
-                ]
+                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Custom Embroidery/Tailoring', 'Print-on-Demand Store']))->values()
             ],
             [
                 'title' => 'Education & Services',
                 'icon' => 'fa-book-reader',
-                'ideas' => [
-                    ['name' => 'Tutoring Center', 'invest' => '₹5K - 15K', 'profit' => 'High', 'risk' => 'Very Low', 'desc' => 'Start teaching school subjects or specialized skills like coding from home.'],
-                    ['name' => 'Event Planning', 'invest' => '₹20K - 50K', 'profit' => '25-40%', 'risk' => 'Medium', 'desc' => 'Manage birthdays, small weddings, or corporate meetups in your city.'],
-                ]
+                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Tutoring Center', 'Event Planning']))->values()
             ]
         ];
 
@@ -462,48 +449,100 @@ class ExploreController extends Controller
     {
         $field = Field::where('slug', 'traditional')->firstOrFail();
 
-        $careerPaths = [
-            [
-                'category' => 'Engineering & Tech',
-                'icon' => 'fa-microchip',
-                'paths' => [
-                    ['name' => 'Civil/Mech/Comp Engineering', 'edu' => 'B.E. / B.Tech', 'exam' => 'JEE Main/Adv, MHT-CET', 'duration' => '4 Years', 'salary' => '₹4L - ₹25L+', 'stability' => 'High'],
-                ]
-            ],
-            [
-                'category' => 'Medical Sciences',
-                'icon' => 'fa-user-doctor',
-                'paths' => [
-                    ['name' => 'Doctor (MBBS)', 'edu' => 'MBBS', 'exam' => 'NEET UG', 'duration' => '5.5 Years', 'salary' => '₹8L - ₹30L+', 'stability' => 'Very High'],
-                    ['name' => 'Dentistry / Nursing', 'edu' => 'BDS / B.Sc Nursing', 'exam' => 'NEET', 'duration' => '4 Years', 'salary' => '₹3L - ₹12L', 'stability' => 'High'],
-                ]
-            ],
-            [
-                'category' => 'Commerce & Finance',
-                'icon' => 'fa-money-bill-trend-up',
-                'paths' => [
-                    ['name' => 'Chartered Accountant (CA)', 'edu' => 'CA Foundation/Inter/Final', 'exam' => 'ICAI Exams', 'duration' => '5 Years', 'salary' => '₹7L - ₹20L+', 'stability' => 'Very High'],
-                    ['name' => 'Banking / IBPS', 'edu' => 'Any Graduate', 'exam' => 'IBPS PO/Clerk, SBI', 'duration' => '1 Year Prep', 'salary' => '₹4L - ₹10L', 'stability' => 'Very High'],
-                ]
-            ],
-            [
-                'category' => 'Government & Defence',
-                'icon' => 'fa-shield-halved',
-                'paths' => [
-                    ['name' => 'Civil Services (IAS/IPS)', 'edu' => 'Any Graduate', 'exam' => 'UPSC / MPSC', 'duration' => '1-3 Years Prep', 'salary' => '₹7L - ₹15L', 'stability' => 'Absolute'],
-                    ['name' => 'Military Officer', 'edu' => 'NDA / CDS', 'exam' => 'NDA, CDS Exams', 'duration' => '3-4 Years TRG', 'salary' => '₹8L - ₹18L', 'stability' => 'Absolute'],
-                ]
-            ],
-            [
-                'category' => 'Teaching & Law',
-                'icon' => 'fa-graduation-cap',
-                'paths' => [
-                    ['name' => 'Legal Professional', 'edu' => 'LLB / Integrated LLB', 'exam' => 'CLAT, MH-CET Law', 'duration' => '3-5 Years', 'salary' => '₹5L - ₹30L', 'stability' => 'Medium-High'],
-                    ['name' => 'Professor / Teacher', 'edu' => 'B.Ed / NET / SET', 'exam' => 'TET, NET', 'duration' => '2-4 Years', 'salary' => '₹3L - ₹12L', 'stability' => 'High'],
-                ]
-            ]
-        ];
+        $careers = TraditionalCareer::all();
+        $careerPaths = $careers->groupBy('category')->map(function($items, $cat) {
+            return [
+                'category' => $cat,
+                'icon' => $items->first()->icon,
+                'paths' => $items->map(function($item) {
+                    return [
+                        'name' => $item->name,
+                        'edu' => $item->education,
+                        'exam' => $item->exam,
+                        'duration' => $item->duration,
+                        'salary' => $item->salary,
+                        'stability' => $item->stability,
+                    ];
+                })
+            ];
+        })->values();
 
         return view('colleges.traditional', compact('field', 'careerPaths'));
+    }
+
+    /* ─────────────────────────────────────────────
+     | GET /explore/competitive-exams
+     | Comprehensive guide to Government, Banking, etc.
+     ────────────────────────────────────────────── */
+    public function competitiveExams()
+    {
+        $field = Field::where('slug', 'traditional')->first() ?? Field::first();
+        
+        $exams = CompetitiveExam::all();
+        $categories = $exams->groupBy('category');
+
+        return view('colleges.exams', compact('field', 'categories'));
+    }
+
+    /* ─────────────────────────────────────────────
+     | GET /explore/non-traditional-careers
+     | Guide to Digital, Creative, and Modern paths
+     ────────────────────────────────────────────── */
+    /* ─────────────────────────────────────────────
+     | GET /explore/government-defence
+     ────────────────────────────────────────────── */
+    public function governmentDefence()
+    {
+        $field = Field::where('slug', 'government-defence')->firstOrFail();
+        $careers = TraditionalCareer::where('category', 'Government & Defence')->get();
+        return view('colleges.traditional_detail', compact('field', 'careers'));
+    }
+
+    /* ─────────────────────────────────────────────
+     | GET /explore/teaching-law
+     ────────────────────────────────────────────── */
+    public function teachingLaw()
+    {
+        $field = Field::where('slug', 'teaching-law')->firstOrFail();
+        $careers = TraditionalCareer::where('category', 'Teaching & Law')->get();
+        return view('colleges.traditional_detail', compact('field', 'careers'));
+    }
+
+    /* ─────────────────────────────────────────────
+     | Non-Traditional Sub-Categories
+     ────────────────────────────────────────────── */
+    public function modernTech()
+    {
+        $field = Field::where('slug', 'modern-tech')->firstOrFail();
+        $careers = NonTraditionalCareer::where('category', 'Tech & Digital Careers')->get();
+        return view('colleges.non_traditional_detail', compact('field', 'careers'));
+    }
+
+    public function creativeCareers()
+    {
+        $field = Field::where('slug', 'creative-careers')->firstOrFail();
+        $careers = NonTraditionalCareer::where('category', 'Creative Careers')->get();
+        return view('colleges.non_traditional_detail', compact('field', 'careers'));
+    }
+
+    public function socialMedia()
+    {
+        $field = Field::where('slug', 'social-media')->firstOrFail();
+        $careers = NonTraditionalCareer::where('category', 'Social Media Careers')->get();
+        return view('colleges.non_traditional_detail', compact('field', 'careers'));
+    }
+
+    public function gamingCareers()
+    {
+        $field = Field::where('slug', 'gaming-careers')->firstOrFail();
+        $careers = NonTraditionalCareer::where('category', 'Gaming Careers')->get();
+        return view('colleges.non_traditional_detail', compact('field', 'careers'));
+    }
+
+    public function freelancing()
+    {
+        $field = Field::where('slug', 'freelancing')->firstOrFail();
+        $careers = NonTraditionalCareer::where('category', 'Freelancing & Remote Work')->get();
+        return view('colleges.non_traditional_detail', compact('field', 'careers'));
     }
 }

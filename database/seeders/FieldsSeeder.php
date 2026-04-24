@@ -20,7 +20,14 @@ class FieldsSeeder extends Seeder
             ['name' => 'Sports',                    'slug' => 'sports',                 'icon' => 'fa-futbol',         'color' => '#16a34a', 'bg_color' => '#dcfce7'],
             ['name' => 'Agriculture',               'slug' => 'agriculture',            'icon' => 'fa-seedling',       'color' => '#4d7c0f', 'bg_color' => '#d9f99d'],
             ['name' => 'Small Scale Businesses',    'slug' => 'small-scale',            'icon' => 'fa-store',          'color' => '#b45309', 'bg_color' => '#fef3c7'],
-            ['name' => 'Traditional Careers',       'slug' => 'traditional',            'icon' => 'fa-landmark',       'color' => '#6b7280', 'bg_color' => '#f3f4f6'],
+            ['name' => 'Government & Defence',       'slug' => 'government-defence',     'icon' => 'fa-shield-halved',  'color' => '#1e293b', 'bg_color' => '#f1f5f9'],
+            ['name' => 'Teaching & Law',            'slug' => 'teaching-law',           'icon' => 'fa-graduation-cap',  'color' => '#1e3a8a', 'bg_color' => '#dbeafe'],
+            ['name' => 'Modern Tech & AI',          'slug' => 'modern-tech',            'icon' => 'fa-brain',          'color' => '#7c3aed', 'bg_color' => '#f5f3ff'],
+            ['name' => 'Creative Careers',          'slug' => 'creative-careers',       'icon' => 'fa-palette',        'color' => '#ec4899', 'bg_color' => '#fdf2f8'],
+            ['name' => 'Social Media & Content',    'slug' => 'social-media',           'icon' => 'fa-clapperboard',   'color' => '#f43f5e', 'bg_color' => '#fff1f2'],
+            ['name' => 'Gaming & E-sports',         'slug' => 'gaming-careers',         'icon' => 'fa-gamepad',        'color' => '#8b5cf6', 'bg_color' => '#f3f4ff'],
+            ['name' => 'Freelancing & Remote',      'slug' => 'freelancing',            'icon' => 'fa-globe',          'color' => '#10b981', 'bg_color' => '#ecfdf5'],
+            ['name' => 'Competitive Exams',         'slug' => 'competitive-exams',      'icon' => 'fa-file-signature', 'color' => '#be123c', 'bg_color' => '#fff1f2'],
             ['name' => 'Others',                    'slug' => 'others',                 'icon' => 'fa-ellipsis',       'color' => '#6366f1', 'bg_color' => '#e0e7ff'],
         ];
 

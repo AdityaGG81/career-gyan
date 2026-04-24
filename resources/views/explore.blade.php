@@ -72,7 +72,10 @@
     <p class="section-sub">Select a field to see related careers</p>
     <div class="category-grid" id="catGrid">
         @foreach($fields as $field)
-        <div class="cat-card" onclick="fetchByField({{ $field->id }})">
+        <div class="cat-card" 
+             @if($field->slug === 'competitive-exams') onclick="window.location='{{ route('explore.competitive-exams') }}'"
+             @elseif($field->slug === 'non-traditional') onclick="window.location='{{ route('explore.non-traditional-careers') }}'"
+             @else onclick="fetchByField({{ $field->id }})" @endif>
             <div class="cat-icon" style="background:{{ $field->bg_color }}; color:{{ $field->color }}">
                 <i class="fa-solid {{ $field->icon }}"></i>
             </div>
@@ -106,9 +109,41 @@
                 <div style="margin-top:16px;">
                     <a href="{{ route('explore.hotel-management-colleges') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fef3c7; color:#b45309;">View Top Colleges &rarr;</a>
                 </div>
-            @elseif($field->slug === 'traditional')
+            @elseif($field->slug === 'government-defence')
                 <div style="margin-top:16px;">
-                    <a href="{{ route('explore.traditional-careers') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f1f5f9; color:#1e3a8a;">Explore Paths &rarr;</a>
+                    <a href="{{ route('explore.government-defence') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f1f5f9; color:#1e293b;">Explore Paths &rarr;</a>
+                </div>
+            @elseif($field->slug === 'teaching-law')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.teaching-law') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#dbeafe; color:#1e3a8a;">Explore Paths &rarr;</a>
+                </div>
+            @elseif($field->slug === 'modern-tech')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.modern-tech') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f5f3ff; color:#7c3aed;">Career Guide &rarr;</a>
+                </div>
+            @elseif($field->slug === 'creative-careers')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.creative-careers') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fdf2f8; color:#ec4899;">Career Guide &rarr;</a>
+                </div>
+            @elseif($field->slug === 'social-media')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.social-media') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fff1f2; color:#f43f5e;">Career Guide &rarr;</a>
+                </div>
+            @elseif($field->slug === 'gaming-careers')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.gaming-careers') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f3f4ff; color:#8b5cf6;">Career Guide &rarr;</a>
+                </div>
+            @elseif($field->slug === 'freelancing')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.freelancing') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#ecfdf5; color:#10b981;">Career Guide &rarr;</a>
+                </div>
+            @elseif($field->slug === 'competitive-exams')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.competitive-exams') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#fff1f2; color:#be123c;">View Exams & Roadmap &rarr;</a>
+                </div>
+            @elseif($field->slug === 'non-traditional')
+                <div style="margin-top:16px;">
+                    <a href="{{ route('explore.non-traditional-careers') }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:13px; background:#f5f3ff; color:#7c3aed;">Modern Career Guide &rarr;</a>
                 </div>
             @elseif($field->slug === 'small-scale')
                 <div style="margin-top:16px;">
