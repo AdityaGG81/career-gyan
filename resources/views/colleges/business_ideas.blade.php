@@ -76,18 +76,18 @@
                 @foreach($cat['ideas'] as $idea)
                 <div class="idea-card">
                     <div class="card-content">
-                        <span class="risk-tag risk-{{ strtolower($idea['risk']) }}">{{ $idea['risk'] }} Risk</span>
-                        <h3 class="idea-name">{{ $idea['name'] }}</h3>
-                        <p class="idea-desc">{{ $idea['desc'] }}</p>
+                        <span class="risk-tag risk-{{ strtolower($idea->risk_level) }}">{{ $idea->risk_level }} Risk</span>
+                        <h3 class="idea-name">{{ $idea->name }}</h3>
+                        <p class="idea-desc">{{ $idea->description }}</p>
                         
                         <div class="idea-stats">
                             <div class="stat-box">
                                 <small>Investment</small>
-                                <span>{{ $idea['invest'] }}</span>
+                                <span>{{ $idea->investment }}</span>
                             </div>
                             <div class="stat-box">
                                 <small>Profit Margin</small>
-                                <span>{{ $idea['profit'] }}</span>
+                                <span>{{ $idea->profit_margin }}</span>
                             </div>
                         </div>
                     </div>

@@ -68,7 +68,7 @@
         <div class="sport-card">
             <div class="sport-icon"><i class="fa-solid {{ $s['icon'] }}"></i></div>
             <h3>{{ $s['name'] }}</h3>
-            <p>{{ $s['desc'] }}</p>
+            <p>{{ $s['description'] }}</p>
         </div>
         @endforeach
     </div>
