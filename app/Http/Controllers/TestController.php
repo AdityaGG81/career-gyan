@@ -19,14 +19,26 @@ class TestController extends Controller
 
     public function quiz()
     {
-        // Random 3 questions per dimension to keep test manageable
-        $dimensions = Dimension::with(['questions' => function ($q) {
-            $q->inRandomOrder()->take(3); 
-        }])->get();
+        $dimensionLimits = [
+            'language-aptitude' => 5,
+            'verbal-reasoning' => 5,
+            'numerical-aptitude' => 5,
+            'perceptual-aptitude' => 10,
+            'abstract-reasoning' => 5,
+            'mechanical-reasoning' => 5,
+            'spatial-aptitude' => 5,
+        ];
+
+        $dimensions = Dimension::all();
 
         $questions = [];
         foreach ($dimensions as $dim) {
-            foreach ($dim->questions as $q) {
+            $limit = $dimensionLimits[$dim->slug] ?? 5;
+
+            // Fetch random questions for this dimension based on the specified limit
+            $dimQuestions = $dim->questions()->inRandomOrder()->take($limit)->get();
+
+            foreach ($dimQuestions as $q) {
                 $q->dimension_name = $dim->name;
                 $questions[] = $q;
             }
