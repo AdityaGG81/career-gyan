@@ -92,9 +92,7 @@ class ExploreController extends Controller
     {
         $career->load('field', 'subjects');
 
-        $colleges = College::where('field_id', $career->field_id)
-                           ->orderBy('type')
-                           ->get();
+        $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get();
 
         return response()->json([
             'career'   => $this->formatCareer($career),
@@ -161,9 +159,7 @@ class ExploreController extends Controller
         $field = Field::where('slug', 'technology-engineering')->firstOrFail();
         
         // Fetch all colleges in this field (which our seeder just populated)
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Get unique districts/locations for the filter
+$colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get();        // Get unique districts/locations for the filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         
         // Types
