@@ -484,6 +484,11 @@ $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get(
      | GET /explore/non-traditional-careers
      | Guide to Digital, Creative, and Modern paths
      ────────────────────────────────────────────── */
+    public function nonTraditionalCareers()
+    {
+        return redirect()->route('career.path', 'non-traditional-careers');
+    }
+
     /* ─────────────────────────────────────────────
      | GET /explore/government-defence
      ────────────────────────────────────────────── */

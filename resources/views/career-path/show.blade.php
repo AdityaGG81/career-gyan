@@ -309,6 +309,20 @@
     </div>
     @endif
 
+    <!-- Tips Section -->
+    @if(isset($pathData['tips']))
+    <div class="info-card" style="margin-bottom: 80px; text-align: center; border-color: rgba(245, 158, 11, 0.4);">
+        <h3 style="justify-content: center; color: #fbbf24;"><i class="fa-solid fa-lightbulb" style="color: #fbbf24; background: rgba(245,158,11,0.2); -webkit-text-fill-color: initial; padding: 10px; border-radius: 50%;"></i> Pro Tips</h3>
+        <ul style="list-style: none; padding: 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            @foreach($pathData['tips'] as $tip)
+            <li style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); padding: 12px 24px; border-radius: 30px; color: #fde68a; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                <i class="fa-solid fa-check" style="margin-right: 8px; color: #fbbf24;"></i> {{ $tip }}
+            </li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     <!-- CTA Section -->
     <div class="cta-section">
         <h2 class="cta-title">Ready to take the next step?</h2>

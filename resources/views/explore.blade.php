@@ -175,7 +175,8 @@ body {
                         'competitive-exams' => 'competitive-exams',
                         'hotel-management' => 'hotel-management',
                         'pharmacy' => 'pharmaceutical-sciences',
-                        'ayush-allied' => 'ayush-allied-health'
+                        'ayush-allied' => 'ayush-allied-health',
+                        'non-traditional' => 'non-traditional-careers'
                     ];
                     $pathSlug = $slugMap[$field->slug] ?? $field->slug;
                 @endphp
