@@ -545,4 +545,17 @@ class ExploreController extends Controller
         $careers = NonTraditionalCareer::where('category', 'Freelancing & Remote Work')->get();
         return view('colleges.non_traditional_detail', compact('field', 'careers'));
     }
+
+    /* ─────────────────────────────────────────────
+     | GET /explore/career-path/{field}
+     ────────────────────────────────────────────── */
+    public function careerPath(Field $field)
+    {
+        // Only arts-humanities is implemented for now
+        if ($field->slug === 'arts-humanities') {
+            return view('career_paths.arts', compact('field'));
+        }
+
+        return back()->with('info', 'Career path guide for ' . $field->name . ' is coming soon!');
+    }
 }
