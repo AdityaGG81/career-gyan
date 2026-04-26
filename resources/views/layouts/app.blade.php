@@ -92,7 +92,7 @@
   .navbar.scrolled { box-shadow: var(--shadow-md); }
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
+    height: 90px;
   }
   .nav-logo {
     font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700;
@@ -166,8 +166,7 @@
   <div class="container">
     <div class="nav-inner">
       <a href="{{ url('/') }}" class="nav-logo">
-        <i class="fa-solid fa-compass"></i>
-        Career<span>Gyan</span><span class="logo-dot"></span>
+        <img src="{{ asset('images/logo.png') }}" alt="CareerGyan Logo" style="height: 76px; width: auto; object-fit: contain;">
       </a>
 
       <ul class="nav-links">

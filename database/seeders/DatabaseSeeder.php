@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             CompetitiveExamSeeder::class,
             NonTraditionalCareerSeeder::class,
             PortableDataSeeder::class,
+            QuestionsSeeder::class,
         ]);
     }
 }

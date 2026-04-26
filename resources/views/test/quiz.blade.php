@@ -129,10 +129,11 @@
         btnPrev: document.getElementById('btnPrev'),
         progressFill: document.getElementById('progressBar'),
         currentStepNum: document.getElementById('currentStepNum'),
-        totalStepsNum: document.getElementById('totalStepsNum')
+        totalStepsNum: document.getElementById('totalStepsNum'),
+        quizProgress: document.querySelector('.quiz-progress')
     };
 
-    DOM.totalStepsNum.innerText = state.totalQuestions + 1; // +1 for profile
+    DOM.totalStepsNum.innerText = state.totalQuestions;
 
     // Initialize Questions HTML
     function renderQuestions() {
@@ -199,11 +200,15 @@
 
     function updateView() {
         // Update Progress Bar
-        const currentDisplayStep = state.currentStep + 2; // 0 index + 1 (profile) + 1
-        DOM.currentStepNum.innerText = currentDisplayStep - 1;
-        
-        const pct = ((currentDisplayStep - 1) / (state.totalQuestions + 1)) * 100;
-        DOM.progressFill.style.width = pct + '%';
+        if (state.currentStep === -1) {
+            DOM.quizProgress.style.display = 'none';
+            DOM.progressFill.style.width = '0%';
+        } else {
+            DOM.quizProgress.style.display = 'block';
+            DOM.currentStepNum.innerText = state.currentStep + 1;
+            const pct = ((state.currentStep + 1) / state.totalQuestions) * 100;
+            DOM.progressFill.style.width = pct + '%';
+        }
 
         // Hide all steps
         DOM.stepProfile.classList.remove('active');
