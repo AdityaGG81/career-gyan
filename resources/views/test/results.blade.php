@@ -47,7 +47,14 @@
                 <div style="margin-top: 30px;">
                     <h4 style="font-family: 'Sora'; font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid var(--border); padding-bottom: 8px;">Breakdown of Marks</h4>
                     <ul style="padding: 0; margin: 0; list-style: none;">
-                    @if(isset($session->aptitude_scores))
+                    @if(isset($session->user_inputs['raw_scores']))
+                        @foreach($session->user_inputs['raw_scores'] as $slug => $data)
+                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14.5px;">
+                                <span style="color: var(--text-2); text-transform: capitalize;">{{ str_replace('-', ' ', $slug) }}</span>
+                                <strong style="color: var(--brand); font-weight: 700;">{{ $data['correct'] }} / {{ $data['total'] }}</strong>
+                            </li>
+                        @endforeach
+                    @elseif(isset($session->aptitude_scores))
                         @foreach($session->aptitude_scores as $slug => $score)
                             <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14.5px;">
                                 <span style="color: var(--text-2); text-transform: capitalize;">{{ str_replace('-', ' ', $slug) }}</span>
