@@ -56,7 +56,7 @@
             <div style="background:var(--bg); border:1px solid var(--border); padding:32px; border-radius:var(--radius-lg);">
                 <div class="ct-block">
                     <h3><i class="fa-solid fa-location-dot"></i> Address</h3>
-                    <p>Varkari Row Bunglow,<br>Shantinagar Makhamalabad,<br>Nashik-3, Maharashtra, India</p>
+                    <p>B wing 95,96 Business Index,<br>Hanumanwadi Makhmalabad road,<br>Nashik-3, Maharashtra, India</p>
                 </div>
 
                 <div class="ct-block" style="margin-bottom:0;">

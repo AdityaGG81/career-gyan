@@ -9,11 +9,31 @@
 .search-bar input { flex: 1; border: none; padding: 12px 20px; border-radius: 30px; font-size: 1rem; outline: none; }
 .search-bar button { background: var(--brand); color: #fff; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600;}
 
-.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 30px; }
-.cat-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: all var(--transition); }
-.cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--brand); }
-.cat-icon { font-size: 24px; margin-bottom: 10px; width: 50px; height: 50px; line-height: 50px; border-radius: 50%; margin-inline: auto; }
-.cat-name { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px;}
+body {
+    background: linear-gradient(135deg, #0f172a, #1e3a8a, #6d28d9);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #fff;
+}
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.bg-blobs { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 10s infinite ease-in-out alternate; }
+.blob-1 { width: 400px; height: 400px; background: #3b82f6; top: -100px; left: -100px; animation-delay: 0s; }
+.blob-2 { width: 350px; height: 350px; background: #8b5cf6; bottom: -50px; right: -50px; animation-delay: -2s; }
+.blob-3 { width: 300px; height: 300px; background: #06b6d4; top: 40%; left: 60%; animation-delay: -4s; }
+.blob-4 { width: 250px; height: 250px; background: #10b981; top: 60%; left: 10%; animation-delay: -6s; }
+@keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
+
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; margin-top: 30px; }
+.cat-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.2); padding: 24px 20px; border-radius: 24px; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between;}
+.cat-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px rgba(0,0,0,0.18); border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.15); }
+.cat-icon { width: 64px; height: 64px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 28px; background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0)); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.4s ease; }
+.cat-card:hover .cat-icon { transform: scale(1.15) rotate(5deg); }
+.cat-name { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; color: #fff; margin-bottom: 4px; line-height: 1.3;}
 
 .interactive-box { background: #fff; padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border); margin-bottom: 30px;}
 .interactive-box label { font-weight: 600; font-family: 'Sora', sans-serif; display: block; margin-bottom: 12px;}
@@ -31,8 +51,8 @@
 .c-desc { color: var(--text-2); font-size: 14px; flex-grow: 1; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .c-meta { display: flex; flex-direction: column; gap: 6px; font-size: 13px; margin-bottom: 16px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .c-meta i { width: 16px; color: var(--text-3); text-align: center; margin-right: 4px;}
-.btn-roadmap { text-align: center; background: var(--brand-light); color: var(--brand); padding: 10px; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; display: block; border: none; width: 100%; cursor: pointer;}
-.btn-roadmap:hover { background: var(--brand); color: #fff; }
+.btn-roadmap { text-align: center; padding: 10px 14px; border-radius: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; width: 100%; cursor: pointer; transition: all 0.3s ease; font-size: 13px;}
+.btn-roadmap:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
 /* Modal */
 .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;}
@@ -53,8 +73,14 @@
 @endsection
 
 @section('content')
+<div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+</div>
 <!-- HERO -->
-<section class="hero" style="padding: 100px 0; background: linear-gradient(135deg, #0e1f6b 0%, #1a56db 100%);">
+<section class="hero" style="padding: 100px 0; background: transparent;">
     <div class="container text-center" style="text-align: center; color: white;">
         <h1 style="font-family:'Sora'; font-size: clamp(30px, 4vw, 42px); font-weight:700; margin-bottom: 16px;">Explore Career Paths in India</h1>
         <p style="font-size: 18px; margin-bottom:30px; opacity: 0.9;">Find careers based on your interests, subjects, and goals</p>
@@ -129,18 +155,32 @@
                 @endphp
 
                 @if(isset($collegeRoutes[$field->slug]))
-                    <a href="{{ route($collegeRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:12px; background:{{ $field->bg_color }}33; color:{{ $field->color }}; border: 1px solid {{ $field->color }}44;">
+                    <a href="{{ route($collegeRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; font-weight: 500;">
                         View Top Colleges &rarr;
                     </a>
                 @elseif(isset($customRoutes[$field->slug]))
-                    <a href="{{ route($customRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:12px; background:{{ $field->bg_color }}33; color:{{ $field->color }}; border: 1px solid {{ $field->color }}44;">
+                    <a href="{{ route($customRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; font-weight: 500;">
                         {{ $customLabels[$field->slug] }} &rarr;
                     </a>
                 @endif
 
                 {{-- NEW Career Path Button --}}
-                <a href="{{ route('explore.career-path', $field->slug) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="font-size:12px; background:var(--brand-light); color:var(--brand); border: 1px solid var(--brand)22;">
-                    <i class="fa-solid fa-route"></i> Career Path
+                @php
+                    $slugMap = [
+                        'modern-tech' => 'modern-tech-ai',
+                        'creative-careers' => 'creative-careers',
+                        'social-media' => 'social-media-content',
+                        'gaming-careers' => 'gaming-esports',
+                        'freelancing' => 'freelancing-remote',
+                        'competitive-exams' => 'competitive-exams',
+                        'hotel-management' => 'hotel-management',
+                        'pharmacy' => 'pharmaceutical-sciences',
+                        'ayush-allied' => 'ayush-allied-health'
+                    ];
+                    $pathSlug = $slugMap[$field->slug] ?? $field->slug;
+                @endphp
+                <a href="{{ route('career.path', $pathSlug) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; border: none; border-radius: 30px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); font-weight: 700;">
+                    <i class="fa-solid fa-route"></i> Full Career Path
                 </a>
             </div>
         </div>

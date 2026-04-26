@@ -511,7 +511,7 @@
         </span>
       </div>
       <h2>Not sure which career is right for you?</h2>
-      <p>Take our free AI-powered career test — answer 15 questions and get personalised career recommendations tailored to your interests and strengths.</p>
+      <p>Take our free AI-powered career test — answer 40 questions and get personalised career recommendations tailored to your interests and strengths.</p>
       <a href="#" class="btn-cta">
         <i class="fa-solid fa-bolt" style="color:var(--accent);"></i>
         Take Free Career Test

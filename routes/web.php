@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\CareerPathController;
 use Illuminate\Support\Facades\Route;
 
 // Main pages
@@ -27,7 +28,7 @@ Route::get('/explore/skill-development', [ExploreController::class, 'skillDevelo
 Route::get('/explore/sports-careers', [ExploreController::class, 'sportsCareers'])->name('explore.sports-careers');
 Route::get('/explore/small-scale-business', [ExploreController::class, 'smallScaleBusiness'])->name('explore.small-scale-business');
 Route::get('/explore/competitive-exams', [ExploreController::class, 'competitiveExams'])->name('explore.competitive-exams');
-Route::get('/explore/career-path/{field:slug}', [ExploreController::class, 'careerPath'])->name('explore.career-path');
+Route::get('/career-path/{stream}', [CareerPathController::class, 'show'])->name('career.path');
 
 // Traditional Separated
 Route::get('/explore/government-defence', [ExploreController::class, 'governmentDefence'])->name('explore.government-defence');

@@ -1,0 +1,1428 @@
+[
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "REMEDY",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Treatment",
+			"Rejection",
+			"Prevention",
+			"Protection"
+		],
+		"correct_answer": "Treatment"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "STAMINA",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Warmth",
+			"Depth",
+			"Strength",
+			"Boldness"
+		],
+		"correct_answer": "Strength"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "CAUTIOUS",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Helpful",
+			"Kind",
+			"Diligent",
+			"Careful"
+		],
+		"correct_answer": "Careful"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "CLUMSY",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Awkward",
+			"Different",
+			"Varied",
+			"Arrogant"
+		],
+		"correct_answer": "Awkward"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "ANCESTOR",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Grandfather",
+			"Forefather",
+			"Elderly",
+			"Antique"
+		],
+		"correct_answer": "Forefather"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "FATAL",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Dangerous",
+			"Simple",
+			"Severe",
+			"Deadly"
+		],
+		"correct_answer": "Deadly"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "PERSUADE",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Discuss",
+			"Convince",
+			"Debate",
+			"Converse"
+		],
+		"correct_answer": "Convince"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "PROSPERITY",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Wealth",
+			"Health",
+			"Wisdom",
+			"Comfort"
+		],
+		"correct_answer": "Wealth"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "CONTAMINATE",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Combine",
+			"Erode",
+			"Suspend",
+			"Pollute"
+		],
+		"correct_answer": "Pollute"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "ACCOUNTABLE",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Dependable",
+			"Answerable",
+			"Sincere",
+			"Dutiful"
+		],
+		"correct_answer": "Answerable"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Illeterate",
+			"Illiterate",
+			"Iliterate",
+			"Illitrate"
+		],
+		"correct_answer": "Illiterate"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Procede",
+			"Proceede",
+			"Procead",
+			"Proceed"
+		],
+		"correct_answer": "Proceed"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Sanitasion",
+			"Sanitation",
+			"Sanitetion",
+			"Sanetation"
+		],
+		"correct_answer": "Sanitation"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Skillful",
+			"Skillful!",
+			"Skiilful",
+			"Skilful"
+		],
+		"correct_answer": "Skillful"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Occasin",
+			"Ocassin",
+			"Occasion",
+			"Ocassion"
+		],
+		"correct_answer": "Occasion"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Argument",
+			"Arguement",
+			"Arguemint",
+			"Arguiment"
+		],
+		"correct_answer": "Argument"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Existance",
+			"Existense",
+			"Existanse",
+			"Existence"
+		],
+		"correct_answer": "Existence"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Transsnision",
+			"Transmisson",
+			"Transmission",
+			"Transnision"
+		],
+		"correct_answer": "Transmission"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Privilege",
+			"Privlege",
+			"Privelege",
+			"Previlge"
+		],
+		"correct_answer": "Privilege"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Select the correct spelling",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Vacination",
+			"Vaccination",
+			"Vaxination",
+			"Vaccenation"
+		],
+		"correct_answer": "Vaccination"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Kill two birds with one stone",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"To achieve two things with one action",
+			"To trap birds",
+			"To throw stones",
+			"To have two opportunities"
+		],
+		"correct_answer": "To achieve two things with one action"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Burn the midnight oil",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Work late into the night",
+			"Avoid work",
+			"Work hard to achieve targets",
+			"Finish two tasks"
+		],
+		"correct_answer": "Work late into the night"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Beat around the bush",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Hide from someone",
+			"Stay distant",
+			"Avoid eye contact",
+			"Avoid the main topic"
+		],
+		"correct_answer": "Avoid the main topic"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Hit the nail on the head",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Make something new",
+			"Do carpentry",
+			"Do exactly the right thing",
+			"Announce views"
+		],
+		"correct_answer": "Do exactly the right thing"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "To keep one's temper",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Stop talking",
+			"Control anger",
+			"Be aloof",
+			"Become angry"
+		],
+		"correct_answer": "Control anger"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Not a spark of decency",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"No rights",
+			"No duties",
+			"No manners",
+			"No energy"
+		],
+		"correct_answer": "No manners"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Don't judge a book by its cover",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Judge by colour",
+			"Judge by price",
+			"Judge by appearance",
+			"Judge from outside"
+		],
+		"correct_answer": "Judge by appearance"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Add insult to injury",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Worsen a bad situation",
+			"Insult injured person",
+			"Laugh at someone",
+			"Taunt someone"
+		],
+		"correct_answer": "Worsen a bad situation"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Honesty is the best policy",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Better to lie",
+			"Honesty equals truth",
+			"Honesty makes policy",
+			"Better to tell the truth"
+		],
+		"correct_answer": "Better to tell the truth"
+	},
+	{
+		"dimension_slug": "language-aptitude",
+		"question": "Make hay while the sun shines",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Take advantage of yourself",
+			"Take advantage of opportunity",
+			"Take advantage of sun",
+			"Take advantage of hay"
+		],
+		"correct_answer": "Take advantage of opportunity"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Word is to Dictionary as Map is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Globe",
+			"Atlas",
+			"Geography",
+			"Earth"
+		],
+		"correct_answer": "Atlas"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Thread is to Needle as Book is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Wood",
+			"Rack",
+			"Shelf",
+			"Table"
+		],
+		"correct_answer": "Shelf"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Wood is to Carpenter as Clay is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Potter",
+			"Sculptor",
+			"Architect",
+			"Mason"
+		],
+		"correct_answer": "Potter"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Skeleton is to Body as Grammar is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Sentence",
+			"Language",
+			"Education",
+			"Meaning"
+		],
+		"correct_answer": "Language"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Flexible is to Rigid as Confident is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Coward",
+			"Indifferent",
+			"Hesitant",
+			"Pessimistic"
+		],
+		"correct_answer": "Hesitant"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Forecast is to Future as Regret is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Present",
+			"Past",
+			"Mistake",
+			"Memory"
+		],
+		"correct_answer": "Past"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Contestant is to Competition as Witness is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Journey",
+			"Trial",
+			"Election",
+			"Court"
+		],
+		"correct_answer": "Trial"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Innumerable is to Quantity as Invaluable is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Size",
+			"Surface",
+			"Worth",
+			"Volume"
+		],
+		"correct_answer": "Worth"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Ice is to Igloo as Straw is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Hive",
+			"Field",
+			"Nest",
+			"House"
+		],
+		"correct_answer": "Nest"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Train is to Station as Ship is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Harbour",
+			"Sail",
+			"Mast",
+			"Anchor"
+		],
+		"correct_answer": "Harbour"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Comb is to Teeth as Book is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Page",
+			"Word",
+			"Letter",
+			"Line"
+		],
+		"correct_answer": "Page"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Appreciation is to Reward as Repentance is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Punishment",
+			"Scold",
+			"Knowledge",
+			"Regret"
+		],
+		"correct_answer": "Punishment"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Insulator is to Wood as Conductor is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Iron",
+			"Cotton",
+			"Plastic",
+			"Copper"
+		],
+		"correct_answer": "Iron"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Breeze is to Cyclone as Rain is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Earthquake",
+			"Storm",
+			"Drizzle",
+			"Flood"
+		],
+		"correct_answer": "Storm"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Bridge is to River as Tunnel is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Road",
+			"Passage",
+			"Mountain",
+			"Travel"
+		],
+		"correct_answer": "Mountain"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Petrol is to Car as Water is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Drink",
+			"Boat",
+			"Sailor",
+			"River"
+		],
+		"correct_answer": "Boat"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Court is to Justice as School is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Teacher",
+			"Education",
+			"Class",
+			"Student"
+		],
+		"correct_answer": "Education"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "President is to Country as Governor is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"State",
+			"District",
+			"Nation",
+			"City"
+		],
+		"correct_answer": "State"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Spokes is to Wheel as Blade is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Grass",
+			"Fan",
+			"Cut",
+			"Shave"
+		],
+		"correct_answer": "Fan"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Thunder is to Storm as Smoke is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Fire",
+			"Cooking",
+			"Danger",
+			"Weather"
+		],
+		"correct_answer": "Fire"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Glove is to Hand as Sock is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Feet",
+			"Shoe",
+			"Toes",
+			"Leg"
+		],
+		"correct_answer": "Feet"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Sparrow is to Chirp as Duck is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Quack",
+			"Chatter",
+			"Noise",
+			"Call"
+		],
+		"correct_answer": "Quack"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Cub is to Lion as Lamb is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Sheep",
+			"Deer",
+			"Kid",
+			"Goat"
+		],
+		"correct_answer": "Sheep"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Fish is to Ocean as Elephant is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Land",
+			"Earth",
+			"Forest",
+			"Desert"
+		],
+		"correct_answer": "Land"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Border is to Country as Frame is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Picture",
+			"Colour",
+			"Canvas",
+			"Art"
+		],
+		"correct_answer": "Picture"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Carpenter is to Wood as Tailor is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Cloth",
+			"Sewing",
+			"Thread",
+			"Fabric"
+		],
+		"correct_answer": "Cloth"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Horse is to Stable as Dog is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Kennel",
+			"House",
+			"Shed",
+			"Cage"
+		],
+		"correct_answer": "Kennel"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Thin is to Thick as Silence is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Noise",
+			"Loud",
+			"Sound",
+			"Voice"
+		],
+		"correct_answer": "Noise"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Meteorology is to Weather as Cardiology is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Heart",
+			"Eyes",
+			"Teeth",
+			"Skin"
+		],
+		"correct_answer": "Heart"
+	},
+	{
+		"dimension_slug": "verbal-reasoning",
+		"question": "Sponge is to Porous as Rubber is to ____",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"Elastic",
+			"Solid",
+			"Flexible",
+			"Rigid"
+		],
+		"correct_answer": "Elastic"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "\u221a5.76 = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"2.4",
+			"3",
+			"0.24",
+			"4.2"
+		],
+		"correct_answer": "2.4"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "If x : y = 2 : 5, what is x/y in percentage?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"40%",
+			"60%",
+			"0.4%",
+			"0.6%"
+		],
+		"correct_answer": "40%"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "What is the next number in the sequence: 2400, 1200, 600, 300, ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"150",
+			"100",
+			"75",
+			"50"
+		],
+		"correct_answer": "150"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "\u221b216 = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"6",
+			"12",
+			"18",
+			"72"
+		],
+		"correct_answer": "6"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "0.023 \u00d7 0.23 = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"0.00529",
+			"0.0529",
+			"0.529",
+			"5.29"
+		],
+		"correct_answer": "0.00529"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "38 is 19% of what number?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"100",
+			"200",
+			"300",
+			"400"
+		],
+		"correct_answer": "200"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "What is the next number: \u221a100, 9, \u221a64, 7, ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"5",
+			"6",
+			"4",
+			"3"
+		],
+		"correct_answer": "5"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "If x = 10, find 3x\u00b2 - x",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"50",
+			"200",
+			"290",
+			"300"
+		],
+		"correct_answer": "290"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "710 \u00d7 80 rounded to nearest thousand = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"50000",
+			"55000",
+			"57000",
+			"60000"
+		],
+		"correct_answer": "57000"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Which number is divisible by 3?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"766",
+			"768",
+			"796",
+			"976"
+		],
+		"correct_answer": "768"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "(3.1)\u00b2 = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"9.61",
+			"9.31",
+			"9.21",
+			"9.71"
+		],
+		"correct_answer": "9.61"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Smallest number divisible by 2, 4, 7, 21",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"84",
+			"42",
+			"168",
+			"76"
+		],
+		"correct_answer": "84"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "(12\u00b2 + 5\u00b2 + 3\u00b3) = ?\u00b2. Find ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"14",
+			"16",
+			"24",
+			"26"
+		],
+		"correct_answer": "14"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Next number: 8, 27, 64, 125, ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"216",
+			"196",
+			"169",
+			"225"
+		],
+		"correct_answer": "216"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "6889 rounded to nearest whole number",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"28",
+			"24",
+			"20",
+			"25"
+		],
+		"correct_answer": "83"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "If a = (1/2)bh, b = 6, a = 14, find h",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"14",
+			"7/3",
+			"1/3",
+			"6"
+		],
+		"correct_answer": "14/3"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Which fraction sum is greater than 1?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"1/4 + 3/5",
+			"2/8 + 3/8",
+			"8/12 + 1/3",
+			"5/4 + 1/8"
+		],
+		"correct_answer": "5/4 + 1/8"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Mixture of sugar (22, 25, 30 Rs/kg in ratio 1:2:3). Cost per kg?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"24",
+			"25",
+			"27",
+			"34"
+		],
+		"correct_answer": "27"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Father age is 11 times daughter. After 4 years becomes 6 times. Current age?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"22",
+			"33",
+			"44",
+			"63"
+		],
+		"correct_answer": "44"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "999.99 - 99.99 + 9999 = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"10899.99",
+			"11899",
+			"11899.99",
+			"10899"
+		],
+		"correct_answer": "10899"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "(0.5 \u00d7 0.625) \u00f7 25 = ?",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"0.25",
+			"0.0125",
+			"0.125",
+			"0.025"
+		],
+		"correct_answer": "0.0125"
+	},
+	{
+		"dimension_slug": "numerical-aptitude",
+		"question": "Two numbers multiply to 56 and sum to 15",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"7 and 8",
+			"9 and 6",
+			"14 and 4",
+			"5 and 10"
+		],
+		"correct_answer": "7 and 8"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: 48219357",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"48219357",
+			"48129357",
+			"48219537",
+			"48291357"
+		],
+		"correct_answer": "48219357"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: PYDXZLQI",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"PYDZXLQI",
+			"PYDXZQLI",
+			"PYDXZLQI",
+			"PYDXZIQL"
+		],
+		"correct_answer": "PYDXZLQI"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: ZZZzZeEz",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"ZzZzZeEz",
+			"ZZZZZeEz",
+			"ZzZzZeEz",
+			"ZZZzZeEz"
+		],
+		"correct_answer": "ZZZzZeEz"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: vWtfMnlL",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"VWtfMnIL",
+			"vWtfMnlL",
+			"vWTfMnlL",
+			"vWtfMNIL"
+		],
+		"correct_answer": "vWtfMnlL"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: 7F7EFEE7",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"7F7EFEE7",
+			"7f7EFEE7",
+			"7F7fFEE7",
+			"7F7EFeE7"
+		],
+		"correct_answer": "7F7EFEE7"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: 29483148",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"29483184",
+			"29481348",
+			"29438148",
+			"29483148"
+		],
+		"correct_answer": "29483148"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: 46249051",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"46240951",
+			"46249051",
+			"46429051",
+			"42649051"
+		],
+		"correct_answer": "46249051"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: 14114411",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"14414111",
+			"14411411",
+			"14114411",
+			"14114441"
+		],
+		"correct_answer": "14114411"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: j9a99j9a",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"j9a9j99a",
+			"j99a9j9a",
+			"j9a99j9a",
+			"ja999j9a"
+		],
+		"correct_answer": "j9a99j9a"
+	},
+	{
+		"dimension_slug": "perceptual-aptitude",
+		"question": "Select the option identical to: 2a22k2ak",
+		"question_image": null,
+		"options_type": "text",
+		"options": [
+			"2a22k2ak",
+			"2a22ak2k",
+			"2a22ka2k",
+			"22ka22ak"
+		],
+		"correct_answer": "2a22k2ak"
+	},
+	{
+		"dimension_slug": "abstract-reasoning",
+		"question": "Find the next figure in the sequence",
+		"question_type": "image_sequence",
+		"question_images": [
+			"abstract/q1_1.png",
+			"abstract/q1_2.png",
+			"abstract/q1_3.png",
+			"abstract/q1_4.png"
+		],
+		"options_type": "image",
+		"options": [
+			"abstract/q1_A.png",
+			"abstract/q1_B.png",
+			"abstract/q1_C.png",
+			"abstract/q1_D.png"
+		],
+		"correct_answer": "abstract/q1_B.png"
+	},
+	{
+		"dimension_slug": "abstract-reasoning",
+		"question": "Find the next figure in the sequence",
+		"question_type": "image_sequence",
+		"question_images": [
+			"abstract/q2_1.png",
+			"abstract/q2_2.png",
+			"abstract/q2_3.png",
+			"abstract/q2_4.png"
+		],
+		"options_type": "image",
+		"options": [
+			"abstract/q2_A.png",
+			"abstract/q2_B.png",
+			"abstract/q2_C.png",
+			"abstract/q2_D.png"
+		],
+		"correct_answer": "abstract/q2_C.png"
+	},
+	{
+		"dimension_slug": "abstract-reasoning",
+		"question": "Find the next figure in the sequence",
+		"question_type": "image_sequence",
+		"question_images": [
+			"abstract/q3_1.png",
+			"abstract/q3_2.png",
+			"abstract/q3_3.png",
+			"abstract/q3_4.png"
+		],
+		"options_type": "image",
+		"options": [
+			"abstract/q3_A.png",
+			"abstract/q3_B.png",
+			"abstract/q3_C.png",
+			"abstract/q3_D.png"
+		],
+		"correct_answer": "abstract/q3_D.png"
+	},
+	{
+		"dimension_slug": "abstract-reasoning",
+		"question": "Find the next figure in the sequence",
+		"question_type": "image_sequence",
+		"question_images": [
+			"abstract/q4_1.png",
+			"abstract/q4_2.png",
+			"abstract/q4_3.png",
+			"abstract/q4_4.png"
+		],
+		"options_type": "image",
+		"options": [
+			"abstract/q4_A.png",
+			"abstract/q4_B.png",
+			"abstract/q4_C.png",
+			"abstract/q4_D.png"
+		],
+		"correct_answer": "abstract/q4_B.png"
+	},
+	{
+		"dimension_slug": "abstract-reasoning",
+		"question": "Find the next figure in the sequence",
+		"question_type": "image_sequence",
+		"question_images": [
+			"abstract/q5_1.png",
+			"abstract/q5_2.png",
+			"abstract/q5_3.png",
+			"abstract/q5_4.png"
+		],
+		"options_type": "image",
+		"options": [
+			"abstract/q5_A.png",
+			"abstract/q5_B.png",
+			"abstract/q5_C.png",
+			"abstract/q5_D.png"
+		],
+		"correct_answer": "abstract/q5_C.png"
+	},
+	{
+		"dimension_slug": "mechanical-reasoning",
+		"question": "A motorcycle, a car and a truck are moving with equal momentum. Which one has the greatest kinetic energy?",
+		"question_image": "mechanical/q1.png",
+		"options_type": "text",
+		"options": [
+			"Motorcycle",
+			"Car",
+			"Truck",
+			"All have same kinetic energy"
+		],
+		"correct_answer": "Motorcycle"
+	},
+	{
+		"dimension_slug": "mechanical-reasoning",
+		"question": "The handles on doors A, B and C are placed in different positions as shown. Using the handle, which door would be closed by applying minimum force?",
+		"question_image": "mechanical/q2.png",
+		"options_type": "text",
+		"options": [
+			"Door A",
+			"Door B",
+			"Door C",
+			"Same force in all"
+		],
+		"correct_answer": "Door C"
+	},
+	{
+		"dimension_slug": "mechanical-reasoning",
+		"question": "Three balls A, B and C of same mass are dropped together in vacuum from a height of 6 meters. Which ball would reach first on the floor?",
+		"question_image": "mechanical/q3.png",
+		"options_type": "text",
+		"options": [
+			"Ball A",
+			"Ball B",
+			"Ball C",
+			"All the balls at the same time"
+		],
+		"correct_answer": "All the balls at the same time"
+	},
+	{
+		"dimension_slug": "mechanical-reasoning",
+		"question": "In which one of the given figures, the force required to cut the wire will be minimum if force is applied at X?",
+		"question_image": "mechanical/q4.png",
+		"options_type": "text",
+		"options": [
+			"Figure A",
+			"Figure B",
+			"Figure C",
+			"Equal force in all cases"
+		],
+		"correct_answer": "Figure B"
+	},
+	{
+		"dimension_slug": "mechanical-reasoning",
+		"question": "Which of the given containers shows the heaviest object?",
+		"question_image": "mechanical/q5.png",
+		"options_type": "text",
+		"options": [
+			"Container A",
+			"Container B",
+			"Container C",
+			"All objects have same weight"
+		],
+		"correct_answer": "Container B"
+	},
+	{
+		"dimension_slug": "spatial-aptitude",
+		"question": "Which parts combine to form the given figure?",
+		"question_type": "image_mcq",
+		"question_image": "spatial/q1_problem.png",
+		"options_type": "image",
+		"options": [
+			"spatial/q1_A.png",
+			"spatial/q1_B.png",
+			"spatial/q1_C.png",
+			"spatial/q1_D.png"
+		],
+		"correct_answer": "spatial/q1_D.png"
+	},
+	{
+		"dimension_slug": "spatial-aptitude",
+		"question": "Which parts combine to form the given figure?",
+		"question_type": "image_mcq",
+		"question_image": "spatial/q2_problem.png",
+		"options_type": "image",
+		"options": [
+			"spatial/q2_A.png",
+			"spatial/q2_B.png",
+			"spatial/q2_C.png",
+			"spatial/q2_D.png"
+		],
+		"correct_answer": "spatial/q2_B.png"
+	},
+	{
+		"dimension_slug": "spatial-aptitude",
+		"question": "Which parts combine to form the given figure?",
+		"question_type": "image_mcq",
+		"question_image": "spatial/q3_problem.png",
+		"options_type": "image",
+		"options": [
+			"spatial/q3_A.png",
+			"spatial/q3_B.png",
+			"spatial/q3_C.png",
+			"spatial/q3_D.png"
+		],
+		"correct_answer": "spatial/q3_C.png"
+	},
+	{
+		"dimension_slug": "spatial-aptitude",
+		"question": "Which parts combine to form the given figure?",
+		"question_type": "image_mcq",
+		"question_image": "spatial/q4_problem.png",
+		"options_type": "image",
+		"options": [
+			"spatial/q4_A.png",
+			"spatial/q4_B.png",
+			"spatial/q4_C.png",
+			"spatial/q4_D.png"
+		],
+		"correct_answer": "spatial/q4_D.png"
+	},
+	{
+		"dimension_slug": "spatial-aptitude",
+		"question": "Which parts combine to form the given figure?",
+		"question_type": "image_mcq",
+		"question_image": "spatial/q5_problem.png",
+		"options_type": "image",
+		"options": [
+			"spatial/q5_A.png",
+			"spatial/q5_B.png",
+			"spatial/q5_C.png",
+			"spatial/q5_D.png"
+		],
+		"correct_answer": "spatial/q5_C.png"
+	}
+]
