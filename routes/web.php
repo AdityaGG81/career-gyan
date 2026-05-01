@@ -5,6 +5,7 @@ use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\CareerPathController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SuggestionController;
+use App\Http\Controllers\AdminAuthController;
 
 // Main pages
 Route::get('/', function () {
@@ -68,12 +69,9 @@ Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('te
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
 
 // Admin Auth
-use App\Http\Controllers\AdminAuthController;
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Admin Protected Routes
-Route::middleware(['admin.auth'])->group(function () {
-    Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
-});
+// Admin Suggestions (NO middleware for now)
+Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
