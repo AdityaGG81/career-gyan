@@ -54,19 +54,32 @@ class TestController extends Controller
         $answers = $request->input('answers', []);
         $profile = $request->input('profile', []);
 
+        $dimensionLimits = [
+            'language-aptitude' => 5,
+            'verbal-reasoning' => 5,
+            'numerical-aptitude' => 5,
+            'perceptual-aptitude' => 10,
+            'abstract-reasoning' => 5,
+            'mechanical-reasoning' => 5,
+            'spatial-aptitude' => 5,
+        ];
+
         $scores = [];
+        $rawScores = [];
         $dimensions = Dimension::all();
         foreach ($dimensions as $dim) {
-            $scores[$dim->slug] = ['correct' => 0, 'total' => 0];
+            $limit = $dimensionLimits[$dim->slug] ?? 5;
+            $scores[$dim->slug] = ['correct' => 0, 'total' => $limit];
+            $rawScores[$dim->slug] = ['correct' => 0, 'total' => $limit];
         }
 
         foreach ($answers as $questionId => $userAnswer) {
             $q = Question::with('dimension')->find($questionId);
             if ($q) {
                 $slug = $q->dimension->slug;
-                $scores[$slug]['total']++;
                 if (trim(strtolower($userAnswer)) === trim(strtolower($q->correct_answer))) {
                     $scores[$slug]['correct']++;
+                    $rawScores[$slug]['correct']++;
                 }
             }
         }
@@ -80,6 +93,8 @@ class TestController extends Controller
                 $finalScores[$slug] = 0;
             }
         }
+
+        $profile['raw_scores'] = $rawScores;
 
         $session = TestSession::create([
             'uuid' => Str::uuid(),
@@ -154,13 +169,13 @@ class TestController extends Controller
         // Calculate Fields
         $allFields = Field::all();
         $fieldProfiles = [
-            'Arts & Humanities' => ['language-aptitude' => 8, 'verbal-reasoning' => 8, 'abstract-reasoning' => 5],
-            'Commerce' => ['numerical-aptitude' => 8, 'language-aptitude' => 6, 'verbal-reasoning' => 6],
-            'Science' => ['numerical-aptitude' => 8, 'abstract-reasoning' => 8, 'spatial-aptitude' => 6],
-            'Technology / Engineering' => ['numerical-aptitude' => 8, 'mechanical-reasoning' => 8, 'spatial-aptitude' => 7, 'abstract-reasoning' => 7],
-            'Medical' => ['verbal-reasoning' => 8, 'perceptual-aptitude' => 8, 'abstract-reasoning' => 7],
-            'Business Administration' => ['language-aptitude' => 7, 'verbal-reasoning' => 8, 'numerical-aptitude' => 7],
-            'Skill Development' => ['mechanical-reasoning' => 7, 'spatial-aptitude' => 7],
+            'Arts & Humanities' => ['language-aptitude' => 8, 'verbal-reasoning' => 8, 'spatial-aptitude' => 6],
+            'Commerce' => ['numerical-aptitude' => 8, 'perceptual-aptitude' => 7, 'language-aptitude' => 6],
+            'Science' => ['abstract-reasoning' => 8, 'mechanical-reasoning' => 8, 'verbal-reasoning' => 7, 'numerical-aptitude' => 7],
+            'Technology / Engineering' => ['abstract-reasoning' => 8, 'mechanical-reasoning' => 8, 'numerical-aptitude' => 8, 'spatial-aptitude' => 7],
+            'Medical' => ['abstract-reasoning' => 8, 'verbal-reasoning' => 8],
+            'Business Administration' => ['verbal-reasoning' => 8, 'language-aptitude' => 7, 'perceptual-aptitude' => 7],
+            'Skill Development' => ['mechanical-reasoning' => 8, 'spatial-aptitude' => 7, 'perceptual-aptitude' => 7],
             'Sports' => ['perceptual-aptitude' => 8, 'spatial-aptitude' => 8],
             'Agriculture' => ['perceptual-aptitude' => 7, 'mechanical-reasoning' => 6, 'spatial-aptitude' => 6],
             'Small Scale Businesses' => ['numerical-aptitude' => 7, 'language-aptitude' => 6],
