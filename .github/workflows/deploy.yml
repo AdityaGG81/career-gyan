@@ -1,4 +1,4 @@
-name: Deploy to cPanel
+name: Deploy via FTP
 
 on:
   push:
@@ -23,25 +23,27 @@ jobs:
           npm ci
           npm run build
 
-      - name: Sync Files to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.CPANEL_HOST }}
-          REMOTE_USER: ${{ secrets.CPANEL_USERNAME }}
-          TARGET: "/home/jenmwcvm/repositories/career-gyan/"
-          EXCLUDE: "/.git/, /node_modules/, /vendor/, /.env, /tests/"
-
-      - name: Execute Server Commands
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Sync App Files to Repositories
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.CPANEL_HOST }}
+          server: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: 22
-          script: |
-            cd /home/jenmwcvm/repositories/career-gyan
-            composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
-            php artisan optimize:clear
-            cp -R public/* /home/jenmwcvm/public_html/
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /repositories/career-gyan/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/vendor/**
+            **/public/**
+            .env
+            tests/**
+
+      - name: Sync Public Files to Public_HTML
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/
+          server-dir: /public_html/
