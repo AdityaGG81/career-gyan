@@ -6,8 +6,13 @@
 <style>
 /* ─── Explore Specific Additions ─── */
 .search-bar { display: inline-flex; width: 100%; max-width: 500px; background: #fff; border-radius: 30px; padding: 4px; box-shadow: 0 4px 16px rgba(0,0,0,.08); }
-.search-bar input { flex: 1; border: none; padding: 12px 20px; border-radius: 30px; font-size: 1rem; outline: none; }
-.search-bar button { background: var(--brand); color: #fff; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600;}
+.search-bar input { flex: 1; border: none; padding: 12px 20px; border-radius: 30px; font-size: 1rem; outline: none; color: var(--text-1); }
+.search-bar button { background: var(--brand); color: #fff; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; justify-content: center; }
+
+.section-title { color: #fff !important; }
+.section-sub { color: rgba(255,255,255,0.8) !important; }
+.interactive-box label { color: var(--text-1) !important; }
+.select2-container { text-align: left; color: var(--text-1) !important; }
 
 body {
     background: linear-gradient(135deg, #0f172a, #1e3a8a, #6d28d9);
@@ -39,18 +44,19 @@ body {
 .interactive-box label { font-weight: 600; font-family: 'Sora', sans-serif; display: block; margin-bottom: 12px;}
 
 .filter-bar { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 30px;}
-.filter-bar select { padding: 10px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: #fff; flex: 1; min-width: 150px; outline:none;}
+.filter-bar select { padding: 10px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; background: #fff; flex: 1; min-width: 150px; outline:none; color: var(--text-1); }
 
 .career-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
-.career-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; transition: all var(--transition); cursor: pointer;}
+.career-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; transition: all var(--transition); cursor: pointer; color: var(--text-1); }
 .career-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 .career-header { display: flex; gap: 12px; margin-bottom: 12px; align-items:flex-start;}
 .c-icon { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;}
-.c-title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 4px; line-height:1.2;}
+.c-title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 4px; line-height:1.2; color: var(--text-1); }
 .badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-weight: 600; background: var(--brand-light); color: var(--brand); }
 .c-desc { color: var(--text-2); font-size: 14px; flex-grow: 1; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.c-meta { display: flex; flex-direction: column; gap: 6px; font-size: 13px; margin-bottom: 16px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.c-meta { display: flex; flex-direction: column; gap: 6px; font-size: 13px; margin-bottom: 16px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: var(--text-2); }
 .c-meta i { width: 16px; color: var(--text-3); text-align: center; margin-right: 4px;}
+.c-meta strong { color: var(--text-1); }
 .btn-roadmap { text-align: center; padding: 10px 14px; border-radius: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; width: 100%; cursor: pointer; transition: all 0.3s ease; font-size: 13px;}
 .btn-roadmap:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
@@ -80,7 +86,7 @@ body {
     <div class="blob blob-4"></div>
 </div>
 <!-- HERO -->
-<section class="hero" style="padding: 100px 0; background: transparent;">
+<section class="hero" style="padding: 60px 0 20px 0; background: transparent;">
     <div class="container text-center" style="text-align: center; color: white;">
         <h1 style="font-family:'Sora'; font-size: clamp(30px, 4vw, 42px); font-weight:700; margin-bottom: 16px;">Explore Career Paths in India</h1>
         <p style="font-size: 18px; margin-bottom:30px; opacity: 0.9;">Find careers based on your interests, subjects, and goals</p>
@@ -230,7 +236,7 @@ body {
             <option value="High">High</option>
             <option value="Growing">Growing</option>
         </select>
-        <button class="btn-roadmap" style="width:auto; padding:10px 24px;" onclick="resetFilters()">Reset</button>
+        <button class="btn-roadmap" style="width:auto; padding:10px 24px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);" onclick="resetFilters()">Reset</button>
     </div>
 
     <!-- Results Section -->
