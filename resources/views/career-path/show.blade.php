@@ -217,7 +217,7 @@
                 <img src="{{ asset($subject['image']) }}" 
                      alt="{{ $subject['name'] }}" 
                      class="career-path-image"
-                     onerror="this.src='https://via.placeholder.com/300x200'">
+                     onerror="this.onerror=null; this.src='https://placehold.co/300x200?text=Career+Path'">
                 <div class="image-overlay"></div>
                 <div class="image-title">{{ $subject['name'] }}</div>
             </div>

@@ -137,6 +137,11 @@
     transition: box-shadow var(--transition);
   }
 
+  .navbar .container {
+    max-width: 100%;
+    padding: 0 40px;
+  }
+
   .navbar.scrolled {
     box-shadow: var(--shadow-md);
   }
@@ -146,6 +151,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
   }
 
   .nav-logo {
@@ -164,6 +170,12 @@
   .nav-logo:hover img {
     transform: scale(1.04);
   }
+
+  .nav-left { flex: 1; display: flex; justify-content: flex-start; }
+  .nav-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; justify-content: center; }
+  .nav-right { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 16px; }
+
+  .nav-actions { display: flex; align-items: center; gap: 16px; }
 
   .nav-links {
     display: flex;
@@ -205,6 +217,7 @@
     padding: 0 22px;
     border-radius: var(--radius-md);
     transition: background var(--transition), transform var(--transition);
+    white-space: nowrap;
   }
 
   .nav-cta:hover {
@@ -273,7 +286,7 @@
     }
 
     .nav-links,
-    .nav-cta {
+    .nav-actions {
       display: none;
     }
 
@@ -304,6 +317,158 @@
   .fade-up-1 { animation-delay: .1s; opacity: 0; }
   .fade-up-2 { animation-delay: .22s; opacity: 0; }
   .fade-up-3 { animation-delay: .34s; opacity: 0; }
+
+  /* SEARCH MODAL */
+  .search-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .search-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .search-container {
+    background: var(--surface);
+    width: 100%;
+    max-width: 600px;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border);
+  }
+
+  .search-overlay.active .search-container {
+    transform: translateY(0);
+  }
+
+  .search-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-family: inherit;
+    color: var(--text-1);
+    background: transparent;
+  }
+
+  .search-close {
+    background: rgba(15, 23, 42, 0.05);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-2);
+    transition: all 0.2s;
+  }
+
+  .search-close:hover {
+    background: rgba(15, 23, 42, 0.1);
+    color: var(--text-1);
+  }
+
+  .search-results {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 20px 24px;
+  }
+
+  .search-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    margin-top: 20px;
+  }
+
+  .search-section-title:first-child { margin-top: 0; }
+
+  .search-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+  }
+
+  .search-item:hover {
+    background: var(--bg);
+    border-color: var(--border);
+  }
+
+  .search-item-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .search-item-content h4 {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    color: var(--text-1);
+    margin-bottom: 4px;
+  }
+
+  .search-item-content p {
+    font-size: 13px;
+    color: var(--text-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .search-item-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 4px;
+  }
+
+  .search-empty {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text-3);
+    font-size: 15px;
+  }
 </style>
 
 @yield('styles')
@@ -316,23 +481,34 @@
   <div class="container">
     <div class="nav-inner">
 
-      <a href="{{ url('/') }}" class="nav-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="CareerGyan Logo">
-      </a>
+      <div class="nav-left">
+        <a href="{{ url('/') }}" class="nav-logo">
+          <img src="{{ asset('images/logo.png') }}" alt="CareerGyan Logo">
+        </a>
+      </div>
 
-      <ul class="nav-links">
-        <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
-        <li><a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}">Explore Careers</a></li>
-        <li><a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a></li>
-      </ul>
+      <div class="nav-center">
+        <ul class="nav-links">
+          <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
+          <li><a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}">Explore Careers</a></li>
+          <li><a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a></li>
+        </ul>
+      </div>
 
-      <a href="{{ route('test.start') }}" class="nav-cta">
-        <i class="fa-solid fa-bolt"></i> Advance Test
-      </a>
-
-      <button class="nav-mobile-btn" id="mobileBtn" aria-label="Menu">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      <div class="nav-right">
+        <div class="nav-actions">
+          <button id="openGlobalSearch" style="font-size: 15px; display: flex; align-items: center; justify-content: space-between; width: 220px; height: 40px; border-radius: 30px; background: #fff; border: 1px solid var(--border); box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08); padding: 0 16px; transition: all 0.3s; cursor: pointer;" aria-label="Search">
+            <span style="color: var(--text-3); font-style: italic;">Search...</span>
+            <i class="fa-solid fa-search" style="font-size: 16px; color: var(--text-1);"></i>
+          </button>
+          <a href="{{ route('test.start') }}" class="nav-cta">
+            <i class="fa-solid fa-bolt"></i> Advance Test
+          </a>
+        </div>
+        <button class="nav-mobile-btn" id="mobileBtn" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
 
     </div>
 
@@ -348,6 +524,23 @@
     </ul>
   </div>
 </nav>
+
+<!-- GLOBAL SEARCH MODAL -->
+<div class="search-overlay" id="globalSearchOverlay">
+  <div class="search-container" onclick="event.stopPropagation()">
+    <div class="search-header">
+      <i class="fa-solid fa-search" style="color: var(--text-3); margin-right: 12px; font-size: 18px;"></i>
+      <input type="text" id="globalSearchInput" class="search-input" placeholder="Search for careers, streams, subjects..." autocomplete="off">
+      <button class="search-close" id="closeGlobalSearch"><i class="fa-solid fa-times"></i></button>
+    </div>
+    <div class="search-results" id="globalSearchResults">
+      <div class="search-empty">
+        <i class="fa-solid fa-magnifying-glass" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
+        <p>Type to start exploring amazing careers...</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- PAGE CONTENT -->
 @yield('content')
@@ -399,6 +592,123 @@
       ? 'fa-solid fa-xmark'
       : 'fa-solid fa-bars';
   });
+
+  // Global Search Logic
+  const searchOverlay = document.getElementById('globalSearchOverlay');
+  const openSearchBtn = document.getElementById('openGlobalSearch');
+  const closeSearchBtn = document.getElementById('closeGlobalSearch');
+  const searchInput = document.getElementById('globalSearchInput');
+  const searchResults = document.getElementById('globalSearchResults');
+
+  function openSearch() {
+    searchOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput.focus(), 100);
+  }
+
+  function closeSearch() {
+    searchOverlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  openSearchBtn?.addEventListener('click', openSearch);
+  closeSearchBtn?.addEventListener('click', closeSearch);
+  searchOverlay.addEventListener('click', closeSearch);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+      closeSearch();
+    }
+  });
+
+  // Debounce helper
+  function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+  }
+
+  const performSearch = debounce(() => {
+    const query = searchInput.value.trim();
+    
+    if (query.length < 2) {
+      searchResults.innerHTML = `
+        <div class="search-empty">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
+          <p>Type to start exploring amazing careers...</p>
+        </div>
+      `;
+      return;
+    }
+
+    searchResults.innerHTML = `<div style="text-align:center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="color:var(--brand); font-size:24px;"></i></div>`;
+
+    fetch(`/global-search?q=${encodeURIComponent(query)}`)
+      .then(res => res.json())
+      .then(data => {
+        let html = '';
+        
+        if (data.config_careers.length === 0 && data.db_careers.length === 0) {
+          searchResults.innerHTML = `
+            <div class="search-empty">
+              <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
+              <p>No results found for "${query}"</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Render Config Careers (Detailed Paths)
+        if (data.config_careers.length > 0) {
+          html += `<div class="search-section-title">Comprehensive Career Paths</div>`;
+          data.config_careers.forEach(c => {
+            let badgeHtml = c.matched_career ? `<span class="search-item-badge" style="background: rgba(255,255,255,0.2); color:#1e293b; border: 1px solid #cbd5e1;">Includes: ${c.matched_career}</span>` : '';
+            html += `
+              <a href="/career-path/${c.stream}" class="search-item" onclick="closeSearch()">
+                <div class="search-item-icon" style="background: ${c.bg_color}; color: #fff;">
+                  <i class="fa-solid ${c.icon}"></i>
+                </div>
+                <div class="search-item-content">
+                  <h4>${c.subject_name}</h4>
+                  <p>Found in <strong>${c.stream_title}</strong></p>
+                  ${badgeHtml}
+                </div>
+              </a>
+            `;
+          });
+        }
+
+        // Render Database Careers
+        if (data.db_careers.length > 0) {
+          html += `<div class="search-section-title">Database Careers</div>`;
+          data.db_careers.forEach(c => {
+            html += `
+              <a href="/explore?q=${encodeURIComponent(c.name)}" class="search-item" onclick="closeSearch()">
+                <div class="search-item-icon" style="background: ${c.bg_color}; color: ${c.color};">
+                  <i class="fa-solid ${c.icon}"></i>
+                </div>
+                <div class="search-item-content">
+                  <h4>${c.name}</h4>
+                  <p>${c.description}</p>
+                  <span class="search-item-badge" style="background: ${c.bg_color}; color: ${c.color};">${c.field}</span>
+                </div>
+              </a>
+            `;
+          });
+        }
+
+        searchResults.innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        searchResults.innerHTML = `<div class="search-empty">An error occurred while searching.</div>`;
+      });
+  });
+
+  searchInput.addEventListener('input', performSearch);
 </script>
 
 @yield('scripts')

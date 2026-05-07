@@ -773,12 +773,12 @@
 
       <div class="hero-stats fade-up" style="animation-delay:.46s;opacity:0;">
         <div class="hero-stat">
-          <strong>500+</strong>
+          <strong>5000+</strong>
           <span>Career Paths</span>
         </div>
 
         <div class="hero-stat">
-          <strong>12</strong>
+          <strong>21</strong>
           <span>Fields Covered</span>
         </div>
 
@@ -884,66 +884,6 @@
   </div>
 </section>
 
-<section class="section" style="padding-top:16px;" id="fields">
-  <div class="container">
-    <div class="section-label">
-      <i class="fa-solid fa-shapes"></i> By Field
-    </div>
-
-    <h2 class="section-title">Browse by Field</h2>
-    <p class="section-sub">Not sure where to start? Pick a field that excites you.</p>
-
-    <div class="field-grid">
-      <div class="field-item" onclick="location.href='{{ url('/explore') }}'">
-        <div class="field-icon" style="background:#eff6ff;">
-          <i class="fa-solid fa-flask" style="color:#1d4ed8;font-size:22px;"></i>
-        </div>
-        <h4>Science</h4>
-        <span>38 Careers</span>
-      </div>
-
-      <div class="field-item" onclick="location.href='{{ url('/explore') }}'">
-        <div class="field-icon" style="background:#ecfdf5;">
-          <i class="fa-solid fa-chart-line" style="color:#16a34a;font-size:22px;"></i>
-        </div>
-        <h4>Commerce</h4>
-        <span>45 Careers</span>
-      </div>
-
-      <div class="field-item" onclick="location.href='{{ url('/explore') }}'">
-        <div class="field-icon" style="background:#fdf4ff;">
-          <i class="fa-solid fa-palette" style="color:#9333ea;font-size:22px;"></i>
-        </div>
-        <h4>Arts</h4>
-        <span>32 Careers</span>
-      </div>
-
-      <div class="field-item" onclick="location.href='{{ url('/explore') }}'">
-        <div class="field-icon" style="background:#fff1f0;">
-          <i class="fa-solid fa-microchip" style="color:#dc2626;font-size:22px;"></i>
-        </div>
-        <h4>Engineering</h4>
-        <span>62 Careers</span>
-      </div>
-
-      <div class="field-item" onclick="location.href='{{ url('/explore') }}'">
-        <div class="field-icon" style="background:#fff7ed;">
-          <i class="fa-solid fa-stethoscope" style="color:#ea580c;font-size:22px;"></i>
-        </div>
-        <h4>Medical</h4>
-        <span>40 Careers</span>
-      </div>
-
-      <div class="field-item" onclick="location.href='{{ url('/explore') }}'">
-        <div class="field-icon" style="background:#f0fdfa;">
-          <i class="fa-solid fa-landmark" style="color:#0d9488;font-size:22px;"></i>
-        </div>
-        <h4>Govt Jobs</h4>
-        <span>55 Careers</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="section" id="careers" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
   <div class="container">

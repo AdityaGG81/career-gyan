@@ -125,6 +125,82 @@ class ExploreController extends Controller
     }
 
     /* ─────────────────────────────────────────────
+     | GET /global-search?q=
+     | Global search for DB Careers and Config Paths
+     ────────────────────────────────────────────── */
+    public function globalSearch(Request $request): JsonResponse
+    {
+        $q = trim(strtolower($request->input('q', '')));
+
+        if (strlen($q) < 2) {
+            return response()->json(['db_careers' => [], 'config_careers' => []]);
+        }
+
+        // 1. Search Database Careers
+        $dbCareers = Career::with('field')
+            ->where('name', 'like', "%{$q}%")
+            ->orWhere('description', 'like', "%{$q}%")
+            ->limit(8)
+            ->get()
+            ->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'name' => $c->name,
+                    'description' => substr($c->description, 0, 100) . '...',
+                    'icon' => $c->icon,
+                    'field' => $c->field->name,
+                    'bg_color' => $c->field->bg_color,
+                    'color' => $c->field->color,
+                ];
+            });
+
+        // 2. Search Config Paths
+        $configCareers = [];
+        $paths = config('career_paths');
+
+        foreach ($paths as $streamKey => $streamData) {
+            if (!isset($streamData['subjects'])) continue;
+
+            foreach ($streamData['subjects'] as $subject) {
+                $matched = false;
+                
+                // Check if subject name matches
+                if (str_contains(strtolower($subject['name']), $q)) {
+                    $matched = true;
+                }
+                
+                // Check if any career inside matches
+                $matchedCareer = null;
+                foreach ($subject['careers'] ?? [] as $career) {
+                    if (str_contains(strtolower($career), $q)) {
+                        $matched = true;
+                        $matchedCareer = $career;
+                        break;
+                    }
+                }
+
+                if ($matched) {
+                    $configCareers[] = [
+                        'stream' => $streamKey,
+                        'stream_title' => $streamData['title'],
+                        'subject_name' => $subject['name'],
+                        'matched_career' => $matchedCareer,
+                        'icon' => $subject['icon'] ?? 'fa-star',
+                        'bg_color' => $streamData['theme_color'] ?? '#6366f1',
+                    ];
+                    
+                    if (count($configCareers) >= 8) break 2;
+                }
+            }
+        }
+
+        return response()->json([
+            'db_careers' => $dbCareers,
+            'config_careers' => $configCareers,
+        ]);
+    }
+
+    /* ─────────────────────────────────────────────
      | Private helper — uniform career shape for JSON
      ────────────────────────────────────────────── */
     private function formatCareer(Career $career, int $matchCount = 0): array

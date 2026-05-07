@@ -83,6 +83,46 @@ class PortableDataSeeder extends Seeder
                 'stability' => 'Absolute'
             ],
             [
+                'category' => 'Government & Defence',
+                'icon' => 'fa-building-columns',
+                'name' => 'State Police Services',
+                'education' => 'Any Graduate',
+                'exam' => 'State PSC / Police Board',
+                'duration' => '1-2 Years Prep',
+                'salary' => '₹4L - ₹10L',
+                'stability' => 'Very High'
+            ],
+            [
+                'category' => 'Government & Defence',
+                'icon' => 'fa-train',
+                'name' => 'Railway Jobs (RRB)',
+                'education' => '12th / Graduate',
+                'exam' => 'RRB NTPC, ALP',
+                'duration' => '1-2 Years Prep',
+                'salary' => '₹3L - ₹9L',
+                'stability' => 'Absolute'
+            ],
+            [
+                'category' => 'Government & Defence',
+                'icon' => 'fa-file-signature',
+                'name' => 'Staff Selection (SSC)',
+                'education' => '12th / Graduate',
+                'exam' => 'SSC CGL / CHSL',
+                'duration' => '1-2 Years Prep',
+                'salary' => '₹4L - ₹12L',
+                'stability' => 'Very High'
+            ],
+            [
+                'category' => 'Government & Defence',
+                'icon' => 'fa-user-shield',
+                'name' => 'Paramilitary (CAPF/BSF)',
+                'education' => '10th / 12th / Graduate',
+                'exam' => 'UPSC CAPF, SSC GD',
+                'duration' => '1-2 Years Prep',
+                'salary' => '₹3.5L - ₹12L',
+                'stability' => 'Absolute'
+            ],
+            [
                 'category' => 'Teaching & Law',
                 'icon' => 'fa-graduation-cap',
                 'name' => 'Legal Professional',

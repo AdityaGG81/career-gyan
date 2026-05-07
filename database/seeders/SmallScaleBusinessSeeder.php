@@ -41,6 +41,27 @@ class SmallScaleBusinessSeeder extends Seeder
                     ['name' => 'Tutoring Center', 'invest' => '₹5K - 15K', 'profit' => 'High', 'risk' => 'Low', 'desc' => 'Start teaching school subjects or specialized skills like coding from home.'],
                     ['name' => 'Event Planning', 'invest' => '₹20K - 50K', 'profit' => '25-40%', 'risk' => 'Medium', 'desc' => 'Manage birthdays, small weddings, or corporate meetups in your city.'],
                 ]
+            ],
+            [
+                'title' => 'Retail & Trade',
+                'ideas' => [
+                    ['name' => 'Mini Grocery / Kirana Store', 'invest' => '₹50K - 2L', 'profit' => '15-25%', 'risk' => 'Low', 'desc' => 'Open a daily needs store in a residential area for steady income.'],
+                    ['name' => 'Mobile Accessories & Repair', 'invest' => '₹30K - 1L', 'profit' => '30-50%', 'risk' => 'Medium', 'desc' => 'Sell phone covers, chargers, and offer basic repair services.'],
+                ]
+            ],
+            [
+                'title' => 'Health & Beauty',
+                'ideas' => [
+                    ['name' => 'Salon / Beauty Parlor', 'invest' => '₹50K - 1.5L', 'profit' => '40-60%', 'risk' => 'Low', 'desc' => 'Provide grooming and beauty services in your neighborhood.'],
+                    ['name' => 'Fitness Coaching / Yoga Center', 'invest' => '₹10K - 50K', 'profit' => 'High', 'risk' => 'Low', 'desc' => 'Start fitness classes in a rented hall or local park.'],
+                ]
+            ],
+            [
+                'title' => 'Agriculture & Livestock',
+                'ideas' => [
+                    ['name' => 'Poultry Farming', 'invest' => '₹1L - 3L', 'profit' => '30-45%', 'risk' => 'Medium', 'desc' => 'Raise chickens for eggs and meat for local markets.'],
+                    ['name' => 'Organic Vegetable Farming', 'invest' => '₹20K - 50K', 'profit' => '25-40%', 'risk' => 'Medium', 'desc' => 'Grow chemical-free vegetables and sell them directly to consumers.'],
+                ]
             ]
         ];
 

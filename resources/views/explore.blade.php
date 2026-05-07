@@ -289,7 +289,16 @@ body {
             if(cId) openCareerDetail(cId);
         });
 
-        renderCareers();
+        // Check for ?q= parameter from global search
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('q');
+        
+        if (searchParam) {
+            document.getElementById('searchInput').value = searchParam;
+            searchCareers();
+        } else {
+            renderCareers();
+        }
     });
 
     // --- Data Fetching ---
