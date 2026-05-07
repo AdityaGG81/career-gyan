@@ -323,12 +323,11 @@
       <ul class="nav-links">
         <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
         <li><a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}">Explore Careers</a></li>
-        <li><a href="{{ route('test.start') }}" class="{{ request()->is('test*') ? 'active' : '' }}">Take Test</a></li>
         <li><a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a></li>
       </ul>
 
       <a href="{{ route('test.start') }}" class="nav-cta">
-        <i class="fa-solid fa-bolt"></i> Take Free Test
+        <i class="fa-solid fa-bolt"></i> Advance Test
       </a>
 
       <button class="nav-mobile-btn" id="mobileBtn" aria-label="Menu">
@@ -340,11 +339,10 @@
     <ul class="nav-mobile-menu" id="mobileMenu">
       <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
       <li><a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}">Explore Careers</a></li>
-      <li><a href="{{ route('test.start') }}" class="{{ request()->is('test*') ? 'active' : '' }}">Take Test</a></li>
       <li><a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a></li>
       <li>
         <a href="{{ route('test.start') }}" style="color:var(--brand);font-weight:700;">
-          <i class="fa-solid fa-bolt"></i> Take Free Test
+          <i class="fa-solid fa-bolt"></i> Advance Test
         </a>
       </li>
     </ul>

@@ -16,7 +16,7 @@
                 Take our comprehensive 21-question aptitude test. We analyze your strengths across 7 core dimensions to recommend the exact careers built for your mind.
             </p>
             <a href="{{ route('test.quiz') }}" style="display: inline-block; background: var(--accent); color: white; padding: 16px 36px; font-size: 18px; font-weight: 600; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); transition: transform 0.2s;">
-                Start Free Test <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+                Start Advance Test <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
             </a>
             <p style="margin-top: 16px; font-size: 14px; opacity: 0.7;">Takes approximately 15 minutes. No account required.</p>
         </div>
