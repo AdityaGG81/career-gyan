@@ -1,4 +1,4 @@
-name: Deploy via SSH
+name: Deploy via FTP
 
 on:
   push:
@@ -23,32 +23,27 @@ jobs:
           npm ci
           npm run build
 
-      - name: Create Deployment ZIP
-        run: |
-          zip -r release.zip . -x "*.git*" "node_modules/*" "tests/*"
-
-      - name: Transfer ZIP to Server
-        uses: appleboy/scp-action@master
+      - name: Sync App Files to Repositories
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.CPANEL_HOST }}
+          server: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: ${{ secrets.CPANEL_PORT }}
-          source: "release.zip"
-          target: "/home/jenmwcvm/repositories/career-gyan"
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /repositories/career-gyan/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/vendor/**
+            **/public/**
+            .env
+            tests/**
 
-      - name: Extract and Execute Server Commands
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Sync Public Files to Public_HTML
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.CPANEL_HOST }}
+          server: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: ${{ secrets.CPANEL_PORT }}
-          script: |
-            cd /home/jenmwcvm/repositories/career-gyan
-            unzip -o release.zip
-            rm release.zip
-            composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
-            php artisan optimize:clear
-            cp -R public/* /home/jenmwcvm/public_html/
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./public/
+          server-dir: /public_html/
