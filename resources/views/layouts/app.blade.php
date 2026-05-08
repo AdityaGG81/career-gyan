@@ -501,6 +501,9 @@
             <span style="color: var(--text-3); font-style: italic;">Search...</span>
             <i class="fa-solid fa-search" style="font-size: 16px; color: var(--text-1);"></i>
           </button>
+          <a href="{{ route('quick-test.start') }}" class="nav-cta">
+            <i class="fa-solid fa-gauge-high"></i> Quick Test
+          </a>
           <a href="{{ route('test.start') }}" class="nav-cta">
             <i class="fa-solid fa-bolt"></i> Advance Test
           </a>
@@ -516,6 +519,11 @@
       <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
       <li><a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}">Explore Careers</a></li>
       <li><a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a></li>
+      <li>
+        <a href="{{ route('quick-test.start') }}" style="color:var(--brand);font-weight:700;">
+          <i class="fa-solid fa-gauge-high"></i> Quick Test
+        </a>
+      </li>
       <li>
         <a href="{{ route('test.start') }}" style="color:var(--brand);font-weight:700;">
           <i class="fa-solid fa-bolt"></i> Advance Test
@@ -707,6 +715,7 @@
         searchResults.innerHTML = `<div class="search-empty">An error occurred while searching.</div>`;
       });
   });
+  
 
   searchInput.addEventListener('input', performSearch);
 </script>

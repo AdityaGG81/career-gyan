@@ -66,6 +66,12 @@ Route::get('/test/quiz', [TestController::class, 'quiz'])->name('test.quiz');
 Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
 Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
 
+// Quick Test
+Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
+Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
+Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
+Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
+
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
 
