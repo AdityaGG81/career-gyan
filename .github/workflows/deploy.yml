@@ -24,14 +24,14 @@ jobs:
           npm run build
 
       - name: Sync App Files to Repositories
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: appleboy/ftp-action@master
         with:
-          server: ${{ secrets.CPANEL_HOST }}
+          host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: repositories/career-gyan/
-          protocol: ftp
-          exclude: |
+          remote_dir: repositories/career-gyan/
+          local_dir: ./
+          ignore: |
             **/.git*
             **/.git*/**
             **/node_modules/**
@@ -41,15 +41,14 @@ jobs:
             tests/**
 
       - name: Sync Public Files to Public_HTML
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: appleboy/ftp-action@master
         with:
-          server: ${{ secrets.CPANEL_HOST }}
+          host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./public/
-          server-dir: public_html/
-          protocol: ftp
-          exclude: |
+          remote_dir: public_html/
+          local_dir: ./public/
+          ignore: |
             index.php
             .htaccess
             **/.git*
