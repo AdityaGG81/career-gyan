@@ -766,8 +766,8 @@
           <i class="fa-solid fa-compass"></i> Explore Now
         </a>
 
-        <a href="{{ route('test.start') }}" class="btn-outline">
-          <i class="fa-solid fa-bolt"></i> Take Free Test
+        <a href="{{ route('quick-test.start') }}" class="btn-outline">
+          <i class="fa-solid fa-gauge-high"></i> Take Quick Test
         </a>
       </div>
 

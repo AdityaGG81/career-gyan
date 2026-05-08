@@ -504,28 +504,38 @@
 
       <div class="nav-right">
         <div class="nav-actions">
-          <button id="openGlobalSearch" style="font-size: 15px; display: flex; align-items: center; justify-content: space-between; width: 220px; height: 40px; border-radius: 30px; background: #fff; border: 1px solid var(--border); box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08); padding: 0 16px; transition: all 0.3s; cursor: pointer;" aria-label="Search">
-            <span style="color: var(--text-3); font-style: italic;">Search...</span>
-            <i class="fa-solid fa-search" style="font-size: 16px; color: var(--text-1);"></i>
+          <!-- Search Icon Button (Saves Space) -->
+          <button id="openGlobalSearch" style="display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); color: var(--text-2); transition: all 0.2s; cursor: pointer;" aria-label="Search">
+            <i class="fa-solid fa-search" style="font-size: 15px;"></i>
           </button>
+
+          <!-- Tests Links (Clean, text-based) -->
+          <a href="{{ route('quick-test.start') }}" style="font-size: 14px; font-weight: 600; color: var(--text-2); display: flex; align-items: center; gap: 6px; padding: 0 10px; transition: color 0.2s;">
+            <i class="fa-solid fa-gauge-high" style="color: var(--brand);"></i> Quick Test
+          </a>
+          
           @auth
-            <a href="{{ route('quick-test.start') }}" class="nav-cta" style="background: var(--surface); color: var(--text-1); border: 1px solid var(--border);">
-              <i class="fa-solid fa-gauge-high" style="color: var(--brand);"></i> Quick Test
+            <!-- Logged In State -->
+            <a href="{{ route('test.start') }}" class="nav-cta" style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%); box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);">
+              <i class="fa-solid fa-bolt" style="color: #fbbf24;"></i> Advance Test
             </a>
-            <a href="{{ route('test.start') }}" class="nav-cta">
-              <i class="fa-solid fa-bolt"></i> Advance Test
-            </a>
+            <div style="width: 1px; height: 24px; background: var(--border); margin: 0 8px;"></div>
             <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
               @csrf
-              <button type="submit" class="nav-cta" style="background: #fee2e2; color: #b91c1c; padding: 0 16px;">
+              <button type="submit" style="font-size: 14px; font-weight: 600; color: #b91c1c; display: flex; align-items: center; gap: 6px; padding: 0 10px; transition: color 0.2s;">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
               </button>
             </form>
           @else
-            <a href="{{ route('login') }}" class="nav-cta" style="background: transparent; color: var(--text-2); padding: 0 10px;">
+            <!-- Logged Out State -->
+            <a href="{{ route('test.start') }}" style="font-size: 14px; font-weight: 600; color: var(--text-2); display: flex; align-items: center; gap: 6px; padding: 0 10px; transition: color 0.2s;">
+              <i class="fa-solid fa-bolt" style="color: #fbbf24;"></i> Advance Test
+            </a>
+            <div style="width: 1px; height: 24px; background: var(--border); margin: 0 8px;"></div>
+            <a href="{{ route('login') }}" style="font-size: 14px; font-weight: 600; color: var(--text-2); padding: 0 10px; transition: color 0.2s;">
               Sign In
             </a>
-            <a href="{{ route('signup') }}" class="nav-cta">
+            <a href="{{ route('signup') }}" class="nav-cta" style="background: var(--brand-dark);">
               Sign Up
             </a>
           @endauth
