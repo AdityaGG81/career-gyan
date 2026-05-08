@@ -13,6 +13,9 @@
             <p style="color: var(--text-2); font-size: 15px;">Manage and view feedback shared by users.</p>
         </div>
         <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="{{ route('admin.users') }}" style="background: var(--surface); color: var(--text-2); padding: 8px 16px; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; font-size: 14px; border: 1px solid var(--border); transition: all 0.2s;">
+                <i class="fa-solid fa-users"></i> View Users
+            </a>
             <div style="background: var(--brand-light); color: var(--brand); padding: 8px 16px; border-radius: var(--radius-md); font-weight: 600;">
                 Total: {{ $suggestions->count() }}
             </div>

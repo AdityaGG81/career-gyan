@@ -93,5 +93,6 @@ Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('adm
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Admin Suggestions (NO middleware for now)
+// Admin Suggestions & Users (NO middleware for now)
 Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
+Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');

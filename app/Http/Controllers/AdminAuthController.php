@@ -19,7 +19,10 @@ class AdminAuthController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        if ($username === 'admin' && $password === 'admin123') {
+        $envUsername = env('ADMIN_USERNAME', 'admin');
+        $envPassword = env('ADMIN_PASSWORD', 'admin123');
+
+        if ($username === $envUsername && $password === $envPassword) {
             session(['admin_logged_in' => true]);
             return redirect()->route('admin.suggestions');
         }
@@ -31,5 +34,16 @@ class AdminAuthController extends Controller
     {
         session()->forget('admin_logged_in');
         return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
+    }
+
+    public function users()
+    {
+        // Simple authentication check based on existing pattern
+        if (!session()->has('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
+        $users = \App\Models\User::latest()->get();
+        return view('admin.users', compact('users'));
     }
 }
