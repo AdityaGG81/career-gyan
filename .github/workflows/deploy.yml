@@ -34,10 +34,10 @@ jobs:
         run: |
           lftp -c "
             debug 3;
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
+            set sftp:auto-confirm yes;
+            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=no';
             set net:timeout 10;
-            open -u $FTP_USER,$FTP_PASS $FTP_HOST;
+            open -u $FTP_USER,$FTP_PASS sftp://$FTP_HOST;
             mirror -R -v -X .git/ -X node_modules/ -X vendor/ -X public/ -X tests/ -X .env ./ repositories/career-gyan/;
             quit
           "
@@ -50,10 +50,10 @@ jobs:
         run: |
           lftp -c "
             debug 3;
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
+            set sftp:auto-confirm yes;
+            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=no';
             set net:timeout 10;
-            open -u $FTP_USER,$FTP_PASS $FTP_HOST;
+            open -u $FTP_USER,$FTP_PASS sftp://$FTP_HOST;
             mirror -R -v -X .git/ -X index.php -X .htaccess ./public/ public_html/;
             quit
           "
