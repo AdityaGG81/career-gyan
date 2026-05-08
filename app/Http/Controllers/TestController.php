@@ -95,6 +95,7 @@ class TestController extends Controller
         }
 
         $profile['raw_scores'] = $rawScores;
+        $profile['answers'] = $answers;
 
         $session = TestSession::create([
             'uuid' => Str::uuid(),
@@ -132,7 +133,9 @@ class TestController extends Controller
                 });
         }
 
-        return view('test.results', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields'));
+        $questions = \App\Models\Question::with('dimension')->get();
+
+        return view('test.results', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields', 'questions'));
     }
 
     private function calculateRecommendations(TestSession $session)

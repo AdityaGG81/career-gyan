@@ -44,7 +44,6 @@
                 <a href="{{ route('quick-test.quiz') }}" class="nav-cta" style="display: inline-flex; height: 54px; padding: 0 40px; font-size: 16px;">
                     Start Quick Test <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>
-                <p style="margin-top: 15px; font-size: 13px; color: var(--text-3);">No registration required for this test.</p>
             </div>
         </div>
     </div>

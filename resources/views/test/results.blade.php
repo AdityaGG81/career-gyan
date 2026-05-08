@@ -22,6 +22,106 @@
     
     .match-badge { background: var(--brand-light); color: var(--brand); padding: 8px 16px; border-radius: 999px; font-weight: 700; font-family: 'Sora'; font-size: 16px; display: inline-block; white-space: nowrap; }
     
+    .recommendations-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .career-card-new {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 25px;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+    .career-card-new:hover {
+        transform: translateY(-5px);
+        border-color: var(--brand);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .action-buttons-container {
+        text-align: center;
+        margin-top: 60px;
+        border-top: 1px solid var(--border);
+        padding-top: 40px;
+    }
+    /* Action Buttons Style */
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 40px;
+    }
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 50px;
+        padding: 0 30px;
+        background: var(--brand);
+        color: #fff;
+        border-radius: var(--radius-md);
+        font-weight: 700;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        box-shadow: var(--shadow-sm);
+    }
+    .action-btn:hover {
+        background: var(--brand-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: #fff;
+    }
+    .action-btn.btn-outline {
+        background: #fff;
+        color: var(--brand);
+        border: 1.5px solid var(--brand);
+        box-shadow: none;
+    }
+    .action-btn.btn-outline:hover {
+        background: var(--brand-light);
+    }
+
+    /* Answersheet Styles */
+    .answersheet-section {
+        display: none;
+        margin-top: 40px;
+        padding: 30px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .answer-row {
+        padding: 15px;
+        border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 60px 180px 1fr 120px 120px 100px;
+        gap: 15px;
+        align-items: center;
+    }
+    .answer-row:last-child { border-bottom: none; }
+    .answer-row.correct { background: #f0fdf4; }
+    .answer-row.wrong { background: #fef2f2; }
+    .status-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .status-correct { background: #dcfce7; color: #166534; }
+    .status-wrong { background: #fee2e2; color: #991b1b; }
 </style>
 @endsection
 
@@ -69,9 +169,9 @@
             <div style="display: flex; flex-direction: column; gap: 40px;">
 
                 <!-- Fields -->
-                <div class="recommendations-card fade-up fade-up-2">
+                <div class="recommendations-card fade-up fade-up-2" style="margin-top: 0; height: 100%;">
                     <h2 style="font-family: 'Sora'; font-size: 24px; margin-bottom: 8px; color: var(--text-1);">Recommended Broad Fields</h2>
-                    <p style="color: var(--text-2); margin-bottom: 30px; font-size: 15px;">Your aptitude scores show a strong inclination towards these general areas of study and work.</p>
+                    <p style="color: var(--text-2); margin-bottom: 30px; font-size: 15px;">Inclination towards these general areas of study and work.</p>
 
                     <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
                         @forelse($fields as $field)
@@ -90,43 +190,97 @@
                             </div>
                         </div>
                         @empty
-                            <p style="color: var(--text-2);">No fields calculated. Try retaking the test.</p>
+                            <p style="color: var(--text-2);">No fields calculated.</p>
                         @endforelse
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Careers -->
-                <div class="recommendations-card fade-up fade-up-3">
-                <h2 style="font-family: 'Sora'; font-size: 24px; margin-bottom: 8px; color: var(--text-1);">Top Recommended Careers</h2>
-                <p style="color: var(--text-2); margin-bottom: 30px; font-size: 15px;">Based on your aptitude scores and preferences, here are the paths where you are statistically most likely to thrive.</p>
+        <!-- Careers Full Width Section -->
+        <div class="recommendations-card fade-up fade-up-3" style="margin-top: 40px;">
+            <h2 style="font-family: 'Sora'; font-size: 28px; margin-bottom: 8px; color: var(--text-1); text-align: center;">Top Recommended Career Matches</h2>
+            <p style="color: var(--text-2); margin-bottom: 40px; font-size: 16px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Based on your aptitude scores and cognitive profile, here are the paths where you are statistically most likely to thrive.
+            </p>
 
+            <div class="recommendations-grid">
                 @forelse($careers as $career)
-                    <div class="career-item">
-                        <div class="career-info">
-                            <h3>{{ $career->title }}</h3>
-                            <p>{{ Str::limit($career->description, 100) }}</p>
-                            <div style="margin-top: 10px;">
-                                <span class="tag badge-green"><i class="fa-solid fa-indian-rupee-sign"></i> {{ number_format($career->average_salary) }}/yr</span>
-                                <span class="tag badge-purple"><i class="fa-solid fa-graduation-cap"></i> {{ $career->required_qualification ?? 'Varies' }}</span>
+                    <div class="career-card-new">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                                <h3 style="font-family: 'Sora'; font-size: 20px; color: var(--brand); font-weight: 700; margin: 0;">{{ $career->title }}</h3>
+                                <div class="match-badge" style="font-size: 14px; padding: 5px 12px;">{{ round($recommendedIds[$career->id]) }}% Fit</div>
                             </div>
+                            <p style="font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px;">{{ Str::limit($career->description, 120) }}</p>
                         </div>
-                        <div class="match-badge">
-                            {{ round($recommendedIds[$career->id]) }}% Fit
+                        
+                        <div style="border-top: 1px solid var(--border); padding-top: 15px; display: flex; flex-wrap: wrap; gap: 10px;">
+                            <span class="tag badge-green" style="font-size: 12px;"><i class="fa-solid fa-indian-rupee-sign"></i> ₹{{ number_format($career->average_salary/100000, 1) }}L/yr</span>
+                            <span class="tag badge-purple" style="font-size: 12px;"><i class="fa-solid fa-graduation-cap"></i> {{ $career->required_qualification ?? 'Varies' }}</span>
                         </div>
                     </div>
                 @empty
-                    <div style="text-align: center; padding: 40px; color: var(--text-2);">
-                        <i class="fa-solid fa-box-open" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
-                        <p>No suitable careers found. We might need more data.</p>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px;">
+                        <i class="fa-solid fa-box-open" style="font-size: 50px; margin-bottom: 20px; opacity: 0.3;"></i>
+                        <p style="color: var(--text-2); font-size: 18px;">No specific career matches found yet.</p>
                     </div>
                 @endforelse
+            </div>
+        </div>
 
-                <div style="text-align: center; margin-top: 30px;">
-                    <a href="{{ url('/explore') }}" class="btn btn-outline" style="display: inline-block; text-decoration: none; padding: 10px 20px;">Explore All Careers</a>
-                </div>
+        {{-- Actions --}}
+        <div class="btn-group">
+            <button onclick="toggleAnswersheet()" class="action-btn btn-outline">
+                <i class="fa-solid fa-list-check"></i> Show Answersheet
+            </button>
+            <button onclick="window.print()" class="action-btn">
+                <i class="fa-solid fa-file-pdf"></i> Download Report
+            </button>
+            <a href="{{ url('/explore') }}" class="action-btn" style="background: var(--text-1);">
+                Explore Careers <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        {{-- Answersheet Section --}}
+        <div id="answersheet" class="answersheet-section">
+            <h3 style="font-size: 20px; font-weight: 800; color: var(--text-1); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-file-invoice" style="color: var(--brand);"></i> 
+                Detailed Answer Review
+            </h3>
+            
+            <div class="answer-row" style="background: #f8fafc; font-weight: 700; border-radius: 8px 8px 0 0; border-bottom: 2px solid var(--border);">
+                <div>Q. No</div>
+                <div>Section</div>
+                <div>Question</div>
+                <div style="text-align: center;">Your Answer</div>
+                <div style="text-align: center;">Correct</div>
+                <div style="text-align: center;">Result</div>
             </div>
 
-            </div> <!-- End Display Flex right col -->
+            @php $userAnswers = $session->user_inputs['answers'] ?? []; @endphp
+            @foreach($questions as $index => $q)
+                @php 
+                    $userAns = $userAnswers[$q->id] ?? 'N/A';
+                    $isCorrect = (trim(strtolower($userAns)) === trim(strtolower($q->correct_answer)));
+                @endphp
+                <div class="answer-row {{ $isCorrect ? 'correct' : 'wrong' }}">
+                    <div style="font-weight: 800; color: var(--text-3);">#{{ $index + 1 }}</div>
+                    <div style="font-size: 13px; font-weight: 600; color: var(--brand); text-transform: capitalize;">
+                        {{ str_replace('-', ' ', $q->dimension->slug) }}
+                    </div>
+                    <div style="font-size: 14px; color: var(--text-1); line-height: 1.4;">
+                        {{ $q->question_text }}
+                    </div>
+                    <div style="text-align: center; font-weight: 700;">{{ $userAns }}</div>
+                    <div style="text-align: center; font-weight: 700; color: #166534;">{{ $q->correct_answer }}</div>
+                    <div style="text-align: center;">
+                        <span class="status-badge {{ $isCorrect ? 'status-correct' : 'status-wrong' }}">
+                            {{ $isCorrect ? 'Correct' : 'Wrong' }}
+                        </span>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection
@@ -135,6 +289,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // Toggle Answersheet
+        window.toggleAnswersheet = function() {
+            const sheet = document.getElementById('answersheet');
+            if (sheet.style.display === 'block') {
+                sheet.style.display = 'none';
+            } else {
+                sheet.style.display = 'block';
+                sheet.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
         const scoresData = @json($session->aptitude_scores);
         
         const labels = Object.keys(scoresData).map(slug => {
