@@ -6,6 +6,7 @@ use App\Http\Controllers\CareerPathController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AuthController;
 
 // Main pages
 Route::get('/', function () {
@@ -60,17 +61,29 @@ Route::get('/explore/gaming-careers', [ExploreController::class, 'gamingCareers'
 Route::get('/explore/freelancing', [ExploreController::class, 'freelancing'])->name('explore.freelancing');
 Route::get('/explore/non-traditional-careers', [ExploreController::class, 'nonTraditionalCareers'])->name('explore.non-traditional-careers');
 
-// Aptitude Test
-Route::get('/test', [TestController::class, 'start'])->name('test.start');
-Route::get('/test/quiz', [TestController::class, 'quiz'])->name('test.quiz');
-Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
-Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
+// Auth Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');
+    Route::post('/signup', [AuthController::class, 'signup'])->name('signup.submit');
+});
 
-// Quick Test
-Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
-Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
-Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
-Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Aptitude Test
+    Route::get('/test', [TestController::class, 'start'])->name('test.start');
+    Route::get('/test/quiz', [TestController::class, 'quiz'])->name('test.quiz');
+    Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
+    Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
+
+    // Quick Test
+    Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
+    Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
+    Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
+    Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
+});
 
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
@@ -80,5 +93,6 @@ Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('adm
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Admin Suggestions (NO middleware for now)
+// Admin Suggestions & Users (NO middleware for now)
 Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
+Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');

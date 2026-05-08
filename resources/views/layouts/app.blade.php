@@ -181,7 +181,7 @@
   }
 
   .nav-left { flex: 1; display: flex; justify-content: flex-start; }
-  .nav-center { position: absolute; left: 50%; transform: translateX(-50%); display: flex; justify-content: center; }
+  .nav-center { display: flex; justify-content: center; white-space: nowrap; }
   .nav-right { flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 16px; }
 
   .nav-actions { display: flex; align-items: center; gap: 16px; }
@@ -510,12 +510,27 @@
             <span style="color: var(--text-3); font-style: italic;">Search...</span>
             <i class="fa-solid fa-search" style="font-size: 16px; color: var(--text-1);"></i>
           </button>
-          <a href="{{ route('quick-test.start') }}" class="nav-cta">
-            <i class="fa-solid fa-gauge-high"></i> Quick Test
-          </a>
-          <a href="{{ route('test.quiz') }}" class="nav-cta">
-            <i class="fa-solid fa-bolt"></i> Advance Test
-          </a>
+          @auth
+            <a href="{{ route('quick-test.start') }}" class="nav-cta" style="background: var(--surface); color: var(--text-1); border: 1px solid var(--border);">
+              <i class="fa-solid fa-gauge-high" style="color: var(--brand);"></i> Quick Test
+            </a>
+            <a href="{{ route('test.start') }}" class="nav-cta">
+              <i class="fa-solid fa-bolt"></i> Advance Test
+            </a>
+            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+              @csrf
+              <button type="submit" class="nav-cta" style="background: #fee2e2; color: #b91c1c; padding: 0 16px;">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+              </button>
+            </form>
+          @else
+            <a href="{{ route('login') }}" class="nav-cta" style="background: transparent; color: var(--text-2); padding: 0 10px;">
+              Sign In
+            </a>
+            <a href="{{ route('signup') }}" class="nav-cta">
+              Sign Up
+            </a>
+          @endauth
         </div>
         <button class="nav-mobile-btn" id="mobileBtn" aria-label="Menu">
           <i class="fa-solid fa-bars"></i>
