@@ -748,7 +748,7 @@
 
         <div class="hero-badge">
           <i class="fa-solid fa-building-columns"></i>
-          Brought to you by Indian Institute of Career Management
+          Indian Institute of Career Management
         </div>
       </div>
 
@@ -773,12 +773,12 @@
 
       <div class="hero-stats fade-up" style="animation-delay:.46s;opacity:0;">
         <div class="hero-stat">
-          <strong>500+</strong>
+          <strong>5000+</strong>
           <span>Career Paths</span>
         </div>
 
         <div class="hero-stat">
-          <strong>12</strong>
+          <strong>50+</strong>
           <span>Fields Covered</span>
         </div>
 
@@ -973,7 +973,7 @@
 
     <div style="text-align:center; margin-top:36px;">
       <button onclick="location.href='{{ url('/explore') }}'" style="font-size:15px;font-weight:600;color:var(--brand);background:var(--brand-light);padding:12px 32px;border-radius:var(--radius-lg);border:1.5px solid rgba(26,86,219,.2);cursor:pointer;">
-        <i class="fa-solid fa-grid"></i> &nbsp;View All 500+ Careers
+        <i class="fa-solid fa-grid"></i> &nbsp;View All 5000+ Careers
       </button>
     </div>
   </div>
@@ -982,16 +982,11 @@
 <section class="section">
   <div class="container">
     <div class="cta-section">
-      <div style="margin-bottom:14px;">
-        <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#e0eaff;font-size:13px;font-weight:500;padding:6px 16px;border-radius:999px;">
-          <i class="fa-solid fa-bolt" style="color:#fbbf24;"></i> &nbsp;Free · No Registration Required
-        </span>
-      </div>
 
       <h2>Not sure which career is right for you?</h2>
 
       <p>
-        Take our free AI-powered career test — answer 40 questions and get personalised career recommendations tailored to your interests and strengths.
+        Take our free AI-powered career test — answer 16 questions and get personalised career recommendations tailored to your interests and strengths.
       </p>
 
       <a href="{{ route('test.start') }}" class="btn-cta">
@@ -1001,8 +996,7 @@
       </a>
 
       <div class="cta-features">
-        <div class="cta-feat"><i class="fa-solid fa-check-circle"></i> Takes only 5 minutes</div>
-        <div class="cta-feat"><i class="fa-solid fa-check-circle"></i> No sign-up needed</div>
+        <div class="cta-feat"><i class="fa-solid fa-check-circle"></i> Takes only 20 minutes</div>
         <div class="cta-feat"><i class="fa-solid fa-check-circle"></i> Personalised results</div>
         <div class="cta-feat"><i class="fa-solid fa-check-circle"></i> Expert roadmaps included</div>
       </div>

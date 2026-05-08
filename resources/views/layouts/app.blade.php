@@ -9,7 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+<link rel="icon" type="image/png" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
+<link rel="shortcut icon" href="{{ asset('careergyan-tab-logo.ico') }}?v=10">
+<link rel="apple-touch-icon" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
 <style>
   :root {
     --brand: #1a56db;

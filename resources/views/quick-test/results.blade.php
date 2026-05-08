@@ -92,6 +92,113 @@
         border-radius: 4px;
         font-weight: 600;
     }
+
+    /* Answersheet Styles */
+    .answersheet-section {
+        display: none;
+        margin-top: 40px;
+        padding: 30px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+    }
+    .answer-row {
+        padding: 15px;
+        border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 80px 2fr 1fr 1fr 80px;
+        gap: 15px;
+        align-items: center;
+    }
+    .answer-row:last-child { border-bottom: none; }
+    .answer-row.correct { background: #f0fdf4; }
+    .answer-row.wrong { background: #fef2f2; }
+    .status-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .status-correct { background: #dcfce7; color: #166534; }
+    .status-wrong { background: #fee2e2; color: #991b1b; }
+    
+    .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 40px;
+    }
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 50px;
+        padding: 0 30px;
+        background: var(--brand);
+        color: #fff;
+        border-radius: var(--radius-md);
+        font-weight: 700;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        box-shadow: var(--shadow-sm);
+    }
+    .action-btn:hover {
+        background: var(--brand-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: #fff;
+    }
+    .action-btn.btn-outline {
+        background: #fff;
+        color: var(--brand);
+        border: 1.5px solid var(--brand);
+        box-shadow: none;
+    }
+    .action-btn.btn-outline:hover {
+        background: var(--brand-light);
+        color: var(--brand);
+    }
+
+    .cta-advanced {
+        background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+        border-radius: var(--radius-lg);
+        padding: 40px;
+        color: #fff;
+        text-align: center;
+        margin-top: 40px;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        overflow: hidden;
+    }
+    .cta-advanced::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+        pointer-events: none;
+    }
+    .cta-advanced h2 {
+        font-family: 'Sora', sans-serif;
+        font-size: 26px;
+        font-weight: 800;
+        margin-bottom: 12px;
+        color: #fff;
+    }
+    .cta-advanced p {
+        font-size: 16px;
+        color: rgba(255,255,255,0.9);
+        max-width: 600px;
+        margin: 0 auto 30px;
+        line-height: 1.6;
+    }
 </style>
 @endsection
 
@@ -101,9 +208,8 @@
         {{-- Header --}}
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
             <div>
-                <span class="section-label">Tamanna Aptitude Report</span>
+                <span class="section-label">Aptitude Report</span>
                 <h1 class="section-title" style="margin-top: 10px; color: var(--brand);">Aptitude Profile Analysis</h1>
-                <p style="color: var(--text-2); margin-top: 5px;">Based on NCERT Tamanna Aptitude Test Guidelines.</p>
             </div>
             <div style="text-align: right;">
                 <div style="font-size: 14px; color: var(--text-3); font-weight: 600;">Student ID: #{{ substr($attempt->uuid, 0, 8) }}</div>
@@ -150,7 +256,7 @@
         {{-- Charts Row --}}
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 30px;">
             <div class="stat-card">
-                <h3 style="font-family: 'Sora', sans-serif; font-size: 18px; margin-bottom: 25px; color: var(--brand);">Sectional Aptitude Graph (Tamanna Profile)</h3>
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 18px; margin-bottom: 25px; color: var(--brand);">Sectional Aptitude Graph</h3>
                 <div class="chart-container">
                     <canvas id="sectionChart"></canvas>
                 </div>
@@ -166,7 +272,7 @@
         {{-- Recommendation Section --}}
         <div class="rec-section">
             <h3 style="font-size: 20px; font-weight: 800; color: var(--text-1); margin-bottom: 10px;">Suggested Educational & Vocational Areas</h3>
-            <p style="color: var(--text-3); font-size: 14px;">Based on your top aptitude strengths (Tamanna Appendix VII & VIII).</p>
+            <p style="color: var(--text-3); font-size: 14px;">Based on your top aptitude strengths.</p>
             
             <div class="rec-grid">
                 @foreach($attempt->recommended_careers as $rec)
@@ -198,14 +304,65 @@
             </div>
         </div>
 
+        {{-- Advanced Test CTA --}}
+        <div class="cta-advanced fade-up">
+            <h2>Not sure which career path is right for you?</h2>
+            <p>Take our Advanced Test for a deeper aptitude analysis and more accurate career recommendations.</p>
+            <div style="display: flex; justify-content: center;">
+                <a href="{{ route('test.start') }}" class="action-btn" style="background: var(--accent); color: var(--brand-dark); box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);">
+                    <i class="fa-solid fa-bolt"></i> Take Advanced Test
+                </a>
+            </div>
+        </div>
+
         {{-- Actions --}}
-        <div style="text-align: center; margin-top: 50px;">
-            <button onclick="window.print()" class="nav-btn btn-back" style="display: inline-flex; margin-right: 15px;">
-                <i class="fa-solid fa-print"></i> Download Report
+        <div class="btn-group">
+            <button onclick="toggleAnswersheet()" class="action-btn btn-outline">
+                <i class="fa-solid fa-list-check"></i> Show Answersheet
             </button>
-            <a href="{{ url('/explore') }}" class="nav-cta" style="height: 50px; padding: 0 40px;">
-                Explore Detailed Career Paths <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i>
+            <button onclick="window.print()" class="action-btn">
+                <i class="fa-solid fa-file-pdf"></i> Download Report
+            </button>
+            <a href="{{ url('/explore') }}" class="action-btn" style="background: var(--text-1);">
+                Explore Careers <i class="fa-solid fa-arrow-right"></i>
             </a>
+        </div>
+
+        {{-- Answersheet Section --}}
+        <div id="answersheet" class="answersheet-section">
+            <h3 style="font-size: 20px; font-weight: 800; color: var(--text-1); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-file-invoice" style="color: var(--brand);"></i> 
+                Detailed Answer Review
+            </h3>
+            
+            <div class="answer-row" style="background: #f8fafc; font-weight: 700; border-radius: 8px 8px 0 0; border-bottom: 2px solid var(--border);">
+                <div>Q. No</div>
+                <div>Question Section</div>
+                <div style="text-align: center;">Selected</div>
+                <div style="text-align: center;">Correct</div>
+                <div style="text-align: center;">Result</div>
+            </div>
+
+            @php $answers = $attempt->answers ?? []; @endphp
+            @foreach($questions as $index => $q)
+                @php 
+                    $userAns = $answers[$q->id] ?? 'N/A';
+                    $isCorrect = ($userAns === $q->correct_option);
+                @endphp
+                <div class="answer-row {{ $isCorrect ? 'correct' : 'wrong' }}">
+                    <div style="font-weight: 800; color: var(--text-3);">#{{ $index + 1 }}</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 700; color: var(--text-1);">{{ $q->section }}</div>
+                    </div>
+                    <div style="text-align: center; font-weight: 700;">Option {{ $userAns }}</div>
+                    <div style="text-align: center; font-weight: 700; color: #166534;">Option {{ $q->correct_option }}</div>
+                    <div style="text-align: center;">
+                        <span class="status-badge {{ $isCorrect ? 'status-correct' : 'status-wrong' }}">
+                            {{ $isCorrect ? 'Correct' : 'Wrong' }}
+                        </span>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
@@ -215,6 +372,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Toggle Answersheet
+        window.toggleAnswersheet = function() {
+            const sheet = document.getElementById('answersheet');
+            if (sheet.style.display === 'block') {
+                sheet.style.display = 'none';
+            } else {
+                sheet.style.display = 'block';
+                sheet.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
         // Sectional Performance Chart
         const sectionalCtx = document.getElementById('sectionChart');
         if (sectionalCtx) {

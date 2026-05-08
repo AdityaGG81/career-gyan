@@ -45,7 +45,7 @@ class QuickTestController extends Controller
             }
         }
         
-        $recommendations = $this->getTamannaRecommendations($sectionScores);
+        $recommendations = $this->getAptitudeRecommendations($sectionScores);
         
         $attempt = QuickTestAttempt::create([
             'uuid' => (string) Str::uuid(),
@@ -64,7 +64,7 @@ class QuickTestController extends Controller
     {
         $attempt = QuickTestAttempt::where('uuid', $uuid)->firstOrFail();
         
-        // Categorize based on Tamanna levels
+        // Categorize based on aptitude levels
         $highAptitude = [];
         $averageAptitude = [];
         $lowAptitude = [];
@@ -95,10 +95,12 @@ class QuickTestController extends Controller
         // Generate Profile Paragraph
         $profileParagraph = $this->generateProfileParagraph($highAptitude, $averageAptitude);
         
-        return view('quick-test.results', compact('attempt', 'highAptitude', 'averageAptitude', 'lowAptitude', 'profileParagraph'));
+        $questions = \App\Models\QuickTestQuestion::all();
+        
+        return view('quick-test.results', compact('attempt', 'highAptitude', 'averageAptitude', 'lowAptitude', 'profileParagraph', 'questions'));
     }
 
-    private function getTamannaRecommendations($scores)
+    private function getAptitudeRecommendations($scores)
     {
         $sectionMax = [
             'Language Aptitude' => 2,
@@ -110,7 +112,7 @@ class QuickTestController extends Controller
             'Perceptual Aptitude' => 4,
         ];
 
-        // Mappings based on Tamanna Booklet
+        // Mappings based on career guidelines
         $mappings = [
             'Language Aptitude' => [
                 'areas' => ['Journalism', 'Advertising', 'Law', 'Business Development'],
