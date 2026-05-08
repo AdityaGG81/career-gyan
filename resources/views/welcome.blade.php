@@ -767,23 +767,23 @@
         </a>
 
         <a href="{{ route('test.start') }}" class="btn-outline">
-          <i class="fa-solid fa-bolt"></i> Advance Test
+          <i class="fa-solid fa-bolt"></i> Take Free Test
         </a>
       </div>
 
       <div class="hero-stats fade-up" style="animation-delay:.46s;opacity:0;">
         <div class="hero-stat">
-          <strong>5000+</strong>
+          <strong>500+</strong>
           <span>Career Paths</span>
         </div>
 
         <div class="hero-stat">
-          <strong>21</strong>
+          <strong>12</strong>
           <span>Fields Covered</span>
         </div>
 
         <div class="hero-stat">
-          <strong>Advance</strong>
+          <strong>Free</strong>
           <span>Career Test</span>
         </div>
 
@@ -884,6 +884,9 @@
   </div>
 </section>
 
+
+
+    
 
 <section class="section" id="careers" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
   <div class="container">
@@ -988,12 +991,12 @@
       <h2>Not sure which career is right for you?</h2>
 
       <p>
-        Take our Advance AI-powered career test — answer 40 questions and get personalised career recommendations tailored to your interests and strengths.
+        Take our free AI-powered career test — answer 40 questions and get personalised career recommendations tailored to your interests and strengths.
       </p>
 
       <a href="{{ route('test.start') }}" class="btn-cta">
         <i class="fa-solid fa-bolt" style="color:var(--accent);"></i>
-        Take Advance Career Test
+        Take Free Career Test
         <i class="fa-solid fa-arrow-right"></i>
       </a>
 
