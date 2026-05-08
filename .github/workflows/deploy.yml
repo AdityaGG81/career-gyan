@@ -30,6 +30,8 @@ jobs:
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /repositories/career-gyan/
+          protocol: ftp
+          log-level: verbose
           exclude: |
             **/.git*
             **/.git*/**
@@ -47,6 +49,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public/
           server-dir: /public_html/
+          protocol: ftp
+          log-level: verbose
           exclude: |
             index.php
             .htaccess
