@@ -19,7 +19,11 @@ class AdminAuthController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        if ($username === 'admin' && $password === 'admin123') {
+        // Read from .env, falling back to config cache, falling back to default
+        $envUsername = env('ADMIN_USERNAME') ?? config('services.admin.username') ?? 'admin';
+        $envPassword = env('ADMIN_PASSWORD') ?? config('services.admin.password') ?? 'admin123';
+
+        if (trim($username) === trim($envUsername) && trim($password) === trim($envPassword)) {
             session(['admin_logged_in' => true]);
             return redirect()->route('admin.suggestions');
         }
