@@ -47,6 +47,13 @@
     color: var(--text-1);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
   }
 
   a {
@@ -504,7 +511,7 @@
           <a href="{{ route('quick-test.start') }}" class="nav-cta">
             <i class="fa-solid fa-gauge-high"></i> Quick Test
           </a>
-          <a href="{{ route('test.start') }}" class="nav-cta">
+          <a href="{{ route('test.quiz') }}" class="nav-cta">
             <i class="fa-solid fa-bolt"></i> Advance Test
           </a>
         </div>
@@ -551,7 +558,9 @@
 </div>
 
 <!-- PAGE CONTENT -->
-@yield('content')
+<main>
+    @yield('content')
+</main>
 
 <!-- FOOTER -->
 <footer>

@@ -53,46 +53,25 @@
 @endsection
 
 @section('content')
-<main>
     <div class="container">
         <div class="quiz-container" id="quizApp">
             
             <div class="quiz-header">
-                <h2>Skill Assessment</h2>
-                <div class="quiz-progress"><span id="currentStepNum">1</span> / <span id="totalStepsNum">?</span></div>
+                <h2>Aptitude Assessment</h2>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px; font-family: 'Sora'; font-weight: 700; color: var(--text-1); background: white; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);">
+                        <i class="fa-solid fa-clock" style="color: var(--brand);"></i>
+                        <span id="advanceTimer">60:00</span>
+                    </div>
+                    <div class="quiz-progress"><span id="currentStepNum">1</span> / <span id="totalStepsNum">?</span></div>
+                </div>
             </div>
             
             <div class="progress-bar">
                 <div class="progress-bar-fill" id="progressBar"></div>
             </div>
 
-            <!-- Profile Step -->
-            <div class="step active" id="step-profile">
-                <div class="question-text">Let's personalize your results</div>
-                <p style="color: var(--text-2); margin-bottom: 30px;">Tell us a bit about your background so we can match you with the best fit careers.</p>
-                
-                <div class="form-group">
-                    <label>Current Qualification Level</label>
-                    <select class="form-control" id="inputQual">
-                        <option value="">Select Qualification...</option>
-                        <option value="high_school">High School (10th/12th)</option>
-                        <option value="bachelors">Bachelor's Degree</option>
-                        <option value="masters">Master's Degree</option>
-                        <option value="diploma">Diploma / Certification</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Expected Budget for Education/Training (₹)</label>
-                    <select class="form-control" id="inputBudget">
-                        <option value="">Select Budget...</option>
-                        <option value="50000">< ₹50,000</option>
-                        <option value="150000">₹50,000 - ₹2,00,000</option>
-                        <option value="500000">₹2,00,000 - ₹10,00,000</option>
-                        <option value="1000000">> ₹10,00,000 (No Constraint)</option>
-                    </select>
-                </div>
-            </div>
+            <!-- Quiz Steps injected by JS below -->
 
             <!-- Quiz Steps injected by JS below -->
             <div id="quizQuestionsContainer"></div>
@@ -104,7 +83,6 @@
 
         </div>
     </div>
-</main>
 @endsection
 
 @section('scripts')
@@ -113,7 +91,7 @@
     
     // Application State
     const state = {
-        currentStep: -1, // -1 is Profile, 0 is first question
+        currentStep: 0, // 0 is first question
         totalQuestions: questionsData.length,
         answers: {}, // question_id => answer string
         profile: {
@@ -123,7 +101,6 @@
     };
 
     const DOM = {
-        stepProfile: document.getElementById('step-profile'),
         questionsContainer: document.getElementById('quizQuestionsContainer'),
         btnNext: document.getElementById('btnNext'),
         btnPrev: document.getElementById('btnPrev'),
@@ -200,35 +177,24 @@
 
     function updateView() {
         // Update Progress Bar
-        if (state.currentStep === -1) {
-            DOM.quizProgress.style.display = 'none';
-            DOM.progressFill.style.width = '0%';
-        } else {
-            DOM.quizProgress.style.display = 'block';
-            DOM.currentStepNum.innerText = state.currentStep + 1;
-            const pct = ((state.currentStep + 1) / state.totalQuestions) * 100;
-            DOM.progressFill.style.width = pct + '%';
-        }
+        DOM.quizProgress.style.display = 'block';
+        DOM.currentStepNum.innerText = state.currentStep + 1;
+        const pct = ((state.currentStep + 1) / state.totalQuestions) * 100;
+        DOM.progressFill.style.width = pct + '%';
 
         // Hide all steps
-        DOM.stepProfile.classList.remove('active');
         document.querySelectorAll('[id^="step-q-"]').forEach(el => el.classList.remove('active'));
 
         // Show active step
-        if (state.currentStep === -1) {
-            DOM.stepProfile.classList.add('active');
-            DOM.btnPrev.style.visibility = 'hidden';
-            DOM.btnNext.innerText = 'Continue to Quiz';
+        const stepEl = document.getElementById('step-q-' + state.currentStep);
+        if (stepEl) stepEl.classList.add('active');
+        
+        DOM.btnPrev.style.visibility = (state.currentStep === 0) ? 'hidden' : 'visible';
+        
+        if (state.currentStep === state.totalQuestions - 1) {
+            DOM.btnNext.innerText = 'Submit & Get Results';
         } else {
-            const stepEl = document.getElementById('step-q-' + state.currentStep);
-            if (stepEl) stepEl.classList.add('active');
-            DOM.btnPrev.style.visibility = 'visible';
-            
-            if (state.currentStep === state.totalQuestions - 1) {
-                DOM.btnNext.innerText = 'Submit & Get Results';
-            } else {
-                DOM.btnNext.innerText = 'Next Question';
-            }
+            DOM.btnNext.innerText = 'Next Question';
         }
         
         validateStep();
@@ -236,26 +202,14 @@
 
     function validateStep() {
         let isValid = false;
-        if (state.currentStep === -1) {
-            const qual = document.getElementById('inputQual').value;
-            const budget = document.getElementById('inputBudget').value;
-            if (qual && budget) isValid = true;
-        } else {
-            const currentQ = questionsData[state.currentStep];
-            if (state.answers[currentQ.id]) isValid = true;
-        }
+        const currentQ = questionsData[state.currentStep];
+        if (currentQ && state.answers[currentQ.id]) isValid = true;
         DOM.btnNext.disabled = !isValid;
     }
 
     // Event Listeners
-    document.getElementById('inputQual').addEventListener('change', validateStep);
-    document.getElementById('inputBudget').addEventListener('change', validateStep);
 
     DOM.btnNext.addEventListener('click', () => {
-        if (state.currentStep === -1) {
-            state.profile.qual = document.getElementById('inputQual').value;
-            state.profile.budget = document.getElementById('inputBudget').value;
-        }
 
         if (state.currentStep === state.totalQuestions - 1) {
             submitQuiz();
@@ -266,7 +220,7 @@
     });
 
     DOM.btnPrev.addEventListener('click', () => {
-        if (state.currentStep > -1) {
+        if (state.currentStep > 0) {
             state.currentStep--;
             updateView();
         }
@@ -303,5 +257,28 @@
     // Init
     renderQuestions();
     updateView();
+
+    // 60-Minute Timer Logic
+    let timeLeft = 60 * 60; // 60 minutes in seconds
+    const timerDisplay = document.getElementById('advanceTimer');
+
+    const countdown = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            alert("Time's up! Your assessment will be submitted automatically.");
+            submitQuiz();
+        }
+        
+        if (timeLeft < 300) { // Warning color at 5 minutes
+            timerDisplay.style.color = "#dc2626";
+        }
+        
+        timeLeft--;
+    }, 1000);
 </script>
 @endsection

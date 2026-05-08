@@ -26,7 +26,6 @@
 @endsection
 
 @section('content')
-<main>
     <div class="results-hero">
         <div class="container fade-up">
             <span class="section-label" style="background: rgba(255,255,255,0.2); color: white; margin-bottom: 12px;">
@@ -130,7 +129,6 @@
             </div> <!-- End Display Flex right col -->
         </div>
     </div>
-</main>
 @endsection
 
 @section('scripts')

@@ -14,7 +14,7 @@ class TestController extends Controller
 {
     public function start()
     {
-        return view('test.start');
+        return redirect()->route('test.quiz');
     }
 
     public function quiz()
