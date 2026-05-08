@@ -23,34 +23,33 @@ jobs:
           npm ci
           npm run build
 
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install lftp -y
+
       - name: Sync App Files to Repositories
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /repositories/career-gyan/
-          protocol: ftp
-          log-level: verbose
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/vendor/**
-            **/public/**
-            .env
-            tests/**
+        env:
+          FTP_HOST: ${{ secrets.CPANEL_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+            set ftp:ssl-allow no;
+            set net:timeout 10;
+            open -u $FTP_USER,$FTP_PASS $FTP_HOST;
+            mirror -R -X .git/ -X node_modules/ -X vendor/ -X public/ -X tests/ -X .env ./ repositories/career-gyan/;
+            quit
+          "
 
       - name: Sync Public Files to Public_HTML
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./public/
-          server-dir: /public_html/
-          protocol: ftp
-          log-level: verbose
-          exclude: |
-            index.php
-            .htaccess
+        env:
+          FTP_HOST: ${{ secrets.CPANEL_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_USERNAME }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+            set ftp:ssl-allow no;
+            set net:timeout 10;
+            open -u $FTP_USER,$FTP_PASS $FTP_HOST;
+            mirror -R -X .git/ -X index.php -X .htaccess ./public/ public_html/;
+            quit
+          "
