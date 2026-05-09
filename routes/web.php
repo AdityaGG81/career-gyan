@@ -27,6 +27,9 @@ Route::get('/explore/field/{field}', [ExploreController::class, 'byField'])->nam
 Route::post('/explore/subjects', [ExploreController::class, 'bySubjects'])->name('explore.subjects');
 Route::get('/explore/career/{career}', [ExploreController::class, 'careerDetail'])->name('explore.career');
 
+// Career detail page (SEO-friendly)
+Route::get('/career/{slug}', [ExploreController::class, 'careerDetailPage'])->name('career.detail.page');
+
 // College pages
 Route::get('/explore/engineering-colleges', [ExploreController::class, 'engineeringColleges'])->name('explore.engineering-colleges');
 Route::get('/explore/medical-colleges', [ExploreController::class, 'medicalColleges'])->name('explore.medical-colleges');

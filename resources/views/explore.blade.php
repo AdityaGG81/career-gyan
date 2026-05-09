@@ -301,6 +301,13 @@ body {
         }
     });
 
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            searchCareers();
+        }
+    });
+
     // --- Data Fetching ---
     function fetchByField(fieldId) {
         showLoading();
@@ -387,7 +394,7 @@ body {
         container.innerHTML = "";
 
         if(list.length === 0) {
-            container.innerHTML = "<p>No careers found. Try adjusting your filters.</p>";
+            container.innerHTML = "<p style='text-align:center; padding:40px; font-size:18px; color:var(--text-2); width:100%; grid-column:1/-1;'>No matching careers found. Try another keyword.</p>";
             return;
         }
 

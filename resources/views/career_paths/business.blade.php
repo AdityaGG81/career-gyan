@@ -1,0 +1,236 @@
+@extends('layouts.app')
+
+@section('title', 'Business & Management Career Paths | Career Gyan')
+
+@section('styles')
+<style>
+    :root {
+        --biz-primary: #3b82f6;
+        --glass-bg: rgba(255,255,255,0.06);
+        --glass-border: rgba(255,255,255,0.12);
+    }
+    body { background: #0f172a; color: #fff; }
+
+    /* ── Hero ── */
+    .biz-hero {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #06b6d4 100%);
+        padding: 110px 0 100px;
+        text-align: center;
+        border-radius: 0 0 60px 60px;
+        position: relative;
+        overflow: hidden;
+    }
+    .biz-hero::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        opacity: 0.08;
+        pointer-events: none;
+    }
+
+    .back-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: #fff; background: rgba(255,255,255,.15); backdrop-filter: blur(10px);
+        padding: 10px 22px; border-radius: 30px; margin-bottom: 28px;
+        font-weight: 600; font-size: 14px; transition: all .3s;
+        border: 1px solid rgba(255,255,255,.25); text-decoration: none;
+    }
+    .back-btn:hover { background: rgba(255,255,255,.28); transform: translateX(-5px); color: #fff; }
+
+    /* ── Stats ── */
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin: -50px auto 70px;
+        position: relative; z-index: 10;
+        max-width: 1140px; padding: 0 20px;
+    }
+    .stat-box {
+        background: rgba(255,255,255,.08); backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,.15);
+        padding: 30px 20px; border-radius: 24px; text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,.2); transition: transform .3s;
+    }
+    .stat-box:hover { transform: translateY(-10px); }
+    .stat-num {
+        font-family: 'Sora', sans-serif; font-size: 34px; font-weight: 900;
+        background: linear-gradient(to right, #fff, #93c5fd);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        margin-bottom: 6px;
+    }
+    .stat-label { font-size: 13px; color: #94a3b8; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ── Grid ── */
+    .career-path-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 28px; margin-bottom: 50px;
+    }
+
+    /* ── Card ── */
+    .path-card {
+        background: var(--glass-bg); backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: 28px; overflow: hidden;
+        transition: all .4s cubic-bezier(.4,0,.2,1);
+        display: block; text-decoration: none;
+        position: relative;
+    }
+    .path-card:hover {
+        transform: translateY(-14px);
+        box-shadow: 0 30px 60px rgba(59,130,246,.3);
+        border-color: rgba(59,130,246,.5);
+        text-decoration: none;
+    }
+    .path-img-wrapper { position: relative; height: 210px; overflow: hidden; }
+    .path-img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .path-card:hover .path-img { transform: scale(1.1); }
+    .path-overlay {
+        position: absolute; bottom: 0; left: 0; right: 0; padding: 20px;
+        background: linear-gradient(to top, rgba(15,23,42,.9), transparent);
+    }
+    .path-icon {
+        position: absolute; top: 16px; right: 16px;
+        width: 42px; height: 42px; background: rgba(37,99,235,.85);
+        border-radius: 14px; display: flex; align-items: center; justify-content: center;
+        font-size: 18px; color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,.3);
+    }
+    .path-title {
+        font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 800;
+        color: #fff; margin-top: 8px;
+    }
+    .path-body { padding: 22px; }
+    .path-desc {
+        color: #94a3b8; font-size: 13.5px; line-height: 1.65; margin-bottom: 18px;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .view-details {
+        display: flex; align-items: center; gap: 8px;
+        color: var(--biz-primary); font-weight: 700; font-size: 14.5px; transition: all .3s;
+    }
+    .path-card:hover .view-details { gap: 13px; color: #0ea5e9; }
+
+    /* Shine sweep */
+    .path-card::after {
+        content: ''; position: absolute; top: 0; left: -100%;
+        width: 50%; height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,.08), transparent);
+        transform: skewX(-25deg); transition: .75s;
+    }
+    .path-card:hover::after { left: 150%; }
+
+    /* Salary badge */
+    .salary-badge {
+        display: inline-block; font-size: 12px; font-weight: 700;
+        padding: 3px 10px; border-radius: 12px;
+        background: rgba(16,185,129,.15); color: #34d399;
+        border: 1px solid rgba(16,185,129,.3); margin-bottom: 10px;
+    }
+
+    /* Pagination */
+    .pagination .page-link {
+        background: var(--glass-bg); border: 1px solid var(--glass-border);
+        color: #fff; border-radius: 10px; margin: 0 4px; padding: 10px 16px;
+    }
+    .pagination .page-link:hover,
+    .pagination .active .page-link { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+    .pagination { justify-content: center; margin-bottom: 60px; }
+
+    @media(max-width:768px) {
+        .biz-hero { padding: 80px 0 80px; border-radius: 0 0 40px 40px; }
+        .career-path-grid { grid-template-columns: 1fr; }
+        .stats-container { grid-template-columns: repeat(2, 1fr); margin-top: -30px; }
+    }
+</style>
+@endsection
+
+@section('content')
+
+{{-- ── HERO ── --}}
+<section class="biz-hero">
+    <div class="container" style="position:relative;z-index:2;">
+        <a href="{{ route('explore.index') }}" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Back to Explore
+        </a>
+        <h1 style="font-family:'Sora';font-size:clamp(30px,6vw,56px);font-weight:900;margin-bottom:16px;color:#fff;">
+            Business & Management
+        </h1>
+        <p style="font-size:clamp(15px,2vw,20px);opacity:.9;max-width:760px;margin:0 auto;color:#cbd5e1;line-height:1.7;">
+            Lead the future of commerce. Master strategy, finance, and leadership to thrive in the global corporate landscape.
+        </p>
+    </div>
+</section>
+
+<div class="container">
+
+    {{-- ── STATS ── --}}
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Core Fields</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">{{ $careers->total() }}+</div>
+            <div class="stat-label">Career Paths</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">200+</div>
+            <div class="stat-label">Colleges</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num">5000+</div>
+            <div class="stat-label">Job Roles</div>
+        </div>
+    </div>
+
+    {{-- ── SECTION HEADING ── --}}
+    <h2 style="font-family:'Sora';font-size:clamp(20px,3vw,30px);font-weight:800;margin-bottom:40px;text-align:center;color:#fff;">
+        Explore {{ $careers->total() }} Leadership & Strategy Roles
+    </h2>
+
+    {{-- ── CAREER GRID ── --}}
+    <div class="career-path-grid">
+        @foreach($careers as $path)
+        <a href="{{ route('career.detail.page', $path->slug) }}" class="path-card">
+            <div class="path-img-wrapper">
+                <img
+                    src="{{ $path->image ?? 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80' }}"
+                    alt="{{ $path->name }}"
+                    class="path-img"
+                    loading="lazy"
+                    onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80';"
+                >
+                <div class="path-icon">
+                    <i class="fa-solid {{ $path->icon ?? 'fa-briefcase' }}"></i>
+                </div>
+                <div class="path-overlay">
+                    <div class="path-title">{{ $path->name }}</div>
+                </div>
+            </div>
+            <div class="path-body">
+                <span class="salary-badge">{{ $path->salary_range }}</span>
+                <p class="path-desc">{{ $path->description }}</p>
+                <div class="view-details">
+                    View Details <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+        </a>
+        @endforeach
+    </div>
+
+    {{-- ── PAGINATION ── --}}
+    {{ $careers->withQueryString()->links() }}
+
+    {{-- ── CTA ── --}}
+    <div style="text-align:center;margin-bottom:80px;">
+        <a href="{{ route('explore.index') }}"
+           style="display:inline-block;padding:18px 52px;font-size:16px;border-radius:30px;
+                  background:linear-gradient(to right,#3b82f6,#06b6d4);color:#fff;font-weight:700;
+                  box-shadow:0 12px 30px rgba(59,130,246,.4);text-decoration:none;transition:all .3s;">
+            Explore More Career Streams
+        </a>
+    </div>
+</div>
+@endsection

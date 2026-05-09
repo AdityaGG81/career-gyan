@@ -701,7 +701,7 @@
           searchResults.innerHTML = `
             <div class="search-empty">
               <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
-              <p>No results found for "${query}"</p>
+              <p>No matching careers found. Try another keyword.</p>
             </div>
           `;
           return;
@@ -709,18 +709,16 @@
 
         // Render Config Careers (Detailed Paths)
         if (data.config_careers.length > 0) {
-          html += `<div class="search-section-title">Comprehensive Career Paths</div>`;
-          data.config_careers.forEach(c => {
-            let badgeHtml = c.matched_career ? `<span class="search-item-badge" style="background: rgba(255,255,255,0.2); color:#1e293b; border: 1px solid #cbd5e1;">Includes: ${c.matched_career}</span>` : '';
+          html += `<div class="search-section-title">Fields & Streams</div>`;
+          data.config_careers.forEach(f => {
             html += `
-              <a href="/career-path/${c.stream}" class="search-item" onclick="closeSearch()">
-                <div class="search-item-icon" style="background: ${c.bg_color}; color: #fff;">
-                  <i class="fa-solid ${c.icon}"></i>
+              <a href="/career-path/${f.slug}" class="search-item" onclick="closeSearch()">
+                <div class="search-item-icon" style="background: ${f.bg_color}; color: ${f.color};">
+                  <i class="fa-solid ${f.icon}"></i>
                 </div>
                 <div class="search-item-content">
-                  <h4>${c.subject_name}</h4>
-                  <p>Found in <strong>${c.stream_title}</strong></p>
-                  ${badgeHtml}
+                  <h4>${f.name}</h4>
+                  <p>Explore this entire field</p>
                 </div>
               </a>
             `;
@@ -729,10 +727,10 @@
 
         // Render Database Careers
         if (data.db_careers.length > 0) {
-          html += `<div class="search-section-title">Database Careers</div>`;
+          html += `<div class="search-section-title">Career Paths</div>`;
           data.db_careers.forEach(c => {
             html += `
-              <a href="/explore?q=${encodeURIComponent(c.name)}" class="search-item" onclick="closeSearch()">
+              <a href="/career/${c.slug}" class="search-item" onclick="closeSearch()">
                 <div class="search-item-icon" style="background: ${c.bg_color}; color: ${c.color};">
                   <i class="fa-solid ${c.icon}"></i>
                 </div>

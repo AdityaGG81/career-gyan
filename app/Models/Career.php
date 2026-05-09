@@ -12,10 +12,16 @@ class Career extends Model
         'name', 'slug', 'field_id', 'description',
         'qualification', 'stream', 'salary_range',
         'demand_level', 'roadmap', 'icon',
+        'skills', 'future_scope', 'entrance_exams',
+        'job_opportunities', 'related_careers', 'image'
     ];
 
     protected $casts = [
         'roadmap' => 'array',
+        'skills' => 'array',
+        'entrance_exams' => 'array',
+        'job_opportunities' => 'array',
+        'related_careers' => 'array'
     ];
 
     public function field(): BelongsTo

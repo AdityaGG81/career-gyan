@@ -246,7 +246,7 @@ class CareersSeeder extends Seeder
             [
                 'name'          => 'UPSC Officer (IAS/IPS)',
                 'slug'          => 'ias-officer',
-                'field'         => 'traditional',
+                'field'         => 'government-defence',
                 'description'   => 'Serve the nation as an IAS, IPS, or IFS officer through the UPSC Civil Services Exam — India\'s most prestigious competitive examination.',
                 'qualification' => 'Any Graduation + UPSC CSE',
                 'stream'        => 'Any',

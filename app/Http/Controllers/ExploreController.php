@@ -92,12 +92,31 @@ class ExploreController extends Controller
     {
         $career->load('field', 'subjects');
 
-        $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get();
+        $colleges = College::where('field_id', $career->field_id)
+                           ->limit(5)
+                           ->get();
 
         return response()->json([
             'career'   => $this->formatCareer($career),
             'colleges' => $colleges,
         ]);
+    }
+
+    /* ─────────────────────────────────────────────
+     | GET /career/{slug}
+     | Dedicated career detail page
+     ────────────────────────────────────────────── */
+    public function careerDetailPage($slug)
+    {
+        $career = Career::where('slug', $slug)->with('field')->firstOrFail();
+        
+        $related = Career::where('field_id', $career->field_id)
+                         ->where('id', '!=', $career->id)
+                         ->inRandomOrder()
+                         ->limit(3)
+                         ->get();
+
+        return view('career.detail', compact('career', 'related'));
     }
 
     /* ─────────────────────────────────────────────
@@ -115,7 +134,10 @@ class ExploreController extends Controller
         $careers = Career::with('field', 'subjects')
             ->where(function ($query) use ($q) {
                 $query->where('name', 'like', "%{$q}%")
-                      ->orWhere('description', 'like', "%{$q}%");
+                      ->orWhere('description', 'like', "%{$q}%")
+                      ->orWhereHas('field', function($qField) use ($q) {
+                          $qField->where('name', 'like', "%{$q}%");
+                      });
             })
             ->orderBy('name')
             ->get()
@@ -136,7 +158,21 @@ class ExploreController extends Controller
             return response()->json(['db_careers' => [], 'config_careers' => []]);
         }
 
-        // 1. Search Database Careers
+        // 1. Search Fields (Main fields and sub-fields)
+        $fields = \App\Models\Field::where('name', 'like', "%{$q}%")
+            ->limit(5)
+            ->get()
+            ->map(function ($f) {
+                return [
+                    'slug' => $f->slug,
+                    'name' => $f->name,
+                    'icon' => $f->icon ?? 'fa-folder',
+                    'bg_color' => $f->bg_color ?? '#e0e7ff',
+                    'color' => $f->color ?? '#4f46e5',
+                ];
+            });
+
+        // 2. Search Database Careers
         $dbCareers = Career::with('field')
             ->where('name', 'like', "%{$q}%")
             ->orWhere('description', 'like', "%{$q}%")
@@ -146,57 +182,18 @@ class ExploreController extends Controller
                 return [
                     'id' => $c->id,
                     'name' => $c->name,
+                    'slug' => $c->slug,
                     'description' => substr($c->description, 0, 100) . '...',
-                    'icon' => $c->icon,
-                    'field' => $c->field->name,
-                    'bg_color' => $c->field->bg_color,
-                    'color' => $c->field->color,
+                    'icon' => $c->icon ?? 'fa-briefcase',
+                    'field' => $c->field ? $c->field->name : 'General',
+                    'bg_color' => $c->field ? $c->field->bg_color : '#f1f5f9',
+                    'color' => $c->field ? $c->field->color : '#64748b',
                 ];
             });
 
-        // 2. Search Config Paths
-        $configCareers = [];
-        $paths = config('career_paths');
-
-        foreach ($paths as $streamKey => $streamData) {
-            if (!isset($streamData['subjects'])) continue;
-
-            foreach ($streamData['subjects'] as $subject) {
-                $matched = false;
-                
-                // Check if subject name matches
-                if (str_contains(strtolower($subject['name']), $q)) {
-                    $matched = true;
-                }
-                
-                // Check if any career inside matches
-                $matchedCareer = null;
-                foreach ($subject['careers'] ?? [] as $career) {
-                    if (str_contains(strtolower($career), $q)) {
-                        $matched = true;
-                        $matchedCareer = $career;
-                        break;
-                    }
-                }
-
-                if ($matched) {
-                    $configCareers[] = [
-                        'stream' => $streamKey,
-                        'stream_title' => $streamData['title'],
-                        'subject_name' => $subject['name'],
-                        'matched_career' => $matchedCareer,
-                        'icon' => $subject['icon'] ?? 'fa-star',
-                        'bg_color' => $streamData['theme_color'] ?? '#6366f1',
-                    ];
-                    
-                    if (count($configCareers) >= 8) break 2;
-                }
-            }
-        }
-
         return response()->json([
             'db_careers' => $dbCareers,
-            'config_careers' => $configCareers,
+            'config_careers' => $fields, // Repurposed for fields
         ]);
     }
 
@@ -217,357 +214,182 @@ class ExploreController extends Controller
             'roadmap'       => $career->roadmap,
             'icon'          => $career->icon,
             'match_count'   => $matchCount,
+            'image'         => $career->image,
             'field'         => [
                 'id'       => $career->field->id,
                 'name'     => $career->field->name,
                 'color'    => $career->field->color,
                 'bg_color' => $career->field->bg_color,
+                'slug'     => $career->field->slug,
             ],
             'subjects'      => $career->subjects->pluck('name'),
         ];
     }
-    /* ─────────────────────────────────────────────
-     | GET /explore/engineering-colleges
-     | Dedicated interactive page for top engineering colleges
-     ────────────────────────────────────────────── */
+
     public function engineeringColleges()
     {
         $field = Field::where('slug', 'technology-engineering')->firstOrFail();
-        
-        // Fetch all colleges in this field (which our seeder just populated)
-$colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get();        // Get unique districts/locations for the filter
+        $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        
-        // Types
         $types = $colleges->pluck('type')->unique()->sort()->values();
-
         return view('colleges.index', compact('field', 'colleges', 'districts', 'types'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/medical-colleges
-     | Dedicated interactive page for top medical colleges
-     ────────────────────────────────────────────── */
     public function medicalColleges()
     {
         $field = Field::where('slug', 'medical')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Get unique districts/locations for the filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        
-        // Types
         $types = $colleges->pluck('type')->unique()->sort()->values();
-
         return view('colleges.medical', compact('field', 'colleges', 'districts', 'types'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/hotel-management-colleges
-     | Dedicated interactive page for top HM colleges
-     ────────────────────────────────────────────── */
     public function hotelColleges()
     {
         $field = Field::where('slug', 'hotel-management')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Get unique districts/locations for the filter
         $locations = $colleges->pluck('location')->unique()->sort()->values();
-        
-        // Tiers for filtering
         $tiers = ['Tier 1', 'Tier 2', 'Tier 3'];
-
         return view('colleges.hotel', compact('field', 'colleges', 'locations', 'tiers'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/management-colleges
-     | Dedicated interactive page for top Management colleges
-     ────────────────────────────────────────────── */
     public function managementColleges()
     {
         $field = Field::where('slug', 'business')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Get unique districts/locations for the filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        
-        // Types
         $types = $colleges->pluck('type')->unique()->sort()->values();
-
         return view('colleges.management', compact('field', 'colleges', 'districts', 'types'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/pharmacy-colleges
-     | Dedicated interactive page for top Pharmacy colleges
-     ────────────────────────────────────────────── */
     public function pharmacyColleges()
     {
         $field = Field::where('slug', 'pharmacy')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Get unique districts/locations for the filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        
-        // Types
         $types = $colleges->pluck('type')->unique()->sort()->values();
-
         return view('colleges.pharmacy', compact('field', 'colleges', 'districts', 'types'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/non-mbbs-colleges
-     | Dedicated interactive page for AYUSH & Allied
-     ────────────────────────────────────────────── */
     public function nonMbbsColleges()
     {
-        $field = Field::where('slug', 'ayush-allied')->first();
-        if(!$field) {
-             $field = Field::where('slug', 'medical')->firstOrFail();
-        }
-        
-        // Fetch all colleges in this field
+        $field = Field::where('slug', 'ayush-allied')->first() ?? Field::where('slug', 'medical')->firstOrFail();
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Unique courses based on branch prefix in popular_branches or similar
         $courses = ['BAMS', 'BHMS', 'BUMS', 'BNYS', 'BPT', 'BDS'];
-
         return view('colleges.non_mbbs', compact('field', 'colleges', 'courses'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/science-colleges
-     | Dedicated interactive page for Pure Sciences
-     ────────────────────────────────────────────── */
     public function scienceColleges()
     {
         $field = Field::where('slug', 'science')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Districts for filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-
         return view('colleges.science', compact('field', 'colleges', 'districts'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/arts-humanities-colleges
-     | Dedicated interactive page for Arts & Humanities
-     ────────────────────────────────────────────── */
     public function artsColleges()
     {
         $field = Field::where('slug', 'arts-humanities')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Districts for filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-
         return view('colleges.arts', compact('field', 'colleges', 'districts'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/commerce-colleges
-     | Dedicated interactive page for Commerce & Finance
-     ────────────────────────────────────────────── */
     public function commerceColleges()
     {
         $field = Field::where('slug', 'commerce')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Districts for filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-
         return view('colleges.commerce', compact('field', 'colleges', 'districts'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/agriculture-colleges
-     | Dedicated interactive page for Agri Sciences
-     ────────────────────────────────────────────── */
     public function agricultureColleges()
     {
         $field = Field::where('slug', 'agriculture')->firstOrFail();
-        
-        // Fetch all colleges in this field
         $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
-
-        // Districts for filter
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-
         return view('colleges.agriculture', compact('field', 'colleges', 'districts'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/skill-development
-     | Focused on courses, skills, and outcomes
-     ────────────────────────────────────────────── */
     public function skillDevelopment()
     {
         $field = Field::where('slug', 'skill-development')->firstOrFail();
-        
         $skillCourses = SkillCourse::where('field_id', $field->id)->get();
-        
-        // Group by category_title for the view
         $categories = $skillCourses->groupBy('category_title')->map(function ($items, $title) {
             return [
                 'title' => $title,
                 'icon' => $this->getCategoryIcon($title),
-                'skills' => $items->map(function ($item) {
-                    return [
-                        'name' => $item->name,
-                        'desc' => $item->description,
-                        'tools' => $item->tools,
-                        'duration' => $item->duration,
-                        'diff' => $item->difficulty,
-                        'salary' => $item->salary_potential,
-                        'jobs' => $item->job_roles,
-                    ];
-                })
+                'skills' => $items->map(fn($item) => [
+                    'name' => $item->name,
+                    'desc' => $item->description,
+                    'tools' => $item->tools,
+                    'duration' => $item->duration,
+                    'diff' => $item->difficulty,
+                    'salary' => $item->salary_potential,
+                    'jobs' => $item->job_roles,
+                ])
             ];
         })->values();
-
         return view('colleges.skills', compact('field', 'categories'));
     }
 
-    private function getCategoryIcon($title)
-    {
-        return match($title) {
-            'Programming & IT' => 'fa-code',
-            'Design & Creative' => 'fa-palette',
-            'Business & Finance' => 'fa-chart-pie',
-            'Digital Marketing' => 'fa-bullhorn',
-            default => 'fa-star',
-        };
-    }
-
-    /* ─────────────────────────────────────────────
-     | GET /explore/sports-careers
-     | Focused on athletics, training, and academies
-     ────────────────────────────────────────────── */
     public function sportsCareers()
     {
         $field = Field::where('slug', 'sports')->firstOrFail();
-
         $sports = SportCareer::all();
-
-        $careers = Career::where('field_id', $field->id)->get()->map(function($c) {
-            return [
-                'role' => $c->name,
-                'salary' => $c->salary_range,
-                'scope' => $c->qualification . ' | ' . $c->description,
-            ];
-        });
-
+        $careers = Career::where('field_id', $field->id)->get()->map(fn($c) => [
+            'role' => $c->name,
+            'salary' => $c->salary_range,
+            'scope' => $c->qualification . ' | ' . $c->description,
+        ]);
         return view('colleges.sports', compact('field', 'sports', 'careers'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/small-scale-business
-     | Focused on entrepreneurship and ideas
-     ────────────────────────────────────────────── */
     public function smallScaleBusiness()
     {
         $field = Field::where('slug', 'small-scale')->firstOrFail();
-
         $ideas = BusinessIdea::where('field_id', $field->id)->get();
-        
-        // Mock categories for the view logic
         $businessCategories = [
-            [
-                'title' => 'Food & Catering',
-                'icon' => 'fa-utensils',
-                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Homemade Cloud Kitchen', 'Stall / Food Truck']))->values()
-            ],
-            [
-                'title' => 'Digital & Online',
-                'icon' => 'fa-globe',
-                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['E-Commerce Reselling', 'Content Creation Studio']))->values()
-            ],
-            [
-                'title' => 'Fashion & Clothing',
-                'icon' => 'fa-shirt',
-                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Custom Embroidery/Tailoring', 'Print-on-Demand Store']))->values()
-            ],
-            [
-                'title' => 'Education & Services',
-                'icon' => 'fa-book-reader',
-                'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Tutoring Center', 'Event Planning']))->values()
-            ]
+            ['title' => 'Food & Catering', 'icon' => 'fa-utensils', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Homemade Cloud Kitchen', 'Stall / Food Truck']))->values()],
+            ['title' => 'Digital & Online', 'icon' => 'fa-globe', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['E-Commerce Reselling', 'Content Creation Studio']))->values()],
+            ['title' => 'Fashion & Clothing', 'icon' => 'fa-shirt', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Custom Embroidery/Tailoring', 'Print-on-Demand Store']))->values()],
+            ['title' => 'Education & Services', 'icon' => 'fa-book-reader', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Tutoring Center', 'Event Planning']))->values()]
         ];
-
         return view('colleges.business_ideas', compact('field', 'businessCategories'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/traditional-careers
-     | Focused on stable, established paths
-     ────────────────────────────────────────────── */
     public function traditionalCareers()
     {
         $field = Field::where('slug', 'traditional')->firstOrFail();
-
         $careers = TraditionalCareer::all();
-        $careerPaths = $careers->groupBy('category')->map(function($items, $cat) {
-            return [
-                'category' => $cat,
-                'icon' => $items->first()->icon,
-                'paths' => $items->map(function($item) {
-                    return [
-                        'name' => $item->name,
-                        'edu' => $item->education,
-                        'exam' => $item->exam,
-                        'duration' => $item->duration,
-                        'salary' => $item->salary,
-                        'stability' => $item->stability,
-                    ];
-                })
-            ];
-        })->values();
-
+        $careerPaths = $careers->groupBy('category')->map(fn($items, $cat) => [
+            'category' => $cat,
+            'icon' => $items->first()->icon,
+            'paths' => $items->map(fn($item) => [
+                'name' => $item->name,
+                'edu' => $item->education,
+                'exam' => $item->exam,
+                'duration' => $item->duration,
+                'salary' => $item->salary,
+                'stability' => $item->stability,
+            ])
+        ])->values();
         return view('colleges.traditional', compact('field', 'careerPaths'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/competitive-exams
-     | Comprehensive guide to Government, Banking, etc.
-     ────────────────────────────────────────────── */
     public function competitiveExams()
     {
         $field = Field::where('slug', 'traditional')->first() ?? Field::first();
-        
         $exams = CompetitiveExam::all();
         $categories = $exams->groupBy('category');
-
         return view('colleges.exams', compact('field', 'categories'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/non-traditional-careers
-     | Guide to Digital, Creative, and Modern paths
-     ────────────────────────────────────────────── */
     public function nonTraditionalCareers()
     {
         return redirect()->route('career.path', 'non-traditional-careers');
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/government-defence
-     ────────────────────────────────────────────── */
     public function governmentDefence()
     {
         $field = Field::where('slug', 'government-defence')->firstOrFail();
@@ -575,9 +397,6 @@ $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get(
         return view('colleges.traditional_detail', compact('field', 'careers'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/teaching-law
-     ────────────────────────────────────────────── */
     public function teachingLaw()
     {
         $field = Field::where('slug', 'teaching-law')->firstOrFail();
@@ -585,9 +404,6 @@ $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get(
         return view('colleges.traditional_detail', compact('field', 'careers'));
     }
 
-    /* ─────────────────────────────────────────────
-     | Non-Traditional Sub-Categories
-     ────────────────────────────────────────────── */
     public function modernTech()
     {
         $field = Field::where('slug', 'modern-tech')->firstOrFail();
@@ -623,16 +439,8 @@ $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get(
         return view('colleges.non_traditional_detail', compact('field', 'careers'));
     }
 
-    /* ─────────────────────────────────────────────
-     | GET /explore/career-path/{field}
-     ────────────────────────────────────────────── */
     public function careerPath(Field $field)
     {
-        // Only arts-humanities is implemented for now
-        if ($field->slug === 'arts-humanities') {
-            return view('career_paths.arts', compact('field'));
-        }
-
         return back()->with('info', 'Career path guide for ' . $field->name . ' is coming soon!');
     }
 }
