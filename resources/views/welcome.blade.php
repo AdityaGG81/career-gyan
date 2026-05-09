@@ -70,21 +70,28 @@
   .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.25);
-    color: #e0eaff;
-    font-size: 16px;
-    font-weight: 600;
+    border: 1.5px solid rgba(255,255,255,.3);
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 800;
     letter-spacing: .5px;
-    padding: 10px 24px;
+    padding: 14px 40px;
     border-radius: 999px;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .hero-badge:hover {
+    transform: scale(1.02);
+    background: rgba(255,255,255,.2);
   }
 
   .hero-badge i {
     color: #fbbf24;
-    font-size: 14px;
+    font-size: 22px;
   }
 
   .hero h1 {
@@ -597,8 +604,12 @@
     }
 
     .hero-badge {
-      font-size: 13px;
-      padding: 8px 16px;
+      font-size: 18px;
+      padding: 12px 24px;
+    }
+
+    .hero-badge i {
+      font-size: 16px;
     }
 
     .hero-stats {

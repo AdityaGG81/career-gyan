@@ -481,6 +481,8 @@
 </style>
 
 @yield('styles')
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5044851395641771"
+     crossorigin="anonymous"></script>
 </head>
 
 <body>

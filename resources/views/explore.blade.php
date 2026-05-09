@@ -113,7 +113,7 @@ body {
             </div>
             <div class="cat-name">{{ $field->name }}</div>
             
-            <div style="margin-top:16px; display:flex; flex-direction:column; gap:8px;">
+            <div style="margin-top:16px; display:flex; flex-direction:column; gap:15px;">
                 {{-- Dynamic View Top Colleges Button --}}
                 @php
                     $collegeRoutes = [
@@ -161,11 +161,11 @@ body {
                 @endphp
 
                 @if(isset($collegeRoutes[$field->slug]))
-                    <a href="{{ route($collegeRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; font-weight: 500;">
+                    <a href="{{ route($collegeRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; border: none; border-radius: 30px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); font-weight: 700;">
                         View Top Colleges &rarr;
                     </a>
                 @elseif(isset($customRoutes[$field->slug]))
-                    <a href="{{ route($customRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; font-weight: 500;">
+                    <a href="{{ route($customRoutes[$field->slug]) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; border: none; border-radius: 30px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); font-weight: 700;">
                         {{ $customLabels[$field->slug] }} &rarr;
                     </a>
                 @endif
