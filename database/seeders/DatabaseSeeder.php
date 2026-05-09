@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             SmallScaleBusinessSeeder::class,
             CompetitiveExamSeeder::class,
             NonTraditionalCareerSeeder::class,
+            GamingCareersSeeder::class,
             PortableDataSeeder::class,
             QuestionsSeeder::class,
             QuickTestQuestionSeeder::class,

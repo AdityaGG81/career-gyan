@@ -186,7 +186,7 @@ body {
                     ];
                     $pathSlug = $slugMap[$field->slug] ?? $field->slug;
                 @endphp
-                <a href="{{ route('career.path', $pathSlug) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; border: none; border-radius: 30px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); font-weight: 700;">
+                <a href="{{ $field->slug === 'gaming-careers' ? route('career-path.gaming-esports') : route('career.path', $pathSlug) }}" onclick="event.stopPropagation()" class="btn-roadmap" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; border: none; border-radius: 30px; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); font-weight: 700;">
                     <i class="fa-solid fa-route"></i> Full Career Path
                 </a>
             </div>

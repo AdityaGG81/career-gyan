@@ -43,6 +43,9 @@ Route::get('/explore/commerce-colleges', [ExploreController::class, 'commerceCol
 Route::get('/explore/agriculture-colleges', [ExploreController::class, 'agricultureColleges'])->name('explore.agriculture-colleges');
 
 // Career path
+Route::get('/career-path/gaming-esports', [CareerPathController::class, 'show'])
+    ->defaults('stream', 'gaming-esports')
+    ->name('career-path.gaming-esports');
 Route::get('/career-path/{stream}', [CareerPathController::class, 'show'])->name('career.path');
 
 // Other explore pages

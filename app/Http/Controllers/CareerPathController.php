@@ -40,6 +40,15 @@ class CareerPathController extends Controller
             return view('career_paths.sports', compact('field', 'careers'));
         }
 
+        if ($stream === 'gaming-esports') {
+            $field = Field::where('slug', 'gaming-careers')->firstOrFail();
+            $careers = Career::where('field_id', $field->id)
+                ->orderBy('name')
+                ->limit(50)
+                ->get();
+            return view('career_paths.gaming-esports', compact('field', 'careers'));
+        }
+
         $dynamicStreams = [
             'agriculture' => [
                 'title' => 'Agriculture & Allied Sciences',
@@ -147,6 +156,7 @@ class CareerPathController extends Controller
                 ]
             ],
             'gaming-esports' => [
+                'db_slug' => 'gaming-careers',
                 'title' => 'Gaming & E-sports',
                 'description' => 'Turn your hobby into a profession. Explore careers in game development, competitive gaming, and streaming.',
                 'theme' => [
