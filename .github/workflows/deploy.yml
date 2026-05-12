@@ -34,9 +34,9 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
-            **/node_modules/**
-            **/vendor/**
-            **/public/**
+            node_modules/**
+            vendor/**
+            public/**
             .env
             tests/**
 
