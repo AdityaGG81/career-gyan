@@ -740,6 +740,64 @@
       grid-template-columns: 1fr;
     }
   }
+
+/* ── How CareerGyan Works Mobile Responsive ── */
+@media (max-width: 768px) {
+    .how-it-works-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .step-card {
+        padding: 24px;
+    }
+    
+    .step-card div[style*="width: 60px"] {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 24px !important;
+        margin-bottom: 16px !important;
+    }
+    
+    .step-card h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .step-card p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .how-it-works-grid {
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .step-card {
+        padding: 20px;
+    }
+    
+    .step-card div[style*="width: 60px"] {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 20px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .step-card h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    
+    .step-card p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+}
 </style>
 @endsection
 
@@ -808,96 +866,65 @@
   </div>
 </section>
 
-<section class="section" id="qualification">
-  <div class="container">
-    <div class="section-label">
-      <i class="fa-solid fa-graduation-cap"></i> By Qualification
+<!-- How CareerGyan Works -->
+<section style="padding: 60px 40px; margin: 40px 0;">
+    <div class="container">
+        <h2 style="font-family: 'Sora', sans-serif; font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: #1e293b; text-align: center; margin-bottom: 50px;">
+            How CareerGyan Works
+        </h2>
+        <p style="font-size: 18px; color: #64748b; text-align: center; max-width: 700px; margin: 0 auto 30px; line-height: 1.6;">
+            Simple steps to discover the right career path and colleges for your future.
+        </p>
+        
+        <!-- Step Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+            <!-- Step 1 -->
+            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🎯</div>
+                <div>
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Take Free Test</h3>
+                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Discover your interests and strengths through our comprehensive aptitude test.</p>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">📊</div>
+                <div>
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Get Career Suggestions</h3>
+                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Receive personalized career recommendations based on your test results and profile.</p>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🛤️</div>
+                <div>
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Explore Career Paths</h3>
+                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Learn about different career options, salaries, skills required and future scope.</p>
+                </div>
+            </div>
+            
+            <!-- Step 4 -->
+            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🏫️</div>
+                <div>
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Find Top Colleges</h3>
+                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Discover best colleges by district, state and stream with detailed information.</p>
+                </div>
+            </div>
+            
+            <!-- Step 5 -->
+            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🚀</div>
+                <div>
+                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Build Your Future</h3>
+                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Plan your career journey with confidence and clear guidance from industry experts.</p>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <h2 class="section-title">What's your current level?</h2>
-    <p class="section-sub">Choose your qualification to see relevant career paths tailored for you.</p>
-
-    <div class="qual-grid">
-      <div class="qual-card card-blue" onclick="location.href='{{ url('/explore') }}'">
-        <div class="qual-icon icon-blue"><i class="fa-solid fa-school"></i></div>
-        <h3>After 10th</h3>
-        <p>Explore ITI, polytechnic, vocational courses and diploma programmes.</p>
-        <div class="card-arrow">Explore options <i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="qual-card card-green" onclick="location.href='{{ url('/explore') }}'">
-        <div class="qual-icon icon-green"><i class="fa-solid fa-book-open"></i></div>
-        <h3>After 12th</h3>
-        <p>Science, Commerce & Arts streams — find degrees, courses & entrance exams.</p>
-        <div class="card-arrow" style="color:#16a34a">Explore options <i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="qual-card card-purple" onclick="location.href='{{ url('/explore') }}'">
-        <div class="qual-icon icon-purple"><i class="fa-solid fa-certificate"></i></div>
-        <h3>After Diploma</h3>
-        <p>Lateral entry to B.Tech, specialised roles in engineering & technology sectors.</p>
-        <div class="card-arrow" style="color:#9333ea">Explore options <i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="qual-card card-amber" onclick="location.href='{{ url('/explore') }}'">
-        <div class="qual-icon icon-amber"><i class="fa-solid fa-university"></i></div>
-        <h3>After Graduation</h3>
-        <p>MBA, M.Tech, UPSC, CA Final, research & corporate opportunities await.</p>
-        <div class="card-arrow" style="color:#d97706">Explore options <i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-    </div>
-  </div>
 </section>
-
-<section style="padding: 0 0 32px;">
-  <div class="container">
-    <div class="filters-bar">
-      <div class="filter-group">
-        <label><i class="fa-solid fa-filter"></i> &nbsp;Qualification</label>
-        <select>
-          <option value="">All Qualifications</option>
-          <option>After 10th</option>
-          <option>After 12th – Science</option>
-          <option>After 12th – Commerce</option>
-          <option>After 12th – Arts</option>
-          <option>After Diploma</option>
-          <option>After Graduation</option>
-        </select>
-      </div>
-
-      <div class="filter-group">
-        <label><i class="fa-solid fa-layer-group"></i> &nbsp;Field / Stream</label>
-        <select>
-          <option value="">All Fields</option>
-          <option>Engineering & Technology</option>
-          <option>Medical & Healthcare</option>
-          <option>Commerce & Finance</option>
-          <option>Arts & Design</option>
-          <option>Government & UPSC</option>
-          <option>Science & Research</option>
-        </select>
-      </div>
-
-      <div class="filter-group">
-        <label><i class="fa-solid fa-indian-rupee-sign"></i> &nbsp;Course Budget</label>
-        <select>
-          <option value="">Any Budget</option>
-          <option>Low (Under ₹50K/yr)</option>
-          <option>Medium (₹50K–₹2L/yr)</option>
-          <option>High (₹2L+/yr)</option>
-        </select>
-      </div>
-
-      <button class="filter-btn" onclick="location.href='{{ url('/explore') }}'">
-        <i class="fa-solid fa-magnifying-glass"></i> &nbsp;Apply Filters
-      </button>
-    </div>
-  </div>
-</section>
-
-
-
-    
 
 <section class="section" id="careers" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
   <div class="container">
@@ -997,12 +1024,12 @@
       <h2>Not sure which career is right for you?</h2>
 
       <p>
-        Take our free AI-powered career test — answer 16 questions and get personalised career recommendations tailored to your interests and strengths.
+        Take our free AI-powered Quick Test — answer 16 questions and get personalised career recommendations tailored to your interests and strengths.
       </p>
 
-      <a href="{{ route('test.start') }}" class="btn-cta">
+      <a href="{{ route('quick-test.start') }}" class="btn-cta">
         <i class="fa-solid fa-bolt" style="color:var(--accent);"></i>
-        Take Free Career Test
+        Quick Test
         <i class="fa-solid fa-arrow-right"></i>
       </a>
 

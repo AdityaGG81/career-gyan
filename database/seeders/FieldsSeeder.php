@@ -28,6 +28,9 @@ class FieldsSeeder extends Seeder
             ['name' => 'Gaming & E-sports',         'slug' => 'gaming-careers',         'icon' => 'fa-gamepad',        'color' => '#8b5cf6', 'bg_color' => '#f3f4ff'],
             ['name' => 'Freelancing & Remote',      'slug' => 'freelancing',            'icon' => 'fa-globe',          'color' => '#10b981', 'bg_color' => '#ecfdf5'],
             ['name' => 'Competitive Exams',         'slug' => 'competitive-exams',      'icon' => 'fa-file-signature', 'color' => '#be123c', 'bg_color' => '#fff1f2'],
+            ['name' => 'AYUSH & Allied Health',     'slug' => 'ayush-allied',           'icon' => 'fa-heart-pulse',    'color' => '#059669', 'bg_color' => '#d1fae5'],
+            ['name' => 'Pharmacy',                  'slug' => 'pharmacy',               'icon' => 'fa-pills',          'color' => '#7c3aed', 'bg_color' => '#ede9fe'],
+            ['name' => 'Hotel Management',          'slug' => 'hotel-management',       'icon' => 'fa-bed',            'color' => '#dc2626', 'bg_color' => '#fee2e2'],
             ['name' => 'Others',                    'slug' => 'others',                 'icon' => 'fa-ellipsis',       'color' => '#6366f1', 'bg_color' => '#e0e7ff'],
         ];
 

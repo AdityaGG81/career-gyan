@@ -328,8 +328,8 @@
         <h2 class="cta-title">Ready to take the next step?</h2>
         <p class="cta-desc">Discover your true potential with our AI psychometric test, or explore the best colleges offering these top courses.</p>
         <div class="cta-buttons">
-            <a href="{{ route('test.start') }}" class="btn-primary">
-                Take Free Career Test <i class="fa-solid fa-arrow-right"></i>
+            <a href="{{ route('quick-test.start') }}" class="btn-primary">
+                Quick Test <i class="fa-solid fa-arrow-right"></i>
             </a>
             <a href="{{ route('explore.index') }}" class="btn-secondary">
                 Explore More Streams <i class="fa-solid fa-magnifying-glass"></i>

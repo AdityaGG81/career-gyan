@@ -2,33 +2,58 @@
 
 namespace Database\Seeders;
 
+use App\Models\Career;
 use App\Models\Field;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class EngineeringFieldsSeeder extends Seeder
 {
     public function run(): void
     {
-        $fields = [
-            ['name' => 'Electrical Engineering', 'slug' => 'electrical-engineering', 'icon' => 'fa-bolt', 'color' => '#fbbf24', 'bg_color' => '#fef3c7'],
-            ['name' => 'Chemical Engineering', 'slug' => 'chemical-engineering', 'icon' => 'fa-flask', 'color' => '#10b981', 'bg_color' => '#d1fae5'],
-            ['name' => 'Computer Engineering', 'slug' => 'computer-engineering', 'icon' => 'fa-computer', 'color' => '#3b82f6', 'bg_color' => '#dbeafe'],
-            ['name' => 'Information Technology', 'slug' => 'information-technology', 'icon' => 'fa-network-wired', 'color' => '#0ea5e9', 'bg_color' => '#e0f2fe'],
-            ['name' => 'Electronics & Telecommunication', 'slug' => 'electronics-telecommunication', 'icon' => 'fa-satellite-dish', 'color' => '#8b5cf6', 'bg_color' => '#ede9fe'],
-            ['name' => 'Civil Engineering', 'slug' => 'civil-engineering', 'icon' => 'fa-helmet-safety', 'color' => '#f97316', 'bg_color' => '#ffedd5'],
-            ['name' => 'AI & Data Science', 'slug' => 'ai-data-science', 'icon' => 'fa-brain', 'color' => '#ec4899', 'bg_color' => '#fce7f3'],
-            ['name' => 'Mechanical Engineering', 'slug' => 'mechanical-engineering', 'icon' => 'fa-cogs', 'color' => '#64748b', 'bg_color' => '#f1f5f9'],
-            ['name' => 'Automobile Engineering', 'slug' => 'automobile-engineering', 'icon' => 'fa-car', 'color' => '#ef4444', 'bg_color' => '#fee2e2'],
-            ['name' => 'Aerospace Engineering', 'slug' => 'aerospace-engineering', 'icon' => 'fa-plane-up', 'color' => '#0284c7', 'bg_color' => '#e0f2fe'],
-            ['name' => 'Robotics Engineering', 'slug' => 'robotics-engineering', 'icon' => 'fa-robot', 'color' => '#f59e0b', 'bg_color' => '#fef3c7'],
-            ['name' => 'Cyber Security', 'slug' => 'cyber-security', 'icon' => 'fa-shield-halved', 'color' => '#14b8a6', 'bg_color' => '#ccfbf1'],
-            ['name' => 'Software Engineering', 'slug' => 'software-engineering', 'icon' => 'fa-code', 'color' => '#8b5cf6', 'bg_color' => '#ede9fe'],
-            ['name' => 'Cloud Computing', 'slug' => 'cloud-computing', 'icon' => 'fa-cloud', 'color' => '#0ea5e9', 'bg_color' => '#e0f2fe'],
-            ['name' => 'Data Science', 'slug' => 'data-science', 'icon' => 'fa-chart-pie', 'color' => '#ec4899', 'bg_color' => '#fce7f3'],
+        $field = Field::where('slug', 'technology-engineering')->first();
+        if (!$field) return;
+
+        $careers = [
+            ['name' => 'Electrical Engineer', 'icon' => 'fa-bolt', 'salary' => '₹4L – ₹15L', 'demand' => 'High'],
+            ['name' => 'Chemical Engineer', 'icon' => 'fa-flask', 'salary' => '₹5L – ₹20L', 'demand' => 'Stable'],
+            ['name' => 'Computer Engineer', 'icon' => 'fa-computer', 'salary' => '₹5L – ₹25L', 'demand' => 'Very High'],
+            ['name' => 'IT Engineer', 'icon' => 'fa-network-wired', 'salary' => '₹4L – ₹18L', 'demand' => 'High'],
+            ['name' => 'Electronics & Telecommunication Engineer', 'icon' => 'fa-satellite-dish', 'salary' => '₹4L – ₹18L', 'demand' => 'High'],
+            ['name' => 'Civil Engineer', 'icon' => 'fa-helmet-safety', 'salary' => '₹4L – ₹15L', 'demand' => 'High'],
+            ['name' => 'AI & Data Science Engineer', 'icon' => 'fa-brain', 'salary' => '₹8L – ₹40L', 'demand' => 'Very High'],
+            ['name' => 'Mechanical Engineer', 'icon' => 'fa-cogs', 'salary' => '₹4L – ₹18L', 'demand' => 'High'],
+            ['name' => 'Automobile Engineer', 'icon' => 'fa-car', 'salary' => '₹5L – ₹20L', 'demand' => 'High'],
+            ['name' => 'Aerospace Engineer', 'icon' => 'fa-plane-up', 'salary' => '₹6L – ₹25L', 'demand' => 'Growing'],
+            ['name' => 'Robotics Engineer', 'icon' => 'fa-robot', 'salary' => '₹6L – ₹25L', 'demand' => 'Growing'],
+            ['name' => 'Cybersecurity Expert', 'icon' => 'fa-shield-halved', 'salary' => '₹8L – ₹30L', 'demand' => 'Very High'],
+            ['name' => 'Software Engineer', 'icon' => 'fa-code', 'salary' => '₹6L – ₹30L', 'demand' => 'Very High'],
+            ['name' => 'Cloud Solutions Architect', 'icon' => 'fa-cloud', 'salary' => '₹12L – ₹40L', 'demand' => 'Very High'],
+            ['name' => 'Data Scientist', 'icon' => 'fa-chart-pie', 'salary' => '₹8L – ₹40L', 'demand' => 'Very High'],
         ];
 
-        foreach($fields as $f) { 
-            Field::firstOrCreate(['slug' => $f['slug']], $f); 
+        foreach ($careers as $c) {
+            Career::updateOrCreate(
+                ['slug' => Str::slug($c['name'])],
+                [
+                    'name'           => $c['name'],
+                    'field_id'       => $field->id,
+                    'description'    => $c['name'] . ' is a specialized engineering discipline requiring strong technical and analytical skills to design, develop and maintain complex systems.',
+                    'qualification'  => 'B.E / B.Tech in relevant branch',
+                    'stream'         => 'Science (PCM)',
+                    'salary_range'   => $c['salary'],
+                    'demand_level'   => $c['demand'],
+                    'icon'           => $c['icon'],
+                    'roadmap'        => [
+                        'Complete 10+2 with Science (Physics, Chemistry, Math)',
+                        'Clear engineering entrance exams (JEE Main, State CET, etc.)',
+                        'Pursue B.E/B.Tech in ' . $c['name'],
+                        'Gain practical experience through internships',
+                        'Consider higher studies (M.Tech/MBA) for growth',
+                        'Build strong technical and soft skills'
+                    ],
+                ]
+            );
         }
     }
 }

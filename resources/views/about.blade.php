@@ -18,6 +18,15 @@
 }
 @media(max-width:768px) {
     .contact-card { grid-template-columns: 1fr; padding:30px; }
+    
+    .ct-block .working-hours {
+        font-size: 14px !important;
+    }
+    
+    .ct-block .working-hours .closed-badge {
+        font-size: 14px !important;
+        padding: 1px 4px !important;
+    }
 }
 
 .ct-block { margin-bottom: 24px; }
@@ -61,7 +70,14 @@
 
                 <div class="ct-block" style="margin-bottom:0;">
                     <h3><i class="fa-solid fa-clock"></i> Working Hours</h3>
-                    <p>Mon-Sat: <strong>8:00 AM – 6:00 PM</strong><br>Sunday: <strong style="color:var(--rose);">Closed</strong></p>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="working-hours" style="font-size: 16px; font-weight: 700; color: #475569;">
+                            Mon-Sat: 8:00 AM – 6:00 PM
+                        </div>
+                        <div class="working-hours" style="font-size: 16px; font-weight: 400; color: #475569;">
+                            Sunday: <span class="closed-badge" style="color: #64748b;">Closed</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

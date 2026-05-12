@@ -22,6 +22,7 @@ Route::get('/explore', [ExploreController::class, 'index'])->name('explore.index
 
 // AJAX endpoints
 Route::get('/explore/search', [ExploreController::class, 'search'])->name('explore.search');
+Route::get('/explore/field-search', [ExploreController::class, 'fieldSearch'])->name('explore.fieldSearch');
 Route::get('/global-search', [ExploreController::class, 'globalSearch'])->name('explore.globalSearch');
 Route::get('/explore/field/{field}', [ExploreController::class, 'byField'])->name('explore.field');
 Route::post('/explore/subjects', [ExploreController::class, 'bySubjects'])->name('explore.subjects');

@@ -147,6 +147,76 @@ class ExploreController extends Controller
     }
 
     /* ─────────────────────────────────────────────
+     | GET /explore/field-search?q=
+     | Search for career fields and careers with autocomplete
+     ────────────────────────────────────────────── */
+    public function fieldSearch(Request $request): JsonResponse
+    {
+        $q = trim($request->input('q', ''));
+
+        if (strlen($q) < 2) {
+            return response()->json(['fields' => [], 'careers' => []]);
+        }
+
+        // Search fields
+        $fields = Field::where('slug', '!=', 'others')
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                      ->orWhere('slug', 'like', "%{$q}%");
+            })
+            ->orderBy('name')
+            ->limit(5) // Limit fields to avoid overwhelming results
+            ->get()
+            ->map(function ($field) {
+                return [
+                    'id' => $field->id,
+                    'name' => $field->name,
+                    'slug' => $field->slug,
+                    'icon' => $field->icon ?? 'fa-folder',
+                    'color' => $field->color ?? '#4f46e5',
+                    'bg_color' => $field->bg_color ?? '#e0e7ff',
+                    'type' => 'field',
+                    'has_career_path' => in_array($field->slug, [
+                        'technology-engineering', 'medical', 'business', 'science', 
+                        'arts-humanities', 'commerce', 'agriculture', 'sports',
+                        'skill-development', 'modern-tech', 'creative-careers',
+                        'social-media', 'gaming-careers', 'freelancing',
+                        'government-defence', 'teaching-law', 'hotel-management',
+                        'pharmacy', 'ayush-allied', 'small-scale'
+                    ])
+                ];
+            });
+
+        // Search careers
+        $careers = Career::with('field')
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                      ->orWhere('slug', 'like', "%{$q}%")
+                      ->orWhere('description', 'like', "%{$q}%");
+            })
+            ->orderBy('name')
+            ->limit(10) // Limit careers to avoid overwhelming results
+            ->get()
+            ->map(function ($career) {
+                return [
+                    'id' => $career->id,
+                    'name' => $career->name,
+                    'slug' => $career->slug,
+                    'icon' => $career->icon ?? 'fa-briefcase',
+                    'description' => $career->description,
+                    'field_id' => $career->field_id,
+                    'field_name' => $career->field ? $career->field->name : 'General',
+                    'field_slug' => $career->field ? $career->field->slug : 'general',
+                    'field_color' => $career->field ? $career->field->color : '#4f46e5',
+                    'field_bg_color' => $career->field ? $career->field->bg_color : '#e0e7ff',
+                    'type' => 'career'
+                ];
+            });
+
+        return response()->json(['fields' => $fields, 'careers' => $careers]);
+    }
+
+    /* ─────────────────────────────────────────────
      | GET /global-search?q=
      | Global search for DB Careers and Config Paths
      ────────────────────────────────────────────── */

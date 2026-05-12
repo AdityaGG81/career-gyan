@@ -143,6 +143,107 @@
         .career-path-grid { grid-template-columns: 1fr; }
         .stats-container { grid-template-columns: repeat(2, 1fr); margin-top: -30px; }
     }
+
+    @media (max-width: 768px) {
+        .biz-hero { 
+            padding: 40px 0 30px !important;
+            text-align: center !important;
+        }
+        
+        .biz-hero h1 {
+            font-size: clamp(24px, 6vw, 36px) !important;
+            margin-bottom: 12px !important;
+            line-height: 1.2;
+        }
+        
+        .biz-hero p {
+            font-size: 16px !important;
+            margin-bottom: 20px !important;
+            padding: 0 10px;
+        }
+        
+        .stats-container {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+            padding: 0 10px !important;
+        }
+        
+        .stat-box {
+            padding: 16px !important;
+        }
+        
+        .section-title {
+            font-size: clamp(18px, 4vw, 22px) !important;
+            text-align: center !important;
+            padding: 0 10px !important;
+        }
+        
+        .career-path-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+            padding: 0 10px !important;
+        }
+        
+        .path-card {
+            margin: 0 !important;
+        }
+        
+        .subject-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+            padding: 0 10px !important;
+        }
+        
+        .subject-card {
+            margin: 0 !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .biz-hero {
+            padding: 30px 0 20px !important;
+        }
+        
+        .biz-hero h1 {
+            font-size: clamp(20px, 5vw, 28px) !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .biz-hero p {
+            font-size: 14px !important;
+            margin-bottom: 15px !important;
+            padding: 0 5px;
+        }
+        
+        .stats-container {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            padding: 0 5px !important;
+        }
+        
+        .stat-box {
+            padding: 12px !important;
+        }
+        
+        .section-title {
+            font-size: clamp(16px, 4vw, 20px) !important;
+            padding: 0 5px !important;
+        }
+        
+        .career-path-grid {
+            gap: 12px !important;
+            padding: 0 5px !important;
+        }
+        
+        .subject-grid {
+            gap: 12px !important;
+            padding: 0 5px !important;
+        }
+        
+        .subject-card {
+            padding: 12px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -172,10 +273,6 @@
             <div class="stat-label">Core Fields</div>
         </div>
         <div class="stat-box">
-            <div class="stat-num">{{ $careers->total() }}+</div>
-            <div class="stat-label">Career Paths</div>
-        </div>
-        <div class="stat-box">
             <div class="stat-num">200+</div>
             <div class="stat-label">Colleges</div>
         </div>
@@ -187,7 +284,7 @@
 
     {{-- ── SECTION HEADING ── --}}
     <h2 style="font-family:'Sora';font-size:clamp(20px,3vw,30px);font-weight:800;margin-bottom:40px;text-align:center;color:#fff;">
-        Explore {{ $careers->total() }} Leadership & Strategy Roles
+        Explore Business & Management Career Paths
     </h2>
 
     {{-- ── CAREER GRID ── --}}
@@ -221,7 +318,7 @@
     </div>
 
     {{-- ── PAGINATION ── --}}
-    {{ $careers->withQueryString()->links() }}
+    {{ $careers->withQueryString()->links('vendor.pagination.career-gyan') }}
 
     {{-- ── CTA ── --}}
     <div style="text-align:center;margin-bottom:80px;">
