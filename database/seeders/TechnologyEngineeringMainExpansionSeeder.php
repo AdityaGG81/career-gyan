@@ -49,8 +49,9 @@ class TechnologyEngineeringMainExpansionSeeder extends Seeder
 
         foreach ($careers as $c) {
             Career::updateOrCreate(
-                ['slug' => Str::slug($c['name']), 'field_id' => $field->id], // Ensures it binds to technology-engineering
+                ['slug' => Str::slug($c['name'])],
                 [
+                    'field_id'       => $field->id,
                     'name'           => $c['name'],
                     'description'    => $c['name'] . ' is a premier engineering and technology career path shaping the digital and physical future.',
                     'qualification'  => 'B.E / B.Tech in relevant domain',
