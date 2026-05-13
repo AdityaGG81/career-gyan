@@ -37,14 +37,9 @@
 .tools-box { border-top: 1px dashed #e2e8f0; padding-top: 15px; }
 .tool-tag { display: inline-block; font-size: 12px; background: #eef2ff; color: #4f46e5; padding: 3px 10px; border-radius: 6px; margin: 0 4px 4px 0; font-weight: 600; }
 
-/* Platforms Section */
-.platform-sec { margin-top: 100px; padding: 60px; background: #f1f5f9; border-radius: 40px; }
-.platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 40px; }
-.plat-card { background: white; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid #e2e8f0; transition: 0.3s; }
-.plat-card:hover { border-color: #6366f1; transform: scale(1.05); }
 
 /* Government Programs */
-.gov-sec { margin-top: 80px; text-align: center; }
+.gov-sec { margin-top: 60px; text-align: center; }
 .gov-box { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 50px; border-radius: 30px; display: inline-block; width: 100%; max-width: 900px; }
 </style>
 @endsection
@@ -116,33 +111,7 @@
         @endforeach
     </div>
 
-    <!-- Platforms Section -->
-    <section class="platform-sec">
-        <h2 style="font-family:'Sora'; color:#1e1b4b; text-align:center;">🚀 Where to Learn?</h2>
-        <div class="platform-grid">
-            <div class="plat-card">
-                <i class="fa-brands fa-youtube fa-3x" style="color:#ff0000; margin-bottom:15px;"></i>
-                <h4>YouTube</h4>
-                <p style="font-size:12px; color:#64748b; margin-top:10px;">Free courses & high-quality tutorials from world-class creators.</p>
-            </div>
-            <div class="plat-card">
-                <i class="fa-solid fa-graduation-cap fa-3x" style="color:#0056d2; margin-bottom:15px;"></i>
-                <h4>Coursera</h4>
-                <p style="font-size:12px; color:#64748b; margin-top:10px;">Accredited certificates from top Global Universities like Yale & Stanford.</p>
-            </div>
-            <div class="plat-card">
-                <i class="fa-brands fa-google fa-3x" style="color:#4285f4; margin-bottom:15px;"></i>
-                <h4>Google Courses</h4>
-                <p style="font-size:12px; color:#64748b; margin-top:10px;">Industry-recognized professional certificates in IT, Design & Tech.</p>
-            </div>
-            <div class="plat-card">
-                <i class="fa-solid fa-book fa-3x" style="color:#a435f0; margin-bottom:15px;"></i>
-                <h4>Udemy</h4>
-                <p style="font-size:12px; color:#64748b; margin-top:10px;">Affordable, practical skills from industry experts in every field.</p>
-            </div>
-        </div>
-    </section>
-
+    
     <!-- Government Section -->
     <div class="gov-sec">
         <div class="gov-box">

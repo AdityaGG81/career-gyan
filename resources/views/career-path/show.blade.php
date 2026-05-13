@@ -106,6 +106,129 @@
     .tag-item.career { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); }
     .tag-item.skill { background: rgba(249, 115, 22, 0.15); color: #fdba74; border-color: rgba(249, 115, 22, 0.3); }
 
+    /* Specialization Cards */
+    .specialization-card {
+        background: var(--glass-bg); 
+        backdrop-filter: blur(14px); 
+        border: 1px solid var(--glass-border); 
+        border-top: 1px solid rgba(255,255,255,0.3); 
+        border-radius: 20px; 
+        padding: 30px; 
+        box-shadow: var(--glass-shadow); 
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .specialization-card:hover {
+        transform: translateY(-5px) scale(1.02); 
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); 
+        border-color: rgba(255,255,255,0.4);
+    }
+    
+    .specialization-header {
+        display: flex; 
+        align-items: center; 
+        gap: 16px; 
+        margin-bottom: 20px;
+    }
+    
+    .specialization-icon {
+        width: 60px; 
+        height: 60px; 
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
+        border-radius: 12px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        color: #fff; 
+        font-size: 24px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .specialization-content {
+        flex-grow: 1; 
+        display: flex; 
+        flex-direction: column; 
+    }
+    
+    .specialization-image-wrapper {
+        position: relative; 
+        width: 100%; 
+        height: 180px; 
+        overflow: hidden;
+    }
+    
+    .specialization-image-wrapper .career-path-image {
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        display: block; 
+        transition: transform 0.5s ease;
+    }
+    
+    .specialization-card:hover .career-path-image {
+        transform: scale(1.1);
+    }
+    
+    .specialization-image-wrapper .image-overlay {
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0.1) 0%, rgba(15,23,42,0.9) 100%);
+    }
+    
+    .specialization-title {
+        position: absolute; 
+        bottom: 20px; 
+        left: 24px; 
+        z-index: 2;
+        font-family: 'Sora', sans-serif; 
+        font-size: 22px; 
+        font-weight: 800; 
+        color: #fff; 
+        text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+    
+    .specialization-content h3 {
+        font-family: 'Sora'; 
+        font-size: 20px; 
+        font-weight: 700; 
+        color: #fff; 
+        margin: 0 0 8px;
+    }
+    
+    .specialization-content p {
+        color: #cbd5e1; 
+        font-size: 14px; 
+        line-height: 1.5; 
+        margin: 0;
+    }
+    
+    .specialization-details {
+        margin-top: 12px;
+    }
+    
+    .detail-label {
+        color: #94a3b8; 
+        font-size: 12px; 
+        font-weight: 600; 
+        text-transform: uppercase; 
+        letter-spacing: 0.05em; 
+        margin-bottom: 8px; 
+        display: flex; 
+        align-items: center; 
+        gap: 6px;
+    }
+    
+    .detail-value {
+        color: #fff; 
+        font-size: 16px; 
+        font-weight: 600; 
+        margin-left: 8px;
+    }
+    
     .note-box {
         margin-top: auto; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.1); font-size: 13.5px; color: #e2e8f0; line-height: 1.5;
@@ -147,6 +270,46 @@
         .info-sections { grid-template-columns: 1fr; }
         .info-card { padding: 30px 20px; }
         .cta-section { padding: 40px 20px; }
+        
+        /* Specializations Responsive */
+        .specialization-card {
+            margin-bottom: 20px;
+        }
+        
+        .specialization-header {
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .specialization-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+        
+        .specialization-content h3 {
+            font-size: 18px;
+            margin: 0 0 8px;
+        }
+        
+        .specialization-content p {
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .specialization-details {
+            margin-top: 8px;
+        }
+        
+        .detail-label {
+            font-size: 11px;
+        }
+        
+        .detail-value {
+            font-size: 14px;
+            margin-left: 6px;
+        }
     }
 </style>
 @endsection
@@ -185,6 +348,421 @@
             {{ $pathData['description'] }}
         </p>
     </section>
+
+    <!-- Political Science Specializations -->
+    @if($pathData['title'] === 'Political Scientist')
+    <section style="margin: 60px 0;">
+        <div class="container">
+            <h2 style="text-align: center; font-family: 'Sora'; font-weight: 800; font-size: 28px; margin-bottom: 40px; color: #fff;">
+                <i class="fa-solid fa-landmark" style="margin-right: 12px;"></i>
+                Political Science Specializations
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px;">
+                
+                <!-- Public Policy Analyst -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Public Policy Analyst</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5786?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Public Policy Analyst" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Public Policy Analyst</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Analyze government policies and create recommendations for public policy development.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹6L – ₹18L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>Growing demand in government and NGO sectors</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'public-policy-analyst']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diplomat -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-passport"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Diplomat</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Diplomat" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Diplomat</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Represent national interests internationally and negotiate diplomatic agreements between countries.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹8L – ₹25L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>High-level diplomatic roles in international organizations</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'diplomat']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Political Consultant -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Political Consultant</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1586148436-4d7fd521f10?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Political Consultant" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Political Consultant</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Advise political parties and government agencies on policy matters and campaign strategies.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹7L – ₹22L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>Growing demand in political consulting firms</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'political-consultant']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Election Strategist -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Election Strategist</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1586148436-4d7fd521f10?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Election Strategist" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Election Strategist</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Develop campaign strategies and analyze voting patterns for political candidates and parties.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹8L – ₹20L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>High demand during election seasons</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'election-strategist']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legislative Assistant -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-gavel"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Legislative Assistant</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5786?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Legislative Assistant" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Legislative Assistant</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Support lawmakers in drafting legislation and policy research for government bodies.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹5L – ₹15L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>Stable government positions with growth potential</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'legislative-assistant']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- International Relations Specialist -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-globe-americas"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">International Relations Specialist</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1526374935311-b283ea7b78?auto=format&fit=crop&w=800&q=80" 
+                                 alt="International Relations Specialist" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">International Relations Specialist</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Manage international relationships and diplomatic affairs between countries and organizations.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹8L – ₹25L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>Growing opportunities in global organizations</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'international-relations-specialist']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Political Journalist -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Political Journalist</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1585829365295-a6a2a5786?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Political Journalist" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Political Journalist</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Report on political events, government policies, and international affairs for media organizations.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹6L – ₹18L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>Growing demand in digital and traditional media</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'political-journalist']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Government Affairs Manager -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Government Affairs Manager</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Government Affairs Manager" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Government Affairs Manager</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Manage government communications and public relations for political organizations and agencies.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹7L – ₹20L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>Senior roles in government PR departments</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'government-affairs-manager']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Political Campaign Manager -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-content">Political Campaign Manager</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="specialization-content">
+                        <div class="specialization-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Political Campaign Manager" 
+                                 class="career-path-image">
+                        </div>
+                        <div class="image-overlay"></div>
+                        <div class="specialization-title">Political Campaign Manager</div>
+                    </div>
+                    
+                    <div class="specialization-details">
+                        <p>Plan and execute political campaigns, including media strategy and voter outreach programs.</p>
+                        
+                        <div class="detail-label">
+                            <span>Salary</span>
+                            <span>₹8L – ₹25L</span>
+                        </div>
+                        
+                        <div class="detail-label">
+                            <span>Future Scope</span>
+                            <span>High demand during election cycles</span>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="{{ route('career-path.show', ['slug' => 'political-campaign-manager']) }}" class="btn-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Political Campaign Manager -->
+                <div class="specialization-card" style="background: var(--glass-bg); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-top: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 30px; box-shadow: var(--glass-shadow); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 0;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #dc2626, #7f1d1d); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px;">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-family: 'Sora'; font-size: 20px; font-weight: 700; color: #fff; margin: 0 0 8px;">Political Campaign Manager</h3>
+                            <p style="color: #cbd5e1; font-size: 14px; line-height: 1.5; margin: 0;">Plan and execute political campaigns, including media strategy and voter outreach programs.</p>
+                            <div style="margin-top: 12px;">
+                                <span style="color: #94a3b8; font-size: 12px; font-weight: 600;">Salary:</span>
+                                <span style="color: #fff; font-size: 16px; font-weight: 600; margin-left: 8px;">₹8L – ₹25L</span>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <span style="color: #94a3b8; font-size: 12px; font-weight: 600;">Future Scope:</span>
+                                <span style="color: #fff; font-size: 14px; margin-left: 8px;">High demand during election cycles</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    @endif
 
     <!-- Stats Row -->
     <div class="stats-container">

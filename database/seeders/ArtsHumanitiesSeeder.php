@@ -63,13 +63,15 @@ class ArtsHumanitiesSeeder extends Seeder
             ['name' => 'Special Education Teacher', 'icon' => 'fa-hands-holding-child', 'img' => 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=800&q=80', 'salary' => '₹3L – ₹10L', 'demand' => 'High'],
             ['name' => 'Instructional Designer', 'icon' => 'fa-laptop-file', 'img' => 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80', 'salary' => '₹5L – ₹15L', 'demand' => 'Growing'],
 
-            // Additional
+            // Policy & International Relations
+            ['name' => 'Public Policy Analyst', 'icon' => 'fa-landmark-dome', 'img' => 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80', 'salary' => '₹6L – ₹18L', 'demand' => 'Growing'],
+            ['name' => 'International Relations Specialist', 'icon' => 'fa-globe-americas', 'img' => 'https://images.unsplash.com/photo-1526374935311-b283ea7b56b5?auto=format&fit=crop&w=800&q=80', 'salary' => '₹8L – ₹25L', 'demand' => 'High'],
+            ['name' => 'Philosopher', 'icon' => 'fa-brain', 'img' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80', 'salary' => '₹4L – ₹15L', 'demand' => 'Stable'],
             ['name' => 'Museologist', 'icon' => 'fa-building-columns', 'img' => 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=800&q=80', 'salary' => '₹3L – ₹10L', 'demand' => 'Stable'],
             ['name' => 'Archivist', 'icon' => 'fa-box-archive', 'img' => 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80', 'salary' => '₹3L – ₹9L', 'demand' => 'Stable'],
             ['name' => 'Foreign Language Expert', 'icon' => 'fa-language', 'img' => 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80', 'salary' => '₹5L – ₹18L', 'demand' => 'High'],
             ['name' => 'Economist', 'icon' => 'fa-chart-line', 'img' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', 'salary' => '₹6L – ₹20L', 'demand' => 'High'],
             ['name' => 'Diplomat', 'icon' => 'fa-passport', 'img' => 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80', 'salary' => '₹8L – ₹25L', 'demand' => 'High'],
-            ['name' => 'International Relations Specialist', 'icon' => 'fa-earth-americas', 'img' => 'https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=800&q=80', 'salary' => '₹6L – ₹18L', 'demand' => 'Growing'],
             ['name' => 'Art Therapist', 'icon' => 'fa-paintbrush', 'img' => 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80', 'salary' => '₹3L – ₹10L', 'demand' => 'Growing'],
             ['name' => 'Copy Editor', 'icon' => 'fa-pen', 'img' => 'https://images.unsplash.com/photo-1455390582262-044cdead2708?auto=format&fit=crop&w=800&q=80', 'salary' => '₹3L – ₹10L', 'demand' => 'Stable'],
             ['name' => 'Advertising Executive', 'icon' => 'fa-rectangle-ad', 'img' => 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80', 'salary' => '₹4L – ₹15L', 'demand' => 'High'],

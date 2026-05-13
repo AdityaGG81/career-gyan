@@ -74,6 +74,114 @@ class EngineeringCollegeSeeder extends Seeder
             // Navi Mumbai / Raigad
             ['name' => 'Ramrao Adik Institute of Technology', 'location' => 'Navi Mumbai', 'type' => 'Private'],
             ['name' => 'Bharati Vidyapeeth College of Engineering Navi Mumbai', 'location' => 'Navi Mumbai', 'type' => 'Private'],
+
+            // Kolhapur District
+            ['name' => 'Government College of Engineering Kolhapur', 'location' => 'Kolhapur', 'type' => 'Government'],
+            ['name' => 'D Y Patil College of Engineering Kolhapur', 'location' => 'Kolhapur', 'type' => 'Private'],
+
+            // Solapur District
+            ['name' => 'Walchand Institute of Technology', 'location' => 'Solapur', 'type' => 'Government'],
+            ['name' => 'D Y Patil College of Engineering Solapur', 'location' => 'Solapur', 'type' => 'Private'],
+
+            // Jalgaon District
+            ['name' => 'Government College of Engineering Jalgaon', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'MGM College of Engineering Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
+
+            // Amravati District
+            ['name' => 'Government College of Engineering Amravati', 'location' => 'Amravati', 'type' => 'Government'],
+            ['name' => 'Prof. Ram Meghe Institute of Technology and Research', 'location' => 'Amravati', 'type' => 'Private'],
+
+            // Latur District
+            ['name' => 'Government College of Engineering Latur', 'location' => 'Latur', 'type' => 'Government'],
+            ['name' => 'Swami Vivekanand College of Engineering', 'location' => 'Latur', 'type' => 'Private'],
+
+            // Ahmednagar District
+            ['name' => 'Government College of Engineering Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government'],
+            ['name' => 'New College of Engineering Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Private'],
+
+            // Chandrapur District
+            ['name' => 'Government College of Engineering Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government'],
+            ['name' => 'Lokmanya Tilak College of Engineering Chandrapur', 'location' => 'Chandrapur', 'type' => 'Private'],
+
+            // Dhule District
+            ['name' => 'Government College of Engineering Dhule', 'location' => 'Dhule', 'type' => 'Government'],
+            ['name' => 'SSVPS College of Engineering Dhule', 'location' => 'Dhule', 'type' => 'Private'],
+
+            // Nanded District
+            ['name' => 'Government College of Engineering Nanded', 'location' => 'Nanded', 'type' => 'Government'],
+            ['name' => 'Swami Ramanand Teerth Marathwada University Engineering College', 'location' => 'Nanded', 'type' => 'Private'],
+
+            // Parbhani District
+            ['name' => 'Government College of Engineering Parbhani', 'location' => 'Parbhani', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Mission College of Engineering Parbhani', 'location' => 'Parbhani', 'type' => 'Private'],
+
+            // Satara District
+            ['name' => 'Government College of Engineering Satara', 'location' => 'Satara', 'type' => 'Government'],
+            ['name' => 'K J Somaiya College of Engineering Satara', 'location' => 'Satara', 'type' => 'Private'],
+
+            // Yavatmal District
+            ['name' => 'Government College of Engineering Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government'],
+            ['name' => 'College of Engineering Yavatmal', 'location' => 'Yavatmal', 'type' => 'Private'],
+
+            // Ratnagiri District
+            ['name' => 'Government College of Engineering Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Government'],
+            ['name' => 'Konkan Gyanpeeth College of Engineering Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Private'],
+
+            // Sindhudurg District
+            ['name' => 'Government College of Engineering Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Government'],
+            ['name' => 'Konkan Gyanpeeth College of Engineering Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Private'],
+
+            // Palghar District
+            ['name' => 'Government College of Engineering Palghar', 'location' => 'Palghar', 'type' => 'Government'],
+            ['name' => 'Vidyavardhini College of Engineering Palghar', 'location' => 'Palghar', 'type' => 'Private'],
+
+            // Beed District
+            ['name' => 'Government College of Engineering Beed', 'location' => 'Beed', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Mission College of Engineering Beed', 'location' => 'Beed', 'type' => 'Private'],
+
+            // Osmanabad District
+            ['name' => 'Government College of Engineering Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Mission College of Engineering Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+
+            // Washim District
+            ['name' => 'Government College of Engineering Washim', 'location' => 'Washim', 'type' => 'Government'],
+            ['name' => 'College of Engineering Washim', 'location' => 'Washim', 'type' => 'Private'],
+
+            // Hingoli District
+            ['name' => 'Government College of Engineering Hingoli', 'location' => 'Hingoli', 'type' => 'Government'],
+            ['name' => 'College of Engineering Hingoli', 'location' => 'Hingoli', 'type' => 'Private'],
+
+            // Buldhana District
+            ['name' => 'Government College of Engineering Buldhana', 'location' => 'Buldhana', 'type' => 'Government'],
+            ['name' => 'College of Engineering Buldhana', 'location' => 'Buldhana', 'type' => 'Private'],
+
+            // Gadchiroli District
+            ['name' => 'Government College of Engineering Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Government'],
+            ['name' => 'College of Engineering Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Private'],
+
+            // Gondia District
+            ['name' => 'Government College of Engineering Gondia', 'location' => 'Gondia', 'type' => 'Government'],
+            ['name' => 'College of Engineering Gondia', 'location' => 'Gondia', 'type' => 'Private'],
+
+            // Bhandara District
+            ['name' => 'Government College of Engineering Bhandara', 'location' => 'Bhandara', 'type' => 'Government'],
+            ['name' => 'College of Engineering Bhandara', 'location' => 'Bhandara', 'type' => 'Private'],
+
+            // Akola District
+            ['name' => 'Government College of Engineering Akola', 'location' => 'Akola', 'type' => 'Government'],
+            ['name' => 'College of Engineering Akola', 'location' => 'Akola', 'type' => 'Private'],
+
+            // Jalna District
+            ['name' => 'Government College of Engineering Jalna', 'location' => 'Jalna', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Mission College of Engineering Jalna', 'location' => 'Jalna', 'type' => 'Private'],
+
+            // Wardha District
+            ['name' => 'Government College of Engineering Wardha', 'location' => 'Wardha', 'type' => 'Government'],
+            ['name' => 'College of Engineering Wardha', 'location' => 'Wardha', 'type' => 'Private'],
+
+            // Nandurbar District
+            ['name' => 'Government College of Engineering Nandurbar', 'location' => 'Nandurbar', 'type' => 'Government'],
+            ['name' => 'College of Engineering Nandurbar', 'location' => 'Nandurbar', 'type' => 'Private'],
         ];
 
         $top10 = [

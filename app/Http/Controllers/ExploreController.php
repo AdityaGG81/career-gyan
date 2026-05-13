@@ -299,7 +299,7 @@ class ExploreController extends Controller
     public function engineeringColleges()
     {
         $field = Field::where('slug', 'technology-engineering')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderBy('name', 'asc')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
         return view('colleges.index', compact('field', 'colleges', 'districts', 'types'));
@@ -308,7 +308,7 @@ class ExploreController extends Controller
     public function medicalColleges()
     {
         $field = Field::where('slug', 'medical')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
         return view('colleges.medical', compact('field', 'colleges', 'districts', 'types'));
@@ -317,7 +317,7 @@ class ExploreController extends Controller
     public function hotelColleges()
     {
         $field = Field::where('slug', 'hotel-management')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $locations = $colleges->pluck('location')->unique()->sort()->values();
         $tiers = ['Tier 1', 'Tier 2', 'Tier 3'];
         return view('colleges.hotel', compact('field', 'colleges', 'locations', 'tiers'));
@@ -326,7 +326,7 @@ class ExploreController extends Controller
     public function managementColleges()
     {
         $field = Field::where('slug', 'business')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
         return view('colleges.management', compact('field', 'colleges', 'districts', 'types'));
@@ -335,7 +335,7 @@ class ExploreController extends Controller
     public function pharmacyColleges()
     {
         $field = Field::where('slug', 'pharmacy')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
         return view('colleges.pharmacy', compact('field', 'colleges', 'districts', 'types'));
@@ -344,15 +344,16 @@ class ExploreController extends Controller
     public function nonMbbsColleges()
     {
         $field = Field::where('slug', 'ayush-allied')->first() ?? Field::where('slug', 'medical')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $courses = ['BAMS', 'BHMS', 'BUMS', 'BNYS', 'BPT', 'BDS'];
-        return view('colleges.non_mbbs', compact('field', 'colleges', 'courses'));
+        $districts = $colleges->pluck('location')->unique()->sort()->values();
+        return view('colleges.non_mbbs', compact('field', 'colleges', 'courses', 'districts'));
     }
 
     public function scienceColleges()
     {
         $field = Field::where('slug', 'science')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         return view('colleges.science', compact('field', 'colleges', 'districts'));
     }
@@ -360,7 +361,7 @@ class ExploreController extends Controller
     public function artsColleges()
     {
         $field = Field::where('slug', 'arts-humanities')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         return view('colleges.arts', compact('field', 'colleges', 'districts'));
     }
@@ -368,7 +369,7 @@ class ExploreController extends Controller
     public function commerceColleges()
     {
         $field = Field::where('slug', 'commerce')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         return view('colleges.commerce', compact('field', 'colleges', 'districts'));
     }
@@ -376,7 +377,7 @@ class ExploreController extends Controller
     public function agricultureColleges()
     {
         $field = Field::where('slug', 'agriculture')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         return view('colleges.agriculture', compact('field', 'colleges', 'districts'));
     }
@@ -512,5 +513,25 @@ class ExploreController extends Controller
     public function careerPath(Field $field)
     {
         return back()->with('info', 'Career path guide for ' . $field->name . ' is coming soon!');
+    }
+
+    /**
+     * Get FontAwesome icon class for skill category
+     */
+    private function getCategoryIcon($title)
+    {
+        $iconMap = [
+            'Technical Skills' => 'fa-solid fa-laptop-code',
+            'Vocational Skills' => 'fa-solid fa-tools',
+            'Digital Skills' => 'fa-solid fa-computer',
+            'Creative Skills' => 'fa-solid fa-palette',
+            'Business Skills' => 'fa-solid fa-briefcase',
+            'Communication Skills' => 'fa-solid fa-comments',
+            'Healthcare Skills' => 'fa-solid fa-heart-pulse',
+            'Agriculture Skills' => 'fa-solid fa-seedling',
+            'Hospitality Skills' => 'fa-solid fa-hotel',
+        ];
+
+        return $iconMap[$title] ?? 'fa-solid fa-star';
     }
 }

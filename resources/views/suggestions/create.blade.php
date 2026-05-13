@@ -58,16 +58,14 @@
 
                 <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name <span class="text-gray-400">(Optional)</span></label>
                         <div class="mt-1">
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="John Doe">
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Name">
                         </div>
                     </div>
-
+                    
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email <span class="text-gray-400">(Optional)</span></label>
                         <div class="mt-1">
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="john@example.com">
+                            <input type="email" name="email" id="email" value="{{ old('email') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Email">
                         </div>
                     </div>
                 </div>

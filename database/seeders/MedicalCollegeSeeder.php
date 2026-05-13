@@ -80,6 +80,63 @@ class MedicalCollegeSeeder extends Seeder
 
             // Nanded
             ['name' => 'Government Medical College Nanded', 'location' => 'Nanded', 'type' => 'Government'],
+
+            // Akola
+            ['name' => 'Government Medical College Akola', 'location' => 'Akola', 'type' => 'Government'],
+
+            // Bhandara
+            ['name' => 'Bhandara Medical College', 'location' => 'Bhandara', 'type' => 'Private'],
+
+            // Chandrapur
+            ['name' => 'Government Medical College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government'],
+
+            // Dhule
+            ['name' => 'Government Medical College Dhule', 'location' => 'Dhule', 'type' => 'Government'],
+
+            // Jalna
+            ['name' => 'Mahatma Jyotiba Phule Medical College', 'location' => 'Jalna', 'type' => 'Private'],
+
+            // Osmanabad (Dharashiv)
+            ['name' => 'Government Medical College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+
+            // Parbhani
+            ['name' => 'Government Medical College Parbhani', 'location' => 'Parbhani', 'type' => 'Government'],
+
+            // Satara
+            ['name' => 'Government Medical College Satara', 'location' => 'Satara', 'type' => 'Government'],
+
+            // Yavatmal
+            ['name' => 'Government Medical College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government'],
+
+            // Nandurbar
+            ['name' => 'Government Medical College Nandurbar', 'location' => 'Nandurbar', 'type' => 'Government'],
+
+            // Washim
+            ['name' => 'Government Medical College Washim', 'location' => 'Washim', 'type' => 'Government'],
+
+            // Gondia
+            ['name' => 'Government Medical College Gondia', 'location' => 'Gondia', 'type' => 'Government'],
+
+            // Hingoli
+            ['name' => 'Government Medical College Hingoli', 'location' => 'Hingoli', 'type' => 'Government'],
+
+            // Buldhana
+            ['name' => 'Government Medical College Buldhana', 'location' => 'Buldhana', 'type' => 'Government'],
+
+            // Beed
+            ['name' => 'Government Medical College Beed', 'location' => 'Beed', 'type' => 'Government'],
+
+            // Gadchiroli
+            ['name' => 'Government Medical College Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Government'],
+
+            // Ratnagiri
+            ['name' => 'Government Medical College Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Government'],
+
+            // Sindhudurg
+            ['name' => 'Government Medical College Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Government'],
+
+            // Palghar
+            ['name' => 'Government Medical College Palghar', 'location' => 'Palghar', 'type' => 'Government'],
         ];
 
         $top10Names = [

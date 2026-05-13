@@ -59,7 +59,107 @@ class ArtsCollegeSeeder extends Seeder
             // Solapur
             ['name' => 'Sangameshwar College', 'location' => 'Solapur', 'type' => 'Private'],
             ['name' => 'Walchand College of Arts and Science', 'location' => 'Solapur', 'type' => 'Private'],
-            
+
+            // Jalgaon
+            ['name' => 'North Maharashtra University Arts College', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'MGM Arts College Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
+
+            // Amravati
+            ['name' => 'Government Arts College Amravati', 'location' => 'Amravati', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Arts College Amravati', 'location' => 'Amravati', 'type' => 'Private'],
+
+            // Latur
+            ['name' => 'Government Arts College Latur', 'location' => 'Latur', 'type' => 'Government'],
+            ['name' => 'Dayanand College of Arts Latur', 'location' => 'Latur', 'type' => 'Private'],
+
+            // Chandrapur
+            ['name' => 'Government Arts College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Private'],
+
+            // Dhule
+            ['name' => 'Government Arts College Dhule', 'location' => 'Dhule', 'type' => 'Government'],
+            ['name' => 'SVPM Arts College Dhule', 'location' => 'Dhule', 'type' => 'Private'],
+
+            // Nanded
+            ['name' => 'Government Arts College Nanded', 'location' => 'Nanded', 'type' => 'Government'],
+            ['name' => 'Swami Ramanand Teerth Arts College Nanded', 'location' => 'Nanded', 'type' => 'Private'],
+
+            // Parbhani
+            ['name' => 'Government Arts College Parbhani', 'location' => 'Parbhani', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Parbhani', 'location' => 'Parbhani', 'type' => 'Private'],
+
+            // Satara
+            ['name' => 'Government Arts College Satara', 'location' => 'Satara', 'type' => 'Government'],
+            ['name' => 'Yashwantrao Chavan Arts College Satara', 'location' => 'Satara', 'type' => 'Private'],
+
+            // Yavatmal
+            ['name' => 'Government Arts College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Private'],
+
+            // Ratnagiri
+            ['name' => 'Government Arts College Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Government'],
+            ['name' => 'Gogate College Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Private'],
+
+            // Sindhudurg
+            ['name' => 'Government Arts College Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Government'],
+            ['name' => 'Dayanand College Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Private'],
+
+            // Palghar
+            ['name' => 'Government Arts College Palghar', 'location' => 'Palghar', 'type' => 'Government'],
+            ['name' => 'Vidyavardhini Arts College Palghar', 'location' => 'Palghar', 'type' => 'Private'],
+
+            // Beed
+            ['name' => 'Government Arts College Beed', 'location' => 'Beed', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Beed', 'location' => 'Beed', 'type' => 'Private'],
+
+            // Osmanabad
+            ['name' => 'Government Arts College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+
+            // Washim
+            ['name' => 'Government Arts College Washim', 'location' => 'Washim', 'type' => 'Government'],
+            ['name' => 'Dayanand College Washim', 'location' => 'Washim', 'type' => 'Private'],
+
+            // Hingoli
+            ['name' => 'Government Arts College Hingoli', 'location' => 'Hingoli', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Hingoli', 'location' => 'Hingoli', 'type' => 'Private'],
+
+            // Buldhana
+            ['name' => 'Government Arts College Buldhana', 'location' => 'Buldhana', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Arts College Buldhana', 'location' => 'Buldhana', 'type' => 'Private'],
+
+            // Gadchiroli
+            ['name' => 'Government Arts College Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Private'],
+
+            // Gondia
+            ['name' => 'Government Arts College Gondia', 'location' => 'Gondia', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Arts College Gondia', 'location' => 'Gondia', 'type' => 'Private'],
+
+            // Bhandara
+            ['name' => 'Government Arts College Bhandara', 'location' => 'Bhandara', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Bhandara', 'location' => 'Bhandara', 'type' => 'Private'],
+
+            // Akola
+            ['name' => 'Government Arts College Akola', 'location' => 'Akola', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Arts College Akola', 'location' => 'Akola', 'type' => 'Private'],
+
+            // Jalna
+            ['name' => 'Government Arts College Jalna', 'location' => 'Jalna', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Jalna', 'location' => 'Jalna', 'type' => 'Private'],
+
+            // Wardha
+            ['name' => 'Government Arts College Wardha', 'location' => 'Wardha', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Wardha', 'location' => 'Wardha', 'type' => 'Private'],
+
+            // Nandurbar
+            ['name' => 'Government Arts College Nandurbar', 'location' => 'Nandurbar', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Arts College Nandurbar', 'location' => 'Nandurbar', 'type' => 'Private'],
+
+            // Sangli
+            ['name' => 'Government Arts College Sangli', 'location' => 'Sangli', 'type' => 'Government'],
+            ['name' => 'Walchand College of Arts Sangli', 'location' => 'Sangli', 'type' => 'Private'],
+
             // Other Elite
             ['name' => 'NMIMS Mumbai (Liberal Arts)', 'location' => 'Mumbai', 'type' => 'Private', 'is_elite' => true],
         ];

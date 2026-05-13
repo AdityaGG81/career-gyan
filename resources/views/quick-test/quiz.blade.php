@@ -174,6 +174,31 @@
         <form id="quizForm" action="{{ route('quick-test.submit') }}" method="POST">
             @csrf
             
+            {{-- Student Information --}}
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 30px;">
+                <h3 style="font-size: 18px; font-weight: 700; color: var(--text-1); margin-bottom: 16px; text-align: center;">
+                    Student Information
+                </h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; margin: 0 auto;">
+                    <div>
+                        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px;">
+                            Full Name *
+                        </label>
+                        <input type="text" name="student_name" required 
+                               style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;"
+                               placeholder="Enter your full name">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px;">
+                            Email Address
+                        </label>
+                        <input type="email" name="student_email" 
+                               style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;"
+                               placeholder="your.email@example.com">
+                    </div>
+                </div>
+            </div>
+            
             @foreach($questions as $index => $question)
                 <div class="question-step {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}" data-section="{{ $question->section }}">
                     <div class="question-card">

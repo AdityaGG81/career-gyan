@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Aptitude Analytics Dashboard | CareerGyan')
+@section('title', 'CareerGyan Aptitude Analysis Report')
 
 @section('styles')
 <style>
@@ -199,21 +199,132 @@
         margin: 0 auto 30px;
         line-height: 1.6;
     }
+
+    /* Print Styles for Professional PDF */
+    @media print {
+        body {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            background: #fff !important;
+        }
+        
+        .dashboard-container {
+            background: #fff !important;
+            padding: 0 !important;
+        }
+        
+        .report-header {
+            border: 2px solid #3b82f6 !important;
+            page-break-inside: avoid;
+            margin-bottom: 30px !important;
+        }
+        
+        .profile-box,
+        .stat-card,
+        .rec-section {
+            page-break-inside: avoid;
+            margin-bottom: 20px !important;
+        }
+        
+        .chart-container {
+            page-break-inside: avoid;
+            height: 250px !important;
+        }
+        
+        .action-btn,
+        .cta-advanced,
+        .answersheet-section,
+        .quiz-sticky-bar {
+            display: none !important;
+        }
+        
+        h1, h2, h3 {
+            color: #1e293b !important;
+        }
+        
+        .section-label {
+            color: #64748b !important;
+        }
+        
+        /* Ensure proper spacing */
+        .container {
+            max-width: 100% !important;
+            padding: 20px !important;
+        }
+        
+        /* Fix table layouts */
+        .rec-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="dashboard-container">
     <div class="container">
-        {{-- Header --}}
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
-            <div>
-                <span class="section-label">Aptitude Report</span>
-                <h1 class="section-title" style="margin-top: 10px; color: var(--brand);">Aptitude Profile Analysis</h1>
+        {{-- Professional Report Header --}}
+        <div class="report-header" style="background: #fff; border: 2px solid #3b82f6; border-radius: 16px; padding: 32px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                {{-- CareerGyan Branding --}}
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; font-weight: 800;">
+                        CG
+                    </div>
+                    <div>
+                        <h1 style="font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: #1e293b; margin: 0; line-height: 1.2;">
+                            CareerGyan
+                        </h1>
+                        <p style="font-size: 14px; color: #64748b; margin: 0; font-weight: 500;">
+                            Indian Institute of Career Management
+                        </p>
+                    </div>
+                </div>
+                
+                {{-- Report Title --}}
+                <div style="text-align: right;">
+                    <h2 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin: 0; line-height: 1.2;">
+                        CareerGyan Aptitude Analysis Report
+                    </h2>
+                    <p style="font-size: 13px; color: #64748b; margin: 4px 0 0 0;">
+                        Professional Career Assessment
+                    </p>
+                </div>
             </div>
-            <div style="text-align: right;">
-                <div style="font-size: 14px; color: var(--text-3); font-weight: 600;">Student ID: #{{ substr($attempt->uuid, 0, 8) }}</div>
-                <div style="font-size: 14px; color: var(--text-3); font-weight: 600;">Date: {{ $attempt->created_at->format('M d, Y') }}</div>
+            
+            {{-- Student Information Section --}}
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #1e293b; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 0.05em;">
+                    Student Information
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Student Name</span>
+                        <p style="font-size: 16px; color: #1e293b; font-weight: 600; margin: 4px 0 0 0;">
+                            {{ $attempt->student_name ?: 'Not Provided' }}
+                        </p>
+                    </div>
+                    <div>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Student ID</span>
+                        <p style="font-size: 16px; color: #1e293b; font-weight: 600; margin: 4px 0 0 0;">
+                            #{{ strtoupper(substr($attempt->uuid, 0, 8)) }}
+                        </p>
+                    </div>
+                    <div>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Report Date</span>
+                        <p style="font-size: 16px; color: #1e293b; font-weight: 600; margin: 4px 0 0 0;">
+                            {{ $attempt->created_at->format('M d, Y') }}
+                        </p>
+                    </div>
+                    @if($attempt->student_email)
+                    <div>
+                        <span style="font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Email</span>
+                        <p style="font-size: 16px; color: #1e293b; font-weight: 600; margin: 4px 0 0 0;">
+                            {{ $attempt->student_email }}
+                        </p>
+                    </div>
+                    @endif
+                </div>
             </div>
         </div>
 

@@ -69,6 +69,106 @@ class PharmacyCollegeSeeder extends Seeder
 
             // Solapur
             ['name' => 'College of Pharmacy Solapur', 'location' => 'Solapur', 'type' => 'Private'],
+
+            // Amravati
+            ['name' => 'Government College of Pharmacy Amravati', 'location' => 'Amravati', 'type' => 'Government'],
+            ['name' => 'Dr Panjabrao Deshmukh College of Pharmacy Amravati', 'location' => 'Amravati', 'type' => 'Private'],
+
+            // Latur
+            ['name' => 'Government College of Pharmacy Latur', 'location' => 'Latur', 'type' => 'Government'],
+            ['name' => 'Swami Vivekanand College of Pharmacy Latur', 'location' => 'Latur', 'type' => 'Private'],
+
+            // Chandrapur
+            ['name' => 'Government College of Pharmacy Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Chandrapur', 'location' => 'Chandrapur', 'type' => 'Private'],
+
+            // Nanded
+            ['name' => 'Government College of Pharmacy Nanded', 'location' => 'Nanded', 'type' => 'Government'],
+            ['name' => 'Swami Ramanand Teerth College of Pharmacy Nanded', 'location' => 'Nanded', 'type' => 'Private'],
+
+            // Parbhani
+            ['name' => 'Government College of Pharmacy Parbhani', 'location' => 'Parbhani', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Parbhani', 'location' => 'Parbhani', 'type' => 'Private'],
+
+            // Satara
+            ['name' => 'Government College of Pharmacy Satara', 'location' => 'Satara', 'type' => 'Government'],
+            ['name' => 'Yashwantrao Chavan College of Pharmacy Satara', 'location' => 'Satara', 'type' => 'Private'],
+
+            // Yavatmal
+            ['name' => 'Government College of Pharmacy Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Yavatmal', 'location' => 'Yavatmal', 'type' => 'Private'],
+
+            // Ratnagiri
+            ['name' => 'Government College of Pharmacy Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Government'],
+            ['name' => 'Gogate College of Pharmacy Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Private'],
+
+            // Sindhudurg
+            ['name' => 'Government College of Pharmacy Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Government'],
+            ['name' => 'Dayanand College of Pharmacy Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Private'],
+
+            // Palghar
+            ['name' => 'Government College of Pharmacy Palghar', 'location' => 'Palghar', 'type' => 'Government'],
+            ['name' => 'Vidyavardhini College of Pharmacy Palghar', 'location' => 'Palghar', 'type' => 'Private'],
+
+            // Beed
+            ['name' => 'Government College of Pharmacy Beed', 'location' => 'Beed', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Beed', 'location' => 'Beed', 'type' => 'Private'],
+
+            // Osmanabad
+            ['name' => 'Government College of Pharmacy Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+
+            // Washim
+            ['name' => 'Government College of Pharmacy Washim', 'location' => 'Washim', 'type' => 'Government'],
+            ['name' => 'Dayanand College of Pharmacy Washim', 'location' => 'Washim', 'type' => 'Private'],
+
+            // Hingoli
+            ['name' => 'Government College of Pharmacy Hingoli', 'location' => 'Hingoli', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Hingoli', 'location' => 'Hingoli', 'type' => 'Private'],
+
+            // Buldhana
+            ['name' => 'Government College of Pharmacy Buldhana', 'location' => 'Buldhana', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji College of Pharmacy Buldhana', 'location' => 'Buldhana', 'type' => 'Private'],
+
+            // Gadchiroli
+            ['name' => 'Government College of Pharmacy Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Private'],
+
+            // Gondia
+            ['name' => 'Government College of Pharmacy Gondia', 'location' => 'Gondia', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji College of Pharmacy Gondia', 'location' => 'Gondia', 'type' => 'Private'],
+
+            // Bhandara
+            ['name' => 'Government College of Pharmacy Bhandara', 'location' => 'Bhandara', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Bhandara', 'location' => 'Bhandara', 'type' => 'Private'],
+
+            // Akola
+            ['name' => 'Government College of Pharmacy Akola', 'location' => 'Akola', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji College of Pharmacy Akola', 'location' => 'Akola', 'type' => 'Private'],
+
+            // Jalna
+            ['name' => 'Government College of Pharmacy Jalna', 'location' => 'Jalna', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Jalna', 'location' => 'Jalna', 'type' => 'Private'],
+
+            // Wardha
+            ['name' => 'Government College of Pharmacy Wardha', 'location' => 'Wardha', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Wardha', 'location' => 'Wardha', 'type' => 'Private'],
+
+            // Nandurbar
+            ['name' => 'Government College of Pharmacy Nandurbar', 'location' => 'Nandurbar', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji College of Pharmacy Nandurbar', 'location' => 'Nandurbar', 'type' => 'Private'],
+
+            // Raigad
+            ['name' => 'Government College of Pharmacy Raigad', 'location' => 'Raigad', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Raigad', 'location' => 'Raigad', 'type' => 'Private'],
+
+            // Thane
+            ['name' => 'Government College of Pharmacy Thane', 'location' => 'Thane', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Thane', 'location' => 'Thane', 'type' => 'Private'],
+
+            // Mumbai Suburban
+            ['name' => 'Government College of Pharmacy Mumbai Suburban', 'location' => 'Mumbai Suburban', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Mumbai Suburban', 'location' => 'Mumbai Suburban', 'type' => 'Private'],
         ];
 
         $top10Names = [

@@ -57,6 +57,118 @@ class ScienceCollegeSeeder extends Seeder
             // Solapur
             ['name' => 'Sangameshwar College Solapur', 'location' => 'Solapur', 'type' => 'Private'],
             ['name' => 'Walchand College of Arts and Science', 'location' => 'Solapur', 'type' => 'Private'],
+
+            // Jalgaon
+            ['name' => 'North Maharashtra University Science College', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'MGM College of Science Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
+
+            // Amravati
+            ['name' => 'Government Science College Amravati', 'location' => 'Amravati', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Science College Amravati', 'location' => 'Amravati', 'type' => 'Private'],
+
+            // Latur
+            ['name' => 'Government Science College Latur', 'location' => 'Latur', 'type' => 'Government'],
+            ['name' => 'Dayanand Science College Latur', 'location' => 'Latur', 'type' => 'Private'],
+
+            // Chandrapur
+            ['name' => 'Government Science College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Private'],
+
+            // Dhule
+            ['name' => 'Government Science College Dhule', 'location' => 'Dhule', 'type' => 'Government'],
+            ['name' => 'SVPM Science College Dhule', 'location' => 'Dhule', 'type' => 'Private'],
+
+            // Nanded
+            ['name' => 'Government Science College Nanded', 'location' => 'Nanded', 'type' => 'Government'],
+            ['name' => 'Swami Ramanand Teerth Science College Nanded', 'location' => 'Nanded', 'type' => 'Private'],
+
+            // Parbhani
+            ['name' => 'Government Science College Parbhani', 'location' => 'Parbhani', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Parbhani', 'location' => 'Parbhani', 'type' => 'Private'],
+
+            // Satara
+            ['name' => 'Government Science College Satara', 'location' => 'Satara', 'type' => 'Government'],
+            ['name' => 'Yashwantrao Chavan Science College Satara', 'location' => 'Satara', 'type' => 'Private'],
+
+            // Yavatmal
+            ['name' => 'Government Science College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Private'],
+
+            // Ratnagiri
+            ['name' => 'Government Science College Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Government'],
+            ['name' => 'Gogate Science College Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Private'],
+
+            // Sindhudurg
+            ['name' => 'Government Science College Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Government'],
+            ['name' => 'Dayanand Science College Sindhudurg', 'location' => 'Sindhudurg', 'type' => 'Private'],
+
+            // Palghar
+            ['name' => 'Government Science College Palghar', 'location' => 'Palghar', 'type' => 'Government'],
+            ['name' => 'Vidyavardhini Science College Palghar', 'location' => 'Palghar', 'type' => 'Private'],
+
+            // Beed
+            ['name' => 'Government Science College Beed', 'location' => 'Beed', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Beed', 'location' => 'Beed', 'type' => 'Private'],
+
+            // Osmanabad
+            ['name' => 'Government Science College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+
+            // Washim
+            ['name' => 'Government Science College Washim', 'location' => 'Washim', 'type' => 'Government'],
+            ['name' => 'Dayanand Science College Washim', 'location' => 'Washim', 'type' => 'Private'],
+
+            // Hingoli
+            ['name' => 'Government Science College Hingoli', 'location' => 'Hingoli', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Hingoli', 'location' => 'Hingoli', 'type' => 'Private'],
+
+            // Buldhana
+            ['name' => 'Government Science College Buldhana', 'location' => 'Buldhana', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Science College Buldhana', 'location' => 'Buldhana', 'type' => 'Private'],
+
+            // Gadchiroli
+            ['name' => 'Government Science College Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Gadchiroli', 'location' => 'Gadchiroli', 'type' => 'Private'],
+
+            // Gondia
+            ['name' => 'Government Science College Gondia', 'location' => 'Gondia', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Science College Gondia', 'location' => 'Gondia', 'type' => 'Private'],
+
+            // Bhandara
+            ['name' => 'Government Science College Bhandara', 'location' => 'Bhandara', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Bhandara', 'location' => 'Bhandara', 'type' => 'Private'],
+
+            // Akola
+            ['name' => 'Government Science College Akola', 'location' => 'Akola', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Science College Akola', 'location' => 'Akola', 'type' => 'Private'],
+
+            // Jalna
+            ['name' => 'Government Science College Jalna', 'location' => 'Jalna', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Jalna', 'location' => 'Jalna', 'type' => 'Private'],
+
+            // Wardha
+            ['name' => 'Government Science College Wardha', 'location' => 'Wardha', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Wardha', 'location' => 'Wardha', 'type' => 'Private'],
+
+            // Nandurbar
+            ['name' => 'Government Science College Nandurbar', 'location' => 'Nandurbar', 'type' => 'Government'],
+            ['name' => 'Shri Shivaji Science College Nandurbar', 'location' => 'Nandurbar', 'type' => 'Private'],
+
+            // Raigad
+            ['name' => 'Government Science College Raigad', 'location' => 'Raigad', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Raigad', 'location' => 'Raigad', 'type' => 'Private'],
+
+            // Thane
+            ['name' => 'Government Science College Thane', 'location' => 'Thane', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Thane', 'location' => 'Thane', 'type' => 'Private'],
+
+            // Mumbai Suburban
+            ['name' => 'Government Science College Mumbai Suburban', 'location' => 'Mumbai Suburban', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Mumbai Suburban', 'location' => 'Mumbai Suburban', 'type' => 'Private'],
+
+            // Sangli
+            ['name' => 'Government Science College Sangli', 'location' => 'Sangli', 'type' => 'Government'],
+            ['name' => 'Walchand Science College Sangli', 'location' => 'Sangli', 'type' => 'Private'],
         ];
 
         foreach ($collegesData as $collegeInfo) {

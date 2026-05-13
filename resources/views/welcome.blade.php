@@ -1068,12 +1068,10 @@
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
               <div class="form-group">
-                <label for="name">Name (Optional)</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Your name">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
               </div>
               <div class="form-group">
-                <label for="email">Email (Optional)</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="your@email.com">
+                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
               </div>
             </div>
 
