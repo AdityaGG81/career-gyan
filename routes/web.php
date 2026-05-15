@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
 
     // AI Chatbot
     Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
+    Route::get('/ai-career-chat/limit', [AiCareerChatController::class, 'getRemainingLimit'])->name('ai-career-chat.limit');
 });
 
 // Suggestions

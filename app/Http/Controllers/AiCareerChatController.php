@@ -144,6 +144,28 @@ class AiCareerChatController extends Controller
         }
     }
 
+    public function getRemainingLimit()
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['remaining' => 0]);
+        }
+
+        $email = $user->email;
+        $isTestUser = ($email === 'test@gmail.com');
+
+        if ($isTestUser) {
+            return response()->json(['remaining' => 999]);
+        }
+
+        $date = now()->format('Y-m-d');
+        $userCacheKey = "ai_chat_limit_user_{$user->id}_{$date}";
+        $maxCount = Cache::get($userCacheKey, 0);
+        $remaining = max(0, 5 - $maxCount);
+
+        return response()->json(['remaining' => $remaining]);
+    }
+
     public function debugAicreditsTest()
     {
         $apiKey = trim((string) config('services.aicredits.api_key'));

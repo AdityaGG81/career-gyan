@@ -592,14 +592,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize State
-    function initChatState() {
+    async function initChatState() {
         if (isOnboardingComplete()) {
             welcomeMsg.textContent = `Hello ${userName}! 👋 How can I help you today?`;
             suggestionsContainer.style.display = '';
             chatMessages.classList.add('active');
             chatFooterWrapper.classList.add('active');
             setChatInteractionEnabled(true);
-            if (chatWindow.classList.contains('active')) {
+            
+            // Fetch current limit from server
+            try {
+                const response = await fetch('/ai-career-chat/limit', {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.remaining !== undefined) {
+                        remainingText.textContent = data.remaining;
+                        if (data.remaining <= 0) {
+                            handleLimitReached();
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to fetch limit:", e);
+            }
+
+            if (chatWindow.classList.contains('active') && !chatInput.disabled) {
                 chatInput.focus();
             }
             scrollToBottom();
