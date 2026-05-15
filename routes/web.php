@@ -91,13 +91,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
     Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
     Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
+
+    // AI Chatbot
+    Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
 });
 
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
 
-// AI Chatbot
-Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
+// AI Chatbot (moved to auth group)
 
 // Admin Auth
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');

@@ -13,31 +13,26 @@ class AiCareerChatController extends Controller
     public function message(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:150',
-            'qualification' => 'required|string|max:100',
             'message' => 'required|string|max:500',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'reply' => 'Please enter your name, email and qualification first.',
+                'reply' => 'Please enter a valid message.',
                 'remaining' => 5,
             ], 422);
         }
 
-        $ip = $request->ip();
-        $email = $request->input('email');
+        $user = auth()->user();
+        $name = $user->name ?? $user->first_name ?? 'User';
+        $email = $user->email;
+        $qualification = 'Student/User';
+        
         $date = now()->format('Y-m-d');
-
-        $ipCacheKey = "ai_chat_limit_{$ip}_{$date}";
-        $emailCacheKey = "ai_chat_limit_{$email}_{$date}";
-
-        $ipRequestsCount = Cache::get($ipCacheKey, 0);
-        $emailRequestsCount = Cache::get($emailCacheKey, 0);
-
-        $maxCount = max($ipRequestsCount, $emailRequestsCount);
+        $userCacheKey = "ai_chat_limit_user_{$user->id}_{$date}";
+        
+        $maxCount = Cache::get($userCacheKey, 0);
         $remaining = max(0, 5 - $maxCount);
 
         if ($maxCount >= 5) {
@@ -74,7 +69,7 @@ class AiCareerChatController extends Controller
                         ],
                         [
                             'role' => 'user',
-                            'content' => "Name: {$request->name}\nEmail: {$request->email}\nQualification: {$request->qualification}\nQuestion: {$request->message}",
+                            'content' => "Name: {$name}\nEmail: {$email}\nQualification: {$qualification}\nQuestion: {$request->message}",
                         ],
                     ],
                     'temperature' => 0.7,
@@ -123,8 +118,7 @@ class AiCareerChatController extends Controller
             $reply = trim($reply);
             $reply = mb_substr($reply, 0, 50);
 
-            Cache::put($ipCacheKey, $ipRequestsCount + 1, now()->endOfDay());
-            Cache::put($emailCacheKey, $emailRequestsCount + 1, now()->endOfDay());
+            Cache::put($userCacheKey, $maxCount + 1, now()->endOfDay());
 
             return response()->json([
                 'success' => true,

@@ -473,33 +473,14 @@
 
         <div class="ai-chat-body-container" id="aiChatBodyContainer">
             
-            <!-- Onboarding Form -->
-            <form class="ai-chat-onboarding" id="aiChatOnboarding">
-                <h5>Before we start, please tell us about you</h5>
-                <div class="ai-chat-form-group">
-                    <label>Name</label>
-                    <input type="text" id="aiChatFormName" class="ai-chat-form-control" placeholder="Your full name" required>
-                </div>
-                <div class="ai-chat-form-group">
-                    <label>Email</label>
-                    <input type="email" id="aiChatFormEmail" class="ai-chat-form-control" placeholder="Your email address" required>
-                </div>
-                <div class="ai-chat-form-group">
-                    <label>Qualification</label>
-                    <select id="aiChatFormQual" class="ai-chat-form-control" required>
-                        <option value="">Select your qualification...</option>
-                        <option value="10th Student">10th Student</option>
-                        <option value="12th Student">12th Student</option>
-                        <option value="Diploma Student">Diploma Student</option>
-                        <option value="Graduate">Graduate</option>
-                        <option value="Post Graduate">Post Graduate</option>
-                        <option value="Parent">Parent</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <p class="ai-chat-form-error" id="aiChatFormError"></p>
-                <button type="submit" class="ai-chat-start-btn">Start Chat</button>
-            </form>
+            @guest
+            <div class="ai-chat-onboarding" style="text-align: center; justify-content: center; height: 100%;">
+                <i class="fa-solid fa-lock" style="font-size: 32px; color: #94a3b8; margin-bottom: 12px;"></i>
+                <h5>Login Required</h5>
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Please log in to use the AI Career Guide.</p>
+                <a href="{{ route('login') }}" class="ai-chat-start-btn" style="text-decoration: none; display: inline-block;">Log In to Chat</a>
+            </div>
+            @endguest
 
             <!-- Chat Messages -->
             <div class="ai-chat-messages" id="aiChatMessages">
@@ -563,14 +544,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetDetailsBtn = document.getElementById('aiChatResetDetails');
 
     let isRequestInProgress = false;
-    let userData = {
-        name: localStorage.getItem('careergyan_ai_name') || '',
-        email: localStorage.getItem('careergyan_ai_email') || '',
-        qualification: localStorage.getItem('careergyan_ai_qualification') || ''
-    };
+    @auth
+    const isAuthenticated = true;
+    const userName = "{{ auth()->user()->name ?? auth()->user()->first_name ?? 'User' }}";
+    @else
+    const isAuthenticated = false;
+    const userName = "";
+    @endauth
 
     function isOnboardingComplete() {
-        return Boolean(userData.name && userData.email && userData.qualification);
+        return isAuthenticated;
     }
 
     function setChatInteractionEnabled(enabled) {
@@ -611,9 +594,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize State
     function initChatState() {
         if (isOnboardingComplete()) {
-            welcomeMsg.textContent = `Hello ${userData.name}! 👋 How can I help you today?`;
+            welcomeMsg.textContent = `Hello ${userName}! 👋 How can I help you today?`;
             suggestionsContainer.style.display = '';
-            onboardingForm.style.display = 'none';
             chatMessages.classList.add('active');
             chatFooterWrapper.classList.add('active');
             setChatInteractionEnabled(true);
@@ -622,57 +604,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             scrollToBottom();
         } else {
-            onboardingForm.style.display = 'flex';
-            chatMessages.classList.remove('active');
-            chatFooterWrapper.classList.remove('active');
-            suggestionsContainer.style.display = 'none';
-            setChatInteractionEnabled(false);
+            // Only elements for guests are visible by default
         }
     }
 
     function resetUserDetails() {
-        localStorage.removeItem('careergyan_ai_name');
-        localStorage.removeItem('careergyan_ai_email');
-        localStorage.removeItem('careergyan_ai_qualification');
-        userData = { name: '', email: '', qualification: '' };
-        formName.value = '';
-        formEmail.value = '';
-        formQual.value = '';
-        formError.classList.remove('visible');
-        formError.textContent = '';
+        // Nothing to reset for auth logic
         clearChatHistory();
         initChatState();
     }
-
-    // Onboarding Form Submit
-    onboardingForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        formError.classList.remove('visible');
-        formError.textContent = '';
-
-        const n = formName.value.trim();
-        const em = formEmail.value.trim();
-        const q = formQual.value;
-
-        if (!n || !em || !q) {
-            formError.textContent = 'Please fill in all required fields.';
-            formError.classList.add('visible');
-            return;
-        }
-
-        if (!formEmail.checkValidity()) {
-            formError.textContent = 'Please enter a valid email address.';
-            formError.classList.add('visible');
-            return;
-        }
-
-        userData = { name: n, email: em, qualification: q };
-        localStorage.setItem('careergyan_ai_name', n);
-        localStorage.setItem('careergyan_ai_email', em);
-        localStorage.setItem('careergyan_ai_qualification', q);
-
-        initChatState();
-    });
 
     resetDetailsBtn.addEventListener('click', resetUserDetails);
 
@@ -738,9 +678,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: userData.name,
-                    email: userData.email,
-                    qualification: userData.qualification,
                     message: message
                 })
             });
