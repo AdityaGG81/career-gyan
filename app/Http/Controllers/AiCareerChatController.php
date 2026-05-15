@@ -129,7 +129,7 @@ class AiCareerChatController extends Controller
             return response()->json([
                 'success' => true,
                 'reply' => $reply,
-                'remaining' => max(0, 5 - ($maxCount + 1)),
+                'remaining' => $isTestUser ? 999 : max(0, 5 - ($maxCount + 1)),
             ]);
         } catch (\Exception $e) {
             Log::error('AI Career Chat Exception', [
