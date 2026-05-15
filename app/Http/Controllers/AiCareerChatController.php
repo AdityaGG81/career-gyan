@@ -35,12 +35,19 @@ class AiCareerChatController extends Controller
         $maxCount = Cache::get($userCacheKey, 0);
         $remaining = max(0, 5 - $maxCount);
 
-        if ($maxCount >= 5) {
+        $isTestUser = ($email === 'test@gmail.com');
+
+        if (! $isTestUser && $maxCount >= 5) {
             return response()->json([
                 'success' => false,
                 'reply' => 'Daily free question limit reached. Please try again tomorrow.',
                 'remaining' => 0,
             ], 429);
+        }
+
+        // Keep 'remaining' high for test user so the UI doesn't show 0
+        if ($isTestUser) {
+            $remaining = 999;
         }
 
         $apiKey = trim((string) config('services.aicredits.api_key'));
