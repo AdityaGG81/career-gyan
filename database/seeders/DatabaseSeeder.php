@@ -74,6 +74,7 @@ class DatabaseSeeder extends Seeder
             SkillTradesManufacturingRetailCareerSeeder::class,
             AgricultureAlliedSciencesCareerSeeder::class,
             ArtsMediaEntertainmentCareerSeeder::class,
+            MassCareersExpansionSeeder::class,
         ]);
     }
 }

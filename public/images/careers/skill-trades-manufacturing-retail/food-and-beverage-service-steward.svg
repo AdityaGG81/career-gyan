@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_food-and-beverage-service-steward" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4d7c0f;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#84cc16;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_food-and-beverage-service-steward)"/>
+    <polygon points="100,30 150,110 50,110" fill="white" opacity="0.1"/>
+    <rect x="30" y="120" width="30" height="30" rx="5" fill="white" opacity="0.2"/>
+    <g transform="translate(100, 70)">
+        <circle r="35" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+        <path d="M-20,-20 L20,20 M-20,20 L20,-20" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <circle r="12" fill="white" opacity="0.4"/>
+    </g>
+    <text x="100" y="155" font-family="Segoe UI, Roboto, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="700" opacity="0.95">FOOD AND BEVERAGE</text><text x="100" y="170" font-family="Segoe UI, Roboto, sans-serif" font-size="12" fill="white" text-anchor="middle" font-weight="700" opacity="0.95">SERVICE STEWARD</text>
+</svg>
