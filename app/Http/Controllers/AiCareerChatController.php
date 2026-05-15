@@ -65,7 +65,7 @@ class AiCareerChatController extends Controller
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => 'You are CareerGyan AI Career Guide for Indian students. Reply in maximum 50 characters only. Give simple career guidance.',
+                            'content' => 'You are CareerGyan AI Career Guide for Indian students. Provide detailed, helpful, and highly informative career guidance.',
                         ],
                         [
                             'role' => 'user',
@@ -73,7 +73,7 @@ class AiCareerChatController extends Controller
                         ],
                     ],
                     'temperature' => 0.7,
-                    'max_tokens' => 80,
+                    'max_tokens' => 500,
                 ]);
 
             if ($response->failed()) {
@@ -116,7 +116,6 @@ class AiCareerChatController extends Controller
             }
 
             $reply = trim($reply);
-            $reply = mb_substr($reply, 0, 50);
 
             Cache::put($userCacheKey, $maxCount + 1, now()->endOfDay());
 
