@@ -758,5 +758,7 @@
 
 @yield('scripts')
 
+<x-ai-career-chat />
+
 </body>
 </html>

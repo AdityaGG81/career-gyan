@@ -1,0 +1,202 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+
+class AiCareerChatController extends Controller
+{
+    public function message(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150',
+            'qualification' => 'required|string|max:100',
+            'message' => 'required|string|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'reply' => 'Please enter your name, email and qualification first.',
+                'remaining' => 5,
+            ], 422);
+        }
+
+        $ip = $request->ip();
+        $email = $request->input('email');
+        $date = now()->format('Y-m-d');
+
+        $ipCacheKey = "ai_chat_limit_{$ip}_{$date}";
+        $emailCacheKey = "ai_chat_limit_{$email}_{$date}";
+
+        $ipRequestsCount = Cache::get($ipCacheKey, 0);
+        $emailRequestsCount = Cache::get($emailCacheKey, 0);
+
+        $maxCount = max($ipRequestsCount, $emailRequestsCount);
+        $remaining = max(0, 5 - $maxCount);
+
+        if ($maxCount >= 5) {
+            return response()->json([
+                'success' => false,
+                'reply' => 'Daily free question limit reached. Please try again tomorrow.',
+                'remaining' => 0,
+            ], 429);
+        }
+
+        $apiKey = trim((string) config('services.aicredits.api_key'));
+
+        if ($apiKey === '') {
+            return response()->json([
+                'success' => false,
+                'reply' => 'AI service is not configured yet.',
+                'remaining' => 5,
+            ]);
+        }
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.$apiKey,
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ])
+                ->timeout(45)
+                ->post(rtrim(config('services.aicredits.base_url'), '/').'/chat/completions', [
+                    'model' => config('services.aicredits.model'),
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => 'You are CareerGyan AI Career Guide for Indian students. Reply in maximum 50 characters only. Give simple career guidance.',
+                        ],
+                        [
+                            'role' => 'user',
+                            'content' => "Name: {$request->name}\nEmail: {$request->email}\nQualification: {$request->qualification}\nQuestion: {$request->message}",
+                        ],
+                    ],
+                    'temperature' => 0.7,
+                    'max_tokens' => 80,
+                ]);
+
+            if ($response->failed()) {
+                Log::error('AI Credits API failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'base_url' => config('services.aicredits.base_url'),
+                    'model' => config('services.aicredits.model'),
+                    'api_key_present' => $apiKey !== '',
+                    'api_key_length' => strlen($apiKey),
+                ]);
+
+                if ($response->status() === 401) {
+                    return response()->json([
+                        'success' => false,
+                        'reply' => 'AI key is invalid. Please update API key.',
+                        'remaining' => $remaining,
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => false,
+                    'reply' => 'Sorry, I could not answer right now. Please try again.',
+                    'remaining' => $remaining,
+                ]);
+            }
+
+            $reply = data_get($response->json(), 'choices.0.message.content');
+
+            if (! $reply) {
+                Log::error('AI Credits response parsing failed', [
+                    'body' => $response->body(),
+                ]);
+
+                return response()->json([
+                    'success' => false,
+                    'reply' => 'AI response format error.',
+                    'remaining' => $remaining,
+                ]);
+            }
+
+            $reply = trim($reply);
+            $reply = mb_substr($reply, 0, 50);
+
+            Cache::put($ipCacheKey, $ipRequestsCount + 1, now()->endOfDay());
+            Cache::put($emailCacheKey, $emailRequestsCount + 1, now()->endOfDay());
+
+            return response()->json([
+                'success' => true,
+                'reply' => $reply,
+                'remaining' => max(0, 5 - ($maxCount + 1)),
+            ]);
+        } catch (\Exception $e) {
+            Log::error('AI Career Chat Exception', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'reply' => 'Sorry, I could not answer right now. Please try again.',
+                'remaining' => $remaining,
+            ], 500);
+        }
+    }
+
+    public function debugAicreditsTest()
+    {
+        $apiKey = trim((string) config('services.aicredits.api_key'));
+        $baseUrl = rtrim((string) config('services.aicredits.base_url'), '/');
+        $model = config('services.aicredits.model');
+
+        if ($apiKey === '') {
+            return response()->json([
+                'status' => null,
+                'body' => 'API key missing from Laravel config',
+                'base_url' => $baseUrl,
+                'model' => $model,
+                'api_key_present' => false,
+                'api_key_length' => 0,
+            ]);
+        }
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.$apiKey,
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ])
+                ->timeout(45)
+                ->post($baseUrl.'/chat/completions', [
+                    'model' => $model,
+                    'messages' => [
+                        [
+                            'role' => 'user',
+                            'content' => 'Reply only Hello',
+                        ],
+                    ],
+                    'temperature' => 0.2,
+                    'max_tokens' => 20,
+                ]);
+
+            return response()->json([
+                'status' => $response->status(),
+                'body' => $response->json() ?: $response->body(),
+                'base_url' => $baseUrl,
+                'model' => $model,
+                'api_key_present' => true,
+                'api_key_length' => strlen($apiKey),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'body' => $e->getMessage(),
+                'base_url' => $baseUrl,
+                'model' => $model,
+                'api_key_present' => true,
+                'api_key_length' => strlen($apiKey),
+            ]);
+        }
+    }
+}

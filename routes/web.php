@@ -7,6 +7,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\SuggestionController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AiCareerChatController;
 
 // Main pages
 Route::get('/', function () {
@@ -95,6 +96,9 @@ Route::middleware('auth')->group(function () {
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
 
+// AI Chatbot
+Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
+
 // Admin Auth
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
@@ -103,3 +107,5 @@ Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 // Admin Suggestions & Users (NO middleware for now)
 Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
 Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');
+
+Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
