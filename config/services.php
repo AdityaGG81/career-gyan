@@ -43,7 +43,7 @@ return [
     'aicredits' => [
         'base_url' => env('AICREDITS_BASE_URL', 'https://api.aicredits.in/v1'),
         'api_key' => env('AICREDITS_API_KEY'),
-        'model' => env('AICREDITS_MODEL', 'openai/gpt-4.1-mini'),
+        'model' => env('AICREDITS_MODEL', 'openai/gpt-4o-mini'),
     ],
 
 ];
