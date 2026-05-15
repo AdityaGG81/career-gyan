@@ -464,8 +464,14 @@ class ExploreController extends Controller
     public function governmentDefence()
     {
         $field = Field::where('slug', 'government-defence')->firstOrFail();
-        $careers = TraditionalCareer::where('category', 'Government & Defence')->get();
-        return view('colleges.traditional_detail', compact('field', 'careers'));
+        $careers = Career::where('field_id', $field->id)
+                         ->orderBy('sub_domain')
+                         ->orderBy('name')
+                         ->get();
+        
+        $categories = $careers->groupBy('sub_domain');
+        
+        return view('colleges.government_defence', compact('field', 'categories'));
     }
 
     public function teachingLaw()

@@ -301,7 +301,7 @@
         <a href="{{ route('career.detail.page', $path->slug) }}" class="path-card">
             <div class="path-img-wrapper">
                 <img
-                    src="{{ $path->image ?? 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' }}"
+                    src="{{ $path->image ? asset($path->image) : 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80' }}"
                     alt="{{ $path->name }}"
                     class="path-img"
                     loading="lazy"

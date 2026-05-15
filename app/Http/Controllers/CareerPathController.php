@@ -125,6 +125,150 @@ class CareerPathController extends Controller
                     ['value' => 'Global', 'label' => 'Opportunities'],
                 ]
             ],
+            'it-digital-technology' => [
+                'db_slug' => 'it-digital-technology',
+                'title' => 'IT & Digital Technology',
+                'description' => 'Discover the vast world of software, AI, cloud computing, and cyber security.',
+                'theme' => [
+                    'primary' => '#0ea5e9', // sky-500
+                    'secondary' => '#38bdf8', // sky-400
+                    'gradient' => 'linear-gradient(135deg, #0f172a 0%, #1e40af 40%, #0284c7 75%, #0ea5e9 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #0284c7, #0ea5e9)'
+                ],
+                'stats' => [
+                    ['value' => '35+', 'label' => 'Roles'],
+                    ['value' => 'High', 'label' => 'Demand'],
+                    ['value' => 'Global', 'label' => 'Scope'],
+                ]
+            ],
+            'healthcare-allied-medical' => [
+                'db_slug' => 'healthcare-allied-medical',
+                'title' => 'Healthcare & Allied Medical',
+                'description' => 'Save lives and support health. Explore rewarding careers in medical specialization, diagnostics, nursing, and therapy.',
+                'theme' => [
+                    'primary' => '#ef4444', // red-500
+                    'secondary' => '#f87171', // red-400
+                    'gradient' => 'linear-gradient(135deg, #450a0a 0%, #991b1b 40%, #dc2626 75%, #ef4444 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #dc2626, #ef4444)'
+                ],
+                'stats' => [
+                    ['value' => '30+', 'label' => 'Roles'],
+                    ['value' => 'Critical', 'label' => 'Demand'],
+                    ['value' => 'Stable', 'label' => 'Growth'],
+                ]
+            ],
+            'agriculture-food-environment' => [
+                'db_slug' => 'agriculture-food-environment',
+                'title' => 'Agriculture, Food & Environment',
+                'description' => 'Drive sustainability and food security. Explore diverse careers in modern farming, agribusiness, food technology, and environmental conservation.',
+                'theme' => [
+                    'primary' => '#059669', // emerald-600
+                    'secondary' => '#10b981', // emerald-500
+                    'gradient' => 'linear-gradient(135deg, #064e3b 0%, #065f46 40%, #059669 75%, #10b981 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #059669, #10b981)'
+                ],
+                'stats' => [
+                    ['value' => '25+', 'label' => 'New Roles'],
+                    ['value' => 'High', 'label' => 'Impact'],
+                    ['value' => 'Evergreen', 'label' => 'Demand'],
+                ]
+            ],
+            'creative-design-media' => [
+                'db_slug' => 'creative-design-media',
+                'title' => 'Creative, Design & Media',
+                'description' => 'Unleash your imagination. Explore careers in visual design, animation, film production, advertising, and creative arts.',
+                'theme' => [
+                    'primary' => '#d946ef', // fuchsia-500
+                    'secondary' => '#c026d3', // fuchsia-600
+                    'gradient' => 'linear-gradient(135deg, #701a75 0%, #a21caf 40%, #d946ef 75%, #f0abfc 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #d946ef, #c026d3)'
+                ],
+                'stats' => [
+                    ['value' => '25+', 'label' => 'Creative Roles'],
+                    ['value' => 'Global', 'label' => 'Opportunity'],
+                    ['value' => 'Growing', 'label' => 'Industry'],
+                ]
+            ],
+            'hospitality-aviation-tourism-logistics' => [
+                'db_slug' => 'hospitality-aviation-tourism-logistics',
+                'title' => 'Hospitality, Aviation, Tourism & Logistics',
+                'description' => 'Connect the world. Explore careers in luxury hospitality, aviation operations, global tourism, and supply chain logistics.',
+                'theme' => [
+                    'primary' => '#0ea5e9', // sky-500
+                    'secondary' => '#0284c7', // sky-600
+                    'gradient' => 'linear-gradient(135deg, #0c4a6e 0%, #075985 40%, #0ea5e9 75%, #7dd3fc 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #0ea5e9, #0284c7)'
+                ],
+                'stats' => [
+                    ['value' => '25+', 'label' => 'Key Roles'],
+                    ['value' => 'Worldwide', 'label' => 'Reach'],
+                    ['value' => 'High', 'label' => 'Demand'],
+                ]
+            ],
+            'education-social-law-policy' => [
+                'db_slug' => 'education-social-law-policy',
+                'title' => 'Education, Social, Law & Policy',
+                'description' => 'Shape the future. Explore careers in teaching, social impact, legal advocacy, and public policy governance.',
+                'theme' => [
+                    'primary' => '#4f46e5', // indigo-600
+                    'secondary' => '#4338ca', // indigo-700
+                    'gradient' => 'linear-gradient(135deg, #312e81 0%, #3730a3 40%, #4f46e5 75%, #818cf8 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #4f46e5, #4338ca)'
+                ],
+                'stats' => [
+                    ['value' => '25+', 'label' => 'Impact Roles'],
+                    ['value' => 'High', 'label' => 'Social Value'],
+                    ['value' => 'Steady', 'label' => 'Growth'],
+                ]
+            ],
+            'skill-trades-manufacturing-retail' => [
+                'db_slug' => 'skill-trades-manufacturing-retail',
+                'title' => 'Skill Trades, Manufacturing & Retail',
+                'description' => 'Master a craft. Explore careers in technical trades, industrial manufacturing, and modern retail management.',
+                'theme' => [
+                    'primary' => '#ea580c', // orange-600
+                    'secondary' => '#c2410c', // orange-700
+                    'gradient' => 'linear-gradient(135deg, #7c2d12 0%, #9a3412 40%, #ea580c 75%, #fb923c 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #ea580c, #c2410c)'
+                ],
+                'stats' => [
+                    ['value' => '33+', 'label' => 'Trades'],
+                    ['value' => 'High', 'label' => 'Demand'],
+                    ['value' => 'Essential', 'label' => 'Sector'],
+                ]
+            ],
+            'agriculture-allied-sciences' => [
+                'db_slug' => 'agriculture-allied-sciences',
+                'title' => 'Agriculture & Allied Sciences',
+                'description' => 'Nurture the earth. Explore careers in crop science, livestock health, fisheries, and sustainable agri-business.',
+                'theme' => [
+                    'primary' => '#15803d', // green-700
+                    'secondary' => '#166534', // green-800
+                    'gradient' => 'linear-gradient(135deg, #064e3b 0%, #065f46 40%, #15803d 75%, #22c55e 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #15803d, #166534)'
+                ],
+                'stats' => [
+                    ['value' => '14+', 'label' => 'Expert Roles'],
+                    ['value' => 'Very High', 'label' => 'Necessity'],
+                    ['value' => 'Growing', 'label' => 'AgriTech'],
+                ]
+            ],
+            'arts-media-entertainment' => [
+                'db_slug' => 'arts-media-entertainment',
+                'title' => 'Arts, Media & Entertainment',
+                'description' => 'Unleash your creativity. Explore careers in digital arts, filmmaking, journalism, and performing arts.',
+                'theme' => [
+                    'primary' => '#f43f5e', // rose-500
+                    'secondary' => '#e11d48', // rose-600
+                    'gradient' => 'linear-gradient(135deg, #881337 0%, #9f1239 40%, #f43f5e 75%, #fb7185 100%)',
+                    'button_gradient' => 'linear-gradient(to right, #f43f5e, #e11d48)'
+                ],
+                'stats' => [
+                    ['value' => '25+', 'label' => 'Creative Roles'],
+                    ['value' => 'High', 'label' => 'Demand'],
+                    ['value' => 'Global', 'label' => 'Reach'],
+                ]
+            ],
             'creative-careers' => [
                 'title' => 'Creative Careers',
                 'description' => 'Unleash your imagination. Explore careers in design, writing, performing arts, and media.',

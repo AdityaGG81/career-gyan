@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:hsl(215, 80%, 60%);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:hsl(255, 70%, 50%);stop-opacity:1" />
+        </linearGradient>
+        <filter id="shadow1" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="12" />
+            <feOffset dx="0" dy="8" />
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.4" />
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="600" height="400" fill="#0f172a" />
+    
+    <!-- Dynamic Hospitality Background Elements -->
+    <rect x="400" y="-50" width="300" height="300" rx="60" transform="rotate(30)" fill="hsl(235, 90%, 70%)" opacity="0.06" /><circle cx="100" cy="300" r="80" fill="hsl(235, 90%, 70%)" opacity="0.07" />
+    
+    <!-- Glassmorphic Glow -->
+    <circle cx="300" cy="200" r="150" fill="url(#grad1)" opacity="0.05" />
+    
+    <!-- Central Illustration Shape -->
+    <g filter="url(#shadow1)">
+        <circle cx="300" cy="200" r="110" fill="url(#grad1)" opacity="0.2" />
+        
+        <circle cx="300" cy="200" r="70" fill="url(#grad1)" />
+        <path d="M11,9H13V7H11V9M11,13H13V11H11V13M11,17H13V15H11V17M17,9H19V7H17V9M17,13H19V11H17V13M17,17H19V15H17V17M5,9H7V7H5V9M5,13H7V11H5V13M5,17H7V15H5V17M2,21H22V19H2V21M12,2L2,7V18H22V7L12,2Z" transform="translate(265, 165) scale(2.9)" fill="#ffffff" />
+    </g>
+
+    <!-- Floating Particles -->
+    <g opacity="0.15">
+        <circle cx="150" cy="80" r="4" fill="#ffffff" />
+        <circle cx="450" cy="320" r="6" fill="#ffffff" />
+        <circle cx="520" cy="180" r="3" fill="#ffffff" />
+        <circle cx="80" cy="200" r="5" fill="#ffffff" />
+    </g>
+</svg>

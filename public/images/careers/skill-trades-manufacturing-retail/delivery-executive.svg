@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad22" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:hsl(240, 80%, 50%);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:hsl(270, 70%, 40%);stop-opacity:1" />
+        </linearGradient>
+        <filter id="shadow22" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="12" />
+            <feOffset dx="0" dy="8" />
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.4" />
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="600" height="400" fill="#0f172a" />
+    
+    <!-- Dynamic Industrial Background Elements -->
+    <rect x="400" y="-50" width="300" height="300" rx="40" transform="rotate(30)" fill="hsl(255, 90%, 60%)" opacity="0.06" /><circle cx="100" cy="300" r="80" fill="hsl(255, 90%, 60%)" opacity="0.07" />
+    
+    <!-- Glassmorphic Glow -->
+    <circle cx="300" cy="200" r="150" fill="url(#grad22)" opacity="0.05" />
+    
+    <!-- Central Illustration Shape -->
+    <g filter="url(#shadow22)">
+        <circle cx="300" cy="200" r="110" fill="url(#grad22)" opacity="0.2" />
+        
+        <circle cx="300" cy="200" r="70" fill="url(#grad22)" />
+        <path d="M19,15V17H21V15H19M15,15V17H17V15H15M11,15V17H13V15H11M7,15V17H9V15H7M3,15V17H5V15H3M19,11V13H21V11H19M15,11V13H17V11H15M11,11V13H13V11H11M7,11V13H9V11H7M3,11V13H5V11H3M19,7V9H21V7H19M15,7V9H17V7H15M11,7V9H13V7H11M7,7V9H9V7H7M3,7V9H5V7H3M2,19V21H22V19H2Z" transform="translate(265, 165) scale(2.9)" fill="#ffffff" />
+    </g>
+
+    <!-- Floating Particles -->
+    <g opacity="0.15">
+        <circle cx="150" cy="80" r="4" fill="#ffffff" />
+        <circle cx="450" cy="320" r="6" fill="#ffffff" />
+        <circle cx="520" cy="180" r="3" fill="#ffffff" />
+        <circle cx="80" cy="200" r="5" fill="#ffffff" />
+    </g>
+</svg>

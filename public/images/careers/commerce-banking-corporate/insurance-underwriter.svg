@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_insurance-underwriter" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#831843;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#db2777;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_insurance-underwriter)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <path d="M100 30 L160 60 L160 100 C160 140 100 170 100 170 C100 170 40 140 40 100 L40 60 Z" fill="#fbcfe8"/>
+        <rect x="80" y="70" width="40" height="50" fill="#f472b6" rx="4"/>
+        <path d="M85 95 L95 105 L115 85" stroke="#831843" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">INSURANCE UNDERWRITER</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

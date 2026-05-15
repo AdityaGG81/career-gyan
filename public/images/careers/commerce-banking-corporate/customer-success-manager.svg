@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_customer-success-manager" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#9d174d;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e11d48;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_customer-success-manager)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <path d="M100 40 C100 40 140 40 140 80 C140 120 100 150 100 150 C100 150 60 120 60 80 C60 40 100 40 100 40 Z" fill="#fecdd3"/>
+        <path d="M85 85 L95 95 L115 75" stroke="#e11d48" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="40" cy="40" r="15" fill="white" opacity="0.1"/>
+        <circle cx="160" cy="140" r="25" fill="white" opacity="0.1"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">CUSTOMER SUCCESS MANAGER</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

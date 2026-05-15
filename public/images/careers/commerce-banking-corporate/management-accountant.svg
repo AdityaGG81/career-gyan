@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_management-accountant" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3b0764;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_management-accountant)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <rect x="40" y="50" width="120" height="80" fill="#f3e8ff" rx="8"/>
+        <path d="M40 70 L160 70" stroke="#d8b4fe" stroke-width="4"/>
+        <path d="M60 110 L90 80 L110 100 L140 60" stroke="#9333ea" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="140" cy="60" r="6" fill="#7e22ce"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">MANAGEMENT ACCOUNTANT</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

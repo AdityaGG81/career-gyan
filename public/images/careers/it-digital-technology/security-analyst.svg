@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_security-analyst" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#14532d;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#22c55e;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_security-analyst)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <circle cx="100" cy="100" r="50" fill="#86efac"/>
+        <circle cx="100" cy="100" r="30" fill="#14532d"/>
+        <path d="M90 100 L100 110 L120 85" stroke="#4ade80" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="90" y="30" width="20" height="20" fill="#bbf7d0" rx="4"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">SECURITY ANALYST</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

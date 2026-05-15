@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_ethical-hacker" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_ethical-hacker)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <rect x="40" y="50" width="120" height="80" fill="#1e40af" rx="5"/>
+        <path d="M50 70 L70 90 L50 110" stroke="#60a5fa" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="80" y1="110" x2="110" y2="110" stroke="#60a5fa" stroke-width="6" stroke-linecap="round"/>
+        <path d="M140 130 C150 130 160 140 160 150" stroke="#93c5fd" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M140 110 C160 110 170 120 170 140" stroke="#93c5fd" stroke-width="4" fill="none" stroke-linecap="round"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">ETHICAL HACKER</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

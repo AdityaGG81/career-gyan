@@ -63,6 +63,17 @@ class DatabaseSeeder extends Seeder
             SmallScaleCareersSeeder::class,
             SkillDevelopmentCareersSeeder::class,
             SportsCareersSeeder::class,
+            CommerceBankingCorporateCareerSeeder::class,
+            EngineeringIndustrialCareerSeeder::class,
+            ITDigitalTechnologyCareerSeeder::class,
+            HealthcareAlliedMedicalCareerSeeder::class,
+            AgricultureFoodEnvironmentCareerSeeder::class,
+            CreativeDesignMediaCareerSeeder::class,
+            HospitalityAviationTourismLogisticsCareerSeeder::class,
+            EducationSocialLawPolicyCareerSeeder::class,
+            SkillTradesManufacturingRetailCareerSeeder::class,
+            AgricultureAlliedSciencesCareerSeeder::class,
+            ArtsMediaEntertainmentCareerSeeder::class,
         ]);
     }
 }

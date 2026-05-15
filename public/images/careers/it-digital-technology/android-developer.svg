@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_android-developer" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#166534;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#22c55e;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_android-developer)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <path d="M60 100 A40 40 0 0 1 140 100 Z" fill="#bbf7d0"/>
+        <rect x="60" y="105" width="80" height="60" fill="#bbf7d0" rx="10"/>
+        <circle cx="85" cy="85" r="4" fill="#166534"/>
+        <circle cx="115" cy="85" r="4" fill="#166534"/>
+        <path d="M75 60 L65 40 M125 60 L135 40" stroke="#bbf7d0" stroke-width="4" stroke-linecap="round"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">ANDROID DEVELOPER</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

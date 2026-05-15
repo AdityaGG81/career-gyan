@@ -186,7 +186,7 @@
 
 {{-- ── HERO ── --}}
 <section class="detail-hero">
-    <div class="detail-hero-bg" style="background-image: url('{{ $career->image ?? 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80' }}')"></div>
+    <div class="detail-hero-bg" style="background-image: url('{{ $career->image ? asset($career->image) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80' }}')"></div>
     <div class="detail-hero-overlay"></div>
     <div class="container detail-hero-content">
         <a href="{{ url()->previous() }}" class="back-btn" style="display:inline-flex;align-items:center;gap:8px;color:#fff;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);padding:8px 18px;border-radius:30px;font-weight:600;font-size:14px;border:1px solid rgba(255,255,255,.2);margin-bottom:20px;text-decoration:none;transition:all .3s;">
@@ -208,7 +208,7 @@
 </section>
 <script>
     (function(){
-        var bgUrl = "{{ $career->image ?? '' }}";
+        var bgUrl = "{{ $career->image ? asset($career->image) : '' }}";
         var fallback = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
         if (!bgUrl) return;
         var probe = new Image();

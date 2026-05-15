@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Career extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'field_id', 'description',
+        'name', 'slug', 'field_id', 'sub_domain', 'description',
         'qualification', 'stream', 'salary_range',
         'demand_level', 'roadmap', 'icon',
         'skills', 'future_scope', 'entrance_exams',

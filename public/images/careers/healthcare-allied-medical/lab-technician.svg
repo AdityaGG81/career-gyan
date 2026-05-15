@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad8" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:hsl(96, 70%, 50%);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:hsl(156, 60%, 40%);stop-opacity:1" />
+        </linearGradient>
+        <filter id="shadow8" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+            <feOffset dx="0" dy="4" result="offsetblur" />
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.4" />
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+    <rect width="200" height="200" fill="hsl(96, 90%, 8%)" rx="24" />
+    <path d="M100,10 L190,190 L10,190 Z" fill="url(#grad8)" fill-opacity="0.08" />
+    
+    <!-- Career Icon Background Glow -->
+    <circle cx="100" cy="90" r="48" fill="url(#grad8)" opacity="0.25" filter="url(#shadow8)" />
+    
+    <g transform="translate(68, 58) scale(2.6)" fill="#fff" filter="url(#shadow8)">
+        <path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V9H7V7M7,11H17V13H7V11M7,15H17V17H7V15Z" />
+    </g>
+
+    <!-- Decorative unique pattern -->
+    <g stroke="hsl(96, 70%, 50%)" stroke-width="1.5" fill="none" opacity="0.3">
+        <path d="M20,180 L180,20 M20,20 L180,180" />
+    </g>
+
+    <text x="100" y="175" font-family="Sora, sans-serif" font-size="11" fill="#fff" text-anchor="middle" font-weight="800" letter-spacing="0.5">LAB TECHNICIAN</text>
+</svg>

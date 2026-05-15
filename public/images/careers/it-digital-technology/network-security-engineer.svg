@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_network-security-engineer" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4c1d95;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_network-security-engineer)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <rect x="80" y="40" width="40" height="120" fill="#c4b5fd" rx="5"/>
+        <rect x="40" y="80" width="120" height="40" fill="#c4b5fd" rx="5"/>
+        <rect x="90" y="90" width="20" height="20" fill="#f5f3ff" rx="4"/>
+        <path d="M60 40 L60 60 M140 40 L140 60 M60 140 L60 160 M140 140 L140 160" stroke="#ede9fe" stroke-width="6" stroke-linecap="round"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">NETWORK SECURITY ENGINEER</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

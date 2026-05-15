@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_commodity-trader" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#78350f;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#b45309;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_commodity-trader)"/>
+    <g transform="scale(0.9) translate(10, 5)">
+    
+        <polygon points="100,50 130,90 70,90" fill="#fde68a"/>
+        <rect x="80" y="90" width="40" height="40" fill="#fcd34d"/>
+        <circle cx="100" cy="100" r="8" fill="#d97706"/>
+        <path d="M40 130 L60 110 L80 120" stroke="#fef3c7" stroke-width="4" fill="none"/>
+        <path d="M120 120 L140 100 L160 130" stroke="#fef3c7" stroke-width="4" fill="none"/>
+        
+    </g>
+    <text x="100" y="175" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="11" fill="white" text-anchor="middle" font-weight="600" opacity="0.9">COMMODITY TRADER</text>
+    <rect x="80" y="185" width="40" height="2" fill="white" opacity="0.5"/>
+</svg>

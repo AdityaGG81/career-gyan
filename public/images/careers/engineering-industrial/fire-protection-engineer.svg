@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="grad_fire-protection-engineer" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#b91c1c;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <rect width="200" height="200" fill="url(#grad_fire-protection-engineer)"/>
+    <polygon points="100,30 150,110 50,110" fill="white" opacity="0.1"/>
+    <path d="M20,100 A40,40 0 0,1 60,60" fill="none" stroke="white" stroke-width="4" opacity="0.2"/>
+    <g transform="translate(100, 80)">
+        <!-- Abstract Representation -->
+        <circle r="30" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+        <path d="M-15,-15 L15,15 M-15,15 L15,-15" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        <circle r="10" fill="white" opacity="0.4"/>
+    </g>
+    <text x="100" y="165" font-family="Segoe UI, Roboto, sans-serif" font-size="10" fill="white" text-anchor="middle" font-weight="700" opacity="0.95">FIRE PROTECTION ENGINEER</text>
+    <rect x="80" y="175" width="40" height="2" fill="white" opacity="0.6"/>
+</svg>
