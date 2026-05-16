@@ -234,11 +234,15 @@
     transform: translateY(-1px);
   }
 
-  .nav-mobile-btn {
+  .nav-mobile-btn,
+  .nav-mobile-search {
     display: none;
     font-size: 22px;
     color: var(--text-1);
     padding: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
   .nav-mobile-menu {
@@ -299,7 +303,8 @@
       display: none;
     }
 
-    .nav-mobile-btn {
+    .nav-mobile-btn,
+    .nav-mobile-search {
       display: block;
     }
 
@@ -544,6 +549,9 @@
             </a>
           @endauth
         </div>
+        <button class="nav-mobile-search" id="openGlobalSearchMobile" aria-label="Search">
+          <i class="fa-solid fa-search"></i>
+        </button>
         <button class="nav-mobile-btn" id="mobileBtn" aria-label="Menu">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -642,6 +650,7 @@
   // Global Search Logic
   const searchOverlay = document.getElementById('globalSearchOverlay');
   const openSearchBtn = document.getElementById('openGlobalSearch');
+  const openSearchBtnMobile = document.getElementById('openGlobalSearchMobile');
   const closeSearchBtn = document.getElementById('closeGlobalSearch');
   const searchInput = document.getElementById('globalSearchInput');
   const searchResults = document.getElementById('globalSearchResults');
@@ -658,6 +667,7 @@
   }
 
   openSearchBtn?.addEventListener('click', openSearch);
+  openSearchBtnMobile?.addEventListener('click', openSearch);
   closeSearchBtn?.addEventListener('click', closeSearch);
   searchOverlay.addEventListener('click', closeSearch);
 
