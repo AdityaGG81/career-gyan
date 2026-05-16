@@ -958,8 +958,8 @@ body {
         if (targetRoute) {
             window.location.href = targetRoute;
         } else {
-            // For fields without dedicated pages, redirect to explore page
-            window.location.href = `/explore/field/${slug}`;
+            // For fields without specific hardcoded routes, redirect to the general career path page
+            window.location.href = `/career-path/${slug}`;
         }
     }
 
