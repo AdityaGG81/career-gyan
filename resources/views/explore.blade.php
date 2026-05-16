@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Explore Careers | Indian Institute of Career Management')
+@section('title', 'Explore Careers | INDIAN INSTITUTE OF CAREER MANAGEMENT')
 
 @section('styles')
 <style>

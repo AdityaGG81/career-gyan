@@ -596,7 +596,7 @@
   <div class="container">
     <div style="margin-bottom: 12px;">
       <h3 style="color:#fff; font-family:'Sora', sans-serif; margin-bottom:4px;">
-        Indian Institute of Career Management
+        INDIAN INSTITUTE OF CAREER MANAGEMENT
       </h3>
       <p style="font-size:13px; color:rgba(255,255,255,.55);">
         Powering the CareerGyan Application

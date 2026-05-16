@@ -276,7 +276,7 @@
                             CareerGyan
                         </h1>
                         <p style="font-size: 14px; color: #64748b; margin: 0; font-weight: 500;">
-                            Indian Institute of Career Management
+                            INDIAN INSTITUTE OF CAREER MANAGEMENT
                         </p>
                     </div>
                 </div>

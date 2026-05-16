@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'CareerGyan | Indian Institute of Career Management')
+@section('title', 'CareerGyan | INDIAN INSTITUTE OF CAREER MANAGEMENT')
 
 @section('styles')
 <style>
@@ -8,7 +8,11 @@
   .hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #0e1f6b 0%, #1a56db 55%, #3b82f6 100%);
+    background:
+      radial-gradient(circle at 12% 18%, rgba(255,255,255,0.55), transparent 20%),
+      radial-gradient(circle at 85% 25%, rgba(255,255,255,0.35), transparent 24%),
+      radial-gradient(circle at 50% 100%, rgba(255,255,255,0.75), transparent 30%),
+      linear-gradient(135deg, #e0f7ff 0%, #7dd3fc 35%, #38bdf8 65%, #60a5fa 100%);
     padding: 90px 0 80px;
   }
 
@@ -16,37 +20,65 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.2' fill='%23ffffff' fill-opacity='0.45'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(224,247,255,0.08) 45%, rgba(255,255,255,0.12) 100%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .hero-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(64px);
-    opacity: .3;
+    filter: blur(72px);
     pointer-events: none;
+    z-index: 0;
   }
 
   .hero-blob-1 {
-    width: 400px;
-    height: 400px;
-    background: #60a5fa;
-    top: -100px;
-    right: -80px;
+    width: 420px;
+    height: 420px;
+    background: rgba(255, 255, 255, 0.65);
+    opacity: 0.55;
+    top: -120px;
+    right: -100px;
   }
 
   .hero-blob-2 {
-    width: 260px;
-    height: 260px;
-    background: #f97316;
-    bottom: -60px;
-    left: 5%;
+    width: 300px;
+    height: 300px;
+    background: rgba(186, 230, 253, 0.85);
+    opacity: 0.45;
+    bottom: -80px;
+    left: 2%;
   }
 
   .hero-content {
     position: relative;
     z-index: 1;
     text-align: center;
+  }
+
+  .hero-content::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -48%);
+    width: min(92%, 720px);
+    height: 72%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.12) 55%, transparent 72%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
   }
 
   /* SLOGAN + INSTITUTE */
@@ -60,19 +92,19 @@
 
   .hero-slogan {
     font-family: 'Sora', sans-serif;
-    color: #fbbf24;
+    color: #1e3a8a;
     font-size: 20px;
     font-weight: 800;
     letter-spacing: .5px;
-    text-shadow: 0 2px 12px rgba(0,0,0,.18);
+    text-shadow: 0 1px 2px rgba(255,255,255,0.45);
   }
 
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255,255,255,.15);
-    border: 1.5px solid rgba(255,255,255,.3);
+    background: rgba(30, 64, 175, 0.88);
+    border: 1.5px solid rgba(255,255,255,.35);
     color: #ffffff;
     font-size: 26px;
     font-weight: 800;
@@ -80,13 +112,13 @@
     padding: 14px 40px;
     border-radius: 999px;
     backdrop-filter: blur(8px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
     transition: transform 0.3s ease;
   }
 
   .hero-badge:hover {
     transform: scale(1.02);
-    background: rgba(255,255,255,.2);
+    background: rgba(29, 78, 216, 0.92);
   }
 
   .hero-badge i {
@@ -98,20 +130,20 @@
     font-family: 'Sora', sans-serif;
     font-size: clamp(30px, 5.5vw, 56px);
     font-weight: 700;
-    color: #fff;
+    color: #0f172a;
     line-height: 1.15;
     margin-bottom: 18px;
-    text-shadow: 0 2px 20px rgba(0,0,0,.15);
+    text-shadow: 0 1px 14px rgba(255,255,255,0.75);
   }
 
   .hero h1 em {
-    color: #fbbf24;
+    color: #f59e0b;
     font-style: normal;
   }
 
   .hero p {
     font-size: clamp(16px, 2vw, 19px);
-    color: rgba(255,255,255,.82);
+    color: #334155;
     max-width: 560px;
     margin: 0 auto 36px;
     line-height: 1.65;
@@ -149,18 +181,20 @@
     gap: 8px;
     font-size: 15.5px;
     font-weight: 600;
-    color: #fff;
-    background: rgba(255,255,255,.12);
-    border: 1.5px solid rgba(255,255,255,.4);
+    color: #1e40af;
+    background: rgba(255,255,255,.82);
+    border: 1.5px solid #1e40af;
     padding: 13px 28px;
     border-radius: var(--radius-lg);
     backdrop-filter: blur(4px);
-    transition: background var(--transition), transform var(--transition);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
   }
 
   .btn-outline:hover {
-    background: rgba(255,255,255,.2);
+    background: #ffffff;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
   }
 
   .hero-stats {
@@ -180,12 +214,12 @@
     font-family: 'Sora', sans-serif;
     font-size: 26px;
     font-weight: 700;
-    color: #fff;
+    color: #102a56;
   }
 
   .hero-stat span {
     font-size: 13px;
-    color: rgba(255,255,255,.65);
+    color: #475569;
   }
 
   /* ─── Qualification Cards ─── */
@@ -817,7 +851,7 @@
 
         <div class="hero-badge">
           <i class="fa-solid fa-building-columns"></i>
-          Indian Institute of Career Management
+          INDIAN INSTITUTE OF CAREER MANAGEMENT
         </div>
       </div>
 
@@ -866,156 +900,320 @@
   </div>
 </section>
 
-<!-- How CareerGyan Works -->
-<section style="padding: 60px 40px; margin: 40px 0;">
-    <div class="container">
-        <h2 style="font-family: 'Sora', sans-serif; font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: #1e293b; text-align: center; margin-bottom: 50px;">
-            How CareerGyan Works
-        </h2>
-        <p style="font-size: 18px; color: #64748b; text-align: center; max-width: 700px; margin: 0 auto 30px; line-height: 1.6;">
-            Simple steps to discover the right career path and colleges for your future.
-        </p>
-        
-        <!-- Step Cards -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
-            <!-- Step 1 -->
-            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🎯</div>
-                <div>
-                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Take Free Test</h3>
-                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Discover your interests and strengths through our comprehensive aptitude test.</p>
-                </div>
-            </div>
-            
-            <!-- Step 2 -->
-            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">📊</div>
-                <div>
-                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Get Career Suggestions</h3>
-                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Receive personalized career recommendations based on your test results and profile.</p>
-                </div>
-            </div>
-            
-            <!-- Step 3 -->
-            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🛤️</div>
-                <div>
-                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Explore Career Paths</h3>
-                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Learn about different career options, salaries, skills required and future scope.</p>
-                </div>
-            </div>
-            
-            <!-- Step 4 -->
-            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🏫️</div>
-                <div>
-                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Find Top Colleges</h3>
-                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Discover best colleges by district, state and stream with detailed information.</p>
-                </div>
-            </div>
-            
-            <!-- Step 5 -->
-            <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 32px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 28px; color: #fff; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">🚀</div>
-                <div>
-                    <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 12px; line-height: 1.3;">Build Your Future</h3>
-                    <p style="color: #475569; font-size: 16px; line-height: 1.6; margin: 0;">Plan your career journey with confidence and clear guidance from industry experts.</p>
-                </div>
-            </div>
+<!-- Premium How CareerGyan Works Section -->
+<section class="cgw-section">
+    <div class="cgw-bg">
+        <div class="cgw-blob cgw-blob-1"></div>
+        <div class="cgw-blob cgw-blob-2"></div>
+        <div class="cgw-blob cgw-blob-3"></div>
+        <div class="cgw-dots"></div>
+    </div>
+    <div class="container cgw-container">
+        <div class="cgw-header">
+            <div class="section-label"><i class="fa-solid fa-bolt"></i> SIMPLE STEPS</div>
+            <h2 class="cgw-title">How CareerGyan <span>Works</span></h2>
+            <p class="cgw-subtitle">Simple steps to discover the right career path and colleges for your future.</p>
+        </div>
+        <div class="cgw-grid">
+            <!-- Card 1: Quick Test -->
+            <a href="{{ route('quick-test.start') }}" class="cgw-card-link">
+                <article class="cgw-card cgw-card--blue">
+                    <div class="cgw-card-shine"></div>
+                    <div class="cgw-icon-wrap">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <h3 class="cgw-card-title">Quick Test</h3>
+                    <p class="cgw-card-desc">Discover your interests and strengths through our comprehensive aptitude test.</p>
+                    <div class="cgw-cta"><span>Start Quick Test</span><i class="fa-solid fa-arrow-right cgw-arrow"></i></div>
+                </article>
+            </a>
+            <!-- Card 2: Get Suggestions -->
+            <a href="{{ url('/explore') }}" class="cgw-card-link">
+                <article class="cgw-card cgw-card--violet">
+                    <div class="cgw-card-shine"></div>
+                    <div class="cgw-icon-wrap">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="cgw-card-title">Get Suggestions</h3>
+                    <p class="cgw-card-desc">Receive personalized career recommendations based on your test results.</p>
+                    <div class="cgw-cta"><span>Explore Careers</span><i class="fa-solid fa-arrow-right cgw-arrow"></i></div>
+                </article>
+            </a>
+            <!-- Card 3: Explore Paths -->
+            <a href="{{ url('/explore') }}" class="cgw-card-link">
+                <article class="cgw-card cgw-card--emerald">
+                    <div class="cgw-card-shine"></div>
+                    <div class="cgw-icon-wrap">
+                        <i class="fa-solid fa-route"></i>
+                    </div>
+                    <h3 class="cgw-card-title">Explore Paths</h3>
+                    <p class="cgw-card-desc">Learn about different career options, salaries, skills required and future scope.</p>
+                    <div class="cgw-cta"><span>Explore Careers</span><i class="fa-solid fa-arrow-right cgw-arrow"></i></div>
+                </article>
+            </a>
+            <!-- Card 4: Top Colleges -->
+            <a href="{{ url('/explore') }}" class="cgw-card-link cgw-card-link--c4">
+                <article class="cgw-card cgw-card--amber">
+                    <div class="cgw-card-shine"></div>
+                    <div class="cgw-icon-wrap">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3 class="cgw-card-title">Find Top Colleges</h3>
+                    <p class="cgw-card-desc">Discover best colleges by district, state and stream with detailed information.</p>
+                    <div class="cgw-cta"><span>Explore Careers</span><i class="fa-solid fa-arrow-right cgw-arrow"></i></div>
+                </article>
+            </a>
+            <!-- Card 5: Build Future -->
+            <a href="{{ url('/explore') }}" class="cgw-card-link cgw-card-link--c5">
+                <article class="cgw-card cgw-card--rose">
+                    <div class="cgw-card-shine"></div>
+                    <div class="cgw-icon-wrap">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <h3 class="cgw-card-title">Build Your Future</h3>
+                    <p class="cgw-card-desc">Plan your career journey with confidence and clear guidance from industry experts.</p>
+                    <div class="cgw-cta"><span>Explore Careers</span><i class="fa-solid fa-arrow-right cgw-arrow"></i></div>
+                </article>
+            </a>
         </div>
     </div>
 </section>
 
-<section class="section" id="careers" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div class="section-label">
-      <i class="fa-solid fa-briefcase"></i> Career Options
-    </div>
+<style>
+/* ── CareerGyan Works – Premium Section ─────────────────────────── */
+.cgw-section {
+    position: relative;
+    padding: 120px 0;
+    background: linear-gradient(160deg, #eef6ff 0%, #f8faff 50%, #ffffff 100%);
+    overflow: hidden;
+}
 
-    <h2 class="section-title">Popular Career Paths in India</h2>
-    <p class="section-sub">Explore detailed roadmaps, qualification requirements, and salary insights.</p>
+/* Layered background */
+.cgw-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 
-    <div class="career-grid">
-      <div class="career-card" onclick="location.href='{{ url('/explore') }}'">
-        <div class="career-header">
-          <div class="career-icon" style="background:#eff6ff;">
-            <i class="fa-solid fa-code" style="color:#1d4ed8;font-size:20px;"></i>
-          </div>
-          <div>
-            <div class="career-title">Software Engineer</div>
-            <span class="tag badge-blue">Engineering</span>
-          </div>
-        </div>
+.cgw-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+}
+.cgw-blob-1 {
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(59,130,246,.22), transparent 70%);
+    top: -120px; left: -80px;
+}
+.cgw-blob-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(139,92,246,.18), transparent 70%);
+    bottom: -100px; right: -60px;
+}
+.cgw-blob-3 {
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(251,191,36,.15), transparent 70%);
+    top: 45%; left: 55%;
+}
+.cgw-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(15,23,42,.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
 
-        <p class="career-desc">Design, develop and maintain software systems for companies across all industries — one of India's fastest-growing professions.</p>
+/* Container */
+.cgw-container { position: relative; z-index: 2; }
 
-        <div class="career-meta">
-          <div class="meta-row"><i class="fa-solid fa-graduation-cap"></i><span>Required: </span><strong>B.Tech / BCA / B.Sc CS</strong></div>
-          <div class="meta-row"><i class="fa-solid fa-indian-rupee-sign"></i><span>Salary: </span><strong>₹4L – ₹40L per annum</strong></div>
-          <div class="meta-row"><i class="fa-solid fa-chart-simple"></i><span>Demand: </span><span class="tag badge-green">Very High</span></div>
-        </div>
+/* Header */
+.cgw-header {
+    text-align: center;
+    margin-bottom: 72px;
+}
+.cgw-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+    margin-bottom: 18px;
+}
+.cgw-title span {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.cgw-subtitle {
+    font-size: 18px;
+    color: #64748b;
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
 
-        <span class="btn-roadmap">
-          <i class="fa-solid fa-map-location-dot"></i> View Roadmap
-        </span>
-      </div>
+/* Grid – 3 cols first row, 2 centered second row */
+.cgw-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 28px;
+}
+.cgw-card-link {
+    grid-column: span 2;
+    text-decoration: none;
+    display: flex;
+}
+/* Center cards 4 & 5 on desktop */
+@media (min-width: 992px) {
+    .cgw-card-link--c4 { grid-column: 2 / span 2; }
+    .cgw-card-link--c5 { grid-column: 4 / span 2; }
+}
 
-      <div class="career-card" onclick="location.href='{{ url('/explore') }}'">
-        <div class="career-header">
-          <div class="career-icon" style="background:#fff7ed;">
-            <i class="fa-solid fa-user-doctor" style="color:#ea580c;font-size:20px;"></i>
-          </div>
-          <div>
-            <div class="career-title">Doctor (MBBS)</div>
-            <span class="tag badge-amber">Medical</span>
-          </div>
-        </div>
+/* Card base */
+.cgw-card {
+    position: relative;
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,.85);
+    border-radius: 28px;
+    padding: 48px 36px 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform .45s cubic-bezier(.23,1,.32,1),
+                box-shadow .45s cubic-bezier(.23,1,.32,1),
+                border-color .35s ease;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.04),
+        0 8px 24px rgba(0,0,0,.06),
+        inset 0 1px 0 rgba(255,255,255,.9);
+    overflow: hidden;
+}
 
-        <p class="career-desc">Diagnose and treat patients — a respected and highly rewarding profession requiring dedication, empathy, and rigorous study.</p>
+/* Top gradient strip */
+.cgw-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 28px 28px 0 0;
+    opacity: 0;
+    transition: opacity .4s ease;
+}
+.cgw-card--blue::before  { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.cgw-card--violet::before { background: linear-gradient(90deg, #8b5cf6, #3b82f6); }
+.cgw-card--emerald::before{ background: linear-gradient(90deg, #10b981, #06b6d4); }
+.cgw-card--amber::before  { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.cgw-card--rose::before   { background: linear-gradient(90deg, #ec4899, #f97316); }
 
-        <div class="career-meta">
-          <div class="meta-row"><i class="fa-solid fa-graduation-cap"></i><span>Required: </span><strong>MBBS (via NEET UG)</strong></div>
-          <div class="meta-row"><i class="fa-solid fa-indian-rupee-sign"></i><span>Salary: </span><strong>₹8L – ₹60L per annum</strong></div>
-          <div class="meta-row"><i class="fa-solid fa-chart-simple"></i><span>Demand: </span><span class="tag badge-green">Very High</span></div>
-        </div>
+/* Hover corner-glow shine */
+.cgw-card-shine {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    opacity: 0;
+    filter: blur(40px);
+    transition: opacity .5s ease, transform .5s ease;
+    pointer-events: none;
+}
+.cgw-card--blue .cgw-card-shine   { background: rgba(59,130,246,.25); }
+.cgw-card--violet .cgw-card-shine  { background: rgba(139,92,246,.25); }
+.cgw-card--emerald .cgw-card-shine { background: rgba(16,185,129,.25); }
+.cgw-card--amber .cgw-card-shine   { background: rgba(245,158,11,.25); }
+.cgw-card--rose .cgw-card-shine    { background: rgba(236,72,153,.25); }
 
-        <span class="btn-roadmap">
-          <i class="fa-solid fa-map-location-dot"></i> View Roadmap
-        </span>
-      </div>
+/* Icon */
+.cgw-icon-wrap {
+    width: 72px; height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    color: #fff;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+    transition: transform .45s cubic-bezier(.34,1.56,.64,1),
+                box-shadow .45s ease;
+    flex-shrink: 0;
+}
+.cgw-card--blue .cgw-icon-wrap   { background: linear-gradient(135deg,#3b82f6,#1d4ed8); box-shadow: 0 10px 28px rgba(59,130,246,.35); }
+.cgw-card--violet .cgw-icon-wrap  { background: linear-gradient(135deg,#8b5cf6,#6d28d9); box-shadow: 0 10px 28px rgba(139,92,246,.35); }
+.cgw-card--emerald .cgw-icon-wrap { background: linear-gradient(135deg,#10b981,#059669); box-shadow: 0 10px 28px rgba(16,185,129,.35); }
+.cgw-card--amber .cgw-icon-wrap   { background: linear-gradient(135deg,#f59e0b,#d97706); box-shadow: 0 10px 28px rgba(245,158,11,.35); }
+.cgw-card--rose .cgw-icon-wrap    { background: linear-gradient(135deg,#ec4899,#be185d); box-shadow: 0 10px 28px rgba(236,72,153,.35); }
 
-      <div class="career-card" onclick="location.href='{{ url('/explore') }}'">
-        <div class="career-header">
-          <div class="career-icon" style="background:#ecfdf5;">
-            <i class="fa-solid fa-file-invoice-dollar" style="color:#16a34a;font-size:20px;"></i>
-          </div>
-          <div>
-            <div class="career-title">Chartered Accountant</div>
-            <span class="tag badge-green">Commerce</span>
-          </div>
-        </div>
+/* Text */
+.cgw-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 14px;
+    line-height: 1.3;
+    position: relative; z-index: 1;
+}
+.cgw-card-desc {
+    font-size: 15.5px;
+    color: #64748b;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    flex-grow: 1;
+    position: relative; z-index: 1;
+}
 
-        <p class="career-desc">Manage financial audits, taxation, and accounts for businesses and individuals. CA is one of India's most prestigious commerce careers.</p>
+/* CTA */
+.cgw-cta {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    position: relative; z-index: 1;
+    transition: color .3s ease;
+}
+.cgw-card--blue .cgw-cta   { color: #2563eb; }
+.cgw-card--violet .cgw-cta  { color: #7c3aed; }
+.cgw-card--emerald .cgw-cta { color: #059669; }
+.cgw-card--amber .cgw-cta   { color: #d97706; }
+.cgw-card--rose .cgw-cta    { color: #be185d; }
 
-        <div class="career-meta">
-          <div class="meta-row"><i class="fa-solid fa-graduation-cap"></i><span>Required: </span><strong>12th Commerce + CA Exams</strong></div>
-          <div class="meta-row"><i class="fa-solid fa-indian-rupee-sign"></i><span>Salary: </span><strong>₹7L – ₹50L per annum</strong></div>
-          <div class="meta-row"><i class="fa-solid fa-chart-simple"></i><span>Demand: </span><span class="tag badge-green">High</span></div>
-        </div>
+.cgw-arrow {
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
 
-        <span class="btn-roadmap">
-          <i class="fa-solid fa-map-location-dot"></i> View Roadmap
-        </span>
-      </div>
-    </div>
+/* ── Hover ─────────────────── */
+.cgw-card-link:hover .cgw-card {
+    transform: translateY(-14px);
+    border-color: rgba(99,102,241,.25);
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.03),
+        0 20px 50px rgba(15,23,42,.12),
+        inset 0 1px 0 rgba(255,255,255,.95);
+}
+.cgw-card-link:hover .cgw-card::before  { opacity: 1; }
+.cgw-card-link:hover .cgw-card-shine    { opacity: 1; transform: scale(1.15); }
+.cgw-card-link:hover .cgw-icon-wrap     { transform: scale(1.12) rotate(8deg); }
+.cgw-card-link:hover .cgw-arrow        { transform: translateX(7px); }
 
-    <div style="text-align:center; margin-top:36px;">
-      <button onclick="location.href='{{ url('/explore') }}'" style="font-size:15px;font-weight:600;color:var(--brand);background:var(--brand-light);padding:12px 32px;border-radius:var(--radius-lg);border:1.5px solid rgba(26,86,219,.2);cursor:pointer;">
-        <i class="fa-solid fa-grid"></i> &nbsp;View All 5000+ Careers
-      </button>
-    </div>
-  </div>
-</section>
+/* ── Responsive ─────────────── */
+@media (max-width: 991px) {
+    .cgw-card-link { grid-column: span 3; }
+    .cgw-card-link--c4,
+    .cgw-card-link--c5 { grid-column: span 3; }
+    .cgw-section { padding: 80px 0; }
+}
+@media (max-width: 767px) {
+    .cgw-card-link,
+    .cgw-card-link--c4,
+    .cgw-card-link--c5 { grid-column: span 6; }
+    .cgw-grid { gap: 18px; }
+    .cgw-card { padding: 36px 28px 32px; }
+    .cgw-section { padding: 60px 0; }
+}
+</style>
+
+
 
 <section class="section">
   <div class="container">
