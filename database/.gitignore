@@ -1,1 +1,1 @@
-*.sqlite*
+# sqlite database files are no longer ignored
