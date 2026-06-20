@@ -82,7 +82,7 @@ class AuthController extends Controller
         ]);
 
         // OTP generate
-     $otp = random_int(100000, 999999);
+     $otp = (string) random_int(100000, 999999);
 
 $user->update([
     'email_otp' => $otp,
@@ -93,14 +93,15 @@ $user->update([
         // send email
         try {
             Mail::raw(
-                "Your CareerGyan email verification code is: {$otp}",
+                "Your CareerGyan email verification code is: {$otp}\n\nThis code expires in 10 minutes.",
                 function ($message) use ($user) {
                     $message->to($user->email)
-                            ->subject('Verify Your Email');
+                            ->subject('Verify Your Email - CareerGyan');
                 }
             );
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Signup Mail Error: ' . $e->getMessage());
+            // Don't block registration even if mail fails
         }
 
         session(['verification_user_id' => $user->id]);
@@ -134,7 +135,7 @@ $user->update([
         return back()->with('error', "Wait {$secondsLeft} seconds before resending OTP.");
     }
 
-    $otp = random_int(100000, 999999);
+    $otp = (string) random_int(100000, 999999);
 
     $user->update([
         'email_otp' => $otp,
@@ -144,14 +145,15 @@ $user->update([
 
     try {
         Mail::raw(
-            "Your CareerGyan OTP is: {$otp}",
+            "Your CareerGyan OTP is: {$otp}\n\nThis code expires in 10 minutes.",
             function ($message) use ($user) {
                 $message->to($user->email)
-                        ->subject('Verify Your Email');
+                        ->subject('Verify Your Email - CareerGyan');
             }
         );
     } catch (\Exception $e) {
-        return back()->with('error', 'Mail error: ' . $e->getMessage());
+        \Illuminate\Support\Facades\Log::error('Resend OTP Mail Error: ' . $e->getMessage());
+        return back()->with('error', 'Failed to send email. Please try again later.');
     }
 
     return back()->with('success', 'OTP sent successfully.');
@@ -180,12 +182,12 @@ $user->update([
                 ->with('error', 'User not found.');
         }
 
-        if ($user->email_otp !== $request->otp) {
-            return back()->with('error', 'Invalid verification code.');
-        }
-
         if ($user->email_otp_expires_at && now()->gt($user->email_otp_expires_at)) {
             return back()->with('error', 'Verification code has expired. Please request a new OTP.');
+        }
+
+        if ((string) $user->email_otp !== (string) $request->otp) {
+            return back()->with('error', 'Invalid verification code.');
         }
 
         // Mark email as verified
