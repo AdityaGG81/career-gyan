@@ -95,12 +95,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
     Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
 
-    // Quick Test
-    Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
-    Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
-    Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
-    Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
-
     // College Reviews (Auth required to store)
     Route::post('/colleges/{college}/reviews', [\App\Http\Controllers\CollegeReviewController::class, 'store'])->name('college.reviews.store');
 
@@ -114,6 +108,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/daily-quiz/result/{date}', [DailyQuizController::class, 'result'])->name('daily-quiz.result');
     Route::get('/daily-quiz/my-stats', [DailyQuizController::class, 'myStats'])->name('daily-quiz.my-stats');
 });
+
+// Quick Test (Public)
+Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
+Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
+Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
+Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
 
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
