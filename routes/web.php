@@ -200,3 +200,15 @@ Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('ad
 Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
 
 Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
+
+Route::get('/clear-all-cache', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        return 'All Laravel caches cleared successfully!';
+    } catch (\Exception $e) {
+        return 'Error clearing cache: ' . $e->getMessage();
+    }
+});
