@@ -139,13 +139,14 @@ Route::post('/verify-email', [AuthController::class, 'verifyEmailOtp'])
     Route::post('/resend-email-otp', [AuthController::class, 'resendEmailOtp'])
     ->name('resend.email.otp');
 
-Route::get('/test-mail', function () {
+Route::get('/test-mail', function (\Illuminate\Http\Request $request) {
+    $to = $request->query('email', 'ffczmy26@gmail.com');
     try {
-        \Illuminate\Support\Facades\Mail::raw('Test email from web route', function ($message) {
-            $message->to('ffczmy26@gmail.com')
-                    ->subject('Web Route Test');
+        \Illuminate\Support\Facades\Mail::raw("Test email from careergyan.in web route. Target recipient: {$to}", function ($message) use ($to) {
+            $message->to($to)
+                    ->subject('Web Route Test - CareerGyan');
         });
-        return 'Mail sent from web!';
+        return "Mail successfully sent from web to: {$to}";
     } catch (\Exception $e) {
         return 'Error: ' . $e->getMessage();
     }
