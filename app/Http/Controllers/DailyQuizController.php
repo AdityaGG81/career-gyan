@@ -14,18 +14,36 @@ class DailyQuizController extends Controller
 {
     public function index()
     {
-        $today     = today();
-        $question  = DailyQuizQuestion::todaysQuestion();
-        $userStat  = null;
-        $attempt   = null;
+        $today = today();
+        $todayQuestions = DailyQuizQuestion::whereDate('quiz_date', $today)
+            ->where('is_active', true)
+            ->get();
+        
+        $userStat = null;
+        $todayAttempts = collect();
         $alreadyTaken = false;
+        $completedAttemptsCount = 0;
+        $totalQuestionsCount = $todayQuestions->count();
+        $totalPointsEarnedToday = 0;
+        $question = $todayQuestions->first();
 
         if (Auth::check()) {
-            $userStat     = UserQuizStat::forUser(Auth::id());
-            $attempt      = DailyQuizAttempt::where('user_id', Auth::id())
-                                ->where('attempted_at', $today->toDateString())
-                                ->first();
-            $alreadyTaken = (bool) $attempt;
+            $userStat = UserQuizStat::forUser(Auth::id());
+            $todayAttempts = DailyQuizAttempt::where('user_id', Auth::id())
+                                ->whereDate('attempted_at', $today)
+                                ->get();
+            $completedAttemptsCount = $todayAttempts->count();
+            
+            $alreadyTaken = ($completedAttemptsCount >= 10 || $completedAttemptsCount >= $totalQuestionsCount) && $totalQuestionsCount > 0;
+            $totalPointsEarnedToday = $todayAttempts->sum('points_earned');
+            
+            $attemptedQuestionIds = $todayAttempts->pluck('question_id')->toArray();
+            $unattempted = $todayQuestions->first(function ($q) use ($attemptedQuestionIds) {
+                return !in_array($q->id, $attemptedQuestionIds);
+            });
+            if ($unattempted) {
+                $question = $unattempted;
+            }
         }
 
         // Top 3 for leaderboard preview
@@ -42,8 +60,11 @@ class DailyQuizController extends Controller
         return view('daily-quiz.index', compact(
             'question',
             'userStat',
-            'attempt',
+            'todayAttempts',
+            'completedAttemptsCount',
+            'totalQuestionsCount',
             'alreadyTaken',
+            'totalPointsEarnedToday',
             'topUsers',
             'secondsUntilNext'
         ));
@@ -55,23 +76,43 @@ class DailyQuizController extends Controller
             return redirect()->route('login')->with('info', 'Please sign in to take the daily quiz.');
         }
 
-        $today    = today();
-        $question = DailyQuizQuestion::todaysQuestion();
+        $today = today();
+        $questions = DailyQuizQuestion::whereDate('quiz_date', $today)
+            ->where('is_active', true)
+            ->get();
 
-        if (!$question) {
+        if ($questions->isEmpty()) {
             return redirect()->route('daily-quiz.index')->with('info', 'No quiz available for today. Check back tomorrow!');
         }
 
         // Already attempted today?
-        $existing = DailyQuizAttempt::where('user_id', Auth::id())
-            ->where('attempted_at', $today->toDateString())
-            ->first();
+        $attempts = DailyQuizAttempt::where('user_id', Auth::id())
+            ->whereDate('attempted_at', $today)
+            ->get();
 
-        if ($existing) {
+        $totalQuestionsCount = min(10, $questions->count());
+
+        if ($attempts->count() >= 10 || $attempts->count() >= $questions->count()) {
             return redirect()->route('daily-quiz.result', ['date' => $today->toDateString()]);
         }
 
-        return view('daily-quiz.take', compact('question'));
+        // Find the first question that has not been attempted yet
+        $attemptedQuestionIds = $attempts->pluck('question_id')->toArray();
+        $nextQuestion = $questions->first(function ($q) use ($attemptedQuestionIds) {
+            return !in_array($q->id, $attemptedQuestionIds);
+        });
+
+        if (!$nextQuestion) {
+            return redirect()->route('daily-quiz.result', ['date' => $today->toDateString()]);
+        }
+
+        $currentIndex = $attempts->count() + 1;
+
+        return view('daily-quiz.take', [
+            'question' => $nextQuestion,
+            'currentIndex' => $currentIndex,
+            'totalQuestionsCount' => $totalQuestionsCount,
+        ]);
     }
 
     public function submit(Request $request)
@@ -89,12 +130,24 @@ class DailyQuizController extends Controller
         $today    = today();
         $question = DailyQuizQuestion::findOrFail($request->question_id);
 
-        // Prevent double-submit
+        // Already attempted today?
         $existing = DailyQuizAttempt::where('user_id', Auth::id())
-            ->where('attempted_at', $today->toDateString())
+            ->where('question_id', $question->id)
+            ->whereDate('attempted_at', $today)
             ->first();
 
         if ($existing) {
+            return redirect()->route('daily-quiz.result', [
+                'date' => $today->toDateString(),
+                'attempt_id' => $existing->id
+            ]);
+        }
+
+        $todayAttemptsCount = DailyQuizAttempt::where('user_id', Auth::id())
+            ->whereDate('attempted_at', $today)
+            ->count();
+
+        if ($todayAttemptsCount >= 10) {
             return redirect()->route('daily-quiz.result', ['date' => $today->toDateString()]);
         }
 
@@ -127,23 +180,28 @@ class DailyQuizController extends Controller
         // Update user stats
         $stat = UserQuizStat::forUser(Auth::id());
 
-        // Streak logic
+        // Streak logic - Only runs on the first attempt of the day
         $streakBonus = 0;
-        if ($stat->last_attempt_date) {
-            $lastDate = Carbon::parse($stat->last_attempt_date);
-            if ($lastDate->isYesterday()) {
-                $stat->current_streak += 1;
-            } elseif (!$lastDate->isToday()) {
+        if ($todayAttemptsCount == 0) {
+            if ($stat->last_attempt_date) {
+                $lastDate = Carbon::parse($stat->last_attempt_date);
+                if ($lastDate->isYesterday()) {
+                    $stat->current_streak += 1;
+                } elseif (!$lastDate->isToday()) {
+                    $stat->current_streak = 1;
+                }
+            } else {
                 $stat->current_streak = 1;
             }
-        } else {
-            $stat->current_streak = 1;
+
+            if ($stat->current_streak > $stat->longest_streak) {
+                $stat->longest_streak = $stat->current_streak;
+            }
+
+            $stat->last_attempt_date = $today->toDateString();
         }
 
-        if ($stat->current_streak > $stat->longest_streak) {
-            $stat->longest_streak = $stat->current_streak;
-        }
-
+        // Streak bonus applies to any correct answer if current streak > 1
         if ($isCorrect && $stat->current_streak > 1) {
             $streakBonus   = min($stat->current_streak * 2, 20); // cap at +20
             $pointsEarned += $streakBonus;
@@ -155,7 +213,6 @@ class DailyQuizController extends Controller
         $stat->quizzes_taken   += 1;
         if ($isCorrect) $stat->correct_answers += 1;
         if ($speedBonus > 0) $stat->speed_bonuses += 1;
-        $stat->last_attempt_date = $today->toDateString();
         $stat->save();
 
         // Check for new badges
@@ -171,22 +228,29 @@ class DailyQuizController extends Controller
             $newBadges[] = 'champion';
         }
 
-        return redirect()->route('daily-quiz.result', ['date' => $today->toDateString()])
-            ->with('new_badges', $newBadges)
-            ->with('streak_bonus', $streakBonus)
-            ->with('speed_bonus', $speedBonus);
+        return redirect()->route('daily-quiz.result', [
+            'date' => $today->toDateString(),
+            'attempt_id' => $attempt->id
+        ])
+        ->with('new_badges', $newBadges)
+        ->with('streak_bonus', $streakBonus)
+        ->with('speed_bonus', $speedBonus);
     }
 
-    public function result($date)
+    public function result(Request $request, $date)
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $attempt = DailyQuizAttempt::where('user_id', Auth::id())
-            ->where('attempted_at', $date)
-            ->with('question')
-            ->firstOrFail();
+        $attemptQuery = DailyQuizAttempt::where('user_id', Auth::id())
+            ->whereDate('attempted_at', $date);
+
+        if ($request->has('attempt_id')) {
+            $attempt = $attemptQuery->where('id', $request->attempt_id)->with('question')->firstOrFail();
+        } else {
+            $attempt = $attemptQuery->orderByDesc('id')->with('question')->firstOrFail();
+        }
 
         $stat      = UserQuizStat::forUser(Auth::id());
         $newBadges = session('new_badges', []);
@@ -197,6 +261,17 @@ class DailyQuizController extends Controller
         // Motivational messages based on score, streak, category
         $message = $this->getMotivationalMessage($attempt, $stat);
 
+        // Fetch how many attempts the user has made today vs total questions available today
+        $todayQuestionsCount = DailyQuizQuestion::whereDate('quiz_date', $date)
+            ->where('is_active', true)
+            ->count();
+        $todayAttemptsCount = DailyQuizAttempt::where('user_id', Auth::id())
+            ->whereDate('attempted_at', $date)
+            ->count();
+
+        $hasMoreQuestions = $todayAttemptsCount < 10 && $todayAttemptsCount < $todayQuestionsCount;
+        $nextQuestionIndex = $todayAttemptsCount + 1;
+
         return view('daily-quiz.result', compact(
             'attempt',
             'stat',
@@ -204,7 +279,11 @@ class DailyQuizController extends Controller
             'allBadges',
             'streakBonus',
             'speedBonus',
-            'message'
+            'message',
+            'hasMoreQuestions',
+            'nextQuestionIndex',
+            'todayAttemptsCount',
+            'todayQuestionsCount'
         ));
     }
 

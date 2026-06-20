@@ -237,6 +237,11 @@
                 <p id="mPlacement" style="font-size:14px;">Placement details</p>
             </div>
 
+            <!-- Reviews Section -->
+            <div class="section-tab" style="padding: 16px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; background: white;">
+                <div id="mReviewsSection"></div>
+            </div>
+
             <!-- Video Guide Section -->
             <div id="mVideoWrap" class="section-tab" style="display:none;">
                 <h3><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Video Guide</h3>
@@ -433,6 +438,11 @@
         document.getElementById('mCutoff').textContent = c.cutoff;
         document.getElementById('mFacilities').textContent = c.facilities;
         document.getElementById('mPlacement').textContent = c.placement_support;
+
+        // Load Reviews
+        if (typeof loadCollegeReviews === 'function') {
+            loadCollegeReviews(c.id, 'mReviewsSection');
+        }
 
         const videoWrap = document.getElementById('mVideoWrap');
         const videoContainer = document.getElementById('mVideoContainer');

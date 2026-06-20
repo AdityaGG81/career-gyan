@@ -548,7 +548,7 @@
       </h1>
 
       <p class="hero-desc">
-        One question. 30 seconds. Infinite learning. Take today's career quiz, earn points, climb the leaderboard and unlock exclusive badges!
+        10 daily questions. 30 seconds each. Infinite learning. Take today's career quiz, earn points, climb the leaderboard and unlock exclusive badges!
       </p>
 
       {{-- Quiz info chips --}}
@@ -587,17 +587,17 @@
       @endauth
 
       {{-- CTA Area --}}
-      @if($alreadyTaken && $attempt)
-        <div class="already-taken-card">
+      @if($alreadyTaken)
+        <div class="already-taken-card" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3);">
           <div class="taken-icon">✅</div>
           <div class="taken-text">
-            <h3>Already Completed Today!</h3>
-            <p>You earned <strong style="color:#4ade80;">{{ $attempt->points_earned }} pts</strong> — {{ $attempt->is_correct ? 'Correct ✓' : 'Not quite, but great effort!' }}</p>
+            <h3>Daily Quiz Completed!</h3>
+            <p>You solved all <strong style="color:#4ade80;">{{ $completedAttemptsCount }}</strong> questions today and earned <strong style="color:#fbbf24;">{{ $totalPointsEarnedToday }} pts</strong>!</p>
           </div>
         </div>
         <div class="hero-ctas">
           <a href="{{ route('daily-quiz.result', ['date' => now()->toDateString()]) }}" class="btn-quiz-primary">
-            <i class="fa-solid fa-eye"></i> View My Result
+            <i class="fa-solid fa-eye"></i> View Last Result
           </a>
           <a href="{{ route('daily-quiz.leaderboard') }}" class="btn-quiz-secondary">
             <i class="fa-solid fa-trophy"></i> Leaderboard
@@ -626,10 +626,19 @@
         @endif
 
       @elseif($question)
+        @if($completedAttemptsCount > 0)
+          <div class="already-taken-card" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3);">
+            <div class="taken-icon" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc;">✍️</div>
+            <div class="taken-text">
+              <h3 style="color: #a5b4fc;">Quiz In Progress!</h3>
+              <p>Completed <strong style="color:#a5b4fc;">{{ $completedAttemptsCount }} of {{ min(10, $totalQuestionsCount) }}</strong> questions. Score: <strong style="color:#fbbf24;">{{ $totalPointsEarnedToday }} pts</strong></p>
+            </div>
+          </div>
+        @endif
         <div class="hero-ctas">
           @auth
             <a href="{{ route('daily-quiz.take') }}" class="btn-quiz-primary">
-              <i class="fa-solid fa-bolt"></i> Take Today's Quiz
+              <i class="fa-solid fa-bolt"></i> {{ $completedAttemptsCount > 0 ? "Continue Today's Quiz" : "Take Today's Quiz" }}
             </a>
           @else
             <a href="{{ route('login') }}" class="btn-quiz-primary">

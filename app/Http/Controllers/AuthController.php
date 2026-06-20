@@ -91,13 +91,17 @@ $user->update([
 ]);
 
         // send email
-        Mail::raw(
-            "Your CareerGyan email verification code is: {$otp}",
-            function ($message) use ($user) {
-                $message->to($user->email)
-                        ->subject('Verify Your Email');
-            }
-        );
+        try {
+            Mail::raw(
+                "Your CareerGyan email verification code is: {$otp}",
+                function ($message) use ($user) {
+                    $message->to($user->email)
+                            ->subject('Verify Your Email');
+                }
+            );
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Signup Mail Error: ' . $e->getMessage());
+        }
 
         session(['verification_user_id' => $user->id]);
 
@@ -125,8 +129,8 @@ $user->update([
 
     // ⛔ HARD COOLDOWN (reliable)
     if ($user->last_otp_sent_at &&
-        $user->last_otp_sent_at->addSeconds(60)->isFuture()) {
-        $secondsLeft = max(1, (int)now()->diffInSeconds($user->last_otp_sent_at->addSeconds(60), false));
+        $user->last_otp_sent_at->copy()->addSeconds(60)->isFuture()) {
+        $secondsLeft = max(1, (int)now()->diffInSeconds($user->last_otp_sent_at->copy()->addSeconds(60), false));
         return back()->with('error', "Wait {$secondsLeft} seconds before resending OTP.");
     }
 

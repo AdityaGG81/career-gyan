@@ -22,4 +22,9 @@ class College extends Model
     {
         return $this->belongsTo(Field::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(CollegeReview::class);
+    }
 }

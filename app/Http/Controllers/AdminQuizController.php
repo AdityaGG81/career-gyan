@@ -37,7 +37,7 @@ class AdminQuizController extends Controller
         $this->requireAdmin();
 
         $request->validate([
-            'quiz_date'      => 'required|date|unique:daily_quiz_questions,quiz_date',
+            'quiz_date'      => 'required|date',
             'question_text'  => 'required|string',
             'option_a'       => 'required|string',
             'option_b'       => 'required|string',
@@ -82,7 +82,7 @@ class AdminQuizController extends Controller
         $question = DailyQuizQuestion::findOrFail($id);
 
         $request->validate([
-            'quiz_date'      => 'required|date|unique:daily_quiz_questions,quiz_date,' . $id,
+            'quiz_date'      => 'required|date',
             'question_text'  => 'required|string',
             'option_a'       => 'required|string',
             'option_b'       => 'required|string',
@@ -129,7 +129,7 @@ class AdminQuizController extends Controller
         $query = DailyQuizAttempt::with(['user', 'question'])->orderByDesc('attempted_at');
 
         if ($request->filled('date')) {
-            $query->where('attempted_at', $request->date);
+            $query->whereDate('attempted_at', $request->date);
         }
         if ($request->filled('user_name')) {
             $query->whereHas('user', fn($q) => $q->where('name', 'like', '%' . $request->user_name . '%'));

@@ -1362,6 +1362,117 @@
 @yield('scripts')
 
 <script>
+  // Global College Reviews Logic
+  function loadCollegeReviews(collegeId, containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      container.innerHTML = `<div style="text-align:center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="color:var(--brand); font-size:24px;"></i></div>`;
+      
+      fetch(`/colleges/${collegeId}/reviews`)
+          .then(res => res.json())
+          .then(reviews => {
+              let html = `
+                  <h3 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--brand, #0d9488);"><i class="fa-solid fa-star"></i> Student Reviews</h3>
+              `;
+              
+              if (reviews.length > 0) {
+                  html += `<div style="max-height: 300px; overflow-y: auto; margin-bottom: 16px; padding-right: 8px;">`;
+                  reviews.forEach(r => {
+                      let stars = '';
+                      for(let i=1; i<=5; i++) {
+                          stars += `<i class="fa-solid fa-star" style="color: ${i <= r.rating ? '#fbbf24' : '#e2e8f0'}; font-size: 12px;"></i>`;
+                      }
+                      html += `
+                          <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
+                                  <strong style="font-size:13px; color:#1e293b;">${r.user ? r.user.name : 'Anonymous'}</strong>
+                                  <div>${stars}</div>
+                              </div>
+                              <p style="font-size:13px; color:#475569; margin:0;">${r.review}</p>
+                          </div>
+                      `;
+                  });
+                  html += `</div>`;
+              } else {
+                  html += `<p style="font-size:13px; color:#64748b; margin-bottom: 16px;">No reviews yet. Be the first to review!</p>`;
+              }
+              
+              // Review Form
+              const isAuth = {{ Auth::check() ? 'true' : 'false' }};
+              if (isAuth) {
+                  html += `
+                      <div style="background: white; border: 1px solid #e2e8f0; padding: 16px; border-radius: 8px;">
+                          <h4 style="font-size:14px; margin-bottom:8px;">Write a Review</h4>
+                          <form onsubmit="submitCollegeReview(event, ${collegeId}, '${containerId}')">
+                              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                              <div style="margin-bottom: 8px;">
+                                  <select id="reviewRating_${collegeId}" required style="width:100%; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px;">
+                                      <option value="">Select Rating</option>
+                                      <option value="5">5 Stars - Excellent</option>
+                                      <option value="4">4 Stars - Good</option>
+                                      <option value="3">3 Stars - Average</option>
+                                      <option value="2">2 Stars - Poor</option>
+                                      <option value="1">1 Star - Terrible</option>
+                                  </select>
+                              </div>
+                              <div style="margin-bottom: 8px;">
+                                  <textarea id="reviewText_${collegeId}" required rows="3" placeholder="Share your experience..." style="width:100%; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; resize: vertical;"></textarea>
+                              </div>
+                              <button type="submit" style="background: var(--brand, #1d4ed8); color: white; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none;">Submit Review</button>
+                          </form>
+                      </div>
+                  `;
+              } else {
+                  html += `<div style="background: #eff6ff; padding: 12px; border-radius: 8px; font-size: 13px; text-align: center; color: #1d4ed8;">Please <a href="/login" style="font-weight:bold; text-decoration:underline;">log in</a> to write a review.</div>`;
+              }
+              
+              container.innerHTML = html;
+          })
+          .catch(err => {
+              container.innerHTML = `<p style="color:red; font-size:13px;">Failed to load reviews.</p>`;
+          });
+  }
+
+  function submitCollegeReview(e, collegeId, containerId) {
+      e.preventDefault();
+      const rating = document.getElementById(`reviewRating_${collegeId}`).value;
+      const reviewText = document.getElementById(`reviewText_${collegeId}`).value;
+      const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      
+      const btn = e.target.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+
+      fetch(`/colleges/${collegeId}/reviews`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': token,
+              'Accept': 'application/json'
+          },
+          body: JSON.stringify({ rating: rating, review: reviewText })
+      })
+      .then(res => res.json())
+      .then(data => {
+          if(data.message === 'Review added successfully.') {
+              loadCollegeReviews(collegeId, containerId);
+          } else {
+              alert(data.message || 'Error submitting review.');
+              btn.textContent = originalText;
+              btn.disabled = false;
+          }
+      })
+      .catch(err => {
+          alert('Error submitting review.');
+          btn.textContent = originalText;
+          btn.disabled = false;
+      });
+  }
+</script>
+
+<script>
   window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const collegeId = urlParams.get('college_id');

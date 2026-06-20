@@ -363,7 +363,7 @@
         <div class="quiz-info-left">
           <div class="q-date-badge">
             <i class="fa-regular fa-calendar"></i>
-            {{ now()->format('d M Y') }} — Daily Quiz
+            {{ now()->format('d M Y') }} — Question {{ $currentIndex }} of {{ $totalQuestionsCount }}
           </div>
           <div>
             <span class="q-category-pill cat-{{ $question->category }}">

@@ -319,6 +319,11 @@
                 <p id="mFacilities" style="font-size:14px; color:#475569;"></p>
             </div>
 
+            <!-- Reviews Section -->
+            <div class="detail-box" style="margin-top:20px;">
+                <div id="mReviewsSection"></div>
+            </div>
+
             <!-- Video Guide Section -->
             <div id="mVideoWrap" class="detail-box" style="display:none; margin-top:20px;">
                 <h3><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Video Guide</h3>
@@ -448,6 +453,11 @@
         document.getElementById('mAdmission').textContent = c.cutoff;
         document.getElementById('mRecruiters').textContent = c.placement_support;
         document.getElementById('mFacilities').textContent = c.facilities;
+
+        // Load Reviews
+        if (typeof loadCollegeReviews === 'function') {
+            loadCollegeReviews(c.id, 'mReviewsSection');
+        }
 
         const videoWrap = document.getElementById('mVideoWrap');
         const videoContainer = document.getElementById('mVideoContainer');

@@ -58,7 +58,8 @@ class DailyQuizTest extends TestCase
             'time_taken_seconds' => 5, // Under 10s for speed bonus
         ]);
 
-        $response->assertRedirect(route('daily-quiz.result', ['date' => today()->toDateString()]));
+        $attempt = DailyQuizAttempt::where('user_id', $user->id)->first();
+        $response->assertRedirect(route('daily-quiz.result', ['date' => today()->toDateString(), 'attempt_id' => $attempt->id]));
 
         // Verify attempt was saved
         $this->assertDatabaseHas('daily_quiz_attempts', [
@@ -99,7 +100,8 @@ class DailyQuizTest extends TestCase
             'time_taken_seconds' => 5,
         ]);
 
-        $response->assertRedirect(route('daily-quiz.result', ['date' => today()->toDateString()]));
+        $attempt = DailyQuizAttempt::where('user_id', $user->id)->first();
+        $response->assertRedirect(route('daily-quiz.result', ['date' => today()->toDateString(), 'attempt_id' => $attempt->id]));
 
         // Verify only 1 attempt exists
         $this->assertEquals(1, DailyQuizAttempt::where('user_id', $user->id)->count());

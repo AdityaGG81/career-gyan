@@ -38,9 +38,16 @@ class DailyQuizQuestion extends Model
 
     public static function todaysQuestion()
     {
-        return static::where('quiz_date', today()->toDateString())
+        return static::whereDate('quiz_date', today())
             ->where('is_active', true)
             ->first();
+    }
+
+    public static function todaysQuestions()
+    {
+        return static::whereDate('quiz_date', today())
+            ->where('is_active', true)
+            ->get();
     }
 
     public function getDifficultyColorAttribute()

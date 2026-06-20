@@ -350,7 +350,13 @@
 
   @if($attempts->hasPages())
     <div class="pagination-wrap">
-      {{ $attempts->appends(request()->query())->links() }}
+      <style>
+        .pagination { display: flex; list-style: none; padding: 0; margin: 0; gap: 4px; flex-wrap: wrap; }
+        .page-item .page-link { padding: 6px 12px; border: 1px solid #e4e4e7; border-radius: 6px; color: #09090b; text-decoration: none; font-size: 14px; background: #fff; }
+        .page-item.active .page-link { background: #09090b; color: #fff; border-color: #09090b; }
+        .page-item.disabled .page-link { color: #a1a1aa; cursor: not-allowed; background: #f4f4f5; }
+      </style>
+      {{ $attempts->appends(request()->query())->links('pagination::bootstrap-4') }}
     </div>
   @endif
 </div>

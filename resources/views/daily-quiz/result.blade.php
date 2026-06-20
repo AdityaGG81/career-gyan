@@ -387,7 +387,12 @@
       <p class="result-message">"{{ $message['text'] }}"</p>
 
       <div class="result-ctas">
-        <a href="{{ route('daily-quiz.leaderboard') }}" class="btn-result btn-result-primary">
+        @if($hasMoreQuestions)
+          <a href="{{ route('daily-quiz.take') }}" class="btn-result btn-result-primary" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16,185,129,0.35);">
+            <i class="fa-solid fa-arrow-right"></i> Next Question ({{ $nextQuestionIndex }} of {{ min(10, $todayQuestionsCount) }})
+          </a>
+        @endif
+        <a href="{{ route('daily-quiz.leaderboard') }}" class="btn-result {{ $hasMoreQuestions ? 'btn-result-outline' : 'btn-result-primary' }}">
           <i class="fa-solid fa-trophy"></i> View Leaderboard
         </a>
         <a href="{{ route('daily-quiz.my-stats') }}" class="btn-result btn-result-outline">
@@ -404,7 +409,7 @@
 
       {{-- Points Earned --}}
       <div class="panel-card points-earned-card">
-        <div class="points-label">✨ Points Earned Today</div>
+        <div class="points-label">✨ Points Earned for this Question</div>
         <div class="points-big">
           <span id="pointsCounter">0</span>
           <span class="pts-label">pts</span>

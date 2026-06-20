@@ -257,6 +257,11 @@
                 <p id="mFacilities" style="font-size:14px;">Facilities</p>
             </div>
 
+            <!-- Reviews Section -->
+            <div class="section-tab" style="padding: 16px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; background: white;">
+                <div id="mReviewsSection"></div>
+            </div>
+
             <!-- Video Guide Section -->
             <div id="mVideoWrap" class="section-tab" style="display:none;">
                 <h3><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Video Guide</h3>
@@ -364,8 +369,9 @@
             
             // Simple NEET score simulation
             let matchNeet = true;
-            if(neet === "600") matchNeet = c.cutoff.includes('580') || c.type === 'Government';
-            if(neet === "500") matchNeet = !c.cutoff.includes('580') || c.type === 'Government' || c.type === 'Private';
+            let cutoffStr = c.cutoff || '';
+            if(neet === "600") matchNeet = cutoffStr.includes('580') || c.type === 'Government';
+            if(neet === "500") matchNeet = !cutoffStr.includes('580') || c.type === 'Government' || c.type === 'Private';
             if(neet === "350") matchNeet = c.type === 'Private' || c.type === 'Deemed';
 
             return matchQ && matchLoc && matchType && matchNeet;
@@ -467,6 +473,11 @@
         document.getElementById('mCutoff').textContent = c.cutoff;
         document.getElementById('mFacilities').textContent = c.facilities;
         document.getElementById('mExposure').textContent = c.clinical_exposure;
+
+        // Load Reviews
+        if (typeof loadCollegeReviews === 'function') {
+            loadCollegeReviews(c.id, 'mReviewsSection');
+        }
 
         const videoWrap = document.getElementById('mVideoWrap');
         const videoContainer = document.getElementById('mVideoContainer');

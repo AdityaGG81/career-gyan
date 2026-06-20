@@ -31,6 +31,9 @@ Route::get('/explore/field/{field}', [ExploreController::class, 'byField'])->nam
 Route::post('/explore/subjects', [ExploreController::class, 'bySubjects'])->name('explore.subjects');
 Route::get('/explore/career/{career}', [ExploreController::class, 'careerDetail'])->name('explore.career');
 
+// College Reviews (Public to view)
+Route::get('/colleges/{college}/reviews', [\App\Http\Controllers\CollegeReviewController::class, 'index'])->name('college.reviews.index');
+
 // Career detail page (SEO-friendly)
 Route::get('/career/{slug}', [ExploreController::class, 'careerDetailPage'])->name('career.detail.page');
 
@@ -98,6 +101,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
     Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
 
+    // College Reviews (Auth required to store)
+    Route::post('/colleges/{college}/reviews', [\App\Http\Controllers\CollegeReviewController::class, 'store'])->name('college.reviews.store');
+
     // AI Chatbot
     Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
     Route::get('/ai-career-chat/limit', [AiCareerChatController::class, 'getRemainingLimit'])->name('ai-career-chat.limit');
@@ -132,6 +138,18 @@ Route::post('/verify-email', [AuthController::class, 'verifyEmailOtp'])
 
     Route::post('/resend-email-otp', [AuthController::class, 'resendEmailOtp'])
     ->name('resend.email.otp');
+
+Route::get('/test-mail', function () {
+    try {
+        \Illuminate\Support\Facades\Mail::raw('Test email from web route', function ($message) {
+            $message->to('ffczmy26@gmail.com')
+                    ->subject('Web Route Test');
+        });
+        return 'Mail sent from web!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
 
 // Admin Panel (Protected by session checks inside the controllers)
 // Daily Quiz (public landing + leaderboard)
