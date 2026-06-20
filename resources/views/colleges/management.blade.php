@@ -5,7 +5,7 @@
 @section('styles')
 <style>
 /* ─── Management Specific Styles ─── */
-.hero-mgmt { padding: 80px 0; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; text-align: center; }
+.hero-mgmt { padding: 100px 0; background: linear-gradient(rgba(30, 58, 138, 0.85), rgba(59, 130, 246, 0.95)), url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1400") center/cover no-repeat; color: white; text-align: center; }
 .hero-mgmt h1 { font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 5vw, 48px); margin-bottom: 16px; }
 .hero-mgmt p { font-size: 18px; opacity: 0.9; max-width: 800px; margin: 0 auto; }
 
@@ -59,6 +59,50 @@
 .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 24px; }
 .detail-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
 .detail-box h3 { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #1e3a8a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE STYLES (ADDED)
+     ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .filter-container {
+      flex-direction: column;
+    }
+    .filter-group {
+      width: 100%;
+    }
+    .college-grid {
+      grid-template-columns: 1fr;
+    }
+    .top10-card {
+      min-width: 240px;
+    }
+    .modal-content {
+      max-height: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    .modal-header {
+      border-radius: 0;
+    }
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns: 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr;"],
+    div[style*="grid-template-columns: 1fr 1fr;"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-colleges {
+      padding: 60px 0;
+    }
+    .hero-colleges h1 {
+      font-size: 28px;
+    }
+    .hero-colleges p {
+      font-size: 14px;
+    }
+  }
 </style>
 @endsection
 
@@ -79,9 +123,18 @@
             <input type="text" id="mgmtSearch" placeholder="E.g. IIM Mumbai, SP Jain...">
         </div>
         <div class="filter-group">
+            <label>State</label>
+            <select id="mgmtState">
+                <option value="">All States</option>
+                @foreach($states as $st)
+                    <option value="{{ $st }}">{{ $st }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="filter-group">
             <label>District</label>
             <select id="mgmtLoc">
-                <option value="">All Maharashtra</option>
+                <option value="">All Locations</option>
                 @foreach($districts as $loc)
                     <option value="{{ $loc }}">{{ $loc }}</option>
                 @endforeach
@@ -124,7 +177,18 @@
                     <h2 class="district-title"><i class="fa-solid fa-map-pin"></i> {{ $loc }} District</h2>
                     <div class="college-grid">
                         @foreach($locColleges as $c)
-                            <div class="mgmt-card" data-name="{{ strtolower($c->name) }}" data-loc="{{ $c->location }}" data-type="{{ $c->type }}">
+                            <div class="mgmt-card" data-state="{{ $c->state }}" data-name="{{ strtolower($c->name) }}" data-loc="{{ $c->location }}" data-type="{{ $c->type }}">
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; padding: 16px 20px 0;">
+                                    @if($c->rank)
+                                        <span style="font-size:10px; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:12px; font-weight:700;" title="CareerGyan Rank">CG #{{ $c->rank }}</span>
+                                    @endif
+                                    @if($c->government_rank)
+                                        <span style="font-size:10px; background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:12px; font-weight:700;" title="Govt NIRF Rank">NIRF #{{ $c->government_rank }}</span>
+                                    @endif
+                                    @if($c->naac_grade)
+                                        <span style="font-size:10px; background:#dcfce7; color:#14532d; padding:2px 8px; border-radius:12px; font-weight:700;" title="NAAC Grade">NAAC {{ $c->naac_grade }}</span>
+                                    @endif
+                                </div>
                                 <div class="card-top">
                                     <div class="type-badge">{{ $c->type }}</div>
                                     <h3 class="card-title">{{ $c->name }}</h3>
@@ -205,6 +269,24 @@
                 <h3><i class="fa-solid fa-quote-left"></i> About the Institute</h3>
                 <p id="mDesc" style="font-size:14px; color:#475569; line-height:1.6;"></p>
             </div>
+            <!-- Rankings Info widget -->
+            <div class="section-tab" id="mRankingsSection" style="display:none; padding: 16px; border: 1px solid var(--border, #e2e8f0); border-radius: 12px; margin-bottom: 16px; background: white;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--brand, #0d9488);"><i class="fa-solid fa-award"></i> Accreditation & Rankings</h3>
+                <div style="display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;">
+                    <div id="mCgRank" style="flex:1; min-width:100px; background:#fef3c7; border:1px solid #fde68a; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#92400e; font-weight:700; text-transform:uppercase;">CareerGyan Rank</div>
+                        <div style="font-size:18px; font-weight:800; color:#78350f;" id="mCgRankVal">-</div>
+                    </div>
+                    <div id="mGovRank" style="flex:1; min-width:100px; background:#e0f2fe; border:1px solid #bae6fd; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#0369a1; font-weight:700; text-transform:uppercase;">Govt NIRF Rank</div>
+                        <div style="font-size:18px; font-weight:800; color:#075985;" id="mGovRankVal">-</div>
+                    </div>
+                    <div id="mNaac" style="flex:1; min-width:100px; background:#dcfce7; border:1px solid #bbf7d0; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#14532d; font-weight:700; text-transform:uppercase;">NAAC Grade</div>
+                        <div style="font-size:18px; font-weight:800; color:#166534;" id="mNaacVal">-</div>
+                    </div>
+                </div>
+            </div>
 
             <div class="detail-grid">
                 <div class="detail-box">
@@ -235,6 +317,17 @@
             <div class="detail-box">
                 <h3><i class="fa-solid fa-chalkboard-user"></i> Campus & Learning Facilities</h3>
                 <p id="mFacilities" style="font-size:14px; color:#475569;"></p>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="detail-box" style="margin-top:20px;">
+                <div id="mReviewsSection"></div>
+            </div>
+
+            <!-- Video Guide Section -->
+            <div id="mVideoWrap" class="detail-box" style="display:none; margin-top:20px;">
+                <h3><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Video Guide</h3>
+                <div id="mVideoContainer" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000;"></div>
             </div>
 
             <div style="margin-top:24px; padding:20px; background:#eff6ff; border-radius:12px; border-left:5px solid #2563eb;">
@@ -303,12 +396,55 @@
     mLoc.addEventListener('change', filterMgmt);
     mType.addEventListener('change', filterMgmt);
 
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+    }
+
     function openMgmtDetails(id) {
         const c = mgmtColleges.find(x => x.id === id);
-        if(!c) return;
+        if (!c) return;
+
+        const cgRankDiv = document.getElementById('mCgRank');
+        const govRankDiv = document.getElementById('mGovRank');
+        const naacDiv = document.getElementById('mNaac');
+        const rankingsSection = document.getElementById('mRankingsSection');
+        let hasAnyRank = false;
+
+        if (c.rank) {
+            document.getElementById('mCgRankVal').textContent = '#' + c.rank;
+            cgRankDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            cgRankDiv.style.display = 'none';
+        }
+
+        if (c.government_rank) {
+            document.getElementById('mGovRankVal').textContent = '#' + c.government_rank;
+            govRankDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            govRankDiv.style.display = 'none';
+        }
+
+        if (c.naac_grade) {
+            document.getElementById('mNaacVal').textContent = c.naac_grade;
+            naacDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            naacDiv.style.display = 'none';
+        }
+
+        if (hasAnyRank) {
+            rankingsSection.style.display = 'block';
+        } else {
+            rankingsSection.style.display = 'none';
+        }
 
         document.getElementById('mName').textContent = c.name;
-        document.getElementById('mLoc').textContent = c.location;
+        document.getElementById('mLoc').textContent = c.location + ', ' + c.state;
         document.getElementById('mType').textContent = c.type;
         document.getElementById('mDesc').textContent = c.description;
         document.getElementById('mAvg').textContent = c.average_package;
@@ -318,6 +454,27 @@
         document.getElementById('mRecruiters').textContent = c.placement_support;
         document.getElementById('mFacilities').textContent = c.facilities;
 
+        // Load Reviews
+        if (typeof loadCollegeReviews === 'function') {
+            loadCollegeReviews(c.id, 'mReviewsSection');
+        }
+
+        const videoWrap = document.getElementById('mVideoWrap');
+        const videoContainer = document.getElementById('mVideoContainer');
+        if (c.youtube_url) {
+            const videoId = getYoutubeId(c.youtube_url);
+            if (videoId) {
+                videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+                videoWrap.style.display = 'block';
+            } else {
+                videoWrap.style.display = 'none';
+                videoContainer.innerHTML = '';
+            }
+        } else {
+            videoWrap.style.display = 'none';
+            videoContainer.innerHTML = '';
+        }
+
         document.getElementById('mgmtModal').classList.add('active');
         document.body.style.overflow = "hidden";
     }
@@ -326,6 +483,14 @@
         if(e.target === document.getElementById('mgmtModal') || e.target.classList.contains('modal-close')) {
             document.getElementById('mgmtModal').classList.remove('active');
             document.body.style.overflow = "auto";
+            const videoContainer = document.getElementById('mVideoContainer');
+            if (videoContainer) {
+                videoContainer.innerHTML = '';
+            }
+            const videoWrap = document.getElementById('mVideoWrap');
+            if (videoWrap) {
+                videoWrap.style.display = 'none';
+            }
         }
     }
 </script>

@@ -18,6 +18,12 @@
 .meta-list b { color: #1e293b; }
 
 .stability-badge { display: inline-block; padding: 4px 12px; background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; border-radius: 30px; margin-bottom: 15px; text-transform: uppercase; }
+
+  @media (max-width: 768px) {
+    .career-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 @endsection
 

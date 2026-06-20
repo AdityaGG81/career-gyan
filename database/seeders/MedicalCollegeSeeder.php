@@ -45,13 +45,13 @@ class MedicalCollegeSeeder extends Seeder
             ['name' => 'Dr. Vasantrao Pawar Medical College', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'SMBT Institute of Medical Sciences', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Aurangabad
-            ['name' => 'Government Medical College Aurangabad', 'location' => 'Aurangabad', 'type' => 'Government'],
-            ['name' => 'MGM Medical College Aurangabad', 'location' => 'Aurangabad', 'type' => 'Private'],
+            // Sambhajinagar
+            ['name' => 'Government Medical College Sambhajinagar', 'location' => 'Sambhajinagar', 'type' => 'Government'],
+            ['name' => 'MGM Medical College Sambhajinagar', 'location' => 'Sambhajinagar', 'type' => 'Private'],
 
-            // Ahmednagar
-            ['name' => 'Rural Medical College Loni', 'location' => 'Ahmednagar', 'type' => 'Private'],
-            ['name' => 'Dr. Vithalrao Vikhe Patil Medical College', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar
+            ['name' => 'Rural Medical College Loni', 'location' => 'Ahilyanagar', 'type' => 'Private'],
+            ['name' => 'Dr. Vithalrao Vikhe Patil Medical College', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
             // Kolhapur
             ['name' => 'Government Medical College Kolhapur', 'location' => 'Kolhapur', 'type' => 'Government'],

@@ -92,6 +92,24 @@
         border-radius: 4px;
         font-weight: 600;
     }
+    a.tag-item {
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    a.tag-item:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+        transform: translateY(-1px);
+    }
+    a.tag-item.occ-tag {
+        background: var(--brand-light);
+        color: var(--brand);
+    }
+    a.tag-item.occ-tag:hover {
+        background: #dbeafe;
+        color: var(--brand-dark);
+    }
 
     /* Answersheet Styles */
     .answersheet-section {
@@ -363,7 +381,6 @@
                 </div>
             </div>
         </div>
-
         {{-- Charts Row --}}
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 30px;">
             <div class="stat-card">
@@ -386,7 +403,7 @@
             <p style="color: var(--text-3); font-size: 14px;">Based on your top aptitude strengths.</p>
             
             <div class="rec-grid">
-                @foreach($attempt->recommended_careers as $rec)
+                @foreach($linkedRecommendedCareers as $rec)
                     <div class="rec-card">
                         <div class="rec-icon">
                             <i class="fa-solid {{ $rec['icon'] }}"></i>
@@ -397,19 +414,25 @@
                             <div style="font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase;">Vocational Areas</div>
                             <div class="tag-list">
                                 @foreach($rec['areas'] as $area)
-                                    <span class="tag-item">{{ $area }}</span>
+                                    @if($area && isset($area['label']) && isset($area['url']))
+                                        <a href="{{ $area['url'] }}" class="tag-item" title="View {{ $area['label'] }} details">{{ $area['label'] }}</a>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
 
+                        @if(count($rec['occupations']) > 0)
                         <div>
                             <div style="font-size: 12px; font-weight: 700; color: var(--text-3); text-transform: uppercase;">Suggested Occupations</div>
                             <div class="tag-list">
                                 @foreach($rec['occupations'] as $occ)
-                                    <span class="tag-item" style="background: var(--brand-light); color: var(--brand);">{{ $occ }}</span>
+                                    @if($occ && isset($occ['label']) && isset($occ['url']))
+                                        <a href="{{ $occ['url'] }}" class="tag-item occ-tag" title="View {{ $occ['label'] }} details">{{ $occ['label'] }}</a>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
+                        @endif
                     </div>
                 @endforeach
             </div>

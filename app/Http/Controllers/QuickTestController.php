@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\QuickTestQuestion;
 use App\Models\QuickTestAttempt;
 use Illuminate\Support\Str;
@@ -22,17 +23,38 @@ class QuickTestController extends Controller
 
     public function submit(Request $request)
     {
-        $answers = $request->input('answers', []);
+        // Validate: only require name/email for guests
+        $rules = [
+            'answers' => 'array',
+        ];
+
+        if (!Auth::check()) {
+            $rules['student_name']  = 'required|string|max:255';
+            $rules['student_email'] = 'required|email|max:255';
+        }
+
+        $request->validate($rules);
+
+        // Resolve student identity
+        if (Auth::check()) {
+            $studentName  = Auth::user()->name;
+            $studentEmail = Auth::user()->email;
+        } else {
+            $studentName  = $request->input('student_name', $request->input('name'));
+            $studentEmail = $request->input('student_email', $request->input('email'));
+        }
+
+        $answers   = $request->input('answers', []);
         $questions = QuickTestQuestion::all();
         
         $sectionScores = [
-            'Language Aptitude' => 0,
-            'Abstract Reasoning' => 0,
-            'Verbal Reasoning' => 0,
+            'Language Aptitude'    => 0,
+            'Abstract Reasoning'   => 0,
+            'Verbal Reasoning'     => 0,
             'Mechanical Reasoning' => 0,
-            'Numerical Aptitude' => 0,
-            'Spatial Aptitude' => 0,
-            'Perceptual Aptitude' => 0,
+            'Numerical Aptitude'   => 0,
+            'Spatial Aptitude'     => 0,
+            'Perceptual Aptitude'  => 0,
         ];
         
         $totalScore = 0;
@@ -48,13 +70,13 @@ class QuickTestController extends Controller
         $recommendations = $this->getAptitudeRecommendations($sectionScores);
         
         $attempt = QuickTestAttempt::create([
-            'uuid' => (string) Str::uuid(),
-            'student_name' => $request->input('student_name'),
-            'student_email' => $request->input('student_email'),
-            'answers' => $answers,
-            'section_scores' => $sectionScores,
-            'total_score' => $totalScore,
-            'recommended_careers' => $recommendations,
+            'uuid'               => (string) Str::uuid(),
+            'student_name'       => $studentName,
+            'student_email'      => $studentEmail,
+            'answers'            => $answers,
+            'section_scores'     => $sectionScores,
+            'total_score'        => $totalScore,
+            'recommended_careers'=> $recommendations,
         ]);
         
         return redirect()->route('quick-test.results', $attempt->uuid);
@@ -96,8 +118,147 @@ class QuickTestController extends Controller
         $profileParagraph = $this->generateProfileParagraph($highAptitude, $averageAptitude);
         
         $questions = \App\Models\QuickTestQuestion::all();
+
+        // Build clickable recommendation links
+        $linkedRecommendedCareers = [];
+        if ($attempt->recommended_careers) {
+            foreach ($attempt->recommended_careers as $rec) {
+                $linkedRecommendedCareers[] = [
+                    'section' => $rec['section'],
+                    'icon' => $rec['icon'],
+                    'areas' => $this->buildRecommendationLinks($rec['areas'], 'field'),
+                    'occupations' => $this->buildRecommendationLinks($rec['occupations'], 'occupation'),
+                ];
+            }
+        }
         
-        return view('quick-test.results', compact('attempt', 'highAptitude', 'averageAptitude', 'lowAptitude', 'profileParagraph', 'questions'));
+        return view('quick-test.results', compact('attempt', 'highAptitude', 'averageAptitude', 'lowAptitude', 'profileParagraph', 'questions', 'linkedRecommendedCareers'));
+    }
+
+    private function buildRecommendationLinks(array $items, string $type): array
+    {
+        $linkedItems = [];
+        $seen = [];
+        
+        foreach ($items as $item) {
+            if (!$item) continue;
+            
+            $slug = \Illuminate\Support\Str::slug($item);
+            
+            if ($type === 'field') {
+                $fieldMappings = [
+                    'engineering' => ['slug' => 'technology-engineering', 'label' => 'Technology / Engineering'],
+                    'mechanical-engineering' => ['slug' => 'technology-engineering', 'label' => 'Technology / Engineering'],
+                    'architecture' => ['slug' => 'technology-engineering', 'label' => 'Technology / Engineering'],
+                    
+                    'mathematics' => ['slug' => 'science', 'label' => 'Science'],
+                    'applied-sciences' => ['slug' => 'science', 'label' => 'Science'],
+                    'statistics' => ['slug' => 'science', 'label' => 'Science'],
+                    'oceanography' => ['slug' => 'science', 'label' => 'Science'],
+                    'astronomy' => ['slug' => 'science', 'label' => 'Science'],
+                    
+                    'economics' => ['slug' => 'commerce', 'label' => 'Commerce, Banking & Corporate'],
+                    'banking' => ['slug' => 'commerce', 'label' => 'Commerce, Banking & Corporate'],
+                    'accounting' => ['slug' => 'commerce', 'label' => 'Commerce, Banking & Corporate'],
+                    'record-keeping' => ['slug' => 'commerce', 'label' => 'Commerce, Banking & Corporate'],
+                    
+                    'psychology' => ['slug' => 'arts-humanities', 'label' => 'Arts & Humanities'],
+                    'journalism' => ['slug' => 'arts-humanities', 'label' => 'Arts & Humanities'],
+                    'linguistics' => ['slug' => 'arts-humanities', 'label' => 'Arts & Humanities'],
+                    'education' => ['slug' => 'arts-humanities', 'label' => 'Arts & Humanities'],
+                    
+                    'law' => ['slug' => 'teaching-law', 'label' => 'Teaching & Law'],
+                    
+                    'public-relations' => ['slug' => 'business', 'label' => 'Business Administration'],
+                    'business-development' => ['slug' => 'business', 'label' => 'Business Administration'],
+                    'administrative-services' => ['slug' => 'business', 'label' => 'Business Administration'],
+                    
+                    'doctor' => ['slug' => 'medical', 'label' => 'Medical'],
+                    'health-sciences' => ['slug' => 'medical', 'label' => 'Medical'],
+                    'speech-therapist' => ['slug' => 'medical', 'label' => 'Medical'],
+                    
+                    'agriculture' => ['slug' => 'agriculture', 'label' => 'Agriculture'],
+                    'sports' => ['slug' => 'sports', 'label' => 'Sports'],
+                    'designing' => ['slug' => 'creative-careers', 'label' => 'Creative Careers'],
+                    'fashion-design' => ['slug' => 'creative-careers', 'label' => 'Creative Careers'],
+                    'technical-trades' => ['slug' => 'skill-development', 'label' => 'Skill Development'],
+                    'data-entry' => ['slug' => 'skill-development', 'label' => 'Skill Development'],
+                    'urban-planning' => ['slug' => 'technology-engineering', 'label' => 'Technology / Engineering'],
+                ];
+                
+                $mapped = $fieldMappings[$slug] ?? null;
+                
+                // If mapping doesn't exist, try to check if the slug is already a valid field in db
+                if (!$mapped) {
+                    $fieldExists = \App\Models\Field::where('slug', $slug)->first();
+                    if ($fieldExists) {
+                        $mapped = ['slug' => $fieldExists->slug, 'label' => $fieldExists->name];
+                    }
+                }
+                
+                if ($mapped && !isset($seen[$mapped['slug']])) {
+                    $seen[$mapped['slug']] = true;
+                    $linkedItems[] = [
+                        'label' => $mapped['label'],
+                        'url' => route('explore.field', ['field' => $mapped['slug']]),
+                    ];
+                }
+            } else {
+                // Occupations
+                $careerMapping = [
+                    'writer' => 'content-writer',
+                    'journalist' => 'journalist',
+                    'copywriter' => 'copywriter',
+                    'lawyer' => 'lawyer',
+                    'librarian' => 'librarian',
+                    'stenographer' => 'stenographer-typist',
+                    'mathematician' => 'mathematician',
+                    'computer-programmer' => 'software-developer',
+                    'architect' => 'architect',
+                    'engineer' => 'software-engineer',
+                    'doctor' => 'general-physician',
+                    'counsellor' => 'career-counsellor',
+                    'speech-therapist' => 'speech-therapist',
+                    'teacher' => 'school-teacher-humanities',
+                    'public-relations-officer' => 'public-relations-pr-specialist',
+                    'legal-professional' => 'lawyer',
+                    'mechanical-engineer' => 'mechanical-engineer',
+                    'electrician' => 'electrician',
+                    'machine-operator' => 'machine-operator',
+                    'carpenter' => 'carpenter-artisan',
+                    'physicist' => 'physicist',
+                    'banker' => 'banker',
+                    'statistician' => 'statistician',
+                    'meteorologist' => 'meteorologist',
+                    'geologist' => 'geologist',
+                    'data-analyst' => 'data-analyst',
+                    'designer' => 'graphic-designer',
+                    'draftsman' => 'draftsperson',
+                    'fashion-designer' => 'fashion-designer',
+                    'interior-designer' => 'interior-designer',
+                    'urban-planner' => 'urban-planner',
+                    'accountant' => 'chartered-accountant',
+                    'bookkeeper' => 'bookkeeper',
+                    'computer-operator' => 'computer-operator-data-entry-operator',
+                    'detective' => 'private-detective',
+                    'file-clerk' => 'file-clerk-administrative-assistant',
+                    'economist' => 'economist',
+                ];
+                
+                $careerSlug = $careerMapping[$slug] ?? $slug;
+                
+                $career = \App\Models\Career::where('slug', $careerSlug)->first();
+                if ($career && !isset($seen[$career->slug])) {
+                    $seen[$career->slug] = true;
+                    $linkedItems[] = [
+                        'label' => $career->name, // Use actual career name
+                        'url' => route('career.detail.page', ['slug' => $career->slug]),
+                    ];
+                }
+            }
+        }
+        
+        return $linkedItems;
     }
 
     private function getAptitudeRecommendations($scores)

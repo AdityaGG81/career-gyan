@@ -75,6 +75,9 @@ class DatabaseSeeder extends Seeder
             AgricultureAlliedSciencesCareerSeeder::class,
             ArtsMediaEntertainmentCareerSeeder::class,
             MassCareersExpansionSeeder::class,
+            BlogSeeder::class,
+            CustomDataUpdateSeeder::class,
+            DailyQuizSeeder::class,
         ]);
     }
 }

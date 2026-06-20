@@ -36,22 +36,113 @@ class ExploreController extends Controller
      | GET /explore/field/{field}
      | Returns careers for a single field (AJAX)
      ────────────────────────────────────────────── */
-    public function byField(Field $field): JsonResponse
+    public function byField($field)
     {
+        // 1. Normalize slug / alias mapping
+        $slug = is_numeric($field) ? null : strtolower(trim($field));
+        
+        $aliasMap = [
+            'technology' => 'technology-engineering',
+            'engineering' => 'technology-engineering',
+            'technology-engineering' => 'technology-engineering',
+            'technology-/-engineering' => 'technology-engineering',
+            'technology-and-engineering' => 'technology-engineering',
+            
+            'commerce' => 'commerce',
+            'commerce-banking-corporate' => 'commerce',
+            'commerce,-banking-&-corporate' => 'commerce',
+            'banking' => 'commerce',
+            'corporate' => 'commerce',
+            
+            'arts' => 'arts-humanities',
+            'arts-humanities' => 'arts-humanities',
+            'humanities' => 'arts-humanities',
+            
+            'business' => 'business',
+            'business-administration' => 'business',
+            'management' => 'business',
+            
+            'medical' => 'medical',
+            'medicine' => 'medical',
+            'doctor' => 'medical',
+            
+            'agriculture' => 'agriculture',
+            'sports' => 'sports',
+            'skill-development' => 'skill-development',
+            'hotel-management' => 'hotel-management',
+            'pharmacy' => 'pharmacy',
+            'ayush-allied' => 'ayush-allied',
+            'small-scale' => 'small-scale',
+            'government-defence' => 'government-defence',
+            'teaching-law' => 'teaching-law',
+            'modern-tech' => 'modern-tech',
+            'creative-careers' => 'creative-careers',
+            'social-media' => 'social-media',
+            'gaming-careers' => 'gaming-careers',
+            'freelancing' => 'freelancing',
+            'competitive-exams' => 'competitive-exams',
+        ];
+
+        $targetSlug = $aliasMap[$slug] ?? $slug;
+
+        // 2. Fetch the Field model
+        if (is_numeric($field)) {
+            $fieldModel = Field::find($field);
+        } else {
+            $fieldModel = Field::where('slug', $targetSlug)->first();
+        }
+
+        // 3. Fallback if slug is unknown/not found in DB
+        if (!$fieldModel) {
+            $searchQuery = \Illuminate\Support\Str::title(str_replace('-', ' ', $field));
+            return redirect()->route('explore.index', ['search' => $searchQuery]);
+        }
+
+        // 4. If it's a browser request (not AJAX), redirect to the user-facing page
+        if (!request()->ajax() && !request()->wantsJson()) {
+            $careerPathRoutes = [
+                'technology-engineering' => '/career-path/technology-engineering',
+                'medical' => '/career-path/medical',
+                'business' => '/career-path/business',
+                'science' => '/career-path/science',
+                'arts-humanities' => '/career-path/arts-humanities',
+                'commerce' => '/career-path/commerce',
+                'agriculture' => '/career-path/agriculture',
+                'sports' => '/career-path/sports',
+                'skill-development' => '/career-path/skill-development',
+                'modern-tech' => '/career-path/modern-tech-ai',
+                'creative-careers' => '/career-path/creative-careers',
+                'social-media' => '/career-path/social-media-content',
+                'gaming-careers' => '/career-path/gaming-esports',
+                'freelancing' => '/career-path/freelancing-remote',
+                'government-defence' => '/explore/government-defence',
+                'teaching-law' => '/explore/teaching-law',
+                'hotel-management' => '/explore/hotel-management-colleges',
+                'pharmacy' => '/explore/pharmacy-colleges',
+                'ayush-allied' => '/explore/non-mbbs-colleges',
+                'small-scale' => '/explore/small-scale-business',
+                'competitive-exams' => '/explore/competitive-exams',
+            ];
+
+            $url = $careerPathRoutes[$fieldModel->slug] ?? '/career-path/' . $fieldModel->slug;
+            return redirect(url($url));
+        }
+
+        // 5. If it's AJAX, return JSON
         $careers  = Career::with('field', 'subjects')
-                          ->where('field_id', $field->id)
+                          ->where('field_id', $fieldModel->id)
                           ->orderBy('name')
                           ->get()
                           ->map(fn($c) => $this->formatCareer($c));
 
-        $colleges = College::where('field_id', $field->id)
+        $colleges = College::where('field_id', $fieldModel->id)
                            ->orderBy('name')
                            ->get();
 
         return response()->json([
             'careers'  => $careers,
             'colleges' => $colleges,
-            'field'    => $field,
+            'field'    => $fieldModel,
         ]);
     }
 
@@ -225,20 +316,46 @@ class ExploreController extends Controller
         $q = trim(strtolower($request->input('q', '')));
 
         if (strlen($q) < 2) {
-            return response()->json(['db_careers' => [], 'config_careers' => []]);
+            return response()->json(['db_careers' => [], 'config_careers' => [], 'colleges' => [], 'blogs' => []]);
         }
 
         // 1. Search Fields (Main fields and sub-fields)
+        $careerPathRoutes = [
+            'technology-engineering' => '/career-path/technology-engineering',
+            'medical' => '/career-path/medical',
+            'business' => '/career-path/business',
+            'science' => '/career-path/science',
+            'arts-humanities' => '/career-path/arts-humanities',
+            'commerce' => '/career-path/commerce',
+            'agriculture' => '/career-path/agriculture',
+            'sports' => '/career-path/sports',
+            'skill-development' => '/career-path/skill-development',
+            'modern-tech' => '/career-path/modern-tech-ai',
+            'creative-careers' => '/career-path/creative-careers',
+            'social-media' => '/career-path/social-media-content',
+            'gaming-careers' => '/career-path/gaming-esports',
+            'freelancing' => '/career-path/freelancing-remote',
+            'government-defence' => '/explore/government-defence',
+            'teaching-law' => '/explore/teaching-law',
+            'hotel-management' => '/explore/hotel-management-colleges',
+            'pharmacy' => '/explore/pharmacy-colleges',
+            'ayush-allied' => '/explore/non-mbbs-colleges',
+            'small-scale' => '/explore/small-scale-business',
+            'competitive-exams' => '/explore/competitive-exams',
+        ];
+
         $fields = \App\Models\Field::where('name', 'like', "%{$q}%")
             ->limit(5)
             ->get()
-            ->map(function ($f) {
+            ->map(function ($f) use ($careerPathRoutes) {
+                $path = $careerPathRoutes[$f->slug] ?? '/career-path/' . $f->slug;
                 return [
                     'slug' => $f->slug,
                     'name' => $f->name,
                     'icon' => $f->icon ?? 'fa-folder',
                     'bg_color' => $f->bg_color ?? '#e0e7ff',
                     'color' => $f->color ?? '#4f46e5',
+                    'url' => url($path),
                 ];
             });
 
@@ -258,12 +375,65 @@ class ExploreController extends Controller
                     'field' => $c->field ? $c->field->name : 'General',
                     'bg_color' => $c->field ? $c->field->bg_color : '#f1f5f9',
                     'color' => $c->field ? $c->field->color : '#64748b',
+                    'url' => url('/career/' . $c->slug),
+                ];
+            });
+
+        // 3. Search Colleges
+        $colleges = College::with('field')
+            ->where('name', 'like', "%{$q}%")
+            ->orWhere('location', 'like', "%{$q}%")
+            ->orWhere('description', 'like', "%{$q}%")
+            ->orWhere('popular_branches', 'like', "%{$q}%")
+            ->limit(5)
+            ->get()
+            ->map(function ($c) {
+                $slug = $c->field ? $c->field->slug : '';
+                $url = route('explore.index');
+                if ($slug === 'technology-engineering') $url = route('explore.engineering-colleges');
+                elseif ($slug === 'medical') $url = route('explore.medical-colleges');
+                elseif ($slug === 'hotel-management') $url = route('explore.hotel-management-colleges');
+                elseif ($slug === 'business') $url = route('explore.management-colleges');
+                elseif ($slug === 'pharmacy') $url = route('explore.pharmacy-colleges');
+                elseif ($slug === 'ayush-allied') $url = route('explore.non-mbbs-colleges');
+                elseif ($slug === 'science') $url = route('explore.science-colleges');
+                elseif ($slug === 'arts-humanities') $url = route('explore.arts-humanities-colleges');
+                elseif ($slug === 'commerce') $url = route('explore.commerce-colleges');
+                elseif ($slug === 'agriculture') $url = route('explore.agriculture-colleges');
+
+                return [
+                    'id' => $c->id,
+                    'name' => $c->name,
+                    'location' => $c->location . ', ' . $c->state,
+                    'type' => $c->type,
+                    'branches' => substr($c->popular_branches ?? 'General', 0, 80),
+                    'url' => $url . '?college_id=' . $c->id,
+                    'field' => $c->field ? $c->field->name : 'Institute',
+                ];
+            });
+
+        // 4. Search Blogs
+        $blogs = \App\Models\Blog::where('title', 'like', "%{$q}%")
+            ->orWhere('excerpt', 'like', "%{$q}%")
+            ->orWhere('content', 'like', "%{$q}%")
+            ->orWhere('category', 'like', "%{$q}%")
+            ->limit(5)
+            ->get()
+            ->map(function ($b) {
+                return [
+                    'title' => $b->title,
+                    'slug' => $b->slug,
+                    'category' => $b->category,
+                    'excerpt' => substr(strip_tags($b->excerpt ?: $b->content), 0, 80) . '...',
+                    'url' => route('blog.show', $b->slug),
                 ];
             });
 
         return response()->json([
             'db_careers' => $dbCareers,
-            'config_careers' => $fields, // Repurposed for fields
+            'config_careers' => $fields,
+            'colleges' => $colleges,
+            'blogs' => $blogs,
         ]);
     }
 
@@ -296,90 +466,180 @@ class ExploreController extends Controller
         ];
     }
 
-    public function engineeringColleges()
+    public function engineeringColleges(Request $request)
     {
         $field = Field::where('slug', 'technology-engineering')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        return view('colleges.index', compact('field', 'colleges', 'districts', 'types'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.index', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
-    public function medicalColleges()
+    public function medicalColleges(Request $request)
     {
         $field = Field::where('slug', 'medical')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        return view('colleges.medical', compact('field', 'colleges', 'districts', 'types'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.medical', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
-    public function hotelColleges()
+    public function hotelColleges(Request $request)
     {
         $field = Field::where('slug', 'hotel-management')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $locations = $colleges->pluck('location')->unique()->sort()->values();
         $tiers = ['Tier 1', 'Tier 2', 'Tier 3'];
-        return view('colleges.hotel', compact('field', 'colleges', 'locations', 'tiers'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.hotel', compact('field', 'colleges', 'locations', 'tiers', 'states'));
     }
 
-    public function managementColleges()
+    public function managementColleges(Request $request)
     {
         $field = Field::where('slug', 'business')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        return view('colleges.management', compact('field', 'colleges', 'districts', 'types'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.management', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
-    public function pharmacyColleges()
+    public function pharmacyColleges(Request $request)
     {
         $field = Field::where('slug', 'pharmacy')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        return view('colleges.pharmacy', compact('field', 'colleges', 'districts', 'types'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.pharmacy', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
-    public function nonMbbsColleges()
+    public function nonMbbsColleges(Request $request)
     {
         $field = Field::where('slug', 'ayush-allied')->first() ?? Field::where('slug', 'medical')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $courses = ['BAMS', 'BHMS', 'BUMS', 'BNYS', 'BPT', 'BDS'];
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        return view('colleges.non_mbbs', compact('field', 'colleges', 'courses', 'districts'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.non_mbbs', compact('field', 'colleges', 'courses', 'districts', 'states'));
     }
 
-    public function scienceColleges()
+    public function scienceColleges(Request $request)
     {
         $field = Field::where('slug', 'science')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        return view('colleges.science', compact('field', 'colleges', 'districts'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.science', compact('field', 'colleges', 'districts', 'states'));
     }
 
-    public function artsColleges()
+    public function artsColleges(Request $request)
     {
         $field = Field::where('slug', 'arts-humanities')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        return view('colleges.arts', compact('field', 'colleges', 'districts'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.arts', compact('field', 'colleges', 'districts', 'states'));
     }
 
-    public function commerceColleges()
+    public function commerceColleges(Request $request)
     {
         $field = Field::where('slug', 'commerce')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        return view('colleges.commerce', compact('field', 'colleges', 'districts'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.commerce', compact('field', 'colleges', 'districts', 'states'));
     }
 
-    public function agricultureColleges()
+    public function agricultureColleges(Request $request)
     {
         $field = Field::where('slug', 'agriculture')->firstOrFail();
-        $colleges = College::where('field_id', $field->id)->where('state', 'Maharashtra')->orderByRaw('-rank DESC')->orderBy('name')->get();
+        $colleges = College::where('field_id', $field->id)->orderByRaw('-rank DESC')->orderBy('name')->get();
+        if ($request->has('college_id')) {
+            $selected = College::find($request->input('college_id'));
+            if ($selected && $selected->field_id == $field->id) {
+                if (!$colleges->contains('id', $selected->id)) {
+                    $colleges->prepend($selected); $colleges = $colleges->values();
+                }
+            }
+        }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        return view('colleges.agriculture', compact('field', 'colleges', 'districts'));
+        $states = $colleges->pluck('state')->unique()->sort()->values();
+        return view('colleges.agriculture', compact('field', 'colleges', 'districts', 'states'));
     }
 
     public function skillDevelopment()

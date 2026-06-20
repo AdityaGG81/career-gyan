@@ -14,7 +14,7 @@ class AgricultureCollegeSeeder extends Seeder
 
         $collegesData = [
             // State Universities (High Level)
-            ['name' => 'Mahatma Phule Krishi Vidyapeeth (Rahuri)', 'location' => 'Ahmednagar', 'type' => 'Government', 'is_top' => true],
+            ['name' => 'Mahatma Phule Krishi Vidyapeeth (Rahuri)', 'location' => 'Ahilyanagar', 'type' => 'Government', 'is_top' => true],
             ['name' => 'Dr. Panjabrao Deshmukh Krishi Vidyapeeth (Akola)', 'location' => 'Akola', 'type' => 'Government', 'is_top' => true],
             ['name' => 'Vasantrao Naik Marathwada Krishi Vidyapeeth (Parbhani)', 'location' => 'Parbhani', 'type' => 'Government', 'is_top' => true],
             ['name' => 'Dr. Balasaheb Sawant Konkan Krishi Vidyapeeth (Dapoli)', 'location' => 'Ratnagiri', 'type' => 'Government', 'is_top' => true],
@@ -58,10 +58,10 @@ class AgricultureCollegeSeeder extends Seeder
             ['name' => 'College of Agriculture Mumbai Suburban', 'location' => 'Mumbai Suburban', 'type' => 'Government'],
             ['name' => 'College of Agriculture Sangli', 'location' => 'Sangli', 'type' => 'Government'],
             ['name' => 'College of Agriculture Solapur', 'location' => 'Solapur', 'type' => 'Government'],
-            ['name' => 'College of Agriculture Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government'],
+            ['name' => 'College of Agriculture Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Government'],
             ['name' => 'College of Agriculture Nagpur', 'location' => 'Nagpur', 'type' => 'Government'],
             ['name' => 'College of Agriculture Nashik', 'location' => 'Nashik', 'type' => 'Government'],
-            ['name' => 'College of Agriculture Aurangabad', 'location' => 'Aurangabad', 'type' => 'Government'],
+            ['name' => 'College of Agriculture Sambhajinagar', 'location' => 'Sambhajinagar', 'type' => 'Government'],
             ['name' => 'College of Agriculture Pune', 'location' => 'Pune', 'type' => 'Government'],
             ['name' => 'College of Agriculture Mumbai', 'location' => 'Mumbai', 'type' => 'Government'],
         ];

@@ -64,9 +64,9 @@ class EngineeringCollegeSeeder extends Seeder
             ['name' => 'MET Institute of Engineering', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'Gokhale Education Society R H Sapat College of Engineering', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Aurangabad District
-            ['name' => 'Government College of Engineering Aurangabad', 'location' => 'Aurangabad', 'type' => 'Government'],
-            ['name' => 'MIT Aurangabad', 'location' => 'Aurangabad', 'type' => 'Private'],
+            // Sambhajinagar District
+            ['name' => 'Government College of Engineering Sambhajinagar', 'location' => 'Sambhajinagar', 'type' => 'Government'],
+            ['name' => 'MIT Sambhajinagar', 'location' => 'Sambhajinagar', 'type' => 'Private'],
 
             // Sangli District
             ['name' => 'Walchand College of Engineering', 'location' => 'Sangli', 'type' => 'Government'],
@@ -95,9 +95,9 @@ class EngineeringCollegeSeeder extends Seeder
             ['name' => 'Government College of Engineering Latur', 'location' => 'Latur', 'type' => 'Government'],
             ['name' => 'Swami Vivekanand College of Engineering', 'location' => 'Latur', 'type' => 'Private'],
 
-            // Ahmednagar District
-            ['name' => 'Government College of Engineering Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government'],
-            ['name' => 'New College of Engineering Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar District
+            ['name' => 'Government College of Engineering Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Government'],
+            ['name' => 'New College of Engineering Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
             // Chandrapur District
             ['name' => 'Government College of Engineering Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government'],

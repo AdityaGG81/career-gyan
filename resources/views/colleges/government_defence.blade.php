@@ -104,6 +104,18 @@
     @media (max-width: 768px) {
         .career-grid { grid-template-columns: 1fr; }
     }
+
+  @media (max-width: 480px) {
+    .hero-section {
+      padding: 50px 0 30px;
+    }
+    .hero-section h1 {
+      font-size: 28px;
+    }
+    .card-content {
+      padding: 16px;
+    }
+  }
 </style>
 @endsection
 

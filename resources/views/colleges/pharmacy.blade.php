@@ -48,6 +48,50 @@
 .modal-body { padding: 30px; }
 .section-lab { background: #fdf2f8; border: 1px solid #f9a8d4; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
 .section-lab h3 { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #9d174d; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE STYLES (ADDED)
+     ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .filter-container {
+      flex-direction: column;
+    }
+    .filter-group {
+      width: 100%;
+    }
+    .college-grid {
+      grid-template-columns: 1fr;
+    }
+    .top10-card {
+      min-width: 240px;
+    }
+    .modal-content {
+      max-height: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    .modal-header {
+      border-radius: 0;
+    }
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns: 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr;"],
+    div[style*="grid-template-columns: 1fr 1fr;"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-colleges {
+      padding: 60px 0;
+    }
+    .hero-colleges h1 {
+      font-size: 28px;
+    }
+    .hero-colleges p {
+      font-size: 14px;
+    }
+  }
 </style>
 @endsection
 
@@ -68,9 +112,18 @@
             <input type="text" id="pharmaSearch" placeholder="Search by name...">
         </div>
         <div class="filter-group">
+            <label>State</label>
+            <select id="pharmaState">
+                <option value="">All States</option>
+                @foreach($states as $st)
+                    <option value="{{ $st }}">{{ $st }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="filter-group">
             <label>District</label>
             <select id="pharmaLoc">
-                <option value="">All Maharashtra</option>
+                <option value="">All Locations</option>
                 @foreach($districts as $loc)
                     <option value="{{ $loc }}">{{ $loc }}</option>
                 @endforeach
@@ -112,7 +165,18 @@
                     </div>
                     <div class="college-grid">
                         @foreach($locColleges as $c)
-                            <div class="pharma-card" data-name="{{ strtolower($c->name) }}" data-loc="{{ $c->location }}">
+                            <div class="pharma-card" data-state="{{ $c->state }}" data-name="{{ strtolower($c->name) }}" data-loc="{{ $c->location }}">
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; padding: 16px 20px 0;">
+                                    @if($c->rank)
+                                        <span style="font-size:10px; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:12px; font-weight:700;" title="CareerGyan Rank">CG #{{ $c->rank }}</span>
+                                    @endif
+                                    @if($c->government_rank)
+                                        <span style="font-size:10px; background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:12px; font-weight:700;" title="Govt NIRF Rank">NIRF #{{ $c->government_rank }}</span>
+                                    @endif
+                                    @if($c->naac_grade)
+                                        <span style="font-size:10px; background:#dcfce7; color:#14532d; padding:2px 8px; border-radius:12px; font-weight:700;" title="NAAC Grade">NAAC {{ $c->naac_grade }}</span>
+                                    @endif
+                                </div>
                                 <div class="card-top">
                                     <span class="type-lbl">{{ $c->type }}</span>
                                     <h3 class="card-title">{{ $c->name }}</h3>
@@ -191,6 +255,24 @@
                     <p id="mFees" style="font-size:14px; font-weight:600;"></p>
                 </div>
             </div>
+            <!-- Rankings Info widget -->
+            <div class="section-tab" id="mRankingsSection" style="display:none; padding: 16px; border: 1px solid var(--border, #e2e8f0); border-radius: 12px; margin-bottom: 16px; background: white;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--brand, #0d9488);"><i class="fa-solid fa-award"></i> Accreditation & Rankings</h3>
+                <div style="display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;">
+                    <div id="mCgRank" style="flex:1; min-width:100px; background:#fef3c7; border:1px solid #fde68a; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#92400e; font-weight:700; text-transform:uppercase;">CareerGyan Rank</div>
+                        <div style="font-size:18px; font-weight:800; color:#78350f;" id="mCgRankVal">-</div>
+                    </div>
+                    <div id="mGovRank" style="flex:1; min-width:100px; background:#e0f2fe; border:1px solid #bae6fd; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#0369a1; font-weight:700; text-transform:uppercase;">Govt NIRF Rank</div>
+                        <div style="font-size:18px; font-weight:800; color:#075985;" id="mGovRankVal">-</div>
+                    </div>
+                    <div id="mNaac" style="flex:1; min-width:100px; background:#dcfce7; border:1px solid #bbf7d0; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#14532d; font-weight:700; text-transform:uppercase;">NAAC Grade</div>
+                        <div style="font-size:18px; font-weight:800; color:#166534;" id="mNaacVal">-</div>
+                    </div>
+                </div>
+            </div>
 
             <div class="section-lab">
                 <h3><i class="fa-solid fa-microscope"></i> Lab & Research Support</h3>
@@ -205,6 +287,12 @@
             <div class="section-lab">
                 <h3><i class="fa-solid fa-building-columns"></i> Facilities</h3>
                 <p id="mFacilities" style="font-size:14px;"></p>
+            </div>
+
+            <!-- Video Guide Section -->
+            <div id="mVideoWrap" class="section-lab" style="display:none;">
+                <h3><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Video Guide</h3>
+                <div id="mVideoContainer" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000;"></div>
             </div>
 
             <div style="background:#fff1f2; padding:20px; border-radius:12px; border-left:4px solid #db2777;">
@@ -266,18 +354,77 @@
     sInp.addEventListener('input', filterPharma);
     sLoc.addEventListener('change', filterPharma);
 
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+    }
+
     function openPharmaDetails(id) {
         const c = pharmaColleges.find(x => x.id === id);
-        if(!c) return;
+        if (!c) return;
+
+        const cgRankDiv = document.getElementById('mCgRank');
+        const govRankDiv = document.getElementById('mGovRank');
+        const naacDiv = document.getElementById('mNaac');
+        const rankingsSection = document.getElementById('mRankingsSection');
+        let hasAnyRank = false;
+
+        if (c.rank) {
+            document.getElementById('mCgRankVal').textContent = '#' + c.rank;
+            cgRankDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            cgRankDiv.style.display = 'none';
+        }
+
+        if (c.government_rank) {
+            document.getElementById('mGovRankVal').textContent = '#' + c.government_rank;
+            govRankDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            govRankDiv.style.display = 'none';
+        }
+
+        if (c.naac_grade) {
+            document.getElementById('mNaacVal').textContent = c.naac_grade;
+            naacDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            naacDiv.style.display = 'none';
+        }
+
+        if (hasAnyRank) {
+            rankingsSection.style.display = 'block';
+        } else {
+            rankingsSection.style.display = 'none';
+        }
 
         document.getElementById('mName').textContent = c.name;
-        document.getElementById('mLoc').textContent = c.location;
+        document.getElementById('mLoc').textContent = c.location + ', ' + c.state;
         document.getElementById('mType').textContent = c.type;
         document.getElementById('mDuration').textContent = c.duration;
         document.getElementById('mFees').textContent = c.fees_range;
         document.getElementById('mResearch').textContent = c.research_support;
         document.getElementById('mPlacement').textContent = c.placement_support;
         document.getElementById('mFacilities').textContent = c.facilities;
+
+        const videoWrap = document.getElementById('mVideoWrap');
+        const videoContainer = document.getElementById('mVideoContainer');
+        if (c.youtube_url) {
+            const videoId = getYoutubeId(c.youtube_url);
+            if (videoId) {
+                videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+                videoWrap.style.display = 'block';
+            } else {
+                videoWrap.style.display = 'none';
+                videoContainer.innerHTML = '';
+            }
+        } else {
+            videoWrap.style.display = 'none';
+            videoContainer.innerHTML = '';
+        }
 
         document.getElementById('pharmaModal').classList.add('active');
         document.body.style.overflow = "hidden";
@@ -287,6 +434,14 @@
         if(e.target === document.getElementById('pharmaModal') || e.target.classList.contains('modal-close')) {
             document.getElementById('pharmaModal').classList.remove('active');
             document.body.style.overflow = "auto";
+            const videoContainer = document.getElementById('mVideoContainer');
+            if (videoContainer) {
+                videoContainer.innerHTML = '';
+            }
+            const videoWrap = document.getElementById('mVideoWrap');
+            if (videoWrap) {
+                videoWrap.style.display = 'none';
+            }
         }
     }
 </script>

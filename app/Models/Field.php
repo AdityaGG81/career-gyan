@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Field extends Model
 {
-    protected $fillable = ['name', 'slug', 'icon', 'color', 'bg_color'];
+    protected $fillable = ['name', 'slug', 'icon', 'color', 'bg_color', 'cover_image'];
 
     public function careers(): HasMany
     {

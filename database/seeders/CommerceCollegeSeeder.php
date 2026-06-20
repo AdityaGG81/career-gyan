@@ -44,17 +44,17 @@ class CommerceCollegeSeeder extends Seeder
             ['name' => 'KTHM College Nashik', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'HPT Arts & RYK Science College (Commerce)', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Aurangabad
-            ['name' => 'Deogiri College', 'location' => 'Aurangabad', 'type' => 'Private'],
-            ['name' => 'Dr Babasaheb Ambedkar Marathwada University (Commerce Dept)', 'location' => 'Aurangabad', 'type' => 'Government'],
+            // Sambhajinagar
+            ['name' => 'Deogiri College', 'location' => 'Sambhajinagar', 'type' => 'Private'],
+            ['name' => 'Dr Babasaheb Ambedkar Marathwada University (Commerce Dept)', 'location' => 'Sambhajinagar', 'type' => 'Government'],
 
             // Kolhapur
             ['name' => 'Shivaji University Kolhapur (Commerce Dept)', 'location' => 'Kolhapur', 'type' => 'Government'],
             ['name' => 'Rajaram College', 'location' => 'Kolhapur', 'type' => 'Government'],
 
-            // Ahmednagar
-            ['name' => 'New Arts, Commerce and Science College', 'location' => 'Ahmednagar', 'type' => 'Private'],
-            ['name' => 'Shrirampur College', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar
+            ['name' => 'New Arts, Commerce and Science College', 'location' => 'Ahilyanagar', 'type' => 'Private'],
+            ['name' => 'Shrirampur College', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
             // Navi Mumbai
             ['name' => 'SIES College of Arts, Science and Commerce', 'location' => 'Navi Mumbai', 'type' => 'Private'],

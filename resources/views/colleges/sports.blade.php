@@ -48,6 +48,43 @@
 /* Skills Section */
 .skills-sec { text-align: center; margin-top: 100px; }
 .skill-tag { display: inline-block; padding: 12px 25px; background: #fecaca; color: #991b1b; border-radius: 50px; font-weight: 800; font-size: 16px; margin: 10px; border: 1px solid #f87171; }
+
+  @media (max-width: 768px) {
+    .academy-grid {
+      grid-template-columns: 1fr;
+    }
+    .career-row {
+      grid-template-columns: 1fr;
+    }
+    .course-sec {
+      padding: 30px 20px;
+    }
+    .course-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-sports {
+      padding: 60px 0;
+    }
+    .hero-sports h1 {
+      font-size: 28px;
+    }
+    .hero-sports p {
+      font-size: 14px;
+    }
+    .sec-title {
+      font-size: 22px;
+      margin: 40px 0 20px;
+    }
+    .pathway-container {
+      padding-left: 20px;
+    }
+    .step::before {
+      left: -30px;
+    }
+  }
 </style>
 @endsection
 

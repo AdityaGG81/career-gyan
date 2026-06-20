@@ -24,6 +24,12 @@ body { background: #0f172a; }
 
 .btn-roadmap { display: block; width: 100%; padding: 15px; background: {{ $field->color }}; color: white; border-radius: 16px; text-align: center; text-decoration: none; font-weight: 800; margin-top: 30px; transition: 0.3s; }
 .btn-roadmap:hover { opacity: 0.9; transform: scale(0.98); }
+
+  @media (max-width: 768px) {
+    .career-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 @endsection
 

@@ -44,6 +44,45 @@
 .exam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 40px; }
 .exam-card { background: #1e293b; color: white; padding: 25px; border-radius: 20px; text-align: center; border-bottom: 4px solid #3b82f6; }
 .exam-card h4 { font-family: 'Sora'; color: #3b82f6; margin-bottom: 10px; }
+
+  @media (max-width: 768px) {
+    .path-grid {
+      grid-template-columns: 1fr;
+    }
+    .timeline::before {
+      display: none;
+    }
+    .timeline {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    .t-step {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-trad {
+      padding: 60px 0;
+    }
+    .hero-trad h1 {
+      font-size: 28px;
+    }
+    .hero-trad p {
+      font-size: 14px;
+    }
+    .section-head {
+      font-size: 22px;
+      margin: 40px 0 20px;
+    }
+    .cat-grid {
+      grid-template-columns: 1fr;
+    }
+    .path-card {
+      padding: 20px;
+    }
+  }
 </style>
 @endsection
 

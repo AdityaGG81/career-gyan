@@ -5,7 +5,7 @@
 @section('styles')
 <style>
 /* ─── Engineering Colleges Specific Additions ─── */
-.hero-colleges { padding: 80px 0; background: linear-gradient(135deg, #0e1f6b 0%, #312e81 100%); color: white; text-align: center; }
+.hero-colleges { padding: 100px 0; background: linear-gradient(rgba(14, 31, 107, 0.85), rgba(49, 46, 129, 0.95)), url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1400") center/cover no-repeat; color: white; text-align: center; }
 .hero-colleges h1 { font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 5vw, 48px); margin-bottom: 16px; }
 .hero-colleges p { font-size: 18px; opacity: 0.9; max-width: 700px; margin: 0 auto; }
 
@@ -47,6 +47,50 @@
 .modal-body { padding: 24px; }
 .section-tab { padding: 16px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; }
 .section-tab h3 { font-family: 'Sora', sans-serif; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--brand); }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE STYLES (ADDED)
+     ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .filter-container {
+      flex-direction: column;
+    }
+    .filter-group {
+      width: 100%;
+    }
+    .college-grid {
+      grid-template-columns: 1fr;
+    }
+    .top10-card {
+      min-width: 240px;
+    }
+    .modal-content {
+      max-height: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    .modal-header {
+      border-radius: 0;
+    }
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns: 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr;"],
+    div[style*="grid-template-columns: 1fr 1fr;"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-colleges {
+      padding: 60px 0;
+    }
+    .hero-colleges h1 {
+      font-size: 28px;
+    }
+    .hero-colleges p {
+      font-size: 14px;
+    }
+  }
 </style>
 @endsection
 
@@ -67,9 +111,18 @@
             <input type="text" id="filterSearch" placeholder="E.g. IIT Bombay, DJ Sanghvi...">
         </div>
         <div class="filter-group">
+            <label>State</label>
+            <select id="filterState">
+                <option value="">All States</option>
+                @foreach($states as $st)
+                    <option value="{{ $st }}">{{ $st }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="filter-group">
             <label>District</label>
             <select id="filterLoc">
-                <option value="">Overall Maharashtra</option>
+                <option value="">All Locations</option>
                 @foreach($districts as $loc)
                     <option value="{{ $loc }}">{{ $loc }}</option>
                 @endforeach
@@ -89,7 +142,7 @@
     <!-- Highlights Top 10 -->
     <div style="margin-top: 60px;" id="highlightSection">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h2 style="font-family:'Sora'; font-size:24px;">🏆 Overall Top 10 in Maharashtra</h2>
+            <h2 style="font-family:'Sora'; font-size:24px;">🏆 Overall Top Rankings</h2>
         </div>
         <div class="top10-wrapper">
             @foreach($colleges->whereNotNull('rank')->sortBy('rank')->take(10) as $topCol)
@@ -136,6 +189,27 @@
                 <h3><i class="fa-solid fa-circle-info"></i> Overview</h3>
                 <p id="mDesc" style="font-size:14px; line-height:1.6; color:var(--text-1);">Description</p>
             </div>
+            <!-- Rankings Info widget -->
+            <div class="section-tab" id="mRankingsSection" style="display:none; padding: 16px; border: 1px solid var(--border, #e2e8f0); border-radius: 12px; margin-bottom: 16px; background: white;">
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--brand, #0d9488);"><i class="fa-solid fa-award"></i> Accreditation & Rankings</h3>
+                <div style="display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;">
+                    <div id="mCgRank" style="flex:1; min-width:100px; background:#fef3c7; border:1px solid #fde68a; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#92400e; font-weight:700; text-transform:uppercase;">CareerGyan Rank</div>
+                        <div style="font-size:18px; font-weight:800; color:#78350f;" id="mCgRankVal">-</div>
+                    </div>
+                    <div id="mGovRank" style="flex:1; min-width:100px; background:#e0f2fe; border:1px solid #bae6fd; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#0369a1; font-weight:700; text-transform:uppercase;">Govt NIRF Rank</div>
+                        <div style="font-size:18px; font-weight:800; color:#075985;" id="mGovRankVal">-</div>
+                    </div>
+                    <div id="mNaac" style="flex:1; min-width:100px; background:#dcfce7; border:1px solid #bbf7d0; padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:10px; color:#14532d; font-weight:700; text-transform:uppercase;">NAAC Grade</div>
+                        <div style="font-size:18px; font-weight:800; color:#166534;" id="mNaacVal">-</div>
+                    </div>
+                </div>
+            </div>
+
+            
+            </div>
             
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                 <div class="section-tab" style="margin:0;">
@@ -161,6 +235,17 @@
             <div class="section-tab">
                 <h3><i class="fa-solid fa-briefcase"></i> Placement Support</h3>
                 <p id="mPlacement" style="font-size:14px;">Placement details</p>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="section-tab" style="padding: 16px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; background: white;">
+                <div id="mReviewsSection"></div>
+            </div>
+
+            <!-- Video Guide Section -->
+            <div id="mVideoWrap" class="section-tab" style="display:none;">
+                <h3><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Video Guide</h3>
+                <div id="mVideoContainer" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000;"></div>
             </div>
 
             <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:16px; border-radius:12px; color:#166534;">
@@ -200,13 +285,22 @@
             const card = document.createElement('div');
             card.className = 'college-card';
             
-            let rankHtml = c.rank ? `<span style="font-size:12px; background:#fef08a; color:#854d0e; padding:2px 8px; border-radius:12px; font-weight:700; margin-left:auto;">Top 10</span>` : '';
+            let ranksHtml = '';
+            if (c.rank || c.government_rank || c.naac_grade) {
+                ranksHtml = `
+                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+                        ${c.rank ? `<span style="font-size:10.5px; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:12px; font-weight:700;" title="CareerGyan Rank">CG #${c.rank}</span>` : ''}
+                        ${c.government_rank ? `<span style="font-size:10.5px; background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:12px; font-weight:700;" title="Govt NIRF Rank">NIRF #${c.government_rank}</span>` : ''}
+                        ${c.naac_grade ? `<span style="font-size:10.5px; background:#dcfce7; color:#14532d; padding:2px 8px; border-radius:12px; font-weight:700;" title="NAAC Grade">NAAC ${c.naac_grade}</span>` : ''}
+                    </div>
+                `;
+            }
 
             card.innerHTML = `
                 <div class="card-header">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
                         <span style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--brand); font-weight:700;">${c.type}</span>
-                        ${rankHtml}
+                        ${ranksHtml}
                     </div>
                     <div class="card-title">${c.name}</div>
                     <div class="card-loc"><i class="fa-solid fa-location-dot"></i> ${c.location}, ${c.state}</div>
@@ -233,9 +327,10 @@
         let q = searchInput.value.toLowerCase();
         let loc = locInput.value;
         let type = typeInput.value;
+        let state = document.getElementById('filterState').value;
 
         // Hide Top 10 section if any filter is active
-        if(q !== '' || loc !== '' || type !== '') {
+        if(q !== '' || loc !== '' || type !== '' || state !== '') {
             highlightSection.style.display = 'none';
         } else {
             highlightSection.style.display = 'block';
@@ -245,13 +340,40 @@
             let matchQ = c.name.toLowerCase().includes(q) || (c.description && c.description.toLowerCase().includes(q));
             let matchLoc = loc === "" || c.location === loc;
             let matchType = type === "" || c.type === type;
-            return matchQ && matchLoc && matchType;
+            let matchState = state === '' || c.state === state;
+            return matchQ && matchLoc && matchType && matchState;
         });
 
-        renderCards(filtered);
+        renderCards(filtered.slice(0, 100));
     }
 
     // Event Listeners
+    function populateDistricts(selectedState) {
+        const currentLoc = locInput.value;
+        locInput.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(collegesData
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(loc => {
+            const opt = document.createElement('option');
+            opt.value = loc;
+            opt.textContent = loc;
+            locInput.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            locInput.value = currentLoc;
+        } else {
+            locInput.value = "";
+        }
+    }
+
+    const stateInput = document.getElementById('filterState');
+    stateInput.addEventListener('change', () => {
+        populateDistricts(stateInput.value);
+        applyFilters();
+    });
+
     searchInput.addEventListener('input', applyFilters);
     locInput.addEventListener('change', applyFilters);
     typeInput.addEventListener('change', applyFilters);
@@ -260,12 +382,55 @@
     renderCards(collegesData);
 
     // Modal Logic
+    function getYoutubeId(url) {
+        if (!url) return null;
+        const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+    }
+
     function openDetails(id) {
         const c = collegesData.find(x => x.id === id);
-        if(!c) return;
+        if (!c) return;
+
+        const cgRankDiv = document.getElementById('mCgRank');
+        const govRankDiv = document.getElementById('mGovRank');
+        const naacDiv = document.getElementById('mNaac');
+        const rankingsSection = document.getElementById('mRankingsSection');
+        let hasAnyRank = false;
+
+        if (c.rank) {
+            document.getElementById('mCgRankVal').textContent = '#' + c.rank;
+            cgRankDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            cgRankDiv.style.display = 'none';
+        }
+
+        if (c.government_rank) {
+            document.getElementById('mGovRankVal').textContent = '#' + c.government_rank;
+            govRankDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            govRankDiv.style.display = 'none';
+        }
+
+        if (c.naac_grade) {
+            document.getElementById('mNaacVal').textContent = c.naac_grade;
+            naacDiv.style.display = 'block';
+            hasAnyRank = true;
+        } else {
+            naacDiv.style.display = 'none';
+        }
+
+        if (hasAnyRank) {
+            rankingsSection.style.display = 'block';
+        } else {
+            rankingsSection.style.display = 'none';
+        }
 
         document.getElementById('mName').textContent = c.name;
-        document.getElementById('mLoc').textContent = `${c.location}, ${c.state}`;
+        document.getElementById('mLoc').textContent = c.location + ', ' + c.state;
         document.getElementById('mType').textContent = c.type;
         document.getElementById('mDesc').textContent = c.description;
         document.getElementById('mBranches').textContent = c.popular_branches;
@@ -273,6 +438,27 @@
         document.getElementById('mCutoff').textContent = c.cutoff;
         document.getElementById('mFacilities').textContent = c.facilities;
         document.getElementById('mPlacement').textContent = c.placement_support;
+
+        // Load Reviews
+        if (typeof loadCollegeReviews === 'function') {
+            loadCollegeReviews(c.id, 'mReviewsSection');
+        }
+
+        const videoWrap = document.getElementById('mVideoWrap');
+        const videoContainer = document.getElementById('mVideoContainer');
+        if (c.youtube_url) {
+            const videoId = getYoutubeId(c.youtube_url);
+            if (videoId) {
+                videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`;
+                videoWrap.style.display = 'block';
+            } else {
+                videoWrap.style.display = 'none';
+                videoContainer.innerHTML = '';
+            }
+        } else {
+            videoWrap.style.display = 'none';
+            videoContainer.innerHTML = '';
+        }
 
         document.getElementById('collegeModal').classList.add('active');
         document.body.style.overflow = "hidden";
@@ -282,6 +468,14 @@
         if(e.target === document.getElementById('collegeModal') || e.target.classList.contains('modal-close')) {
             document.getElementById('collegeModal').classList.remove('active');
             document.body.style.overflow = "auto";
+            const videoContainer = document.getElementById('mVideoContainer');
+            if (videoContainer) {
+                videoContainer.innerHTML = '';
+            }
+            const videoWrap = document.getElementById('mVideoWrap');
+            if (videoWrap) {
+                videoWrap.style.display = 'none';
+            }
         }
     }
 </script>

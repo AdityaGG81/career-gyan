@@ -47,13 +47,13 @@ class PharmacyCollegeSeeder extends Seeder
             ['name' => 'R G Sapkal College of Pharmacy', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'Sandip Institute of Pharmaceutical Sciences', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Ahmednagar
-            ['name' => 'Sanjivani College of Pharmaceutical Education and Research', 'location' => 'Ahmednagar', 'type' => 'Private'],
-            ['name' => 'Dr Vithalrao Vikhe Patil College of Pharmacy', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar
+            ['name' => 'Sanjivani College of Pharmaceutical Education and Research', 'location' => 'Ahilyanagar', 'type' => 'Private'],
+            ['name' => 'Dr Vithalrao Vikhe Patil College of Pharmacy', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
-            // Aurangabad
-            ['name' => 'Y B Chavan College of Pharmacy', 'location' => 'Aurangabad', 'type' => 'Private'],
-            ['name' => 'MGM College of Pharmacy', 'location' => 'Aurangabad', 'type' => 'Private'],
+            // Sambhajinagar
+            ['name' => 'Y B Chavan College of Pharmacy', 'location' => 'Sambhajinagar', 'type' => 'Private'],
+            ['name' => 'MGM College of Pharmacy', 'location' => 'Sambhajinagar', 'type' => 'Private'],
 
             // Dhule
             ['name' => 'RC Patel Institute of Pharmaceutical Education and Research', 'location' => 'Dhule', 'type' => 'Private'],

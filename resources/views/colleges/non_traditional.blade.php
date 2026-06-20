@@ -83,6 +83,18 @@
     .step-modern::before { content: ""; position: absolute; left: 20px; top: 40px; bottom: -20px; width: 2px; background: #334155; }
     .step-modern:last-child::before { display: none; }
     .step-num-modern { position: absolute; left: 0; top: 0; width: 42px; height: 42px; background: var(--modern-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; border: 4px solid #0f172a; z-index: 2; }
+
+  @media (max-width: 768px) {
+    .career-grid-modern {
+      grid-template-columns: 1fr;
+    }
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns: 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr;"],
+    div[style*="grid-template-columns: 1fr 1fr;"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
 </style>
 @endsection
 

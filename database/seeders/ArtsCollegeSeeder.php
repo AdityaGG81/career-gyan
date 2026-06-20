@@ -44,17 +44,17 @@ class ArtsCollegeSeeder extends Seeder
             ['name' => 'BYK College Nashik', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'HPT Arts & RYK Science College', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Aurangabad
-            ['name' => 'Deogiri College', 'location' => 'Aurangabad', 'type' => 'Private'],
-            ['name' => 'Dr Babasaheb Ambedkar Marathwada University', 'location' => 'Aurangabad', 'type' => 'Government'],
+            // Sambhajinagar
+            ['name' => 'Deogiri College', 'location' => 'Sambhajinagar', 'type' => 'Private'],
+            ['name' => 'Dr Babasaheb Ambedkar Marathwada University', 'location' => 'Sambhajinagar', 'type' => 'Government'],
 
             // Kolhapur
             ['name' => 'Shivaji University Kolhapur', 'location' => 'Kolhapur', 'type' => 'Government'],
             ['name' => 'Rajaram College', 'location' => 'Kolhapur', 'type' => 'Government'],
 
-            // Ahmednagar
-            ['name' => 'New Arts, Commerce and Science College', 'location' => 'Ahmednagar', 'type' => 'Private'],
-            ['name' => 'Shrirampur College', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar
+            ['name' => 'New Arts, Commerce and Science College', 'location' => 'Ahilyanagar', 'type' => 'Private'],
+            ['name' => 'Shrirampur College', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
             // Solapur
             ['name' => 'Sangameshwar College', 'location' => 'Solapur', 'type' => 'Private'],

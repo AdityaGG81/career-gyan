@@ -53,6 +53,39 @@
     .tip-card { background: #fffcf0; border: 1px solid #fef08a; padding: 15px; border-radius: 12px; display: flex; gap: 12px; align-items: center; }
     .tip-card i { color: #ca8a04; font-size: 18px; }
     .tip-card span { font-size: 13px; font-weight: 600; color: #854d0e; }
+
+  @media (max-width: 768px) {
+    .exam-grid {
+      grid-template-columns: 1fr;
+    }
+    .exam-info-grid {
+      grid-template-columns: 1fr;
+    }
+    .modal-box {
+      padding: 20px;
+      max-height: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+    div[style*="grid-template-columns: 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns: 1fr 1fr;"],
+    div[style*="grid-template-columns:1fr 1fr;"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-exams {
+      padding: 60px 0;
+    }
+    .hero-exams h1 {
+      font-size: 28px;
+    }
+    .hero-exams p {
+      font-size: 14px;
+    }
+  }
 </style>
 @endsection
 

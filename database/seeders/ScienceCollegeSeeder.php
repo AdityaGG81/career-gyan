@@ -42,17 +42,17 @@ class ScienceCollegeSeeder extends Seeder
             ['name' => 'BYK College of Science Nashik', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'Sandip University School of Science', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Aurangabad
-            ['name' => 'Dr Babasaheb Ambedkar Marathwada University (Science Dept)', 'location' => 'Aurangabad', 'type' => 'Government'],
-            ['name' => 'Deogiri College', 'location' => 'Aurangabad', 'type' => 'Private'],
+            // Sambhajinagar
+            ['name' => 'Dr Babasaheb Ambedkar Marathwada University (Science Dept)', 'location' => 'Sambhajinagar', 'type' => 'Government'],
+            ['name' => 'Deogiri College', 'location' => 'Sambhajinagar', 'type' => 'Private'],
 
             // Kolhapur
             ['name' => 'Shivaji University Kolhapur (Science Dept)', 'location' => 'Kolhapur', 'type' => 'Government'],
             ['name' => 'Rajaram College', 'location' => 'Kolhapur', 'type' => 'Government'],
 
-            // Ahmednagar
-            ['name' => 'New Arts, Commerce and Science College Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Private'],
-            ['name' => 'Shrirampur College', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar
+            ['name' => 'New Arts, Commerce and Science College Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Private'],
+            ['name' => 'Shrirampur College', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
             // Solapur
             ['name' => 'Sangameshwar College Solapur', 'location' => 'Solapur', 'type' => 'Private'],

@@ -15,11 +15,16 @@ class College extends Model
         'affiliated_hospital', 'seats', 'clinical_exposure',
         'tier', 'duration', 'internship_opportunities',
         'specializations', 'average_package',
-        'research_support'
+        'research_support', 'youtube_url', 'naac_grade', 'government_rank'
     ];
 
     public function field(): BelongsTo
     {
         return $this->belongsTo(Field::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(CollegeReview::class);
     }
 }

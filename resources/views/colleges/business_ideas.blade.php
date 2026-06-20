@@ -42,6 +42,37 @@
 .support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 80px; }
 .sup-card { background: white; padding: 40px; border-radius: 30px; border: 1px solid #e2e8f0; display: flex; align-items: top; gap: 20px; }
 .sup-icon { background: #f8fafc; width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fbbf24; font-size: 24px; border: 1px solid #f1f5f9; flex-shrink: 0; }
+
+  @media (max-width: 768px) {
+    .support-grid {
+      grid-template-columns: 1fr;
+    }
+    .sup-card {
+      padding: 24px;
+    }
+  }
+  @media (max-width: 480px) {
+    .hero-biz {
+      padding: 60px 0;
+    }
+    .hero-biz h1 {
+      font-size: 28px;
+    }
+    .hero-biz p {
+      font-size: 14px;
+    }
+    div[style*="grid-template-columns: repeat(auto-fill, minmax(360px, 1fr))"] {
+      grid-template-columns: 1fr !important;
+    }
+    .step-grid {
+      grid-template-columns: 1fr;
+      padding: 0;
+    }
+    .guide-sec {
+      border-radius: 20px;
+      padding: 40px 16px;
+    }
+  }
 </style>
 @endsection
 

@@ -175,29 +175,46 @@
             @csrf
             
             {{-- Student Information --}}
-            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 30px;">
-                <h3 style="font-size: 18px; font-weight: 700; color: var(--text-1); margin-bottom: 16px; text-align: center;">
-                    Student Information
-                </h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; margin: 0 auto;">
-                    <div>
-                        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px;">
-                            Full Name *
-                        </label>
-                        <input type="text" name="student_name" required 
-                               style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;"
-                               placeholder="Enter your full name">
+            @auth
+                {{-- Logged-in: show a readonly info notice, no editable fields needed --}}
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-lg); padding: 18px 24px; margin-bottom: 30px; display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 40px; height: 40px; background: #dbeafe; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fa-solid fa-user-check" style="color: #2563eb; font-size: 16px;"></i>
                     </div>
                     <div>
-                        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px;">
-                            Email Address
-                        </label>
-                        <input type="email" name="student_email" 
-                               style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;"
-                               placeholder="your.email@example.com">
+                        <p style="font-size: 13px; font-weight: 600; color: #1e40af; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 0.05em;">Report will be generated for</p>
+                        <p style="font-size: 15px; font-weight: 700; color: #1e293b; margin: 0;">
+                            {{ auth()->user()->name }}
+                            <span style="font-weight: 500; color: #64748b; font-size: 14px;">({{ auth()->user()->email }})</span>
+                        </p>
                     </div>
                 </div>
-            </div>
+            @else
+                {{-- Guest: show editable name/email fields --}}
+                <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 30px;">
+                    <h3 style="font-size: 18px; font-weight: 700; color: var(--text-1); margin-bottom: 16px; text-align: center;">
+                        Student Information
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; margin: 0 auto;">
+                        <div>
+                            <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px;">
+                                Full Name *
+                            </label>
+                            <input type="text" name="student_name" required
+                                   style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;"
+                                   placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 6px;">
+                                Email Address *
+                            </label>
+                            <input type="email" name="student_email" required
+                                   style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px;"
+                                   placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                </div>
+            @endauth
             
             @foreach($questions as $index => $question)
                 <div class="question-step {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}" data-section="{{ $question->section }}">

@@ -41,6 +41,27 @@
 /* Government Programs */
 .gov-sec { margin-top: 60px; text-align: center; }
 .gov-box { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; padding: 50px; border-radius: 30px; display: inline-block; width: 100%; max-width: 900px; }
+
+  @media (max-width: 768px) {
+    .skill-grid {
+      grid-template-columns: 1fr;
+    }
+    .gov-box {
+      padding: 30px 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-skills {
+      padding: 60px 0;
+    }
+    .hero-skills h1 {
+      font-size: 28px;
+    }
+    .hero-skills p {
+      font-size: 14px;
+    }
+  }
 </style>
 @endsection
 

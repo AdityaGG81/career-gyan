@@ -48,13 +48,13 @@ class ManagementCollegeSeeder extends Seeder
             ['name' => 'Sandip University School of Management', 'location' => 'Nashik', 'type' => 'Private'],
             ['name' => 'MET Institute of Management', 'location' => 'Nashik', 'type' => 'Private'],
 
-            // Aurangabad
-            ['name' => 'MIT School of Management Aurangabad', 'location' => 'Aurangabad', 'type' => 'Private'],
-            ['name' => 'Deogiri Institute of Engineering and Management Studies', 'location' => 'Aurangabad', 'type' => 'Private'],
+            // Sambhajinagar
+            ['name' => 'MIT School of Management Sambhajinagar', 'location' => 'Sambhajinagar', 'type' => 'Private'],
+            ['name' => 'Deogiri Institute of Engineering and Management Studies', 'location' => 'Sambhajinagar', 'type' => 'Private'],
 
-            // Ahmednagar
-            ['name' => 'Sanjivani Institute of Management Studies', 'location' => 'Ahmednagar', 'type' => 'Private'],
-            ['name' => 'Amrutvahini Institute of Management and Business Administration', 'location' => 'Ahmednagar', 'type' => 'Private'],
+            // Ahilyanagar
+            ['name' => 'Sanjivani Institute of Management Studies', 'location' => 'Ahilyanagar', 'type' => 'Private'],
+            ['name' => 'Amrutvahini Institute of Management and Business Administration', 'location' => 'Ahilyanagar', 'type' => 'Private'],
 
             // Kolhapur
             ['name' => 'Shivaji University Department of Management', 'location' => 'Kolhapur', 'type' => 'Government'],

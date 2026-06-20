@@ -13,7 +13,7 @@ class Career extends Model
         'qualification', 'stream', 'salary_range',
         'demand_level', 'roadmap', 'icon',
         'skills', 'future_scope', 'entrance_exams',
-        'job_opportunities', 'related_careers', 'image'
+        'job_opportunities', 'related_careers', 'image', 'video_url'
     ];
 
     protected $casts = [

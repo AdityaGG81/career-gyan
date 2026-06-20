@@ -311,6 +311,38 @@
             margin-left: 6px;
         }
     }
+
+  @media(max-width: 991px) {
+    .specialization-card {
+      position: static !important;
+    }
+  }
+  @media(max-width: 768px) {
+    .stats-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 16px;
+    }
+    .stat-card {
+      min-width: 0;
+      padding: 15px;
+    }
+    .info-sections {
+      grid-template-columns: 1fr;
+    }
+    .subject-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media(max-width: 480px) {
+    .path-hero {
+      padding: 45px 16px;
+    }
+    .cta-section {
+      padding: 30px 16px;
+    }
+  }
 </style>
 @endsection
 

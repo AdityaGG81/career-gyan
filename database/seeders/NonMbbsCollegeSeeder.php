@@ -31,10 +31,10 @@ class NonMbbsCollegeSeeder extends Seeder
 
             // BHMS
             ['name' => 'CMPH Medical College', 'location' => 'Mumbai', 'type' => 'Private', 'branch' => 'BHMS'],
-            ['name' => 'Foster Development Homeopathic Medical College', 'location' => 'Aurangabad', 'type' => 'Private', 'branch' => 'BHMS'],
+            ['name' => 'Foster Development Homeopathic Medical College', 'location' => 'Sambhajinagar', 'type' => 'Private', 'branch' => 'BHMS'],
             ['name' => 'Bharati Vidyapeeth Homeopathic Medical College', 'location' => 'Pune', 'type' => 'Private', 'branch' => 'BHMS'],
             ['name' => 'SMBT Homeopathic Medical College', 'location' => 'Nashik', 'type' => 'Private', 'branch' => 'BHMS'],
-            ['name' => 'DKMM Homeopathic Medical College', 'location' => 'Aurangabad', 'type' => 'Private', 'branch' => 'BHMS'],
+            ['name' => 'DKMM Homeopathic Medical College', 'location' => 'Sambhajinagar', 'type' => 'Private', 'branch' => 'BHMS'],
 
             // BUMS
             ['name' => 'ZVM Unani Medical College', 'location' => 'Pune', 'type' => 'Private', 'branch' => 'BUMS'],
@@ -65,7 +65,7 @@ class NonMbbsCollegeSeeder extends Seeder
             ['name' => 'Ayurved College Latur', 'location' => 'Latur', 'type' => 'Government', 'branch' => 'BAMS'],
             ['name' => 'Ayurved College Nanded', 'location' => 'Nanded', 'type' => 'Government', 'branch' => 'BAMS'],
             ['name' => 'Ayurved College Satara', 'location' => 'Satara', 'type' => 'Government', 'branch' => 'BAMS'],
-            ['name' => 'Ayurved College Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government', 'branch' => 'BAMS'],
+            ['name' => 'Ayurved College Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Government', 'branch' => 'BAMS'],
             ['name' => 'Ayurved College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government', 'branch' => 'BAMS'],
             ['name' => 'Ayurved College Dhule', 'location' => 'Dhule', 'type' => 'Government', 'branch' => 'BAMS'],
             ['name' => 'Ayurved College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government', 'branch' => 'BAMS'],
@@ -99,7 +99,7 @@ class NonMbbsCollegeSeeder extends Seeder
             ['name' => 'Homeopathic College Latur', 'location' => 'Latur', 'type' => 'Government', 'branch' => 'BHMS'],
             ['name' => 'Homeopathic College Nanded', 'location' => 'Nanded', 'type' => 'Government', 'branch' => 'BHMS'],
             ['name' => 'Homeopathic College Satara', 'location' => 'Satara', 'type' => 'Government', 'branch' => 'BHMS'],
-            ['name' => 'Homeopathic College Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government', 'branch' => 'BHMS'],
+            ['name' => 'Homeopathic College Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Government', 'branch' => 'BHMS'],
             ['name' => 'Homeopathic College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government', 'branch' => 'BHMS'],
             ['name' => 'Homeopathic College Dhule', 'location' => 'Dhule', 'type' => 'Government', 'branch' => 'BHMS'],
             ['name' => 'Homeopathic College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government', 'branch' => 'BHMS'],
@@ -133,7 +133,7 @@ class NonMbbsCollegeSeeder extends Seeder
             ['name' => 'Physiotherapy College Latur', 'location' => 'Latur', 'type' => 'Government', 'branch' => 'BPT'],
             ['name' => 'Physiotherapy College Nanded', 'location' => 'Nanded', 'type' => 'Government', 'branch' => 'BPT'],
             ['name' => 'Physiotherapy College Satara', 'location' => 'Satara', 'type' => 'Government', 'branch' => 'BPT'],
-            ['name' => 'Physiotherapy College Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government', 'branch' => 'BPT'],
+            ['name' => 'Physiotherapy College Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Government', 'branch' => 'BPT'],
             ['name' => 'Physiotherapy College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government', 'branch' => 'BPT'],
             ['name' => 'Physiotherapy College Dhule', 'location' => 'Dhule', 'type' => 'Government', 'branch' => 'BPT'],
             ['name' => 'Physiotherapy College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government', 'branch' => 'BPT'],
@@ -167,7 +167,7 @@ class NonMbbsCollegeSeeder extends Seeder
             ['name' => 'Dental College Latur', 'location' => 'Latur', 'type' => 'Government', 'branch' => 'BDS'],
             ['name' => 'Dental College Nanded', 'location' => 'Nanded', 'type' => 'Government', 'branch' => 'BDS'],
             ['name' => 'Dental College Satara', 'location' => 'Satara', 'type' => 'Government', 'branch' => 'BDS'],
-            ['name' => 'Dental College Ahmednagar', 'location' => 'Ahmednagar', 'type' => 'Government', 'branch' => 'BDS'],
+            ['name' => 'Dental College Ahilyanagar', 'location' => 'Ahilyanagar', 'type' => 'Government', 'branch' => 'BDS'],
             ['name' => 'Dental College Chandrapur', 'location' => 'Chandrapur', 'type' => 'Government', 'branch' => 'BDS'],
             ['name' => 'Dental College Dhule', 'location' => 'Dhule', 'type' => 'Government', 'branch' => 'BDS'],
             ['name' => 'Dental College Yavatmal', 'location' => 'Yavatmal', 'type' => 'Government', 'branch' => 'BDS'],
