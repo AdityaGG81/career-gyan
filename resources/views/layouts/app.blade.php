@@ -1454,8 +1454,9 @@
         const hasColleges = data.colleges && data.colleges.length > 0;
         const hasBlogs = data.blogs && data.blogs.length > 0;
         const hasJobs = data.jobs && data.jobs.length > 0;
+        const hasIndianColleges = data.indian_colleges && data.indian_colleges.length > 0;
 
-        if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasJobs) {
+        if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasJobs && !hasIndianColleges) {
           searchResults.innerHTML = `
             <div class="search-empty">
               <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
@@ -1554,6 +1555,24 @@
           });
         }
 
+        if (hasIndianColleges) {
+          html += `<div class="search-section-title">All India Colleges</div>`;
+          data.indian_colleges.forEach(ic => {
+            html += `
+              <a href="${ic.url}" class="search-item" onclick="saveSearchHistory(searchInput.value); closeSearch()">
+                <div class="search-item-icon" style="background: #f0fdf4; color: #16a34a;">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="search-item-content">
+                  <h4>${ic.name}</h4>
+                  <p>${ic.location}${ic.university ? ' | ' + ic.university : ''}</p>
+                  <span class="search-item-badge" style="background: #f0fdf4; color: #16a34a;">${ic.type || 'College'}</span>
+                </div>
+              </a>
+            `;
+          });
+        }
+
         searchResults.innerHTML = html;
       })
       .catch(err => {
@@ -1589,8 +1608,9 @@
           const hasJobs = data.jobs && data.jobs.length > 0;
           const hasColleges = data.colleges && data.colleges.length > 0;
           const hasBlogs = data.blogs && data.blogs.length > 0;
+          const hasIndianColleges = data.indian_colleges && data.indian_colleges.length > 0;
 
-          if (!hasFields && !hasCareers && !hasJobs && !hasColleges && !hasBlogs) {
+          if (!hasFields && !hasCareers && !hasJobs && !hasColleges && !hasBlogs && !hasIndianColleges) {
             html = `<div style="padding: 16px; font-size: 13.5px; color: var(--text-3); text-align: center;">No suggestions found for "<b>${query}</b>"</div>`;
             navSearchSuggestions.innerHTML = html;
             navSearchSuggestions.style.display = 'block';
@@ -1672,6 +1692,22 @@
                   <div style="flex:1; overflow:hidden;">
                     <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${b.title}</div>
                     <div style="font-size:12px; color:var(--text-3);">${b.category}</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          if (hasIndianColleges) {
+            html += `<div class="autocomplete-section-title">All India Colleges</div>`;
+            data.indian_colleges.forEach(ic => {
+              html += `
+                <a href="${ic.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: #f0fdf4; color: #16a34a;">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${ic.name}</div>
+                    <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${ic.location}</div>
                   </div>
                 </a>`;
             });

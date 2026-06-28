@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AiCareerChatController;
 use App\Http\Controllers\DailyQuizController;
 use App\Http\Controllers\AdminQuizController;
+use App\Http\Controllers\IndianCollegeController;
 
 // Main pages
 Route::get('/', function () {
@@ -19,6 +20,12 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+// Indian Colleges (All-India + Maharashtra dataset)
+Route::get('/colleges', [IndianCollegeController::class, 'index'])->name('indian-colleges.index');
+Route::get('/colleges/districts', [IndianCollegeController::class, 'districts'])->name('indian-colleges.districts');
+Route::get('/colleges/api-search', [IndianCollegeController::class, 'apiSearch'])->name('indian-colleges.api-search');
+Route::get('/colleges/{id}', [IndianCollegeController::class, 'show'])->where('id', '[0-9]+')->name('indian-colleges.show');
 
 // Job Corner public routes
 Route::get('/job-corner', [\App\Http\Controllers\JobListingController::class, 'index'])->name('jobs.index');

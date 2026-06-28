@@ -78,6 +78,8 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             CustomDataUpdateSeeder::class,
             DailyQuizSeeder::class,
+            IndianCollegeSeeder::class,
+            DailyQuizExpansionSeeder::class,
         ]);
     }
 }

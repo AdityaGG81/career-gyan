@@ -449,14 +449,40 @@ class ExploreController extends Controller
                 ];
             });
 
+        // 6. Search Indian Colleges (Kaggle dataset)
+        $indianColleges = \App\Models\IndianCollege::where('college_name', 'like', "%{$q}%")
+            ->orWhere('city', 'like', "%{$q}%")
+            ->orWhere('state', 'like', "%{$q}%")
+            ->orWhere('district', 'like', "%{$q}%")
+            ->orWhere('university_name', 'like', "%{$q}%")
+            ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name', 'city')
+            ->limit(6)
+            ->get()
+            ->unique('college_name')
+            ->values()
+            ->map(function ($c) {
+                $loc = trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? ''));
+                return [
+                    'id'         => $c->id,
+                    'name'       => $c->college_name,
+                    'location'   => $loc ?: 'India',
+                    'type'       => $c->college_type ?? 'College',
+                    'management' => $c->management ?? '',
+                    'university' => $c->university_name ?? '',
+                    'url'        => url('/colleges/' . $c->id),
+                ];
+            });
+
         return response()->json([
             'db_careers' => $dbCareers,
             'config_careers' => $fields,
             'colleges' => $colleges,
+            'indian_colleges' => $indianColleges,
             'blogs' => $blogs,
             'jobs' => $jobs,
         ]);
     }
+
 
     /* ─────────────────────────────────────────────
      | Private helper — uniform career shape for JSON

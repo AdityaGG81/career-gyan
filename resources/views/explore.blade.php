@@ -726,6 +726,106 @@
       gap: 12px;
     }
   }
+
+  /* ─── Explore Main Features Section ─── */
+  .explore-features-section {
+    padding: 60px 0 20px;
+  }
+  .explore-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .explore-feature-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 35px;
+    display: flex;
+    gap: 24px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .explore-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(26, 86, 219, 0.15);
+  }
+  .feature-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .feature-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+  }
+  .feature-card-details h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-1);
+    margin: 0;
+  }
+  .feature-card-details p {
+    font-size: 14.5px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .feature-card-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-feature-link {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    text-decoration: none;
+  }
+  .btn-feature-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-feature-primary:hover {
+    filter: brightness(0.9);
+  }
+  .btn-feature-secondary {
+    background: var(--bg);
+    color: var(--text-2);
+    border: 1px solid var(--border);
+  }
+  .btn-feature-secondary:hover {
+    background: var(--border);
+    color: var(--text-1);
+  }
+  @media (max-width: 768px) {
+    .explore-features-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .explore-feature-card {
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px;
+    }
+  }
 </style>
 @endsection
 
@@ -763,6 +863,48 @@
         <div id="noResults" class="no-results" style="display: none;">
           <i class="fa-solid fa-triangle-exclamation"></i>
           <span>No matching career or field found.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Features Section (Career Paths & Colleges) -->
+<section class="explore-features-section">
+  <div class="container">
+    <div class="explore-features-grid">
+      <!-- Feature 1: Career Paths -->
+      <div class="explore-feature-card">
+        <div class="feature-card-icon" style="background: rgba(249, 115, 22, 0.1); color: var(--accent);">
+          <i class="fa-solid fa-compass-drafting"></i>
+        </div>
+        <div class="feature-card-details">
+          <h3>Career Roadmaps</h3>
+          <p>Explore step-by-step educational milestones, essential skills, and industry growth outlooks for various professions.</p>
+          <div class="feature-card-links">
+            <a href="#careersGrid" class="btn-feature-link btn-feature-primary">
+              Browse Careers <i class="fa-solid fa-arrow-down"></i>
+            </a>
+            <a href="{{ route('test.start') }}" class="btn-feature-link btn-feature-secondary">
+              Take Career Test <i class="fa-solid fa-angle-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2: All India Colleges -->
+      <div class="explore-feature-card">
+        <div class="feature-card-icon" style="background: rgba(26, 86, 219, 0.1); color: var(--brand);">
+          <i class="fa-solid fa-school"></i>
+        </div>
+        <div class="feature-card-details">
+          <h3>Colleges & Institutes</h3>
+          <p>Search and filter our database of over 60,000+ colleges across India by location, management types, and courses.</p>
+          <div class="feature-card-links">
+            <a href="{{ route('indian-colleges.index') }}" class="btn-feature-link btn-feature-primary" style="background: var(--brand);">
+              Find Colleges <i class="fa-solid fa-graduation-cap"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
