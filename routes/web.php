@@ -234,3 +234,22 @@ Route::get('/clear-all-cache', function () {
         return 'Error clearing cache: ' . $e->getMessage();
     }
 });
+
+Route::get('/run-migrations', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return 'Migrations run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
+    } catch (\Exception $e) {
+        return 'Error migrating: ' . $e->getMessage();
+    }
+});
+
+Route::get('/run-seeds', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'IndianCollegeSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DailyQuizExpansionSeeder', '--force' => true]);
+        return 'Seeders run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
+    } catch (\Exception $e) {
+        return 'Error seeding: ' . $e->getMessage();
+    }
+});
