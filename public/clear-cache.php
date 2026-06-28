@@ -61,5 +61,22 @@ echo runCommand($kernel, 'config:clear') . "<br>";
 echo runCommand($kernel, 'route:clear') . "<br>";
 echo runCommand($kernel, 'cache:clear') . "<br>";
 echo runCommand($kernel, 'view:clear') . "<br>";
-echo "<h4>Done! All caches have been cleared.</h4>";
+
+echo "<h3>Running Database Migrations</h3>";
+echo runCommand($kernel, 'migrate --force') . "<br>";
+
+echo "<h3>Ensuring Upload Directories Exist</h3>";
+$uploadsDir = __DIR__ . '/uploads/jobs';
+if (!is_dir($uploadsDir)) {
+    if (mkdir($uploadsDir, 0755, true)) {
+        echo "✅ Created: public/uploads/jobs/<br>";
+    } else {
+        echo "❌ Failed to create: public/uploads/jobs/<br>";
+    }
+} else {
+    echo "✅ Already exists: public/uploads/jobs/<br>";
+}
+
+echo "<h4>Done! All caches cleared, migrations run, and directories verified.</h4>";
 echo "<p>Please delete this file (<code>public_html/clear-cache.php</code>) from your hosting server via cPanel for security reasons once you're done.</p>";
+
