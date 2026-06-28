@@ -77,6 +77,44 @@
     box-shadow: 0 10px 25px rgba(26, 86, 219, 0.25);
   }
 
+  .blog-suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+    border: 1px solid var(--border);
+    max-height: 380px;
+    overflow-y: auto;
+    z-index: 100;
+    text-align: left;
+    display: none;
+    animation: dropdownFadeIn 0.2s ease;
+  }
+
+  .blog-suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--text-1);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .blog-suggestion-item:last-child {
+    border-bottom: none;
+  }
+
+  .blog-suggestion-item:hover, .blog-suggestion-item.selected {
+    background: var(--brand-light);
+    color: var(--brand);
+    padding-left: 24px;
+  }
+
   /* Category pills */
   .category-pills-container {
     padding: 40px 0 24px;
@@ -410,9 +448,10 @@
         @if(request('category'))
           <input type="hidden" name="category" value="{{ request('category') }}">
         @endif
-        <div class="blog-search-wrap">
+        <div class="blog-search-wrap" id="blogSearchWrap">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" name="search" class="blog-search-input" placeholder="Search articles..." value="{{ request('search') }}">
+          <input type="text" id="blogSearchInput" name="search" class="blog-search-input" placeholder="Search articles..." value="{{ request('search') }}" autocomplete="off">
+          <div id="blogSearchSuggestions" class="blog-suggestions-dropdown"></div>
         </div>
       </form>
     </div>
@@ -521,4 +560,118 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const blogSearchInput = document.getElementById('blogSearchInput');
+    const blogSearchSuggestions = document.getElementById('blogSearchSuggestions');
+    let selectedIndex = -1;
+
+    if (!blogSearchInput || !blogSearchSuggestions) return;
+
+    function debounce(func, timeout = 250) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    }
+
+    const performBlogSearch = debounce(() => {
+      const query = blogSearchInput.value.trim();
+      selectedIndex = -1;
+
+      if (query.length < 2) {
+        blogSearchSuggestions.style.display = 'none';
+        blogSearchSuggestions.innerHTML = '';
+        return;
+      }
+
+      fetch(`/global-search?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          const blogs = data.blogs || [];
+          if (blogs.length === 0) {
+            blogSearchSuggestions.innerHTML = `<div style="padding: 16px; color: var(--text-3); text-align: center; font-size: 14px;">No articles found matching "<b>${query}</b>"</div>`;
+            blogSearchSuggestions.style.display = 'block';
+            return;
+          }
+
+          let html = '';
+          blogs.forEach(b => {
+            html += `
+              <a href="${b.url}" class="blog-suggestion-item">
+                <div style="width: 36px; height: 36px; border-radius: 8px; background: #ffe4e6; color: #e11d48; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;">
+                  <i class="fa-solid fa-newspaper"></i>
+                </div>
+                <div style="flex: 1; overflow: hidden;">
+                  <div style="font-weight: 700; font-size: 14.5px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${b.title}</div>
+                  <div style="font-size: 12.5px; color: var(--text-3); display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--brand); font-weight: 600;">${b.category}</span> • <span>${b.excerpt}</span>
+                  </div>
+                </div>
+              </a>
+            `;
+          });
+
+          blogSearchSuggestions.innerHTML = html;
+          blogSearchSuggestions.style.display = 'block';
+        })
+        .catch(err => {
+          console.error(err);
+          blogSearchSuggestions.style.display = 'none';
+        });
+    }, 250);
+
+    blogSearchInput.addEventListener('input', performBlogSearch);
+
+    blogSearchInput.addEventListener('focus', () => {
+      if (blogSearchInput.value.trim().length >= 2 && blogSearchSuggestions.innerHTML !== '') {
+        blogSearchSuggestions.style.display = 'block';
+      }
+    });
+
+    blogSearchInput.addEventListener('keydown', (e) => {
+      const items = blogSearchSuggestions.querySelectorAll('.blog-suggestion-item');
+      if (!items || items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelection(items);
+      } else if (e.key === 'Enter') {
+        if (selectedIndex >= 0 && items[selectedIndex]) {
+          e.preventDefault();
+          items[selectedIndex].click();
+        }
+      } else if (e.key === 'Escape') {
+        blogSearchSuggestions.style.display = 'none';
+      }
+    });
+
+    function updateSelection(items) {
+      items.forEach((item, index) => {
+        if (index === selectedIndex) {
+          item.classList.add('selected');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.getElementById('blogSearchWrap');
+      if (wrap && !wrap.contains(e.target)) {
+        blogSearchSuggestions.style.display = 'none';
+      }
+    });
+  });
+</script>
 @endsection

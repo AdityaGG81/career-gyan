@@ -20,8 +20,8 @@ class AdminAuthController extends Controller
         $password = $request->input('password');
 
         // Read from .env, falling back to config cache, falling back to default
-        $envEmail = env('ADMIN_EMAIL') ?? config('services.admin.email') ?? 'admin@careergyan.in';
-        $envPassword = env('ADMIN_PASSWORD') ?? config('services.admin.password') ?? 'admin123';
+        $envEmail = env('ADMIN_EMAIL') ?? config('services.admin.email') ?? 'dkakad.dk@gmail.com';
+        $envPassword = env('ADMIN_PASSWORD') ?? config('services.admin.password') ?? 'Sudarshan131275#';
 
         if (trim($email) === trim($envEmail) && trim($password) === trim($envPassword)) {
             session(['admin_logged_in' => true]);

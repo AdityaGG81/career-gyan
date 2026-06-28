@@ -429,11 +429,32 @@ class ExploreController extends Controller
                 ];
             });
 
+        // 5. Search Jobs
+        $jobs = \App\Models\JobListing::active()
+            ->where(function ($query) use ($q) {
+                $query->where('job_title', 'like', "%{$q}%")
+                      ->orWhere('company_name', 'like', "%{$q}%")
+                      ->orWhere('category', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get()
+            ->map(function ($j) {
+                return [
+                    'id' => $j->id,
+                    'title' => $j->job_title,
+                    'company' => $j->company_name,
+                    'category' => $j->category,
+                    'location' => $j->location,
+                    'url' => route('jobs.show', $j->id),
+                ];
+            });
+
         return response()->json([
             'db_careers' => $dbCareers,
             'config_careers' => $fields,
             'colleges' => $colleges,
             'blogs' => $blogs,
+            'jobs' => $jobs,
         ]);
     }
 

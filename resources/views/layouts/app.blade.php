@@ -197,27 +197,35 @@
 
   .nav-logo:hover img { transform: scale(1.04); }
 
-  .nav-left { display: flex; align-items: center; }
-  .nav-center { display: flex; justify-content: center; flex: 1; }
-  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-left { display: flex; align-items: center; flex-shrink: 0; }
+  .nav-center { display: flex; align-items: center; justify-content: center; flex: 1 1 auto; min-width: 0; margin: 0 10px; }
+  .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-shrink: 0; }
 
   /* Nav links with sliding pill indicator */
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     position: relative;
     background: rgba(241, 245, 249, 0.6);
     padding: 4px;
     border-radius: 999px;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+  .nav-links::-webkit-scrollbar { display: none; }
 
   .nav-links a {
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 36px;
-    padding: 0 18px;
-    font-size: 14px;
+    padding: 0 11px;
+    font-size: 13px;
+    letter-spacing: -0.01em;
     font-weight: 600;
     color: var(--text-2);
     border-radius: 999px;
@@ -225,6 +233,8 @@
     white-space: nowrap;
     position: relative;
     z-index: 1;
+    box-sizing: border-box;
+    flex-shrink: 1;
   }
 
   .nav-links a:hover {
@@ -238,7 +248,7 @@
   }
 
   /* Nav action buttons */
-  .nav-actions { display: flex; align-items: center; gap: 6px; }
+  .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
 
   .nav-search-btn {
     display: flex;
@@ -261,6 +271,108 @@
     border-color: transparent;
   }
 
+  .nav-search-bar-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-search-bar-input {
+    width: 150px;
+    height: 36px;
+    padding: 0 14px 0 34px;
+    border-radius: 999px;
+    background: rgba(241, 245, 249, 0.85);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 13.5px;
+    color: var(--text-1);
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(.22,.68,0,1);
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .nav-search-bar-input:focus {
+    width: 200px;
+    background: #ffffff;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+  }
+
+  .nav-search-bar-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--text-3);
+    pointer-events: none;
+    transition: color 0.2s;
+  }
+
+  .nav-search-bar-input:focus ~ .nav-search-bar-icon {
+    color: var(--brand);
+  }
+
+  .autocomplete-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 380px;
+    max-height: 460px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
+    z-index: 1050;
+    display: none;
+    animation: dropdownFadeIn 0.2s ease;
+  }
+
+  .autocomplete-section-title {
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-3);
+    background: #f8fafc;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+  }
+
+  .autocomplete-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .autocomplete-item:last-child { border-bottom: none; }
+
+  .autocomplete-item:hover, .autocomplete-item.selected {
+    background: var(--brand-light);
+    color: var(--brand-dark);
+  }
+
+  .autocomplete-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
   .nav-link-btn {
     display: flex;
     align-items: center;
@@ -277,7 +389,38 @@
 
   .nav-link-btn:hover {
     background: rgba(241, 245, 249, 0.8);
-    color: var(--text-1);
+    color: var(--brand);
+  }
+
+  /* Language Switcher & Google Translate Override */
+  iframe.skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !important; }
+  body { top: 0px !important; position: static !important; }
+  #goog-gt-tt { display: none !important; visibility: hidden !important; }
+  .goog-tooltip { display: none !important; }
+  .goog-tooltip:hover { display: none !important; }
+  .goog-text-highlight { background-color: transparent !important; border: none !important; box-shadow: none !important; }
+  .navbar font { vertical-align: inherit !important; line-height: inherit !important; display: inline-block !important; }
+  .nav-links a font, .nav-actions a font, .nav-actions button font { display: inline !important; }
+  
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-2);
+    padding: 0 12px;
+    height: 36px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+    background: var(--brand-light);
   }
 
   .nav-link-btn i { font-size: 12px; }
@@ -770,6 +913,14 @@
   /* ═══════════════════════════════════════════
      RESPONSIVE
      ═══════════════════════════════════════════ */
+  @media(max-width: 1380px) {
+    .nav-center,
+    .nav-actions { display: none !important; }
+    .nav-mobile-btn,
+    .nav-mobile-search { display: block !important; }
+    .nav-mobile-menu.open { display: flex !important; }
+  }
+
   @media(max-width: 768px) {
     .navbar { padding: 6px 8px; }
 
@@ -921,9 +1072,43 @@
 
       <div class="nav-right">
         <div class="nav-actions">
-          <button class="nav-search-btn" id="openGlobalSearch" aria-label="Search">
-            <i class="fa-solid fa-search"></i>
-          </button>
+          <div class="nav-search-bar-wrap" id="navSearchBarWrap">
+            <input type="text" id="navGlobalSearchInput" class="nav-search-bar-input" placeholder="Search careers, jobs..." autocomplete="off">
+            <i class="fa-solid fa-search nav-search-bar-icon"></i>
+            <div id="navSearchSuggestions" class="autocomplete-dropdown"></div>
+          </div>
+
+          <!-- Language Switcher -->
+          <div class="lang-dropdown" style="position: relative;">
+            <button type="button" class="lang-btn" onclick="toggleLangDropdown(event)" id="currentLangBtn" title="Change Language">
+              <i class="fa-solid fa-globe" style="color: var(--brand);"></i> <span id="currentLangText" class="notranslate">EN</span> <i class="fa-solid fa-chevron-down" style="font-size: 10px; opacity: 0.7;"></i>
+            </button>
+            <div id="langDropdownMenu" style="display: none; position: absolute; top: calc(100% + 8px); right: 0; background: #ffffff; min-width: 180px; max-height: 360px; overflow-y: auto; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 15px 35px rgba(0,0,0,0.15); z-index: 1100;">
+              <a href="#" onclick="changeLanguage('en', 'EN'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">English</a>
+              <a href="#" onclick="changeLanguage('hi', 'HI (हिन्दी)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">हिन्दी (Hindi)</a>
+              <a href="#" onclick="changeLanguage('bn', 'BN (বাংলা)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">বাংলা (Bengali)</a>
+              <a href="#" onclick="changeLanguage('te', 'TE (తెలుగు)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">తెలుగు (Telugu)</a>
+              <a href="#" onclick="changeLanguage('mr', 'MR (मराठी)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">मराठी (Marathi)</a>
+              <a href="#" onclick="changeLanguage('ta', 'TA (தமிழ்)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">தமிழ் (Tamil)</a>
+              <a href="#" onclick="changeLanguage('gu', 'GU (ગુજરાતી)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">ગુજરાતી (Gujarati)</a>
+              <a href="#" onclick="changeLanguage('kn', 'KN (ಕನ್ನಡ)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">ಕನ್ನಡ (Kannada)</a>
+              <a href="#" onclick="changeLanguage('ml', 'ML (മലയാളം)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">മലയാളം (Malayalam)</a>
+              <a href="#" onclick="changeLanguage('or', 'OR (ଓଡ଼ିଆ)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">ଓଡ଼ିଆ (Odia)</a>
+              <a href="#" onclick="changeLanguage('pa', 'PA (ਪੰਜਾਬੀ)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">ਪੰਜਾਬੀ (Punjabi)</a>
+              <a href="#" onclick="changeLanguage('as', 'AS (অসমীয়া)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">অসমীয়া (Assamese)</a>
+              <a href="#" onclick="changeLanguage('ur', 'UR (اردو)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">اردو (Urdu)</a>
+              <a href="#" onclick="changeLanguage('bho', 'BHO (भोजपुरी)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">भोजपुरी (Bhojpuri)</a>
+              <a href="#" onclick="changeLanguage('sa', 'SA (संस्कृतम्)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">संस्कृतम् (Sanskrit)</a>
+              <a href="#" onclick="changeLanguage('gom', 'GOM (कोंकणी)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">कोंकणी (Konkani)</a>
+              <a href="#" onclick="changeLanguage('mai', 'MAI (मैथिली)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">मैथिली (Maithili)</a>
+              <a href="#" onclick="changeLanguage('doi', 'DOI (डोगरी)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">डोगरी (Dogri)</a>
+              <a href="#" onclick="changeLanguage('mni-Mtei', 'MNI (ꯃꯩꯇꯩꯂꯣꯟ)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">ꯃꯩꯇꯩꯂꯣꯟ (Manipuri)</a>
+              <a href="#" onclick="changeLanguage('ne', 'NE (नेपाली)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">नेपाली (Nepali)</a>
+              <a href="#" onclick="changeLanguage('sd', 'SD (سنڌي)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">سنڌي (Sindhi)</a>
+              <a href="#" onclick="changeLanguage('sat', 'SAT (ᱥᱟᱱᱛᱟᱲᱤ)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; border-bottom:1px solid var(--border); transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">ᱥᱟᱱᱛᱟᱲᱤ (Santali)</a>
+              <a href="#" onclick="changeLanguage('lus', 'LUS (Mizo)'); return false;" style="display:block; padding:10px 14px; font-size:13px; font-weight:700; color:var(--text-1); text-decoration:none; transition:0.2s;" onmouseover="this.style.background='var(--brand-light)'" onmouseout="this.style.background='transparent'">Mizo ṭawng (Mizo)</a>
+            </div>
+          </div>
 
           <a href="{{ route('quick-test.start') }}" class="nav-link-btn">
             <i class="fa-solid fa-gauge-high" style="color: var(--brand);"></i> Quick Test
@@ -1003,6 +1188,34 @@
       <i class="fa-solid fa-user"></i> My Profile
     </a>
     @endauth
+    <div style="padding: 10px 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 13.5px; font-weight: 700; color: var(--text-2);"><i class="fa-solid fa-globe" style="color: var(--brand);"></i> Select Language</span>
+      <select onchange="changeLanguage(this.value, this.options[this.selectedIndex].text)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-weight: 700; font-size: 13px; color: var(--text-1); background: #f8fafc; outline: none;">
+        <option value="en">EN (English)</option>
+        <option value="hi">HI (हिन्दी)</option>
+        <option value="bn">BN (বাংলা)</option>
+        <option value="te">TE (తెలుగు)</option>
+        <option value="mr">MR (मराठी)</option>
+        <option value="ta">TA (தமிழ்)</option>
+        <option value="gu">GU (ગુજરાતી)</option>
+        <option value="kn">KN (ಕನ್ನಡ)</option>
+        <option value="ml">ML (മലയാളം)</option>
+        <option value="or">OR (ଓଡ଼ିଆ)</option>
+        <option value="pa">PA (ਪੰਜਾਬੀ)</option>
+        <option value="as">AS (অসমীয়া)</option>
+        <option value="ur">UR (اردو)</option>
+        <option value="bho">BHO (भोजपुरी)</option>
+        <option value="sa">SA (संस्कृतम्)</option>
+        <option value="gom">GOM (कोंकणी)</option>
+        <option value="mai">MAI (मैथिली)</option>
+        <option value="doi">DOI (डोगरी)</option>
+        <option value="mni-Mtei">MNI (ꯃꯩꯇꯩꯂꯣꯟ)</option>
+        <option value="ne">NE (नेपाली)</option>
+        <option value="sd">SD (سنڌي)</option>
+        <option value="sat">SAT (ᱥᱟᱱᱛᱟᱲᱤ)</option>
+        <option value="lus">LUS (Mizo)</option>
+      </select>
+    </div>
     <div class="mobile-auth">
       @auth
         <form action="{{ route('logout') }}" method="POST" style="flex:1;">
@@ -1240,8 +1453,9 @@
         const hasCareers = data.db_careers && data.db_careers.length > 0;
         const hasColleges = data.colleges && data.colleges.length > 0;
         const hasBlogs = data.blogs && data.blogs.length > 0;
+        const hasJobs = data.jobs && data.jobs.length > 0;
 
-        if (!hasFields && !hasCareers && !hasColleges && !hasBlogs) {
+        if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasJobs) {
           searchResults.innerHTML = `
             <div class="search-empty">
               <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
@@ -1280,6 +1494,24 @@
                   <h4>${c.name}</h4>
                   <p>${c.description}</p>
                   <span class="search-item-badge" style="background: ${c.bg_color}; color: ${c.color};">${c.field}</span>
+                </div>
+              </a>
+            `;
+          });
+        }
+
+        if (hasJobs) {
+          html += `<div class="search-section-title">Job Openings</div>`;
+          data.jobs.forEach(j => {
+            html += `
+              <a href="${j.url}" class="search-item" onclick="saveSearchHistory(searchInput.value); closeSearch()">
+                <div class="search-item-icon" style="background: #ecfdf5; color: #10b981;">
+                  <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div class="search-item-content">
+                  <h4>${j.title}</h4>
+                  <p>${j.company} - ${j.location}</p>
+                  <span class="search-item-badge" style="background: #ecfdf5; color: #10b981;">${j.category || 'Job'}</span>
                 </div>
               </a>
             `;
@@ -1331,6 +1563,180 @@
   });
 
   searchInput.addEventListener('input', performSearch);
+
+  /* ─── Navbar Auto-Suggestions Logic ─── */
+  const navSearchInput = document.getElementById('navGlobalSearchInput');
+  const navSearchSuggestions = document.getElementById('navSearchSuggestions');
+  let navSelectedIndex = -1;
+
+  if (navSearchInput && navSearchSuggestions) {
+    const performNavSearch = debounce(() => {
+      const query = navSearchInput.value.trim();
+      navSelectedIndex = -1;
+
+      if (query.length < 2) {
+        navSearchSuggestions.style.display = 'none';
+        navSearchSuggestions.innerHTML = '';
+        return;
+      }
+
+      fetch(`/global-search?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          let html = '';
+          const hasFields = data.config_careers && data.config_careers.length > 0;
+          const hasCareers = data.db_careers && data.db_careers.length > 0;
+          const hasJobs = data.jobs && data.jobs.length > 0;
+          const hasColleges = data.colleges && data.colleges.length > 0;
+          const hasBlogs = data.blogs && data.blogs.length > 0;
+
+          if (!hasFields && !hasCareers && !hasJobs && !hasColleges && !hasBlogs) {
+            html = `<div style="padding: 16px; font-size: 13.5px; color: var(--text-3); text-align: center;">No suggestions found for "<b>${query}</b>"</div>`;
+            navSearchSuggestions.innerHTML = html;
+            navSearchSuggestions.style.display = 'block';
+            return;
+          }
+
+          if (hasFields) {
+            html += `<div class="autocomplete-section-title">Fields & Streams</div>`;
+            data.config_careers.forEach(f => {
+              html += `
+                <a href="${f.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: ${f.bg_color}; color: ${f.color};">
+                    <i class="fa-solid ${f.icon}"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f.name}</div>
+                    <div style="font-size:12px; color:var(--text-3);">Explore Field</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          if (hasCareers) {
+            html += `<div class="autocomplete-section-title">Careers</div>`;
+            data.db_careers.forEach(c => {
+              html += `
+                <a href="${c.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: ${c.bg_color}; color: ${c.color};">
+                    <i class="fa-solid ${c.icon}"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.name}</div>
+                    <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.field}</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          if (hasJobs) {
+            html += `<div class="autocomplete-section-title">Job Openings</div>`;
+            data.jobs.forEach(j => {
+              html += `
+                <a href="${j.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: #ecfdf5; color: #10b981;">
+                    <i class="fa-solid fa-briefcase"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${j.title}</div>
+                    <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${j.company}</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          if (hasColleges) {
+            html += `<div class="autocomplete-section-title">Colleges</div>`;
+            data.colleges.forEach(col => {
+              html += `
+                <a href="${col.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: var(--brand-light); color: var(--brand);">
+                    <i class="fa-solid fa-building-columns"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${col.name}</div>
+                    <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${col.location}</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          if (hasBlogs) {
+            html += `<div class="autocomplete-section-title">Articles</div>`;
+            data.blogs.forEach(b => {
+              html += `
+                <a href="${b.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: #ffe4e6; color: #e11d48;">
+                    <i class="fa-solid fa-newspaper"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${b.title}</div>
+                    <div style="font-size:12px; color:var(--text-3);">${b.category}</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          navSearchSuggestions.innerHTML = html;
+          navSearchSuggestions.style.display = 'block';
+        })
+        .catch(err => {
+          console.error(err);
+          navSearchSuggestions.style.display = 'none';
+        });
+    }, 200);
+
+    navSearchInput.addEventListener('input', performNavSearch);
+
+    navSearchInput.addEventListener('focus', () => {
+      if (navSearchInput.value.trim().length >= 2 && navSearchSuggestions.innerHTML !== '') {
+        navSearchSuggestions.style.display = 'block';
+      }
+    });
+
+    navSearchInput.addEventListener('keydown', (e) => {
+      const items = navSearchSuggestions.querySelectorAll('.nav-sug-item');
+      if (!items || items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        navSelectedIndex = (navSelectedIndex + 1) % items.length;
+        updateNavSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        navSelectedIndex = (navSelectedIndex - 1 + items.length) % items.length;
+        updateNavSelection(items);
+      } else if (e.key === 'Enter') {
+        if (navSelectedIndex >= 0 && items[navSelectedIndex]) {
+          e.preventDefault();
+          items[navSelectedIndex].click();
+        } else if (items.length > 0) {
+          e.preventDefault();
+          items[0].click();
+        }
+      } else if (e.key === 'Escape') {
+        navSearchSuggestions.style.display = 'none';
+      }
+    });
+
+    function updateNavSelection(items) {
+      items.forEach((item, index) => {
+        if (index === navSelectedIndex) {
+          item.classList.add('selected');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.getElementById('navSearchBarWrap');
+      if (wrap && !wrap.contains(e.target)) {
+        navSearchSuggestions.style.display = 'none';
+      }
+    });
+  }
 
   // Scroll Reveal Animation
   const revealElements = document.querySelectorAll('.reveal');
@@ -1501,6 +1907,64 @@
 </script>
 
 <x-ai-career-chat />
+
+<!-- Multilingual Google Translate Element -->
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,hi,bn,te,mr,ta,gu,kn,ml,or,pa,as,ur,bho,sa,gom,mai,doi,mni-Mtei,ne,sd,sat,lus',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+function changeLanguage(lang, label) {
+  const shortLabel = label.split(' ')[0];
+  const el = document.getElementById('currentLangText');
+  if (el) el.innerText = shortLabel;
+  localStorage.setItem('user_lang', lang);
+  localStorage.setItem('user_lang_label', shortLabel);
+  
+  // Set Google Translate cookie across paths and domain
+  document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname}`;
+  document.cookie = `googtrans=/en/${lang}; path=/;`;
+  window.location.reload();
+}
+
+function toggleLangDropdown(e) {
+  e.stopPropagation();
+  const menu = document.getElementById('langDropdownMenu');
+  if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('langDropdownMenu');
+  if (menu && !e.target.closest('.lang-dropdown')) menu.style.display = 'none';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('user_lang');
+  const savedLabel = localStorage.getItem('user_lang_label');
+  if (savedLabel) {
+    const el = document.getElementById('currentLangText');
+    if (el) el.innerText = savedLabel;
+  }
+  if (savedLang) {
+    const sel = document.querySelector('.nav-mobile-menu select');
+    if (sel) sel.value = savedLang;
+  } else {
+    // Optional automatic language detection based on browser settings
+    const browserLang = navigator.language || navigator.userLanguage || '';
+    if (browserLang.startsWith('hi') && !savedLang) {
+      changeLanguage('hi', 'HI');
+    } else if (browserLang.startsWith('mr') && !savedLang) {
+      changeLanguage('mr', 'MR');
+    }
+  }
+});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>

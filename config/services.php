@@ -36,8 +36,9 @@ return [
     ],
 
     'admin' => [
-        'username' => env('ADMIN_USERNAME', 'admin'),
-        'password' => env('ADMIN_PASSWORD', 'admin123'),
+        'email' => env('ADMIN_EMAIL', 'dkakad.dk@gmail.com'),
+        'username' => env('ADMIN_USERNAME', 'dkakad.dk@gmail.com'),
+        'password' => env('ADMIN_PASSWORD', 'Sudarshan131275#'),
     ],
 
     'aicredits' => [

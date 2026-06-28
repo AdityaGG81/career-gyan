@@ -294,7 +294,7 @@
         <div class="form-group">
           <label for="email">Admin Email</label>
           <div class="input-icon-wrap">
-            <input type="email" name="email" id="email" class="form-control" placeholder="admin@careergyan.in" required value="{{ old('email') }}">
+            <input type="email" name="email" id="email" class="form-control" placeholder="dkakad.dk@gmail.com" required value="{{ old('email') }}">
             <i class="fa-solid fa-envelope"></i>
           </div>
         </div>

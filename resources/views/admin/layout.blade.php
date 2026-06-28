@@ -492,10 +492,10 @@
 
     <div class="admin-sidebar-footer">
       <div class="admin-profile-card">
-        <div class="profile-avatar">A</div>
+        <div class="profile-avatar">D</div>
         <div class="profile-info">
           <span class="profile-name">Administrator</span>
-          <span class="profile-role">admin@careergyan.in</span>
+          <span class="profile-role">dkakad.dk@gmail.com</span>
         </div>
       </div>
       <a href="{{ route('admin.logout') }}" class="btn-logout">

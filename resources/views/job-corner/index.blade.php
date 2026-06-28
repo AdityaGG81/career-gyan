@@ -2,6 +2,43 @@
 
 @section('title', 'Job Corner - CareerGyan')
 
+@section('styles')
+<style>
+  .job-suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.18);
+    border: 1px solid var(--border);
+    max-height: 340px;
+    overflow-y: auto;
+    z-index: 1000;
+    text-align: left;
+    display: none;
+    animation: dropdownFadeIn 0.2s ease;
+  }
+  .job-suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: var(--text-1);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .job-suggestion-item:last-child { border-bottom: none; }
+  .job-suggestion-item:hover, .job-suggestion-item.selected {
+    background: #ecfdf5;
+    color: #10b981;
+    padding-left: 20px;
+  }
+</style>
+@endsection
+
 @section('content')
 <div class="section" style="background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); padding-top: 48px; min-height: calc(100vh - 200px);">
     <div class="container">
@@ -46,11 +83,11 @@
                     <!-- Search Input -->
                     <div style="margin-bottom: 24px;">
                         <label style="font-weight: 700; font-size: 13px; text-transform: uppercase; color: var(--text-2); display: block; margin-bottom: 8px;">Keyword Search</label>
-                        <div style="position: relative;">
-                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search company, title..." 
-                                class="filter-input"
-                                onchange="this.form.submit()">
+                        <div style="position: relative;" id="jobSearchWrap">
+                            <input type="text" id="jobSearchInput" name="search" value="{{ request('search') }}" placeholder="Search company, title..." 
+                                class="filter-input" autocomplete="off">
                             <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 13px; color: var(--text-3); font-size: 13px;"></i>
+                            <div id="jobSearchSuggestions" class="job-suggestions-dropdown"></div>
                         </div>
                     </div>
 
@@ -303,4 +340,121 @@
         100% { transform: scale(1); }
     }
 </style>
+@endsection
+
+@section('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const jobSearchInput = document.getElementById('jobSearchInput');
+    const jobSearchSuggestions = document.getElementById('jobSearchSuggestions');
+    const filterForm = document.getElementById('filterForm');
+    let selectedIndex = -1;
+
+    if (!jobSearchInput || !jobSearchSuggestions) return;
+
+    function debounce(func, timeout = 250) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    }
+
+    const performJobSearch = debounce(() => {
+      const query = jobSearchInput.value.trim();
+      selectedIndex = -1;
+
+      if (query.length < 2) {
+        jobSearchSuggestions.style.display = 'none';
+        jobSearchSuggestions.innerHTML = '';
+        return;
+      }
+
+      fetch(`/global-search?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          const jobs = data.jobs || [];
+          if (jobs.length === 0) {
+            jobSearchSuggestions.innerHTML = `<div style="padding: 14px; color: var(--text-3); text-align: center; font-size: 13px;">No recruitment notices found matching "<b>${query}</b>"</div>`;
+            jobSearchSuggestions.style.display = 'block';
+            return;
+          }
+
+          let html = '';
+          jobs.forEach(j => {
+            html += `
+              <a href="${j.url}" class="job-suggestion-item">
+                <div style="width: 32px; height: 32px; border-radius: 6px; background: #ecfdf5; color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">
+                  <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div style="flex: 1; overflow: hidden;">
+                  <div style="font-weight: 700; font-size: 13.5px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${j.title}</div>
+                  <div style="font-size: 11.5px; color: var(--text-3); display: flex; align-items: center; gap: 6px;">
+                    <span style="color: #10b981; font-weight: 600;">${j.company}</span> • <span>${j.location || 'India'}</span>
+                  </div>
+                </div>
+              </a>
+            `;
+          });
+
+          jobSearchSuggestions.innerHTML = html;
+          jobSearchSuggestions.style.display = 'block';
+        })
+        .catch(err => {
+          console.error(err);
+          jobSearchSuggestions.style.display = 'none';
+        });
+    }, 250);
+
+    jobSearchInput.addEventListener('input', performJobSearch);
+
+    jobSearchInput.addEventListener('focus', () => {
+      if (jobSearchInput.value.trim().length >= 2 && jobSearchSuggestions.innerHTML !== '') {
+        jobSearchSuggestions.style.display = 'block';
+      }
+    });
+
+    jobSearchInput.addEventListener('keydown', (e) => {
+      const items = jobSearchSuggestions.querySelectorAll('.job-suggestion-item');
+
+      if (e.key === 'ArrowDown' && items.length > 0) {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelection(items);
+      } else if (e.key === 'ArrowUp' && items.length > 0) {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelection(items);
+      } else if (e.key === 'Enter') {
+        if (selectedIndex >= 0 && items[selectedIndex]) {
+          e.preventDefault();
+          items[selectedIndex].click();
+        } else {
+          e.preventDefault();
+          if (filterForm) filterForm.submit();
+        }
+      } else if (e.key === 'Escape') {
+        jobSearchSuggestions.style.display = 'none';
+      }
+    });
+
+    function updateSelection(items) {
+      items.forEach((item, index) => {
+        if (index === selectedIndex) {
+          item.classList.add('selected');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.getElementById('jobSearchWrap');
+      if (wrap && !wrap.contains(e.target)) {
+        jobSearchSuggestions.style.display = 'none';
+      }
+    });
+  });
+</script>
 @endsection
