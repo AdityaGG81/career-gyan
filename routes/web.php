@@ -20,6 +20,11 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+// Job Corner public routes
+Route::get('/job-corner', [\App\Http\Controllers\JobListingController::class, 'index'])->name('jobs.index');
+Route::get('/job-corner/{id}', [\App\Http\Controllers\JobListingController::class, 'show'])->name('jobs.show');
+
+
 // Explore
 Route::get('/explore', [ExploreController::class, 'index'])->name('explore.index');
 
@@ -189,6 +194,15 @@ Route::delete('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeControl
 Route::get('/admin/careers', [\App\Http\Controllers\AdminCareerController::class, 'index'])->name('admin.careers.index');
 Route::get('/admin/careers/{id}/edit', [\App\Http\Controllers\AdminCareerController::class, 'edit'])->name('admin.careers.edit');
 Route::put('/admin/careers/{id}', [\App\Http\Controllers\AdminCareerController::class, 'update'])->name('admin.careers.update');
+
+// Admin Job Corner CRUD
+Route::get('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::class, 'index'])->name('admin.jobs.index');
+Route::get('/admin/jobs/create', [\App\Http\Controllers\AdminJobListingController::class, 'create'])->name('admin.jobs.create');
+Route::post('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::class, 'store'])->name('admin.jobs.store');
+Route::get('/admin/jobs/{id}/edit', [\App\Http\Controllers\AdminJobListingController::class, 'edit'])->name('admin.jobs.edit');
+Route::put('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'update'])->name('admin.jobs.update');
+Route::delete('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'destroy'])->name('admin.jobs.destroy');
+
 
 // Admin Quiz Management
 Route::get('/admin/quiz', [AdminQuizController::class, 'index'])->name('admin.quiz.index');

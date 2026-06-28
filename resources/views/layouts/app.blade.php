@@ -914,6 +914,7 @@
           <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">Explore</a>
           <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Daily Quiz 🔥</a>
           <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a>
+          <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Job Corner 💼</a>
           <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
         </div>
       </div>
@@ -984,6 +985,9 @@
     </a>
     <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">
       <i class="fa-solid fa-newspaper"></i> Blog
+    </a>
+    <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">
+      <i class="fa-solid fa-briefcase"></i> Job Corner
     </a>
     <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">
       <i class="fa-solid fa-info-circle"></i> About

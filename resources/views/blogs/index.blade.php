@@ -507,9 +507,7 @@
     </div>
 
     <!-- Laravel Pagination -->
-    <div class="blog-pagination">
-      {{ $blogs->appends(request()->query())->links() }}
-    </div>
+    {{ $blogs->appends(request()->query())->links('vendor.pagination.career-gyan') }}
 
   @else
     <!-- Empty state -->

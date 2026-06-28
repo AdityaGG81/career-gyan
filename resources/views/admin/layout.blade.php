@@ -476,6 +476,11 @@
           <i class="fa-solid fa-circle-question"></i> Daily Quiz
         </a>
       </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.jobs') ? 'active' : '' }}">
+        <a href="{{ route('admin.jobs.index') }}">
+          <i class="fa-solid fa-briefcase"></i> Job Corner
+        </a>
+      </li>
       
       <li class="menu-category">Feedback</li>
       <li class="admin-menu-item {{ $currentRoute == 'admin.suggestions' ? 'active' : '' }}">

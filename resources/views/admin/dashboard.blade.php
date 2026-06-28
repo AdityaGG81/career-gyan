@@ -329,6 +329,17 @@
     <div class="stat-value">{{ number_format($collegeCount) }}</div>
   </div>
 
+  <!-- Stat Card: Job listings -->
+  <div class="stat-card">
+    <div class="stat-header">
+      <span class="stat-title">Job Listings</span>
+      <div class="stat-icon-wrap" style="background: #eef2ff; color: #4f46e5;">
+        <i class="fa-solid fa-briefcase"></i>
+      </div>
+    </div>
+    <div class="stat-value">{{ number_format($jobCount ?? 0) }}</div>
+  </div>
+
   <!-- Stat Card: Suggestions -->
   <div class="stat-card">
     <div class="stat-header">
@@ -400,6 +411,13 @@
       <h2>Quick Actions</h2>
     </div>
     <div class="quick-actions-wrap">
+      <a href="{{ route('admin.jobs.index') }}" class="action-btn-link">
+        <div class="action-btn-left">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Manage Job Corner</span>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="font-size: 14px; color: #cbd5e1;"></i>
+      </a>
       <a href="{{ route('admin.quiz.index') }}" class="action-btn-link">
         <div class="action-btn-left">
           <i class="fa-solid fa-circle-question"></i>

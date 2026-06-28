@@ -80,6 +80,13 @@ class AdminAuthController extends Controller
             }
         } catch (\Exception $e) {}
 
+        $jobCount = 0;
+        try {
+            if (class_exists(\App\Models\JobListing::class)) {
+                $jobCount = \App\Models\JobListing::count();
+            }
+        } catch (\Exception $e) {}
+
         return view('admin.dashboard', compact(
             'userCount',
             'careerCount',
@@ -89,7 +96,8 @@ class AdminAuthController extends Controller
             'collegeCount',
             'recentUsers',
             'recentSuggestions',
-            'quizAttemptCount'
+            'quizAttemptCount',
+            'jobCount'
         ));
     }
 }
