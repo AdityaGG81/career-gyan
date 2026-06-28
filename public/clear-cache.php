@@ -65,16 +65,37 @@ echo runCommand($kernel, 'view:clear') . "<br>";
 echo "<h3>Running Database Migrations</h3>";
 echo runCommand($kernel, 'migrate --force') . "<br>";
 
-echo "<h3>Ensuring Upload Directories Exist</h3>";
+echo "<h3>Ensuring Upload Directories & Syncing Files</h3>";
 $uploadsDir = __DIR__ . '/uploads/jobs';
 if (!is_dir($uploadsDir)) {
     if (mkdir($uploadsDir, 0755, true)) {
-        echo "✅ Created: public/uploads/jobs/<br>";
+        echo "✅ Created live directory: uploads/jobs/<br>";
     } else {
-        echo "❌ Failed to create: public/uploads/jobs/<br>";
+        echo "❌ Failed to create live directory: uploads/jobs/<br>";
     }
 } else {
-    echo "✅ Already exists: public/uploads/jobs/<br>";
+    echo "✅ Live directory exists: uploads/jobs/<br>";
+}
+
+// Sync any existing uploads from repositories folder to public_html
+$repoUploads = [
+    __DIR__ . '/../repositories/career-gyan/public/uploads/jobs',
+    __DIR__ . '/../public/uploads/jobs',
+];
+
+foreach ($repoUploads as $srcDir) {
+    if (is_dir($srcDir) && realpath($srcDir) !== realpath($uploadsDir)) {
+        $files = glob($srcDir . '/*');
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                $dest = $uploadsDir . '/' . basename($file);
+                if (!file_exists($dest)) {
+                    copy($file, $dest);
+                    echo "📁 Synced previously uploaded file to live website: " . htmlspecialchars(basename($file)) . "<br>";
+                }
+            }
+        }
+    }
 }
 
 echo "<h4>Done! All caches cleared, migrations run, and directories verified.</h4>";
