@@ -243,6 +243,8 @@ Route::get('/clear-all-cache', function () {
 
 Route::get('/run-migrations', function () {
     try {
+        ini_set('memory_limit', '512M');
+        set_time_limit(300);
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         return 'Migrations run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
     } catch (\Exception $e) {
@@ -252,9 +254,11 @@ Route::get('/run-migrations', function () {
 
 Route::get('/run-seeds', function () {
     try {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(600); // 10 minutes max for massive database seeds
         // Run main DatabaseSeeder to seed all data (colleges, quizzes, jobs, etc.)
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-        return 'All Seeders run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
+        return 'Seeds run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
     } catch (\Exception $e) {
         return 'Error seeding: ' . $e->getMessage();
     }

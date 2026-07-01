@@ -610,6 +610,188 @@
     color: var(--brand);
   }
 
+  /* ─── Career Info Modal Styles ─── */
+  .career-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .career-modal.active {
+    display: flex;
+  }
+
+  .career-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .career-modal.active .career-modal-backdrop {
+    opacity: 1;
+  }
+
+  .career-modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 500px;
+    padding: 32px;
+    position: relative;
+    z-index: 10001;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .career-modal.active .career-modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  .career-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: none;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .career-modal-close:hover {
+    background: #e2e8f0;
+    color: var(--text-1);
+    transform: rotate(90deg);
+  }
+
+  .career-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 20px;
+  }
+
+  .modal-icon-wrap {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  #modalTitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-1);
+    margin: 0;
+  }
+
+  .modal-category {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .career-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 8px;
+    text-align: left;
+  }
+
+  /* Custom scrollbar for modal body */
+  .career-modal-body::-webkit-scrollbar { width: 5px; }
+  .career-modal-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+
+  .modal-section h5 {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-2);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-section h5 i {
+    color: var(--brand);
+  }
+
+  .modal-section p {
+    font-size: 14px;
+    color: var(--text-1);
+    line-height: 1.5;
+  }
+
+  .career-modal-footer {
+    margin-top: 28px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .modal-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14.5px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.25s;
+    box-shadow: 0 4px 12px rgba(26, 86, 219, 0.2);
+  }
+
+  .modal-action-btn:hover {
+    background: var(--brand-dark);
+    box-shadow: 0 6px 20px rgba(26, 86, 219, 0.35);
+    transform: translateY(-2px);
+  }
+
   /* ─── How CareerGyan Works (Timeline) ─── */
   .timeline-section {
     padding: 100px 0;
@@ -1432,7 +1614,15 @@
   <div class="marquee-container">
     <div class="marquee-inner">
       <!-- Card 1 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Software Engineer" 
+           data-category="Technology" 
+           data-icon="fa-solid fa-laptop-code" 
+           data-color="linear-gradient(135deg, #3b82f6, #1d4ed8)" 
+           data-description="Designs, develops, tests, and maintains software systems, applications, and mobile apps."
+           data-skills="Java, Python, Javascript, SQL, Algorithms, Git, System Design"
+           data-pathway="BE/B.Tech in Computer Science, BCA, MCA, or certified coding bootcamps."
+           data-companies="Google, Microsoft, Amazon, Meta, TCS, Infosys, Tech Startups.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><i class="fa-solid fa-laptop-code"></i></div>
           <div>
@@ -1446,7 +1636,15 @@
         </div>
       </div>
       <!-- Card 2 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="General Physician" 
+           data-category="Healthcare" 
+           data-icon="fa-solid fa-stethoscope" 
+           data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
+           data-description="Diagnoses, treats, and manages acute and chronic illnesses, providing primary care and healthcare education."
+           data-skills="Medical Diagnosis, Patient Care, Pharmacology, Empathy, Communication"
+           data-pathway="MBBS Degree (5.5 years) + Compulsory Internship + State Medical Council registration."
+           data-companies="Apollo Hospitals, Fortis Healthcare, Max Hospitals, Private Clinics, Gov Hospitals.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-stethoscope"></i></div>
           <div>
@@ -1460,7 +1658,15 @@
         </div>
       </div>
       <!-- Card 3 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Financial Analyst" 
+           data-category="Finance" 
+           data-icon="fa-solid fa-chart-line" 
+           data-color="linear-gradient(135deg, #f59e0b, #d97706)" 
+           data-description="Analyzes financial data, evaluates investment opportunities, and assists businesses in strategic financial planning."
+           data-skills="Financial Modeling, Excel, Valuation, Market Research, Accounting, SQL"
+           data-pathway="B.Com, BBA (Finance), MBA (Finance), or professional certifications like CFA or CA."
+           data-companies="Goldman Sachs, JPMorgan Chase, HDFC Bank, Deloitte, EY, KPMG, PwC.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-chart-line"></i></div>
           <div>
@@ -1474,7 +1680,15 @@
         </div>
       </div>
       <!-- Card 4 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="UX/UI Designer" 
+           data-category="Creative Arts" 
+           data-icon="fa-solid fa-bezier-curve" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Creates user-centered interfaces and experiences for digital products like websites, software, and mobile apps."
+           data-skills="Figma, Wireframing, User Research, Prototyping, Visual Design, Usability Testing"
+           data-pathway="B.Des (Design), Graphic Design courses, or UX/UI Bootcamps with a strong portfolio."
+           data-companies="Adobe, Flipkart, Zomato, Razorpay, Tech Startups, Design Agencies.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-bezier-curve"></i></div>
           <div>
@@ -1488,7 +1702,15 @@
         </div>
       </div>
       <!-- Card 5 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Corporate Lawyer" 
+           data-category="Legal" 
+           data-icon="fa-solid fa-scale-balanced" 
+           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
+           data-description="Ensures the legality of commercial transactions, advising corporations on their legal rights and duties."
+           data-skills="Corporate Law, Contract Drafting, Legal Writing, Negotiation, Analytical Thinking"
+           data-pathway="Integrated LLB (5 years) or LLB (3 years) after graduation + passing the Bar Council Exam (AIBE)."
+           data-companies="Shardul Amarchand Mangaldas, Khaitan & Co, AZB & Partners, In-house Legal Teams.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-scale-balanced"></i></div>
           <div>
@@ -1502,7 +1724,15 @@
         </div>
       </div>
       <!-- Card 6 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Digital Marketer" 
+           data-category="Business" 
+           data-icon="fa-solid fa-bullhorn" 
+           data-color="linear-gradient(135deg, #10b981, #059669)" 
+           data-description="Drives brand awareness and lead generation through digital channels like search engines, social media, and email."
+           data-skills="SEO, SEM, Content Strategy, Google Analytics, Social Media Management"
+           data-pathway="Any Bachelor's degree + Digital Marketing Certifications + Hands-on project portfolio."
+           data-companies="Dentsu, Ogilvy, GroupM, Nykaa, eCommerce Brands, Marketing Agencies.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-bullhorn"></i></div>
           <div>
@@ -1518,7 +1748,15 @@
 
       <!-- Duplicated for seamless marquee loop -->
       <!-- Card 1 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Software Engineer" 
+           data-category="Technology" 
+           data-icon="fa-solid fa-laptop-code" 
+           data-color="linear-gradient(135deg, #3b82f6, #1d4ed8)" 
+           data-description="Designs, develops, tests, and maintains software systems, applications, and mobile apps."
+           data-skills="Java, Python, Javascript, SQL, Algorithms, Git, System Design"
+           data-pathway="BE/B.Tech in Computer Science, BCA, MCA, or certified coding bootcamps."
+           data-companies="Google, Microsoft, Amazon, Meta, TCS, Infosys, Tech Startups.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><i class="fa-solid fa-laptop-code"></i></div>
           <div>
@@ -1532,7 +1770,15 @@
         </div>
       </div>
       <!-- Card 2 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="General Physician" 
+           data-category="Healthcare" 
+           data-icon="fa-solid fa-stethoscope" 
+           data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
+           data-description="Diagnoses, treats, and manages acute and chronic illnesses, providing primary care and healthcare education."
+           data-skills="Medical Diagnosis, Patient Care, Pharmacology, Empathy, Communication"
+           data-pathway="MBBS Degree (5.5 years) + Compulsory Internship + State Medical Council registration."
+           data-companies="Apollo Hospitals, Fortis Healthcare, Max Hospitals, Private Clinics, Gov Hospitals.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-stethoscope"></i></div>
           <div>
@@ -1546,7 +1792,15 @@
         </div>
       </div>
       <!-- Card 3 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Financial Analyst" 
+           data-category="Finance" 
+           data-icon="fa-solid fa-chart-line" 
+           data-color="linear-gradient(135deg, #f59e0b, #d97706)" 
+           data-description="Analyzes financial data, evaluates investment opportunities, and assists businesses in strategic financial planning."
+           data-skills="Financial Modeling, Excel, Valuation, Market Research, Accounting, SQL"
+           data-pathway="B.Com, BBA (Finance), MBA (Finance), or professional certifications like CFA or CA."
+           data-companies="Goldman Sachs, JPMorgan Chase, HDFC Bank, Deloitte, EY, KPMG, PwC.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-chart-line"></i></div>
           <div>
@@ -1560,7 +1814,15 @@
         </div>
       </div>
       <!-- Card 4 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="UX/UI Designer" 
+           data-category="Creative Arts" 
+           data-icon="fa-solid fa-bezier-curve" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Creates user-centered interfaces and experiences for digital products like websites, software, and mobile apps."
+           data-skills="Figma, Wireframing, User Research, Prototyping, Visual Design, Usability Testing"
+           data-pathway="B.Des (Design), Graphic Design courses, or UX/UI Bootcamps with a strong portfolio."
+           data-companies="Adobe, Flipkart, Zomato, Razorpay, Tech Startups, Design Agencies.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-bezier-curve"></i></div>
           <div>
@@ -1574,7 +1836,15 @@
         </div>
       </div>
       <!-- Card 5 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Corporate Lawyer" 
+           data-category="Legal" 
+           data-icon="fa-solid fa-scale-balanced" 
+           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
+           data-description="Ensures the legality of commercial transactions, advising corporations on their legal rights and duties."
+           data-skills="Corporate Law, Contract Drafting, Legal Writing, Negotiation, Analytical Thinking"
+           data-pathway="Integrated LLB (5 years) or LLB (3 years) after graduation + passing the Bar Council Exam (AIBE)."
+           data-companies="Shardul Amarchand Mangaldas, Khaitan & Co, AZB & Partners, In-house Legal Teams.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-scale-balanced"></i></div>
           <div>
@@ -1588,7 +1858,15 @@
         </div>
       </div>
       <!-- Card 6 -->
-      <div class="marquee-card">
+      <div class="marquee-card" 
+           data-title="Digital Marketer" 
+           data-category="Business" 
+           data-icon="fa-solid fa-bullhorn" 
+           data-color="linear-gradient(135deg, #10b981, #059669)" 
+           data-description="Drives brand awareness and lead generation through digital channels like search engines, social media, and email."
+           data-skills="SEO, SEM, Content Strategy, Google Analytics, Social Media Management"
+           data-pathway="Any Bachelor's degree + Digital Marketing Certifications + Hands-on project portfolio."
+           data-companies="Dentsu, Ogilvy, GroupM, Nykaa, eCommerce Brands, Marketing Agencies.">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-bullhorn"></i></div>
           <div>
@@ -1604,6 +1882,42 @@
     </div>
   </div>
 </section>
+
+<!-- Career Info Modal -->
+<div id="careerInfoModal" class="career-modal">
+  <div class="career-modal-backdrop"></div>
+  <div class="career-modal-content">
+    <button class="career-modal-close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="career-modal-header">
+      <div id="modalIconWrap" class="modal-icon-wrap"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div>
+        <h3 id="modalTitle">Career Title</h3>
+        <span id="modalCategory" class="modal-category">Category</span>
+      </div>
+    </div>
+    <div class="career-modal-body">
+      <div class="modal-section">
+        <h5><i class="fa-solid fa-circle-info"></i> Overview</h5>
+        <p id="modalDescription">Career description...</p>
+      </div>
+      <div class="modal-section">
+        <h5><i class="fa-solid fa-gears"></i> Key Skills Required</h5>
+        <p id="modalSkills">Skills...</p>
+      </div>
+      <div class="modal-section">
+        <h5><i class="fa-solid fa-graduation-cap"></i> Educational Pathway</h5>
+        <p id="modalPath">Path...</p>
+      </div>
+      <div class="modal-section">
+        <h5><i class="fa-solid fa-building"></i> Top Recruiters</h5>
+        <p id="modalCompanies">Companies...</p>
+      </div>
+    </div>
+    <div class="career-modal-footer">
+      <a href="{{ route('explore.index') }}" class="modal-action-btn">Explore Career Pathways <i class="fa-solid fa-arrow-right-long"></i></a>
+    </div>
+  </div>
+</div>
 
 <!-- ─── How It Works (Premium Timeline) ─── -->
 <section class="timeline-section">
@@ -2064,6 +2378,62 @@
       
       counters.forEach(counter => {
           observer.observe(counter);
+      });
+
+      // ─── Career Detail Marquee Card Popup Modal Logic ───
+      let hoverTimeout;
+      const modal = document.getElementById('careerInfoModal');
+      const backdrop = modal.querySelector('.career-modal-backdrop');
+      const closeBtn = modal.querySelector('.career-modal-close');
+
+      const closeModal = () => {
+          modal.classList.remove('active');
+      };
+
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', closeModal);
+      document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeModal();
+      });
+
+      document.querySelectorAll('.marquee-card').forEach(card => {
+          const showModal = () => {
+              const title = card.getAttribute('data-title');
+              const category = card.getAttribute('data-category');
+              const description = card.getAttribute('data-description');
+              const skills = card.getAttribute('data-skills');
+              const pathway = card.getAttribute('data-pathway');
+              const companies = card.getAttribute('data-companies');
+              const icon = card.getAttribute('data-icon');
+              const color = card.getAttribute('data-color');
+
+              document.getElementById('modalTitle').textContent = title;
+              document.getElementById('modalCategory').textContent = category;
+              document.getElementById('modalDescription').textContent = description;
+              document.getElementById('modalSkills').textContent = skills;
+              document.getElementById('modalPath').textContent = pathway;
+              document.getElementById('modalCompanies').textContent = companies;
+              
+              const iconWrap = document.getElementById('modalIconWrap');
+              iconWrap.style.background = color;
+              iconWrap.innerHTML = `<i class="${icon}"></i>`;
+
+              modal.classList.add('active');
+          };
+
+          card.addEventListener('click', (e) => {
+              clearTimeout(hoverTimeout);
+              showModal();
+          });
+
+          card.addEventListener('mouseenter', () => {
+              // Open on hover if they stay on the card for at least 500ms (intentional hover)
+              hoverTimeout = setTimeout(showModal, 500);
+          });
+
+          card.addEventListener('mouseleave', () => {
+              clearTimeout(hoverTimeout);
+          });
       });
   });
 </script>
