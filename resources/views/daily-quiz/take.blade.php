@@ -471,6 +471,7 @@
       setTimeout(() => { flash.style.display = 'none'; }, 300);
       // Auto-submit with no selection
       document.getElementById('timeTakenInput').value = 30;
+      document.getElementById('quizForm').submitting = true;
       document.getElementById('quizForm').submit();
       return;
     }
@@ -508,6 +509,7 @@
 
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+    document.getElementById('quizForm').submitting = true;
     document.getElementById('quizForm').submit();
   }
 
