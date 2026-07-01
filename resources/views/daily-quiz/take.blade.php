@@ -335,12 +335,16 @@
   }
 
   /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .gyani-corner { display: none; }
+  }
+
   @media (max-width: 640px) {
-    .quiz-card { padding: 28px 20px; border-radius: 20px; }
-    .options-grid { grid-template-columns: 1fr; gap: 10px; }
-    .quiz-header { flex-direction: column-reverse; align-items: flex-start; }
-    .timer-wrap { flex-direction: row; align-items: center; gap: 10px; }
-    .gyani-corner { bottom: 12px; right: 12px; }
+    .quiz-card { padding: 24px 16px; border-radius: 20px; }
+    .options-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 28px; }
+    .quiz-header { flex-direction: column-reverse; align-items: flex-start; gap: 20px; }
+    .timer-wrap { flex-direction: row; align-items: center; gap: 10px; width: 100%; justify-content: space-between; }
+    .btn-submit { width: 100%; height: 50px; }
   }
 </style>
 @endsection

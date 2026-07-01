@@ -197,6 +197,12 @@ Route::get('/admin/colleges/{id}/edit', [\App\Http\Controllers\AdminCollegeContr
 Route::put('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeController::class, 'update'])->name('admin.colleges.update');
 Route::delete('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeController::class, 'destroy'])->name('admin.colleges.destroy');
 
+// Admin Indian Colleges (All India 90k+ Database) CRUD
+Route::get('/admin/indian-colleges', [\App\Http\Controllers\AdminIndianCollegeController::class, 'index'])->name('admin.indian-colleges.index');
+Route::get('/admin/indian-colleges/{id}/edit', [\App\Http\Controllers\AdminIndianCollegeController::class, 'edit'])->name('admin.indian-colleges.edit');
+Route::put('/admin/indian-colleges/{id}', [\App\Http\Controllers\AdminIndianCollegeController::class, 'update'])->name('admin.indian-colleges.update');
+Route::delete('/admin/indian-colleges/{id}', [\App\Http\Controllers\AdminIndianCollegeController::class, 'destroy'])->name('admin.indian-colleges.destroy');
+
 // Admin Career Edit
 Route::get('/admin/careers', [\App\Http\Controllers\AdminCareerController::class, 'index'])->name('admin.careers.index');
 Route::get('/admin/careers/{id}/edit', [\App\Http\Controllers\AdminCareerController::class, 'edit'])->name('admin.careers.edit');

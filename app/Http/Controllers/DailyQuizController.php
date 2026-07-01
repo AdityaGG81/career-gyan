@@ -228,6 +228,20 @@ class DailyQuizController extends Controller
             $newBadges[] = 'champion';
         }
 
+        // Check if there are more questions left today (limit to 10 attempts max)
+        $todayQuestionsCount = DailyQuizQuestion::whereDate('quiz_date', $today)
+            ->where('is_active', true)
+            ->count();
+        $limit = min(10, $todayQuestionsCount);
+
+        if ($todayAttemptsCount + 1 < $limit) {
+            // Redirect directly to the next question for continuous play
+            return redirect()->route('daily-quiz.take')
+                ->with('streak_bonus', $streakBonus)
+                ->with('speed_bonus', $speedBonus);
+        }
+
+        // All questions answered, redirect to final results
         return redirect()->route('daily-quiz.result', [
             'date' => $today->toDateString(),
             'attempt_id' => $attempt->id
@@ -243,14 +257,19 @@ class DailyQuizController extends Controller
             return redirect()->route('login');
         }
 
-        $attemptQuery = DailyQuizAttempt::where('user_id', Auth::id())
-            ->whereDate('attempted_at', $date);
+        // Fetch all attempts for this date
+        $todayAttempts = DailyQuizAttempt::where('user_id', Auth::id())
+            ->whereDate('attempted_at', $date)
+            ->with('question')
+            ->get();
 
-        if ($request->has('attempt_id')) {
-            $attempt = $attemptQuery->where('id', $request->attempt_id)->with('question')->firstOrFail();
-        } else {
-            $attempt = $attemptQuery->orderByDesc('id')->with('question')->firstOrFail();
+        if ($todayAttempts->isEmpty()) {
+            return redirect()->route('daily-quiz.index');
         }
+
+        $totalQuestionsCount = $todayAttempts->count();
+        $correctCount = $todayAttempts->where('is_correct', true)->count();
+        $totalPointsEarnedToday = $todayAttempts->sum('points_earned');
 
         $stat      = UserQuizStat::forUser(Auth::id());
         $newBadges = session('new_badges', []);
@@ -258,32 +277,43 @@ class DailyQuizController extends Controller
         $speedBonus  = session('speed_bonus', 0);
         $allBadges   = UserQuizStat::allBadgeDefinitions();
 
-        // Motivational messages based on score, streak, category
-        $message = $this->getMotivationalMessage($attempt, $stat);
+        // Fetch last 7 days of quiz attempts for progress graph
+        $sevenDaysAgo = today()->subDays(6);
+        $weeklyProgress = DailyQuizAttempt::where('user_id', Auth::id())
+            ->whereDate('attempted_at', '>=', $sevenDaysAgo)
+            ->selectRaw('attempted_at, SUM(points_earned) as points')
+            ->groupBy('attempted_at')
+            ->orderBy('attempted_at', 'asc')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'date' => \Carbon\Carbon::parse($row->attempted_at)->format('M d'),
+                    'points' => (int) $row->points
+                ];
+            })->values();
 
-        // Fetch how many attempts the user has made today vs total questions available today
-        $todayQuestionsCount = DailyQuizQuestion::whereDate('quiz_date', $date)
-            ->where('is_active', true)
-            ->count();
-        $todayAttemptsCount = DailyQuizAttempt::where('user_id', Auth::id())
-            ->whereDate('attempted_at', $date)
-            ->count();
-
-        $hasMoreQuestions = $todayAttemptsCount < 10 && $todayAttemptsCount < $todayQuestionsCount;
-        $nextQuestionIndex = $todayAttemptsCount + 1;
+        // Get custom motivational message based on score
+        $accuracy = $totalQuestionsCount > 0 ? ($correctCount / $totalQuestionsCount) * 100 : 0;
+        if ($accuracy >= 80) {
+            $message = ['type' => 'correct', 'text' => 'Outstanding! You showed masterclass precision in today\'s challenge!'];
+        } elseif ($accuracy >= 50) {
+            $message = ['type' => 'medium', 'text' => 'Good job! A solid performance, you are expanding your horizons.'];
+        } else {
+            $message = ['type' => 'wrong', 'text' => 'Every attempt is progress. Review the answers below to learn more!'];
+        }
 
         return view('daily-quiz.result', compact(
-            'attempt',
+            'todayAttempts',
+            'totalQuestionsCount',
+            'correctCount',
+            'totalPointsEarnedToday',
             'stat',
             'newBadges',
             'allBadges',
             'streakBonus',
             'speedBonus',
             'message',
-            'hasMoreQuestions',
-            'nextQuestionIndex',
-            'todayAttemptsCount',
-            'todayQuestionsCount'
+            'weeklyProgress'
         ));
     }
 

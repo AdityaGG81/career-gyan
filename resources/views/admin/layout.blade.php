@@ -463,7 +463,12 @@
       </li>
       <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.colleges') ? 'active' : '' }}">
         <a href="{{ route('admin.colleges.index') }}">
-          <i class="fa-solid fa-graduation-cap"></i> Colleges
+          <i class="fa-solid fa-graduation-cap"></i> Colleges (Curated)
+        </a>
+      </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.indian-colleges') ? 'active' : '' }}">
+        <a href="{{ route('admin.indian-colleges.index') }}">
+          <i class="fa-solid fa-building-columns"></i> All India Colleges
         </a>
       </li>
       <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.blogs') ? 'active' : '' }}">

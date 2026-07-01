@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 16px;
+    padding: 60px 16px;
   }
 
   /* Confetti canvas */
@@ -28,9 +28,9 @@
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.2fr;
     gap: 40px;
-    max-width: 1000px;
+    max-width: 1100px;
     width: 100%;
     align-items: start;
   }
@@ -42,6 +42,11 @@
     align-items: center;
     text-align: center;
     gap: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 40px 24px;
+    backdrop-filter: blur(12px);
   }
 
   .result-mascot-wrap {
@@ -56,22 +61,22 @@
 
   .result-verdict {
     font-family: 'Sora', sans-serif;
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: clamp(24px, 4vw, 36px);
     font-weight: 800;
     line-height: 1.15;
     animation: fadeUpIn 0.7s 0.3s ease forwards;
     opacity: 0;
   }
 
-  .verdict-correct { color: #4ade80; }
-  .verdict-wrong   { color: #f87171; }
-  .verdict-timeout { color: #fbbf24; }
+  .verdict-success { color: #4ade80; }
+  .verdict-info    { color: #60a5fa; }
+  .verdict-warning { color: #fcd34d; }
 
   .result-message {
-    font-size: 16px;
+    font-size: 15px;
     color: rgba(255,255,255,0.7);
     line-height: 1.6;
-    max-width: 340px;
+    max-width: 380px;
     animation: fadeUpIn 0.7s 0.5s ease forwards;
     opacity: 0;
     font-style: italic;
@@ -86,9 +91,9 @@
   .result-ctas {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     animation: fadeUpIn 0.7s 0.8s ease forwards;
     opacity: 0;
   }
@@ -114,20 +119,28 @@
     color: #fff;
     box-shadow: 0 8px 20px rgba(99,102,241,0.35);
   }
-  .btn-result-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(99,102,241,0.45); color: #fff; }
+  .btn-result-primary:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 12px 28px rgba(99,102,241,0.45); 
+    color: #fff; 
+  }
 
   .btn-result-outline {
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.15);
     color: rgba(255,255,255,0.8);
   }
-  .btn-result-outline:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .btn-result-outline:hover { 
+    background: rgba(255,255,255,0.1); 
+    color: #fff; 
+    border-color: rgba(255, 255, 255, 0.3);
+  }
 
   /* ── Right: Score Panel ── */
   .result-panel-col {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
     animation: slideInRight 0.8s 0.2s cubic-bezier(.22,.68,0,1) forwards;
     opacity: 0;
   }
@@ -138,8 +151,8 @@
   }
 
   .panel-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 20px;
     padding: 24px;
     backdrop-filter: blur(12px);
@@ -152,17 +165,17 @@
   }
 
   .points-label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: rgba(255,255,255,0.45);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   .points-big {
     font-family: 'Sora', sans-serif;
-    font-size: 56px;
+    font-size: 48px;
     font-weight: 800;
     color: #fbbf24;
     line-height: 1;
@@ -172,82 +185,32 @@
   }
 
   .points-big .pts-label {
-    font-size: 20px;
+    font-size: 18px;
     color: rgba(255,255,255,0.4);
     font-weight: 500;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
     font-family: 'DM Sans', sans-serif;
   }
 
-  .points-breakdown {
+  .today-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 16px;
+  }
+
+  .summary-stat {
     display: flex;
-    gap: 12px;
-    margin-top: 14px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .pts-chip {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 999px;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.7);
-  }
-
-  /* Answer reveal */
-  .answer-reveal {
-    border-left: 3px solid;
-    padding-left: 14px;
-  }
-
-  .answer-reveal.correct { border-color: #4ade80; }
-  .answer-reveal.wrong   { border-color: #f87171; }
-
-  .answer-label {
-    font-size: 11px;
+  .summary-stat-val {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
-
-  .answer-reveal.correct .answer-label { color: #4ade80; }
-  .answer-reveal.wrong   .answer-label { color: #f87171; }
-
-  .answer-text {
-    font-size: 15px;
-    color: rgba(255,255,255,0.85);
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 4px;
-  }
-
-  /* Explanation */
-  .explanation-box {
-    background: rgba(99,102,241,0.08);
-    border: 1px solid rgba(99,102,241,0.2);
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 14px;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.6;
-    margin-top: 16px;
-  }
-
-  .explanation-box .exp-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #818cf8;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
   }
 
   /* Streak card */
@@ -257,18 +220,80 @@
     gap: 16px;
   }
 
-  .streak-flame { font-size: 36px; }
+  .streak-flame { font-size: 32px; }
 
   .streak-info .streak-num {
     font-family: 'Sora', sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     color: #fbbf24;
   }
 
   .streak-info .streak-sub {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255,255,255,0.45);
+  }
+
+  /* Detailed review card */
+  .review-section-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+  .review-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .review-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+
+  .review-item {
+    border-left: 3px solid;
+    padding-left: 14px;
+    margin-bottom: 4px;
+  }
+
+  .review-item.correct { border-color: #4ade80; }
+  .review-item.wrong { border-color: #f87171; }
+
+  .review-q-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+
+  .review-ans-row {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .explanation-box {
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+    margin-top: 8px;
   }
 
   /* New badges notification */
@@ -316,52 +341,48 @@
     font-weight: 700;
   }
 
-  /* Stats row */
-  .stat-mini-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-
-  .stat-mini {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 14px;
-    text-align: center;
-  }
-
-  .stat-mini .sm-val {
-    font-family: 'Sora', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: #fff;
-  }
-
-  .stat-mini .sm-lbl {
-    font-size: 11px;
-    color: rgba(255,255,255,0.35);
-    font-weight: 600;
-    margin-top: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  /* Graph container */
+  .chart-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   /* ── Responsive ── */
-  @media (max-width: 768px) {
+  @media (max-width: 991px) {
     .result-content {
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 32px;
     }
-    .result-mascot-col { padding-top: 20px; }
-    .stat-mini-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .result-page {
+      padding: 40px 12px;
+    }
+
+    .result-mascot-col {
+      padding: 30px 16px;
+    }
+
+    .result-ctas {
+      max-width: 100%;
+    }
+
+    .btn-result {
+      width: 100%;
+      height: 48px;
+    }
+
+    .panel-card {
+      padding: 20px;
+    }
   }
 </style>
 @endsection
 
 @section('content')
 
-@if($attempt->is_correct)
+@if(($correctCount / $totalQuestionsCount) >= 0.8)
 <canvas id="confettiCanvas"></canvas>
 @endif
 
@@ -371,28 +392,29 @@
     {{-- LEFT: Mascot + Message --}}
     <div class="result-mascot-col">
       <div class="result-mascot-wrap">
-        <x-gyani :state="$attempt->is_correct ? 'happy' : 'sad'" size="240" />
+        @if(($correctCount / $totalQuestionsCount) >= 0.8)
+          <x-gyani state="happy" size="220" />
+        @elseif(($correctCount / $totalQuestionsCount) >= 0.5)
+          <x-gyani state="idle" size="220" />
+        @else
+          <x-gyani state="sad" size="220" />
+        @endif
       </div>
 
-      <div class="result-verdict {{ $attempt->is_correct ? 'verdict-correct' : ($attempt->selected_option ? 'verdict-wrong' : 'verdict-timeout') }}">
-        @if($attempt->is_correct)
-          🎉 Brilliant!
-        @elseif(!$attempt->selected_option)
-          ⏱️ Time's Up!
+      <div class="result-verdict @if(($correctCount / $totalQuestionsCount) >= 0.8) verdict-success @elseif(($correctCount / $totalQuestionsCount) >= 0.5) verdict-info @else verdict-warning @endif">
+        @if(($correctCount / $totalQuestionsCount) >= 0.8)
+          🏆 Excellent Performance!
+        @elseif(($correctCount / $totalQuestionsCount) >= 0.5)
+          👍 Good Effort!
         @else
-          😔 Not Quite!
+          📚 Keep Learning!
         @endif
       </div>
 
       <p class="result-message">"{{ $message['text'] }}"</p>
 
       <div class="result-ctas">
-        @if($hasMoreQuestions)
-          <a href="{{ route('daily-quiz.take') }}" class="btn-result btn-result-primary" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 8px 20px rgba(16,185,129,0.35);">
-            <i class="fa-solid fa-arrow-right"></i> Next Question ({{ $nextQuestionIndex }} of {{ min(10, $todayQuestionsCount) }})
-          </a>
-        @endif
-        <a href="{{ route('daily-quiz.leaderboard') }}" class="btn-result {{ $hasMoreQuestions ? 'btn-result-outline' : 'btn-result-primary' }}">
+        <a href="{{ route('daily-quiz.leaderboard') }}" class="btn-result btn-result-primary">
           <i class="fa-solid fa-trophy"></i> View Leaderboard
         </a>
         <a href="{{ route('daily-quiz.my-stats') }}" class="btn-result btn-result-outline">
@@ -404,75 +426,94 @@
       </div>
     </div>
 
-    {{-- RIGHT: Score Cards --}}
+    {{-- RIGHT: Score Cards & Graphs --}}
     <div class="result-panel-col">
 
-      {{-- Points Earned --}}
+      {{-- Points Earned & Correct stats --}}
       <div class="panel-card points-earned-card">
-        <div class="points-label">✨ Points Earned for this Question</div>
+        <div class="points-label">⚡ Today's Score Summary</div>
         <div class="points-big">
           <span id="pointsCounter">0</span>
-          <span class="pts-label">pts</span>
+          <span class="pts-label">total pts earned</span>
         </div>
-        @if($attempt->points_earned > 0)
-        <div class="points-breakdown">
-          @if($attempt->is_correct)
-            <span class="pts-chip">✅ +{{ $attempt->question->points ?? 10 }} correct</span>
-          @endif
-          @if($speedBonus > 0)
-            <span class="pts-chip">⚡ +{{ $speedBonus }} speed bonus</span>
-          @endif
-          @if($streakBonus > 0)
-            <span class="pts-chip">🔥 +{{ $streakBonus }} streak bonus</span>
-          @endif
+        
+        <div class="today-summary-grid">
+          <div class="summary-stat">
+            <span class="points-label" style="margin-bottom: 2px;">Correct Answers</span>
+            <span class="summary-stat-val" style="color: #4ade80;">{{ $correctCount }} / {{ $totalQuestionsCount }}</span>
+          </div>
+          <div class="summary-stat">
+            <span class="points-label" style="margin-bottom: 2px;">Daily Accuracy</span>
+            <span class="summary-stat-val" style="color: #60a5fa;">{{ round(($correctCount / $totalQuestionsCount) * 100) }}%</span>
+          </div>
         </div>
-        @endif
       </div>
 
-      {{-- Streak --}}
+      {{-- Streak status --}}
       <div class="panel-card streak-card">
         <span class="streak-flame">🔥</span>
         <div class="streak-info">
           <div class="streak-num">{{ $stat->current_streak }}-Day Streak</div>
-          <div class="streak-sub">Longest: {{ $stat->longest_streak }} days &nbsp;|&nbsp; Keep going!</div>
+          <div class="streak-sub">Longest Streak: {{ $stat->longest_streak }} days &nbsp;|&nbsp; Come back tomorrow to keep it burning!</div>
         </div>
       </div>
 
-      {{-- Answer Reveal --}}
+      {{-- Weekly Progress Graph --}}
+      @if($weeklyProgress->isNotEmpty())
+      <div class="panel-card chart-card">
+        <div class="points-label" style="margin-bottom: 16px;"><i class="fa-solid fa-chart-line" style="color:#818cf8; margin-right:6px;"></i> Weekly Points Progress</div>
+        <div style="position: relative; height: 200px; width: 100%;">
+          <canvas id="progressChart"></canvas>
+        </div>
+      </div>
+      @endif
+
+      {{-- Detailed Question-by-Question Review --}}
       <div class="panel-card">
-        <div class="answer-reveal {{ $attempt->is_correct ? 'correct' : 'wrong' }}" style="margin-bottom: 14px;">
-          <div class="answer-label">
-            {{ $attempt->is_correct ? '✅ Your Answer (Correct!)' : '❌ Your Answer' }}
-          </div>
-          @if($attempt->selected_option)
-            <div class="answer-text">
-              <strong>{{ strtoupper($attempt->selected_option) }}.</strong>
-              {{ $attempt->question->{'option_' . $attempt->selected_option} }}
+        <h3 class="review-section-title">
+          <i class="fa-solid fa-list-check" style="color: #6366f1;"></i> Today's Question Review
+        </h3>
+        
+        <div class="review-list">
+          @foreach($todayAttempts as $index => $attempt)
+            <div class="review-item {{ $attempt->is_correct ? 'correct' : 'wrong' }}">
+              <div class="review-q-text">
+                Q{{ $index + 1 }}. {{ $attempt->question->question_text }}
+              </div>
+              <div class="review-ans-row">
+                <span class="points-label" style="font-size: 10px; margin-right: 4px;">Your Answer:</span>
+                @if($attempt->selected_option)
+                  <span style="color: {{ $attempt->is_correct ? '#4ade80' : '#f87171' }}; font-weight: 700;">
+                    {{ strtoupper($attempt->selected_option) }}. {{ $attempt->question->{'option_' . $attempt->selected_option} }}
+                  </span>
+                @else
+                  <span style="color: #fbbf24; font-style: italic;">Timed Out / No Selection</span>
+                @endif
+              </div>
+              
+              @if(!$attempt->is_correct)
+                <div class="review-ans-row">
+                  <span class="points-label" style="font-size: 10px; margin-right: 4px; color:#4ade80;">Correct Answer:</span>
+                  <span style="color: #4ade80; font-weight: 700;">
+                    {{ strtoupper($attempt->question->correct_option) }}. {{ $attempt->question->{'option_' . $attempt->question->correct_option} }}
+                  </span>
+                </div>
+              @endif
+
+              @if($attempt->question->explanation)
+                <div class="explanation-box">
+                  <span style="font-size: 11px; font-weight: 700; color: #818cf8; display: block; margin-bottom: 2px;">
+                    <i class="fa-solid fa-circle-info"></i> Explanation
+                  </span>
+                  {{ $attempt->question->explanation }}
+                </div>
+              @endif
             </div>
-          @else
-            <div class="answer-text" style="color: rgba(255,255,255,0.4); font-style: italic;">No answer selected (timed out)</div>
-          @endif
+          @endforeach
         </div>
-
-        @if(!$attempt->is_correct)
-        <div class="answer-reveal correct">
-          <div class="answer-label">✅ Correct Answer</div>
-          <div class="answer-text">
-            <strong>{{ strtoupper($attempt->question->correct_option) }}.</strong>
-            {{ $attempt->question->{'option_' . $attempt->question->correct_option} }}
-          </div>
-        </div>
-        @endif
-
-        @if($attempt->question->explanation)
-        <div class="explanation-box">
-          <div class="exp-label"><i class="fa-solid fa-circle-info"></i> Explanation</div>
-          {{ $attempt->question->explanation }}
-        </div>
-        @endif
       </div>
 
-      {{-- New Badges --}}
+      {{-- New Badges Unlocked --}}
       @if(!empty($newBadges))
       <div class="new-badges-card">
         <div class="new-badges-title">
@@ -491,25 +532,6 @@
       </div>
       @endif
 
-      {{-- My Stats Mini --}}
-      <div class="panel-card">
-        <div class="points-label" style="margin-bottom: 14px;">📊 Your All-Time Stats</div>
-        <div class="stat-mini-row">
-          <div class="stat-mini">
-            <div class="sm-val">{{ number_format($stat->total_points) }}</div>
-            <div class="sm-lbl">Total Points</div>
-          </div>
-          <div class="stat-mini">
-            <div class="sm-val">{{ $stat->quizzes_taken }}</div>
-            <div class="sm-lbl">Quizzes</div>
-          </div>
-          <div class="stat-mini">
-            <div class="sm-val">{{ $stat->accuracy }}%</div>
-            <div class="sm-lbl">Accuracy</div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -517,9 +539,12 @@
 @endsection
 
 @section('scripts')
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
   // ── Animated Points Counter ──
-  const finalPoints = {{ $attempt->points_earned }};
+  const finalPoints = {{ $totalPointsEarnedToday }};
   const counterEl   = document.getElementById('pointsCounter');
   let current = 0;
   const duration = 1500;
@@ -536,8 +561,8 @@
 
   setTimeout(() => requestAnimationFrame(animateCounter), 400);
 
-  // ── Confetti (correct answers only) ──
-  @if($attempt->is_correct)
+  // ── Confetti (accuracy >= 80%) ──
+  @if(($correctCount / $totalQuestionsCount) >= 0.8)
   const canvas  = document.getElementById('confettiCanvas');
   const ctx     = canvas.getContext('2d');
   canvas.width  = window.innerWidth;
@@ -590,6 +615,62 @@
   window.addEventListener('resize', () => {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
+  });
+  @endif
+
+  // ── Render Chart.js Graph ──
+  @if($weeklyProgress->isNotEmpty())
+  document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    const labels = @json($weeklyProgress->pluck('date'));
+    const data = @json($weeklyProgress->pluck('points'));
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Daily Score (Points)',
+          data: data,
+          borderColor: '#818cf8',
+          backgroundColor: 'rgba(129, 140, 248, 0.1)',
+          borderWidth: 3,
+          tension: 0.3,
+          fill: true,
+          pointBackgroundColor: '#fbbf24',
+          pointBorderColor: '#818cf8',
+          pointHoverRadius: 7
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.5)'
+            }
+          },
+          y: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.5)'
+            },
+            beginAtZero: true
+          }
+        }
+      }
+    });
   });
   @endif
 </script>
