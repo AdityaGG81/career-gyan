@@ -246,9 +246,9 @@ Route::get('/run-migrations', function () {
 
 Route::get('/run-seeds', function () {
     try {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'IndianCollegeSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DailyQuizExpansionSeeder', '--force' => true]);
-        return 'Seeders run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
+        // Run main DatabaseSeeder to seed all data (colleges, quizzes, jobs, etc.)
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        return 'All Seeders run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
     } catch (\Exception $e) {
         return 'Error seeding: ' . $e->getMessage();
     }
