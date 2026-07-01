@@ -618,14 +618,18 @@
     width: 100%;
     height: 100%;
     z-index: 10000;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0.55s;
   }
 
   .career-modal.active {
-    display: flex;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .career-modal-backdrop {
@@ -638,7 +642,7 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.55s ease;
   }
 
   .career-modal.active .career-modal-backdrop {
@@ -657,13 +661,13 @@
     padding: 32px;
     position: relative;
     z-index: 10001;
-    transform: scale(0.9) translateY(20px);
+    transform: scale(0.2);
     opacity: 0;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s ease;
   }
 
   .career-modal.active .career-modal-content {
-    transform: scale(1) translateY(0);
+    transform: scale(1);
     opacity: 1;
   }
 
@@ -2417,6 +2421,19 @@
               const iconWrap = document.getElementById('modalIconWrap');
               iconWrap.style.background = color;
               iconWrap.innerHTML = `<i class="${icon}"></i>`;
+
+              // Calculate card center coordinates to set the scaling origin
+              const cardRect = card.getBoundingClientRect();
+              const cardCenterX = cardRect.left + cardRect.width / 2;
+              const cardCenterY = cardRect.top + cardRect.height / 2;
+              
+              const modalContent = modal.querySelector('.career-modal-content');
+              const modalRect = modalContent.getBoundingClientRect();
+              
+              const originX = cardCenterX - modalRect.left;
+              const originY = cardCenterY - modalRect.top;
+              
+              modalContent.style.transformOrigin = `${originX}px ${originY}px`;
 
               modal.classList.add('active');
           };
