@@ -12,101 +12,183 @@
     --card-hover-border: rgba(59, 130, 246, 0.2);
   }
 
-  /* ─── Hero Section (Split Layout) ─── */
+  /* ─── Hero Section (Immersive Sky) ─── */
   .hero {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #070b19 0%, #0f172a 40%, #1e293b 80%, #0f172a 100%);
-    padding: 100px 0 120px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 0 140px;
     color: #ffffff;
+    background: #0b2545; /* Dark fallback background for the blue sky theme */
   }
 
-  /* Starry Sky Animation */
-  .stars-layer {
+  /* Sky Background Image */
+  .hero-sky-bg {
     position: absolute;
     inset: 0;
-    background-image: 
-      radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-      radial-gradient(1.5px 1.5px at 70px 70px, #fff, rgba(0,0,0,0)),
-      radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
-      radial-gradient(2px 2px at 120px 120px, #fff, rgba(0,0,0,0)),
-      radial-gradient(1px 1px at 190px 20px, #fff, rgba(0,0,0,0)),
-      radial-gradient(1.5px 1.5px at 220px 50px, #ddd, rgba(0,0,0,0)),
-      radial-gradient(2px 2px at 280px 80px, #fff, rgba(0,0,0,0)),
-      radial-gradient(1px 1px at 350px 10px, #fff, rgba(0,0,0,0)),
-      radial-gradient(1.5px 1.5px at 390px 140px, #ddd, rgba(0,0,0,0)),
-      radial-gradient(1px 1px at 450px 60px, #fff, rgba(0,0,0,0));
-    background-size: 450px 450px;
-    opacity: 0.35;
-    animation: twinkleStars 6s ease-in-out infinite alternate;
+    background: url('/images/hero-sky.png') center center / cover no-repeat;
+    z-index: 0;
+    animation: skyBreathing 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes skyBreathing {
+    0% { transform: scale(1); filter: brightness(1.0) saturate(1.1); }
+    100% { transform: scale(1.03); filter: brightness(1.08) saturate(1.15); }
+  }
+
+  /* Minimal overlay — just enough for text contrast, let the real sky show */
+  .hero-sky-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08) 0%,
+      rgba(0, 0, 0, 0.0) 50%,
+      rgba(0, 0, 0, 0.18) 100%
+    );
     z-index: 1;
     pointer-events: none;
   }
 
-  @keyframes twinkleStars {
-    0% { opacity: 0.25; }
-    100% { opacity: 0.6; }
+  /* Left vignette — dark but not bluish, so the sky colour stays natural */
+  .hero-left-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 18% 50%, rgba(0, 0, 0, 0.42) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
   }
 
-  /* Floating Clouds */
+  @media (max-width: 991px) {
+    .hero-left-vignette {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.5) 0%, transparent 80%);
+    }
+  }
+
+  /* Sunlight flare & bloom */
+  .sun-bloom {
+    position: absolute;
+    top: -15%;
+    right: 10%;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(254, 243, 199, 0.18) 45%,
+      rgba(253, 224, 71, 0.03) 75%,
+      transparent 100%
+    );
+    filter: blur(50px);
+    z-index: 2;
+    pointer-events: none;
+    animation: sunPulse 12s ease-in-out infinite alternate;
+  }
+
+  @keyframes sunPulse {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+    100% { transform: scale(1.12) translate(15px, -15px); opacity: 0.95; }
+  }
+
+  /* Realistic Cloud Drift & Morphing */
   .sky-cloud {
     position: absolute;
-    background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
-    backdrop-filter: blur(2px);
-    border-radius: 99px;
     pointer-events: none;
-    z-index: 1;
-    animation: floatCloud 30s linear infinite;
-  }
-  .sky-cloud-1 { width: 320px; height: 50px; top: 12%; left: -350px; animation-duration: 45s; }
-  .sky-cloud-2 { width: 220px; height: 35px; top: 38%; left: -250px; animation-duration: 35s; animation-delay: -12s; }
-  .sky-cloud-3 { width: 280px; height: 45px; top: 68%; left: -300px; animation-duration: 40s; animation-delay: -22s; }
-
-  @keyframes floatCloud {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(100vw + 400px)); }
+    z-index: 3;
+    filter: blur(4px); /* Reduced blur for crisper cloud shapes */
+    opacity: 0;
   }
 
-  .hero::before {
-    content: '';
+  .sky-cloud svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Different cloud layers at varied heights and speeds (parallax) */
+  .sky-cloud-1 {
+    width: 650px;
+    height: 200px;
+    top: 5%;
+    left: -700px;
+    animation: cloudMorph1 75s linear infinite;
+    animation-delay: 0s;
+  }
+  
+  .sky-cloud-2 {
+    width: 480px;
+    height: 150px;
+    top: 28%;
+    left: -550px;
+    animation: cloudMorph2 60s linear infinite;
+    animation-delay: -20s;
+  }
+  
+  .sky-cloud-3 {
+    width: 580px;
+    height: 180px;
+    top: 52%;
+    left: -650px;
+    animation: cloudMorph3 90s linear infinite;
+    animation-delay: -45s;
+  }
+  
+  .sky-cloud-4 {
+    width: 420px;
+    height: 130px;
+    top: 70%;
+    left: -500px;
+    animation: cloudMorph1 70s linear infinite;
+    animation-delay: -10s;
+  }
+
+  /* Realistic drift animations featuring minor size changes, opacity shifts and slow vertical drafts */
+  @keyframes cloudMorph1 {
+    0% { transform: translate(0, 0) scale(0.95); opacity: 0; }
+    8% { opacity: 0.75; }
+    45% { transform: translate(calc(50vw + 350px), 18px) scale(1.05); opacity: 0.88; }
+    92% { opacity: 0.75; }
+    100% { transform: translate(calc(100vw + 750px), -8px) scale(0.95); opacity: 0; }
+  }
+
+  @keyframes cloudMorph2 {
+    0% { transform: translate(0, 0) scale(1.05); opacity: 0; }
+    10% { opacity: 0.65; }
+    50% { transform: translate(calc(50vw + 300px), -25px) scale(0.95); opacity: 0.78; }
+    90% { opacity: 0.65; }
+    100% { transform: translate(calc(100vw + 600px), 15px) scale(1.05); opacity: 0; }
+  }
+
+  @keyframes cloudMorph3 {
+    0% { transform: translate(0, 0) scale(0.9); opacity: 0; }
+    12% { opacity: 0.55; }
+    48% { transform: translate(calc(50vw + 350px), 30px) scale(1.1); opacity: 0.70; }
+    88% { opacity: 0.55; }
+    100% { transform: translate(calc(100vw + 700px), -18px) scale(0.9); opacity: 0; }
+  }
+
+  /* Horizon light bloom */
+  .horizon-glow {
     position: absolute;
-    inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.2' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/svg%3E");
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(254, 243, 199, 0.05) 40%,
+      transparent 100%
+    );
+    z-index: 2;
     pointer-events: none;
-    z-index: 0;
+    animation: horizonPulse 10s ease-in-out infinite alternate;
   }
 
-  /* Decorative glowing background orbs */
-  .hero-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    pointer-events: none;
-    opacity: 0.12;
-    z-index: 1;
-    animation: orbPulse 8s ease-in-out infinite alternate;
-  }
-
-  .hero-orb-1 {
-    width: 450px;
-    height: 450px;
-    background: #1a56db;
-    top: -100px;
-    right: -50px;
-  }
-
-  .hero-orb-2 {
-    width: 350px;
-    height: 350px;
-    background: #f97316;
-    bottom: -80px;
-    left: -50px;
-    animation-delay: -4s;
-  }
-
-  @keyframes orbPulse {
-    0% { transform: scale(1) translate(0, 0); opacity: 0.12; }
-    100% { transform: scale(1.15) translate(20px, 15px); opacity: 0.22; }
+  @keyframes horizonPulse {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
   }
 
   .hero-grid {
@@ -115,7 +197,7 @@
     gap: 40px;
     align-items: center;
     position: relative;
-    z-index: 2;
+    z-index: 5;
   }
 
   /* Left Side Hero Content */
@@ -125,7 +207,7 @@
 
   .hero-slogan {
     font-family: 'Sora', sans-serif;
-    color: #60a5fa;
+    color: #fbbf24; /* Vibrant yellow/gold */
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -134,6 +216,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    text-shadow: 0 2px 12px rgba(15, 23, 42, 0.65);
   }
 
   .hero-slogan::after {
@@ -141,28 +224,28 @@
     display: inline-block;
     width: 40px;
     height: 2px;
-    background: #60a5fa;
+    background: #fbbf24;
   }
 
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(15, 23, 42, 0.55); /* Darker glassmorphism */
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #ffffff;
     font-size: 14px;
     font-weight: 600;
     padding: 8px 18px;
     border-radius: 99px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.3);
     margin-bottom: 24px;
     transition: all 0.3s ease;
   }
 
   .hero-badge:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(15, 23, 42, 0.7);
     border-color: rgba(255, 255, 255, 0.25);
     transform: translateY(-1px);
   }
@@ -179,10 +262,11 @@
     line-height: 1.15;
     margin-bottom: 20px;
     letter-spacing: -0.5px;
+    text-shadow: 0 2px 15px rgba(15, 23, 42, 0.65);
   }
 
   .hero h1 span.highlight {
-    background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 100%);
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); /* Gorgeous gold gradient for contrast */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -191,23 +275,26 @@
   .typewriter-container {
     display: inline-block;
     position: relative;
-    color: #f59e0b;
-    border-right: 3px solid #f59e0b;
+    color: #fbbf24;
+    border-right: 3px solid #fbbf24;
     padding-right: 4px;
     animation: blinkCursor 0.75s step-end infinite;
+    text-shadow: 0 2px 10px rgba(15, 23, 42, 0.5);
   }
 
   @keyframes blinkCursor {
     from, to { border-color: transparent }
-    50% { border-color: #f59e0b; }
+    50% { border-color: #fbbf24; }
   }
 
   .hero p {
     font-size: clamp(16px, 1.8vw, 18px);
-    color: #cbd5e1;
+    color: #ffffff; /* crisp white for legibility */
     max-width: 580px;
     margin-bottom: 36px;
     line-height: 1.7;
+    text-shadow: 0 2px 12px rgba(15, 23, 42, 0.7);
+    font-weight: 500;
   }
 
   .hero-btns {
@@ -224,10 +311,10 @@
     font-size: 15px;
     font-weight: 700;
     color: #ffffff;
-    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #1d4ed8 0%, #4f46e5 100%);
     padding: 14px 30px;
     border-radius: var(--radius-lg);
-    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.4), 0 0 60px rgba(37, 99, 235, 0.25);
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
@@ -236,7 +323,7 @@
 
   .btn-hero-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+    box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6), 0 0 80px rgba(37, 99, 235, 0.3);
   }
 
   .btn-hero-outline {
@@ -246,18 +333,18 @@
     font-size: 15px;
     font-weight: 700;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    background: rgba(15, 23, 42, 0.35); /* Darker glassmorphism background */
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     padding: 13px 29px;
     border-radius: var(--radius-lg);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
     transition: all 0.3s ease;
     text-decoration: none;
   }
 
   .btn-hero-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(15, 23, 42, 0.5);
+    border-color: rgba(255, 255, 255, 0.45);
     transform: translateY(-2px);
   }
 
@@ -283,7 +370,7 @@
     width: 170px;
     height: 170px;
     z-index: 5;
-    filter: drop-shadow(0 15px 30px rgba(15, 23, 42, 0.3));
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.4));
     animation: studentFloat 4s ease-in-out infinite alternate;
   }
 
@@ -296,15 +383,15 @@
     position: absolute;
     width: 60px;
     height: 60px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     z-index: 3;
   }
 
@@ -330,7 +417,7 @@
     position: absolute;
     width: 380px;
     height: 380px;
-    opacity: 0.15;
+    opacity: 0.35;
     animation: ringRotate 20s linear infinite;
     z-index: 1;
     pointer-events: none;
@@ -350,14 +437,14 @@
     overflow: hidden;
     line-height: 0;
     transform: rotate(180deg);
-    z-index: 2;
+    z-index: 5;
   }
 
   .wave-divider svg {
     position: relative;
     display: block;
     width: calc(100% + 1.3px);
-    height: 40px;
+    height: 50px;
   }
 
   .wave-divider .shape-fill {
@@ -372,18 +459,20 @@
   }
 
   .hero-stat-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(15, 23, 42, 0.55); /* Slate-dark glassmorphism backdrop */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: var(--radius-lg);
     padding: 16px 24px;
     min-width: 120px;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
     transition: all 0.3s ease;
   }
 
   .hero-stat-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(15, 23, 42, 0.7);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
   }
 
   .hero-stat-card strong {
@@ -391,13 +480,15 @@
     font-family: 'Sora', sans-serif;
     font-size: 26px;
     font-weight: 800;
-    color: #60a5fa;
+    color: #38bdf8; /* Brighter accent sky blue */
     margin-bottom: 2px;
+    text-shadow: 0 2px 8px rgba(15, 23, 42, 0.4);
   }
 
   .hero-stat-card > span {
     font-size: 13px;
-    color: #94a3b8;
+    color: #e2e8f0; /* Clear slate white text */
+    font-weight: 500;
   }
 
   /* ─── Why Choose CareerGyan (USPs) ─── */
@@ -1283,18 +1374,10 @@
     .hero-grid {
       grid-template-columns: 1fr;
       text-align: center;
-      gap: 50px;
     }
 
     .hero-left {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .hero h1 {
-      margin-bottom: 16px;
     }
 
     .hero p {
@@ -1340,9 +1423,14 @@
   @media (max-width: 768px) {
     .hero {
       padding: 70px 0 90px;
+      min-height: auto;
     }
 
     .hero-right {
+      display: none;
+    }
+
+    .sky-cloud {
       display: none;
     }
 
@@ -1399,6 +1487,7 @@
   @media (max-width: 480px) {
     .hero {
       padding: 60px 0 70px;
+      min-height: auto;
     }
 
     .hero-slogan {
@@ -1413,6 +1502,10 @@
 
     .hero h1 {
       font-size: clamp(24px, 7vw, 34px);
+    }
+
+    .shooting-star {
+      display: none;
     }
 
     .hero-btns {
@@ -1451,12 +1544,80 @@
 
 <!-- ─── Hero Section ─── -->
 <section class="hero">
-  <div class="stars-layer"></div>
-  <div class="sky-cloud sky-cloud-1"></div>
-  <div class="sky-cloud sky-cloud-2"></div>
-  <div class="sky-cloud sky-cloud-3"></div>
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
+  <!-- Sky Background Image -->
+  <div class="hero-sky-bg"></div>
+  <div class="hero-sky-overlay"></div>
+  <div class="hero-left-vignette"></div>
+
+  <!-- Sun Bloom Flare -->
+  <div class="sun-bloom"></div>
+
+  <!-- Volumetric Shifting SVG Clouds -->
+  <div class="sky-cloud sky-cloud-1">
+    <svg viewBox="0 0 650 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cloudGrad1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+          <stop offset="50%" stop-color="#f8fafc" stop-opacity="0.92"/>
+          <stop offset="85%" stop-color="#e2e8f0" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#e2e8f0" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="325" cy="100" rx="280" ry="60" fill="url(#cloudGrad1)" />
+      <ellipse cx="230" cy="80" rx="180" ry="50" fill="url(#cloudGrad1)" />
+      <ellipse cx="420" cy="90" rx="190" ry="55" fill="url(#cloudGrad1)" />
+      <ellipse cx="150" cy="110" rx="120" ry="40" fill="url(#cloudGrad1)" />
+      <ellipse cx="490" cy="105" rx="130" ry="40" fill="url(#cloudGrad1)" />
+    </svg>
+  </div>
+  <div class="sky-cloud sky-cloud-2">
+    <svg viewBox="0 0 480 150" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cloudGrad2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+          <stop offset="50%" stop-color="#f8fafc" stop-opacity="0.9"/>
+          <stop offset="85%" stop-color="#cbd5e1" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="240" cy="75" rx="200" ry="45" fill="url(#cloudGrad2)" />
+      <ellipse cx="170" cy="60" rx="140" ry="38" fill="url(#cloudGrad2)" />
+      <ellipse cx="310" cy="65" rx="130" ry="40" fill="url(#cloudGrad2)" />
+    </svg>
+  </div>
+  <div class="sky-cloud sky-cloud-3">
+    <svg viewBox="0 0 580 180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cloudGrad3" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+          <stop offset="50%" stop-color="#f1f5f9" stop-opacity="0.92"/>
+          <stop offset="85%" stop-color="#cbd5e1" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="290" cy="90" rx="250" ry="55" fill="url(#cloudGrad3)" />
+      <ellipse cx="200" cy="70" rx="160" ry="45" fill="url(#cloudGrad3)" />
+      <ellipse cx="370" cy="80" rx="170" ry="50" fill="url(#cloudGrad3)" />
+      <ellipse cx="120" cy="100" rx="100" ry="35" fill="url(#cloudGrad3)" />
+    </svg>
+  </div>
+  <div class="sky-cloud sky-cloud-4">
+    <svg viewBox="0 0 420 130" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cloudGrad4" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+          <stop offset="50%" stop-color="#f8fafc" stop-opacity="0.9"/>
+          <stop offset="85%" stop-color="#cbd5e1" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="210" cy="65" rx="180" ry="40" fill="url(#cloudGrad4)" />
+      <ellipse cx="150" cy="55" rx="120" ry="32" fill="url(#cloudGrad4)" />
+    </svg>
+  </div>
+
+  <!-- Horizon Glow -->
+  <div class="horizon-glow"></div>
 
   <div class="container">
     <div class="hero-grid">
@@ -1516,24 +1677,24 @@
       <div class="hero-right">
         <!-- Circular orbital lines -->
         <svg class="orbital-rings" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="200" cy="200" r="150" stroke="white" stroke-width="1.5" stroke-dasharray="8 8"/>
-          <circle cx="200" cy="200" r="190" stroke="white" stroke-width="1" stroke-dasharray="4 6"/>
+          <circle cx="200" cy="200" r="150" stroke="#0f172a" stroke-width="1.5" stroke-dasharray="8 8"/>
+          <circle cx="200" cy="200" r="190" stroke="#0f172a" stroke-width="1" stroke-dasharray="4 6"/>
         </svg>
 
         <div class="hero-illustration-container">
           <!-- Central student SVG drawing -->
           <svg class="main-student-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Cap -->
-            <path d="M100 20 L160 50 L100 80 L40 50 Z" fill="#3b82f6" fill-opacity="0.2" stroke="#60a5fa" stroke-width="3"/>
-            <path d="M100 80 L100 130 C100 145, 120 145, 120 130" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
-            <path d="M160 50 L160 100 C160 105, 163 110, 168 110" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="168" cy="110" r="4" fill="#f59e0b"/>
+            <path d="M100 20 L160 50 L100 80 L40 50 Z" fill="#0f172a" fill-opacity="0.8" stroke="#0f172a" stroke-width="3"/>
+            <path d="M100 80 L100 130 C100 145, 120 145, 120 130" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M160 50 L160 100 C160 105, 163 110, 168 110" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="168" cy="110" r="4" fill="#d97706"/>
             <!-- Head -->
-            <circle cx="100" cy="110" r="30" fill="#1e3a8a" stroke="#60a5fa" stroke-width="3"/>
+            <circle cx="100" cy="110" r="30" fill="#1e293b" stroke="#0f172a" stroke-width="3"/>
             <!-- Body -->
-            <path d="M50 180 C50 150, 75 140, 100 140 C125 140, 150 150, 150 180" fill="#3b82f6" fill-opacity="0.1" stroke="#60a5fa" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M50 180 C50 150, 75 140, 100 140 C125 140, 150 150, 150 180" fill="#0f172a" fill-opacity="0.75" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
             <!-- Lightbulb above -->
-            <path d="M100 95 L100 100" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+            <path d="M100 95 L100 100" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
           </svg>
 
           <!-- Floating career icons -->
@@ -2269,6 +2430,24 @@
 
   // Typewriter animation on homepage Hero
   document.addEventListener('DOMContentLoaded', () => {
+      // ─── Generate Twinkling Stars ───
+      const starsCanvas = document.getElementById('starsCanvas');
+      if (starsCanvas) {
+          const starCount = 80;
+          for (let i = 0; i < starCount; i++) {
+              const star = document.createElement('div');
+              star.classList.add('star');
+              star.style.left = Math.random() * 100 + '%';
+              star.style.top = Math.random() * 70 + '%'; // mostly upper sky
+              const size = Math.random() * 2.5 + 0.5;
+              star.style.width = size + 'px';
+              star.style.height = size + 'px';
+              star.style.setProperty('--twinkle-dur', (Math.random() * 4 + 2) + 's');
+              star.style.setProperty('--twinkle-delay', (Math.random() * 5) + 's');
+              starsCanvas.appendChild(star);
+          }
+      }
+
       // Timeline scroll animations using IntersectionObserver
       const timelineItems = document.querySelectorAll('.timeline-item');
       const timelineContainer = document.querySelector('.timeline-container');
