@@ -77,19 +77,30 @@
             background: #1d4ed8;
         }
 
-        /* Certificate Container */
+        /* Responsive Container */
+        .certificate-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+            padding: 20px 0;
+            min-height: 650px;
+        }
+
+        /* Certificate Wrapper - Fixed resolution for layout safety */
         .certificate-wrapper {
             background: white;
-            width: 100%;
-            max-width: 900px;
-            aspect-ratio: 1.414 / 1; /* A4 Landscape Ratio */
+            width: 900px;
+            height: 636px;
             position: relative;
-            padding: 30px;
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            transform-origin: center center;
+            flex-shrink: 0;
         }
 
         /* Premium Brand Blue & Gold Border */
@@ -286,21 +297,35 @@
                 display: none !important;
             }
 
+            .certificate-container {
+                padding: 0 !important;
+                margin: 0 !important;
+                min-height: 0 !important;
+                height: 100vh !important;
+                width: 100% !important;
+                display: block !important;
+            }
+
             .certificate-wrapper {
                 box-shadow: none !important;
                 border: none !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                width: 100% !important;
-                max-width: none !important;
-                height: 100vh !important;
-                aspect-ratio: auto !important;
+                transform: none !important;
+                width: 297mm !important; /* Full A4 Landscape width */
+                height: 210mm !important; /* Full A4 Landscape height */
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                display: flex !important;
             }
 
             .certificate-border {
                 border-width: 10px !important;
                 padding: 40px !important;
                 background: white !important;
+                width: 100% !important;
+                height: 100% !important;
             }
 
             @page {
@@ -321,75 +346,108 @@
         </button>
     </div>
 
-    <div class="certificate-wrapper">
-        <div class="certificate-border">
-            <!-- Corners -->
-            <div class="corner-element top-left"></div>
-            <div class="corner-element top-right"></div>
-            <div class="corner-element bottom-left"></div>
-            <div class="corner-element bottom-right"></div>
+    <div class="certificate-container" id="certContainer">
+        <div class="certificate-wrapper" id="certWrapper">
+            <div class="certificate-border">
+                <!-- Corners -->
+                <div class="corner-element top-left"></div>
+                <div class="corner-element top-right"></div>
+                <div class="corner-element bottom-left"></div>
+                <div class="corner-element bottom-right"></div>
 
-            <!-- Header -->
-            <div class="header-section">
-                <div class="logo-text">CareerGyan</div>
-                <div class="logo-sub">Indian Institute of Career Management</div>
-                <h1 class="certificate-title">Certificate of Achievement</h1>
-                <p class="presentation-line">This digital certificate is proudly presented to</p>
-            </div>
-
-            <!-- Recipient -->
-            <div class="recipient-name">{{ $name }}</div>
-
-            <!-- Description -->
-            <div class="description-text">
-                For successfully completing the <strong>{{ $testTitle }}</strong>, demonstrating outstanding cognitive capability, critical analysis, and natural aptitude in <strong>{{ $topCareer }}</strong>.
-            </div>
-
-            <!-- Gold Seal in middle bottom -->
-            <div class="gold-seal-container">
-                <svg class="gold-seal" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="#d4af37" stroke="#aa771c" stroke-width="2"/>
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="5 3"/>
-                    <path d="M50 15 L55 35 L75 35 L60 48 L65 68 L50 55 L35 68 L40 48 L25 35 L45 35 Z" fill="#fff" opacity="0.95"/>
-                    <path d="M40 75 L30 95 L50 88 L70 95 L60 75 Z" fill="#aa771c" opacity="0.8" style="transform-origin: 50% 50%; transform: rotate(180deg) scale(0.8); z-index: -1;"/>
-                </svg>
-            </div>
-
-            <!-- Signatures (Aligned side-by-side: Left Date, Right Signature) -->
-            <div class="footer-section">
-                <!-- Date -->
-                <div class="sig-block" style="align-items: flex-start; width: 200px;">
-                    <div class="sig-image-container" style="align-items: center; font-size: 14px; font-weight: 700; color: var(--brand-dark);">
-                        {{ $date }}
-                    </div>
-                    <div class="sig-line"></div>
-                    <div class="sig-title" style="text-align: left;">Verification Date</div>
-                    <div class="sig-sub" style="text-align: left;">Valid Certificate ID</div>
+                <!-- Header -->
+                <div class="header-section">
+                    <div class="logo-text">CareerGyan</div>
+                    <div class="logo-sub">Indian Institute of Career Management</div>
+                    <h1 class="certificate-title">Certificate of Achievement</h1>
+                    <p class="presentation-line">This digital certificate is proudly presented to</p>
                 </div>
 
-                <!-- Signature of Founder -->
-                <div class="sig-block" style="width: 220px;">
-                    <div class="sig-image-container">
-                        @if(file_exists(public_path('images/about/signature.png')))
-                            <img src="{{ asset('images/about/signature.png') }}" alt="Signature of Founder">
-                        @elseif(file_exists(public_path('images/about/signature.jpg')))
-                            <img src="{{ asset('images/about/signature.jpg') }}" alt="Signature of Founder">
-                        @else
-                            <div style="font-family: 'Playfair Display', serif; font-size: 18px; font-style: italic; font-weight: 700; color: var(--brand-dark); letter-spacing: 1px;">D. D. Kakad</div>
-                        @endif
-                    </div>
-                    <div class="sig-line"></div>
-                    <div class="sig-title">Mr. Dyaneshwar D. Kakad</div>
-                    <div class="sig-sub">Founder, IICM & CareerGyan</div>
-                </div>
-            </div>
+                <!-- Recipient -->
+                <div class="recipient-name">{{ $name }}</div>
 
-            <!-- Metadata/Security verification -->
-            <div class="verification-block">
-                Verification ID: {{ strtoupper($uuid) }} • Securely generated at careergyan.in
+                <!-- Description -->
+                <div class="description-text">
+                    For successfully completing the <strong>{{ $testTitle }}</strong>, demonstrating outstanding cognitive capability, critical analysis, and natural aptitude in <strong>{{ $topCareer }}</strong>.
+                </div>
+
+                <!-- Gold Seal in middle bottom -->
+                <div class="gold-seal-container">
+                    <svg class="gold-seal" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#d4af37" stroke="#aa771c" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="38" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="5 3"/>
+                        <path d="M50 15 L55 35 L75 35 L60 48 L65 68 L50 55 L35 68 L40 48 L25 35 L45 35 Z" fill="#fff" opacity="0.95"/>
+                        <path d="M40 75 L30 95 L50 88 L70 95 L60 75 Z" fill="#aa771c" opacity="0.8" style="transform-origin: 50% 50%; transform: rotate(180deg) scale(0.8); z-index: -1;"/>
+                    </svg>
+                </div>
+
+                <!-- Signatures (Aligned side-by-side: Left Date, Right Signature) -->
+                <div class="footer-section">
+                    <!-- Date -->
+                    <div class="sig-block" style="align-items: flex-start; width: 200px;">
+                        <div class="sig-image-container" style="align-items: center; font-size: 14px; font-weight: 700; color: var(--brand-dark);">
+                            {{ $date }}
+                        </div>
+                        <div class="sig-line"></div>
+                        <div class="sig-title" style="text-align: left;">Verification Date</div>
+                        <div class="sig-sub" style="text-align: left;">Valid Certificate ID</div>
+                    </div>
+
+                    <!-- Signature of Founder -->
+                    <div class="sig-block" style="width: 220px;">
+                        <div class="sig-image-container">
+                            @if(file_exists(public_path('images/about/signature.png')))
+                                <img src="{{ asset('images/about/signature.png') }}" alt="Signature of Founder">
+                            @elseif(file_exists(public_path('images/about/signature.jpg')))
+                                <img src="{{ asset('images/about/signature.jpg') }}" alt="Signature of Founder">
+                            @else
+                                <div style="font-family: 'Playfair Display', serif; font-size: 18px; font-style: italic; font-weight: 700; color: var(--brand-dark); letter-spacing: 1px;">D. D. Kakad</div>
+                            @endif
+                        </div>
+                        <div class="sig-line"></div>
+                        <div class="sig-title">Mr. Dyaneshwar D. Kakad</div>
+                        <div class="sig-sub">Founder, IICM & CareerGyan</div>
+                    </div>
+                </div>
+
+                <!-- Metadata/Security verification -->
+                <div class="verification-block">
+                    Verification ID: {{ strtoupper($uuid) }} • Securely generated at careergyan.in
+                </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function scaleCertificate() {
+            const wrapper = document.getElementById('certWrapper');
+            const container = document.getElementById('certContainer');
+            if (!wrapper || !container) return;
+
+            // Reset scale and height first
+            wrapper.style.transform = 'none';
+            container.style.height = 'auto';
+            container.style.minHeight = '650px';
+
+            const containerWidth = container.offsetWidth;
+            const designWidth = 900;
+            const designHeight = 636;
+
+            if (containerWidth < designWidth) {
+                // Calculate scale ratio based on available width
+                const scale = (containerWidth - 20) / designWidth; // 10px padding on each side
+                wrapper.style.transform = `scale(${scale})`;
+                container.style.height = (designHeight * scale + 40) + 'px';
+                container.style.minHeight = '0';
+            } else {
+                container.style.height = '636px';
+            }
+        }
+
+        window.addEventListener('load', scaleCertificate);
+        window.addEventListener('resize', scaleCertificate);
+        // Force scaling after fonts are loaded for accuracy
+        document.fonts.ready.then(scaleCertificate);
+    </script>
 </body>
 </html>
