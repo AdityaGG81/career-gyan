@@ -473,18 +473,12 @@
                                         <span>Type: {{ $c->college_type }}</span>
                                     </div>
                                 @endif
-                                @if($c->course_name)
-                                    <div class="college-info-row" title="{{ $c->course_name }}">
-                                        <i class="fa-solid fa-book-open"></i>
-                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">
-                                            Course: <strong>{{ $c->course_name }}</strong>
-                                        </span>
-                                    </div>
-                                @endif
-                                @if($c->course_type)
+                                @if($c->course_count > 0)
                                     <div class="college-info-row">
-                                        <i class="fa-solid fa-layer-group"></i>
-                                        <span>Level: <strong>{{ $c->course_type }}</strong></span>
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>
+                                            <strong>{{ $c->course_count }}</strong> {{ $c->course_count == 1 ? 'Course' : 'Courses' }} Offered
+                                        </span>
                                     </div>
                                 @endif
                             </div>
