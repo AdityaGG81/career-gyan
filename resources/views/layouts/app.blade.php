@@ -13,6 +13,11 @@
 <link rel="icon" type="image/png" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
 <link rel="shortcut icon" href="{{ asset('careergyan-tab-logo.ico') }}?v=10">
 <link rel="apple-touch-icon" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5044851395641771"
+     crossorigin="anonymous"></script>
+
 <style>
   :root {
     --brand: #1a56db;
@@ -1582,6 +1587,17 @@
   });
 
   searchInput.addEventListener('input', performSearch);
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const query = searchInput.value.trim();
+      if (query.length >= 2) {
+        e.preventDefault();
+        saveSearchHistory(query);
+        closeSearch();
+        window.location.href = `/search-redirect?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
 
   /* ─── Navbar Auto-Suggestions Logic ─── */
   const navSearchInput = document.getElementById('navGlobalSearchInput');
@@ -1732,13 +1748,14 @@
 
     navSearchInput.addEventListener('keydown', (e) => {
       const items = navSearchSuggestions.querySelectorAll('.nav-sug-item');
-      if (!items || items.length === 0) return;
 
       if (e.key === 'ArrowDown') {
+        if (!items || items.length === 0) return;
         e.preventDefault();
         navSelectedIndex = (navSelectedIndex + 1) % items.length;
         updateNavSelection(items);
       } else if (e.key === 'ArrowUp') {
+        if (!items || items.length === 0) return;
         e.preventDefault();
         navSelectedIndex = (navSelectedIndex - 1 + items.length) % items.length;
         updateNavSelection(items);
@@ -1746,9 +1763,15 @@
         if (navSelectedIndex >= 0 && items[navSelectedIndex]) {
           e.preventDefault();
           items[navSelectedIndex].click();
-        } else if (items.length > 0) {
+        } else if (items && items.length > 0) {
           e.preventDefault();
           items[0].click();
+        } else {
+          const query = navSearchInput.value.trim();
+          if (query.length >= 2) {
+            e.preventDefault();
+            window.location.href = `/search-redirect?q=${encodeURIComponent(query)}`;
+          }
         }
       } else if (e.key === 'Escape') {
         navSearchSuggestions.style.display = 'none';

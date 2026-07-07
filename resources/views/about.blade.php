@@ -393,6 +393,66 @@
     color: var(--text-1);
 }
 
+.team-members-list--vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.creative-team-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+.creative-team-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+@media (max-width: 640px) {
+    .creative-team-cols {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.team-member--large {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    gap: 16px !important;
+    width: 100%;
+}
+.team-avatar-large {
+    width: 240px;
+    height: 240px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    border: 4px solid var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+.team-avatar-large:hover {
+    transform: scale(1.03);
+}
+.team-avatar-large--has-image {
+    height: auto;
+}
+.team-avatar-large img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.team-avatar-large--text {
+    font-size: 64px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+}
+
 /* ─── FAQ Section ─── */
 .faq-section {
     padding: 80px 0;
@@ -706,43 +766,71 @@
         </div>
 
         <div class="team-grid">
-            {{-- Principal --}}
+            {{-- Principal / Founder --}}
             <div class="team-role-card fade-up">
-                <div class="team-role-badge role-principal"><i class="fa-solid fa-crown"></i> Principal</div>
-                <div class="team-member">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #1e3a8a, #1d4ed8);">DD</div>
-                    <div class="team-member-name">Mr. Dynaneshwar D. Kakad</div>
+                <div class="team-role-badge role-principal"><i class="fa-solid fa-crown"></i> Founder</div>
+                <div class="team-member team-member--large">
+                    <div class="team-member-name" style="margin-top: 12px;">Mr. Dyaneshwar D. Kakad</div>
+                    @if(file_exists(public_path('images/about/dyaneshwar_kakad.jpg')))
+                        <div class="team-avatar-large team-avatar-large--has-image">
+                            <img src="{{ asset('images/about/dyaneshwar_kakad.jpg') }}" alt="Mr. Dyaneshwar D. Kakad">
+                        </div>
+                    @else
+                        <div class="team-avatar-large team-avatar-large--text" style="background: linear-gradient(135deg, #1e3a8a, #1d4ed8);">DD</div>
+                    @endif
                 </div>
             </div>
 
             {{-- CEO --}}
             <div class="team-role-card fade-up" style="transition-delay:.1s;">
                 <div class="team-role-badge role-ceo"><i class="fa-solid fa-star"></i> CEO</div>
-                <div class="team-member">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">SK</div>
-                    <div class="team-member-name">Er. Sudarshan D. Kakad</div>
+                <div class="team-member team-member--large">
+                    <div class="team-member-name" style="margin-top: 12px;">Sudarshan D. Kakad</div>
+                    @if(file_exists(public_path('images/about/sudarshan_kakad.jpg')))
+                        <div class="team-avatar-large team-avatar-large--has-image">
+                            <img src="{{ asset('images/about/sudarshan_kakad.jpg') }}" alt="Sudarshan D. Kakad">
+                        </div>
+                    @else
+                        <div class="team-avatar-large team-avatar-large--text" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">SK</div>
+                    @endif
                 </div>
             </div>
 
             {{-- Creative Team --}}
             <div class="team-role-card team-role-card--wide fade-up" style="transition-delay:.2s;">
                 <div class="team-role-badge role-creative"><i class="fa-solid fa-palette"></i> Creative Team</div>
-                <div class="team-members-list">
-                    <div class="team-member">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #0284c7, #38bdf8);">AG</div>
-                        <div class="team-member-name">Er. Abhishek Gite</div>
+                <div class="creative-team-cols">
+                    <div class="creative-team-col">
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #0284c7, #38bdf8);">AG</div>
+                            <div class="team-member-name">Abhishek Gite</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">OA</div>
+                            <div class="team-member-name">Omkar Avhad</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #059669, #10b981);">AG</div>
+                            <div class="team-member-name">Aditya Ghorpade</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #d97706, #f59e0b);">SC</div>
+                            <div class="team-member-name">Shubham Chitte</div>
+                        </div>
                     </div>
-                    <div class="team-member">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">OA</div>
-                        <div class="team-member-name">Er. Omkar Avhad</div>
-                    </div>
-                    <div class="team-member">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #059669, #10b981);">AG</div>
-                        <div class="team-member-name">Er. Aditya Ghorpade</div>
-                    </div>
-                    <div class="team-member">
-                        <div class="team-avatar" style="background: linear-gradient(135deg, #d97706, #f59e0b);">SC</div>
-                        <div class="team-member-name">Er. Shubham Chitte</div>
+                    <div class="creative-team-col">
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #ec4899, #f472b6);">BM</div>
+                            <div class="team-member-name">Bhakti Murdare</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);">AP</div>
+                            <div class="team-member-name">Aditya Pingle</div>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar" style="background: linear-gradient(135deg, #10b981, #34d399);">VP</div>
+                            <div class="team-member-name">Vedant Patil</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -750,10 +838,10 @@
             {{-- Special Thanks --}}
             <div class="team-role-card team-role-card--wide fade-up" style="transition-delay:.3s;">
                 <div class="team-role-badge role-thanks"><i class="fa-solid fa-heart"></i> Special Thanks &amp; Gratitude</div>
-                <div class="team-members-list">
+                <div class="team-members-list team-members-list--vertical">
                     <div class="team-member">
                         <div class="team-avatar" style="background: linear-gradient(135deg, #be185d, #ec4899);">JP</div>
-                        <div class="team-member-name">Er. Jay Pardeshi</div>
+                        <div class="team-member-name">Jay Pardeshi</div>
                     </div>
                     <div class="team-member">
                         <div class="team-avatar" style="background: linear-gradient(135deg, #9333ea, #c084fc);">SJ</div>
@@ -807,7 +895,7 @@
                     <div class="faq-toggle"><i class="fa-solid fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-inner">CareerGyan is developed by the Indian Institute of Career Management, led by Mr. Dynaneshwar D. Kakad (Principal) and Er. Sudarshan D. Kakad (CEO), along with a dedicated creative team.</div>
+                    <div class="faq-answer-inner">CareerGyan is developed by the Indian Institute of Career Management, led by Mr. Dyaneshwar D. Kakad (Founder &amp; Principal) and Sudarshan D. Kakad (CEO), along with a dedicated creative team.</div>
                 </div>
             </div>
             <div class="faq-item fade-up" style="transition-delay:.2s;">
