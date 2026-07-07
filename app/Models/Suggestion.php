@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Suggestion extends Model
 {
-    protected $fillable = ['name', 'email', 'role', 'message'];
+    protected $fillable = ['name', 'email', 'phone', 'role', 'message'];
 }

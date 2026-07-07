@@ -234,6 +234,9 @@
             <button onclick="toggleAnswersheet()" class="action-btn btn-outline">
                 <i class="fa-solid fa-list-check"></i> Show Answersheet
             </button>
+            <a href="{{ route('test.certificate', $session->uuid) }}" target="_blank" class="action-btn" style="background: #10b981;">
+                <i class="fa-solid fa-award"></i> View Certificate
+            </a>
             <button onclick="window.print()" class="action-btn">
                 <i class="fa-solid fa-file-pdf"></i> Download Report
             </button>

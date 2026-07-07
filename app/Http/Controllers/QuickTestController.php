@@ -356,4 +356,21 @@ class QuickTestController extends Controller
 
         return $para;
     }
+
+    public function certificate($uuid)
+    {
+        $attempt = QuickTestAttempt::where('uuid', $uuid)->firstOrFail();
+        
+        $name = Auth::user()->name;
+        $testTitle = 'Quick Career Test';
+        $date = $attempt->created_at ? $attempt->created_at->format('d F Y') : now()->format('d F Y');
+        
+        $recommended = $attempt->recommended_careers ?? [];
+        $topCareer = 'N/A';
+        if (!empty($recommended) && isset($recommended[0]['section'])) {
+            $topCareer = $recommended[0]['section'];
+        }
+        
+        return view('certificate.show', compact('name', 'testTitle', 'date', 'uuid', 'topCareer'));
+    }
 }

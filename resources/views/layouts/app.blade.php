@@ -1294,6 +1294,7 @@
           <a href="{{ url('/explore') }}">Explore Careers</a>
           <a href="{{ url('/blog') }}">Blog</a>
           <a href="{{ url('/about') }}">About Us</a>
+          <a href="{{ route('contact.show') }}">Contact Us</a>
           <a href="{{ route('quick-test.start') }}">Quick Test</a>
           <a href="{{ route('test.start') }}">Advance Test</a>
         </div>
@@ -1310,6 +1311,7 @@
         <div class="footer-col">
           <h4>Get In Touch</h4>
           <a href="mailto:admin@careergyan.in"><i class="fa-solid fa-envelope" style="margin-right:6px;"></i>admin@careergyan.in</a>
+          <a href="tel:+919876543210"><i class="fa-solid fa-phone" style="margin-right:6px;"></i>+91 98765 43210</a>
           <a href="#"><i class="fa-solid fa-location-dot" style="margin-right:6px;"></i>Nashik, Maharashtra, India</a>
           <a href="#"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Mon-Sat: 8AM - 6PM</a>
         </div>

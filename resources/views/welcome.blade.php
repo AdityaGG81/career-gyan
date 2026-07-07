@@ -2370,12 +2370,15 @@
               <input type="text" name="website" value="">
             </div>
 
-            <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
               <div class="form-group">
                 <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
               </div>
               <div class="form-group">
                 <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="Phone Number">
               </div>
             </div>
 

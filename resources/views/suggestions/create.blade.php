@@ -56,16 +56,22 @@
                     <input type="text" name="website" id="website" value="{{ old('website') }}">
                 </div>
 
-                <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-8">
                     <div>
                         <div class="mt-1">
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Name">
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Name">
                         </div>
                     </div>
                     
                     <div>
                         <div class="mt-1">
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Email">
+                            <input type="email" name="email" id="email" value="{{ old('email') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="mt-1">
+                            <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" class="py-3 px-4 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border border-gray-300 rounded-xl bg-gray-50/50 transition duration-150 ease-in-out" placeholder="Phone Number">
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,8 @@ use App\Http\Controllers\AiCareerChatController;
 use App\Http\Controllers\DailyQuizController;
 use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\IndianCollegeController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\AdvancedTestController;
 
 // Main pages
 Route::get('/', function () {
@@ -107,6 +109,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/test/quiz', [TestController::class, 'quiz'])->name('test.quiz');
     Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
     Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
+    Route::get('/test/certificate/{uuid}', [TestController::class, 'certificate'])->name('test.certificate');
+    Route::get('/quick-test/certificate/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'certificate'])->name('quick-test.certificate');
+
+
 
     // College Reviews (Auth required to store)
     Route::post('/colleges/{college}/reviews', [\App\Http\Controllers\CollegeReviewController::class, 'store'])->name('college.reviews.store');
@@ -122,6 +128,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/daily-quiz/my-stats', [DailyQuizController::class, 'myStats'])->name('daily-quiz.my-stats');
 });
 
+
+
 // Quick Test (Public)
 Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
 Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
@@ -130,6 +138,8 @@ Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestControl
 
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
+Route::get('/suggestion', [SuggestionController::class, 'create'])->name('suggestion.create');
+Route::get('/contact', [SuggestionController::class, 'create'])->name('contact.show');
 
 // AI Chatbot (moved to auth group)
 

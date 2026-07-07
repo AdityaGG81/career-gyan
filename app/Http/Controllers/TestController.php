@@ -9,16 +9,30 @@ use App\Models\Question;
 use App\Models\Career;
 use App\Models\Field;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
     public function start()
     {
+        if (Auth::check()) {
+            $existing = TestSession::where('user_id', Auth::id())->first();
+            if ($existing) {
+                return redirect()->route('test.results', $existing->uuid);
+            }
+        }
         return redirect()->route('test.quiz');
     }
 
     public function quiz()
     {
+        if (Auth::check()) {
+            $existing = TestSession::where('user_id', Auth::id())->first();
+            if ($existing) {
+                return redirect()->route('test.results', $existing->uuid);
+            }
+        }
+
         $dimensionLimits = [
             'language-aptitude' => 5,
             'verbal-reasoning' => 5,
@@ -98,6 +112,7 @@ class TestController extends Controller
         $profile['answers'] = $answers;
 
         $session = TestSession::create([
+            'user_id' => Auth::id(),
             'uuid' => Str::uuid(),
             'user_inputs' => $profile,
             'aptitude_scores' => $finalScores
@@ -214,5 +229,26 @@ class TestController extends Controller
             'recommended_careers' => $top5,
             'recommended_fields'  => $topFields
         ]);
+    }
+
+    public function certificate($uuid)
+    {
+        $session = TestSession::where('uuid', $uuid)->firstOrFail();
+        
+        $name = Auth::user()->name;
+        $testTitle = 'Career Aptitude Assessment';
+        $date = $session->created_at ? $session->created_at->format('d F Y') : now()->format('d F Y');
+        
+        $recommendedIds = $session->recommended_careers ?? [];
+        $topCareer = 'N/A';
+        if (!empty($recommendedIds)) {
+            $careerId = key($recommendedIds);
+            $careerObj = Career::find($careerId);
+            if ($careerObj) {
+                $topCareer = $careerObj->title;
+            }
+        }
+        
+        return view('certificate.show', compact('name', 'testTitle', 'date', 'uuid', 'topCareer'));
     }
 }
