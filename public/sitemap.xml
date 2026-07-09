@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>http://localhost/sitemap-1.xml</loc>
-    <lastmod>2026-07-09T13:26:39+00:00</lastmod>
+    <loc>https://careergyan.in/sitemap-1.xml</loc>
+    <lastmod>2026-07-09T13:29:23+00:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>http://localhost/sitemap-2.xml</loc>
-    <lastmod>2026-07-09T13:26:39+00:00</lastmod>
+    <loc>https://careergyan.in/sitemap-2.xml</loc>
+    <lastmod>2026-07-09T13:29:23+00:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>http://localhost/sitemap-3.xml</loc>
-    <lastmod>2026-07-09T13:26:39+00:00</lastmod>
+    <loc>https://careergyan.in/sitemap-3.xml</loc>
+    <lastmod>2026-07-09T13:29:23+00:00</lastmod>
   </sitemap>
 </sitemapindex>

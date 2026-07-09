@@ -25,8 +25,10 @@ class GenerateSitemap extends Command
     {
         $this->info('Generating chunked sitemaps...');
 
-        $this->baseUrl = url('/');
+        // Force the base URL to the production domain for SEO purposes
+        $this->baseUrl = 'https://careergyan.in';
         $this->now = Carbon::now()->toAtomString();
+
         
         $this->startNewSitemap();
 
