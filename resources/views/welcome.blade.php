@@ -1747,7 +1747,7 @@
       0 15px 40px rgba(0, 0, 0, 0.6);
     animation: inaugRibbonIn 1.2s ease-out 0.6s both;
     z-index: 5;
-    cursor: url('/images/scissors.svg') 16 16, pointer;
+    cursor: none; /* Hide default cursor so custom JS cursor shows */
   }
 
   .ribbon-band-inner {
@@ -3096,6 +3096,9 @@
   </div>
 </div>
 
+<!-- Custom Scissors Cursor -->
+<div id="custom-scissors" style="position: fixed; pointer-events: none; z-index: 99999; display: none; font-size: 40px; transform: translate(-50%, -50%); text-shadow: 0 0 10px rgba(255,255,255,0.8);">✂️</div>
+
 <canvas id="confetti-canvas"></canvas>
 
 <script>
@@ -3116,6 +3119,24 @@
   let currentState = 'ribbon_hidden';
   let hasPlayedCut = false;
   let pollingInterval = null;
+
+  // Custom cursor logic
+  const customScissors = document.getElementById('custom-scissors');
+  
+  ribbonMain.addEventListener('mousemove', (e) => {
+    customScissors.style.left = e.clientX + 'px';
+    customScissors.style.top = e.clientY + 'px';
+  });
+  
+  ribbonMain.addEventListener('mouseenter', () => {
+    if (currentState === 'ribbon_visible') {
+      customScissors.style.display = 'block';
+    }
+  });
+  
+  ribbonMain.addEventListener('mouseleave', () => {
+    customScissors.style.display = 'none';
+  });
 
   // Add click listener for visitors to cut the ribbon
   ribbonMain.addEventListener('click', () => {
@@ -3142,6 +3163,7 @@
     curtainLeft.style.display = 'none';
     curtainRight.style.display = 'none';
     curtainValance.style.display = 'none';
+    customScissors.style.display = 'none';
   }
   hideAll();
 
