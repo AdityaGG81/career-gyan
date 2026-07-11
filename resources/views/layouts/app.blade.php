@@ -1282,10 +1282,10 @@
           <div class="footer-slogan">ज्ञानात् ज्ञानं ततः सिद्धिः</div>
           <div class="footer-slogan-meaning">From knowledge comes wisdom, from wisdom comes success</div>
           <div class="footer-social">
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="javascript:void(0)" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="javascript:void(0)" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="javascript:void(0)" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="javascript:void(0)" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
           </div>
         </div>
 
@@ -1313,8 +1313,8 @@
           <h4>Get In Touch</h4>
           <a href="mailto:admin@careergyan.in"><i class="fa-solid fa-envelope" style="margin-right:6px;"></i>admin@careergyan.in</a>
           <a href="tel:+919876543210"><i class="fa-solid fa-phone" style="margin-right:6px;"></i>+91 98765 43210</a>
-          <a href="#"><i class="fa-solid fa-location-dot" style="margin-right:6px;"></i>Nashik, Maharashtra, India</a>
-          <a href="#"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Mon-Sat: 8AM - 6PM</a>
+          <span style="display:block; color:rgba(255,255,255,.7); margin-bottom:12px;"><i class="fa-solid fa-location-dot" style="margin-right:6px;"></i>Nashik, Maharashtra, India</span>
+          <span style="display:block; color:rgba(255,255,255,.7); margin-bottom:12px;"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Mon-Sat: 8AM - 6PM</span>
         </div>
       </div>
 
