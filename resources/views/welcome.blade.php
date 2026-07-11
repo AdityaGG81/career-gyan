@@ -3144,12 +3144,11 @@
   let currentState = 'ribbon_hidden';
   let hasPlayedCut = false;
   let pollingInterval = null;
-
   const cutRibbonBtn = document.getElementById('cutRibbonBtn');
 
   // Add click listener for the button to cut the ribbon
   cutRibbonBtn.addEventListener('click', () => {
-    if (currentState === 'ribbon_visible') {
+    if (currentState === 'ribbon_unlocked') {
       // Optimistically play the cut animation locally
       handleState('ribbon_cut');
       
@@ -3424,6 +3423,16 @@
 
     if (newState === 'ribbon_visible') {
       showRibbonOverlay();
+      cutRibbonBtn.disabled = true;
+      cutRibbonBtn.innerHTML = '🔒 Locked';
+      cutRibbonBtn.style.opacity = '0.5';
+      cutRibbonBtn.style.cursor = 'not-allowed';
+    } else if (newState === 'ribbon_unlocked') {
+      showRibbonOverlay();
+      cutRibbonBtn.disabled = false;
+      cutRibbonBtn.innerHTML = '✂️ Cut the Ribbon';
+      cutRibbonBtn.style.opacity = '1';
+      cutRibbonBtn.style.cursor = 'pointer';
     } else if (newState === 'ribbon_cut') {
       if (prevState === 'ribbon_hidden') {
         // The ribbon was already cut before the user loaded the page.

@@ -45,7 +45,23 @@ class InaugurationController extends Controller
             ->where('key', 'inauguration_state')
             ->update(['value' => 'ribbon_visible', 'updated_at' => now()]);
 
-        return redirect()->route('admin.inauguration')->with('success', '🎀 Ribbon is now visible to all visitors!');
+        return redirect()->route('admin.inauguration')->with('success', '🎀 Ribbon is now visible to all visitors! (Locked)');
+    }
+
+    /**
+     * Admin action — unlock the ribbon for cutting.
+     */
+    public function unlockRibbon()
+    {
+        if (!session()->has('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
+        DB::table('site_settings')
+            ->where('key', 'inauguration_state')
+            ->update(['value' => 'ribbon_unlocked', 'updated_at' => now()]);
+
+        return redirect()->route('admin.inauguration')->with('success', '🔓 Ribbon is now unlocked! It can be cut from the frontend.');
     }
 
     /**

@@ -258,6 +258,7 @@ Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name
 // Admin Inauguration Controls
 Route::get('/admin/inauguration', [InaugurationController::class, 'index'])->name('admin.inauguration');
 Route::post('/admin/inauguration/show-ribbon', [InaugurationController::class, 'showRibbon'])->name('admin.inauguration.show');
+Route::post('/admin/inauguration/unlock-ribbon', [InaugurationController::class, 'unlockRibbon'])->name('admin.inauguration.unlock');
 Route::post('/admin/inauguration/cut-ribbon', [InaugurationController::class, 'cutRibbon'])->name('admin.inauguration.cut');
 Route::post('/admin/inauguration/reset', [InaugurationController::class, 'resetRibbon'])->name('admin.inauguration.reset');
 

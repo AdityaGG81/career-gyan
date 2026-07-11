@@ -411,7 +411,7 @@
 <div class="controls-grid">
   <!-- Show Ribbon -->
   <div class="control-card">
-    <span class="card-icon">🎀</span>
+    <span class="card-icon">👁️</span>
     <h3>Show Ribbon</h3>
     <p>Display the inauguration ribbon on the landing page for all visitors. This is Step 1.</p>
     <form action="{{ route('admin.inauguration.show') }}" method="POST" style="display:inline;">
@@ -423,6 +423,20 @@
     </form>
   </div>
 
+  <!-- Unlock Ribbon -->
+  <div class="control-card">
+    <span class="card-icon">🔓</span>
+    <h3>Unlock Ribbon</h3>
+    <p>Unlock the ribbon so the VIP can click the Cut button on the front page.</p>
+    <form action="{{ route('admin.inauguration.unlock') }}" method="POST" style="display:inline;">
+      @csrf
+      <button type="submit" class="inaug-btn" style="background: #eab308; color: white;" {{ $state !== 'ribbon_visible' ? 'disabled' : '' }}
+        onclick="return confirm('Unlock the ribbon for cutting?')">
+        <i class="fa-solid fa-unlock"></i> Unlock Cut Button
+      </button>
+    </form>
+  </div>
+
   <!-- Cut Ribbon -->
   <div class="control-card">
     <span class="card-icon">✂️</span>
@@ -430,7 +444,7 @@
     <p>Cut the ribbon and trigger a full-screen confetti celebration on everyone's screen!</p>
     <form action="{{ route('admin.inauguration.cut') }}" method="POST" style="display:inline;">
       @csrf
-      <button type="submit" class="inaug-btn btn-cut-ribbon" {{ $state !== 'ribbon_visible' ? 'disabled' : '' }}
+      <button type="submit" class="inaug-btn btn-cut-ribbon" {{ !in_array($state, ['ribbon_visible', 'ribbon_unlocked']) ? 'disabled' : '' }}
         onclick="return confirm('🎉 CUT THE RIBBON? Confetti will blast on all screens!')">
         <i class="fa-solid fa-scissors"></i> Cut Ribbon
       </button>
@@ -460,7 +474,11 @@
       <span class="preview-text">Ribbon is hidden — normal website view</span>
     @elseif($state === 'ribbon_visible')
       <div class="mini-ribbon">
-        <span class="mini-ribbon-text">✦ GRAND OPENING ✦</span>
+        <span class="mini-ribbon-text">🎀 GRAND OPENING 🎀 (Locked)</span>
+      </div>
+    @elseif($state === 'ribbon_unlocked')
+      <div class="mini-ribbon">
+        <span class="mini-ribbon-text">🎀 GRAND OPENING 🎀 (Unlocked)</span>
       </div>
     @else
       <div class="mini-ribbon cut">
