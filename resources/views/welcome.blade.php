@@ -1747,7 +1747,7 @@
       0 15px 40px rgba(0, 0, 0, 0.6);
     animation: inaugRibbonIn 1.2s ease-out 0.6s both;
     z-index: 5;
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px'><text y='32'>✂️</text></svg>") 16 16, pointer;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px'%3E%3Ctext y='32'%3E%E2%9C%82%EF%B8%8F%3C/text%3E%3C/svg%3E") 16 16, pointer;
   }
 
   .ribbon-band-inner {
