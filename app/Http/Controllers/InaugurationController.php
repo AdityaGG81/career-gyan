@@ -21,6 +21,18 @@ class InaugurationController extends Controller
     }
 
     /**
+     * Public JSON API — allows anyone clicking the ribbon to cut it for everyone.
+     */
+    public function publicCut()
+    {
+        DB::table('site_settings')
+            ->where('key', 'inauguration_state')
+            ->update(['value' => 'ribbon_cut', 'updated_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
      * Admin action — show the ribbon on the landing page for all visitors.
      */
     public function showRibbon()

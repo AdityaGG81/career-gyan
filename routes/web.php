@@ -162,6 +162,7 @@ Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show']
 
 // Inauguration — Public polling API
 Route::get('/api/inauguration/state', [InaugurationController::class, 'getState'])->name('inauguration.state');
+Route::post('/api/inauguration/cut', [InaugurationController::class, 'publicCut'])->name('inauguration.cut');
 
 // Admin Auth
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');

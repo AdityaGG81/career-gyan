@@ -1747,6 +1747,7 @@
       0 15px 40px rgba(0, 0, 0, 0.6);
     animation: inaugRibbonIn 1.2s ease-out 0.6s both;
     z-index: 5;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:32px'><text y='32'>✂️</text></svg>") 16 16, pointer;
   }
 
   .ribbon-band-inner {
@@ -3115,6 +3116,23 @@
   let currentState = 'ribbon_hidden';
   let hasPlayedCut = false;
   let pollingInterval = null;
+
+  // Add click listener for visitors to cut the ribbon
+  ribbonMain.addEventListener('click', () => {
+    if (currentState === 'ribbon_visible') {
+      // Optimistically play the cut animation locally
+      handleState('ribbon_cut');
+      
+      // Notify the server so everyone else sees it cut too
+      fetch('/api/inauguration/cut', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      }).catch(err => console.error('Failed to cut globally:', err));
+    }
+  });
 
   // Initially hide all inauguration elements
   function hideAll() {
