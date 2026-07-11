@@ -3030,5 +3030,388 @@
       });
   });
 </script>
+<!-- ═══ INAUGURATION: THEATRE CURTAINS + GRAND RIBBON ═══ -->
 
+<!-- Left Curtain -->
+<div class="theatre-curtain curtain-left" id="curtainLeft">
+  <div class="curtain-fabric"></div>
+  <div class="curtain-folds"></div>
+  <div class="curtain-sheen"></div>
+  <div class="curtain-fringe"></div>
+</div>
+
+<!-- Right Curtain -->
+<div class="theatre-curtain curtain-right" id="curtainRight">
+  <div class="curtain-fabric"></div>
+  <div class="curtain-folds"></div>
+  <div class="curtain-sheen"></div>
+  <div class="curtain-fringe"></div>
+</div>
+
+<!-- Gold Valance -->
+<div class="curtain-valance" id="curtainValance"></div>
+
+<!-- Dark backdrop behind curtains -->
+<div id="inaug-overlay">
+  <canvas class="sparkle-canvas" id="sparkleCanvas"></canvas>
+</div>
+
+<!-- Content layer: text + ribbon -->
+<div class="inaug-content" id="inaugContent">
+  <div class="inaug-top-label">
+    <span class="inaug-subtitle">✦ Welcome to the Grand Opening ✦</span>
+    <div class="inaug-title">CareerGyan</div>
+  </div>
+
+  <div class="ribbon-container" id="ribbonMain">
+    <div class="ribbon-band">
+      <div class="ribbon-band-inner">
+        <div class="ribbon-fabric"></div>
+        <div class="ribbon-satin"></div>
+        <div class="ribbon-shimmer"></div>
+        <div class="ribbon-text">✦ GRAND INAUGURATION ✦</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ribbon-container" id="ribbonCut" style="display:none;">
+    <div class="ribbon-cut-wrap active">
+      <div class="cut-half cut-half-left">
+        <div class="ribbon-band-inner">
+          <div class="cut-half-inner"></div>
+        </div>
+      </div>
+      <div class="cut-half cut-half-right">
+        <div class="ribbon-band-inner">
+          <div class="cut-half-inner"></div>
+        </div>
+      </div>
+    </div>
+    <div class="scissors-flash" id="scissorsFlash">✂️</div>
+  </div>
+
+  <div class="inaug-bottom-label">
+    <p>Indian Institute of Career Management</p>
+  </div>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+(function() {
+  'use strict';
+
+  const overlay = document.getElementById('inaug-overlay');
+  const inaugContent = document.getElementById('inaugContent');
+  const ribbonMain = document.getElementById('ribbonMain');
+  const ribbonCut = document.getElementById('ribbonCut');
+  const scissorsFlash = document.getElementById('scissorsFlash');
+  const confettiCanvas = document.getElementById('confetti-canvas');
+  const sparkleCanvas = document.getElementById('sparkleCanvas');
+  const curtainLeft = document.getElementById('curtainLeft');
+  const curtainRight = document.getElementById('curtainRight');
+  const curtainValance = document.getElementById('curtainValance');
+
+  let currentState = 'ribbon_hidden';
+  let hasPlayedCut = false;
+  let pollingInterval = null;
+
+  // Initially hide all inauguration elements
+  function hideAll() {
+    overlay.style.display = 'none';
+    overlay.classList.remove('visible');
+    inaugContent.style.display = 'none';
+    curtainLeft.style.display = 'none';
+    curtainRight.style.display = 'none';
+    curtainValance.style.display = 'none';
+  }
+  hideAll();
+
+  // ─── Sparkle Particles ───
+  function initSparkles() {
+    const ctx = sparkleCanvas.getContext('2d');
+    let particles = [];
+    const count = 80;
+
+    function resize() {
+      sparkleCanvas.width = window.innerWidth;
+      sparkleCanvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * sparkleCanvas.width,
+        y: Math.random() * sparkleCanvas.height,
+        size: Math.random() * 3 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.4,
+        speedY: (Math.random() - 0.5) * 0.4,
+        opacity: Math.random() * 0.7 + 0.2,
+        pulse: Math.random() * Math.PI * 2,
+        color: Math.random() > 0.5 ? '255, 215, 0' : '255, 255, 255',
+      });
+    }
+
+    function animate() {
+      if (!overlay.classList.contains('visible')) return;
+      ctx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+
+      particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.pulse += 0.025;
+        const alpha = p.opacity * (0.4 + 0.6 * Math.sin(p.pulse));
+
+        if (p.x < 0) p.x = sparkleCanvas.width;
+        if (p.x > sparkleCanvas.width) p.x = 0;
+        if (p.y < 0) p.y = sparkleCanvas.height;
+        if (p.y > sparkleCanvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.color}, ${alpha})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  // ─── Confetti Engine (500 pieces!) ───
+  function fireConfetti() {
+    const ctx = confettiCanvas.getContext('2d');
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+    confettiCanvas.style.display = 'block';
+
+    const colors = [
+      '#ef4444', '#f59e0b', '#fbbf24', '#22c55e', '#3b82f6',
+      '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#06b6d4',
+      '#e11d48', '#a855f7', '#facc15', '#34d399', '#ffd700',
+      '#ff6b6b', '#48dbfb', '#ff9ff3', '#00d2d3', '#54a0ff'
+    ];
+
+    const pieces = [];
+    const totalPieces = 500;
+
+    const origins = [
+      { x: 0, y: confettiCanvas.height * 0.5 },
+      { x: confettiCanvas.width * 0.2, y: confettiCanvas.height * 0.4 },
+      { x: confettiCanvas.width * 0.5, y: confettiCanvas.height * 0.35 },
+      { x: confettiCanvas.width * 0.8, y: confettiCanvas.height * 0.4 },
+      { x: confettiCanvas.width, y: confettiCanvas.height * 0.5 },
+      { x: confettiCanvas.width * 0.35, y: confettiCanvas.height * 0.6 },
+      { x: confettiCanvas.width * 0.65, y: confettiCanvas.height * 0.6 },
+    ];
+
+    for (let i = 0; i < totalPieces; i++) {
+      const origin = origins[Math.floor(Math.random() * origins.length)];
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.4;
+      const speed = Math.random() * 22 + 8;
+      const shapes = ['circle', 'rect', 'strip', 'star'];
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+
+      pieces.push({
+        x: origin.x + (Math.random() - 0.5) * 60,
+        y: origin.y,
+        vx: Math.cos(angle) * speed * (origin.x < confettiCanvas.width / 2 ? 1 : -1) * (Math.random() * 0.6 + 0.4),
+        vy: Math.sin(angle) * speed - Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 18,
+        size: Math.random() * 10 + 4,
+        gravity: 0.15 + Math.random() * 0.1,
+        drag: 0.98 + Math.random() * 0.015,
+        opacity: 1,
+        shape: shape,
+        wobble: Math.random() * Math.PI * 2,
+        wobbleSpeed: Math.random() * 0.15 + 0.04,
+      });
+    }
+
+    let startTime = Date.now();
+
+    function animate() {
+      const elapsed = Date.now() - startTime;
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      let alive = false;
+
+      pieces.forEach(p => {
+        p.vy += p.gravity;
+        p.vx *= p.drag;
+        p.vy *= p.drag;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rotation += p.rotationSpeed;
+        p.wobble += p.wobbleSpeed;
+        p.x += Math.sin(p.wobble) * 2;
+
+        if (elapsed > 4000) p.opacity -= 0.006;
+        if (p.opacity <= 0 || p.y > confettiCanvas.height + 60) return;
+        alive = true;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.globalAlpha = Math.max(0, p.opacity);
+
+        if (p.shape === 'circle') {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        } else if (p.shape === 'strip') {
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size * 0.3, -p.size * 1.5, p.size * 0.6, p.size * 3);
+        } else if (p.shape === 'star') {
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          for (let s = 0; s < 5; s++) {
+            const a = (s * 4 * Math.PI) / 5 - Math.PI / 2;
+            const r = s === 0 ? 0 : p.size / 2;
+            ctx[s === 0 ? 'moveTo' : 'lineTo'](Math.cos(a) * r, Math.sin(a) * r);
+            const a2 = a + (2 * Math.PI) / 10;
+            ctx.lineTo(Math.cos(a2) * p.size / 4, Math.sin(a2) * p.size / 4);
+          }
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.6);
+        }
+        ctx.restore();
+      });
+
+      if (alive && elapsed < 9000) {
+        requestAnimationFrame(animate);
+      } else {
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        confettiCanvas.style.display = 'none';
+      }
+    }
+    animate();
+  }
+
+  // ─── State Transitions ───
+  function showRibbonOverlay() {
+    // Show curtains
+    curtainLeft.style.display = '';
+    curtainRight.style.display = '';
+    curtainValance.style.display = '';
+    curtainLeft.classList.remove('open');
+    curtainRight.classList.remove('open');
+    curtainValance.classList.remove('hide');
+
+    // Show dark backdrop
+    overlay.style.display = 'block';
+    void overlay.offsetWidth;
+    overlay.classList.add('visible');
+
+    // Show content
+    inaugContent.style.display = 'flex';
+
+    // Show ribbon
+    ribbonMain.style.display = '';
+    ribbonCut.style.display = 'none';
+
+    initSparkles();
+  }
+
+  function playCutAnimation() {
+    if (hasPlayedCut) return;
+    hasPlayedCut = true;
+
+    // 1. Scissors flash + ribbon splits
+    ribbonMain.style.display = 'none';
+    ribbonCut.style.display = '';
+    scissorsFlash.classList.add('active');
+
+    // 2. After ribbon falls, fire confetti + open curtains
+    setTimeout(() => {
+      fireConfetti();
+    }, 400);
+
+    // 3. Open the curtains majestically
+    setTimeout(() => {
+      curtainLeft.classList.add('open');
+      curtainRight.classList.add('open');
+    }, 800);
+
+    // 4. Fade out content text
+    setTimeout(() => {
+      inaugContent.style.opacity = '0';
+      inaugContent.style.transition = 'opacity 1s ease';
+    }, 1500);
+
+    // 5. Hide valance
+    setTimeout(() => {
+      curtainValance.classList.add('hide');
+    }, 2000);
+
+    // 6. Fade out dark backdrop
+    setTimeout(() => {
+      overlay.classList.add('fade-out');
+    }, 2500);
+
+    // 7. Fully remove everything
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      overlay.classList.remove('visible', 'fade-out');
+      inaugContent.style.display = 'none';
+      curtainLeft.style.display = 'none';
+      curtainRight.style.display = 'none';
+      curtainValance.style.display = 'none';
+    }, 4000);
+  }
+
+  function handleState(newState) {
+    if (newState === currentState) return;
+    const prevState = currentState;
+    currentState = newState;
+
+    if (newState === 'ribbon_visible') {
+      showRibbonOverlay();
+    } else if (newState === 'ribbon_cut') {
+      if (prevState === 'ribbon_hidden') {
+        showRibbonOverlay();
+        setTimeout(playCutAnimation, 1500);
+      } else {
+        playCutAnimation();
+      }
+    } else if (newState === 'ribbon_hidden') {
+      hideAll();
+      hasPlayedCut = false;
+    }
+  }
+
+  // ─── Polling ───
+  function pollState() {
+    fetch('/api/inauguration/state', {
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.state) handleState(data.state);
+    })
+    .catch(() => {});
+  }
+
+  pollState();
+  pollingInterval = setInterval(pollState, 2000);
+
+  setInterval(() => {
+    if (currentState === 'ribbon_cut' && hasPlayedCut && overlay.style.display === 'none') {
+      clearInterval(pollingInterval);
+    }
+  }, 10000);
+
+  window.addEventListener('resize', () => {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  });
+})();
+</script>
 @endsection
