@@ -3375,8 +3375,10 @@
       showRibbonOverlay();
     } else if (newState === 'ribbon_cut') {
       if (prevState === 'ribbon_hidden') {
-        showRibbonOverlay();
-        setTimeout(playCutAnimation, 1500);
+        // The ribbon was already cut before the user loaded the page.
+        // Don't play the 4-second animation for new visitors, just stay hidden.
+        hideAll();
+        hasPlayedCut = true;
       } else {
         playCutAnimation();
       }
