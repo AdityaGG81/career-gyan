@@ -3423,12 +3423,10 @@
 
     if (newState === 'ribbon_visible') {
       showRibbonOverlay();
-      cutRibbonBtn.disabled = true;
-      cutRibbonBtn.innerHTML = '🔒 Locked';
-      cutRibbonBtn.style.opacity = '0.5';
-      cutRibbonBtn.style.cursor = 'not-allowed';
+      cutRibbonBtn.style.display = 'none'; // Completely hide it while locked
     } else if (newState === 'ribbon_unlocked') {
       showRibbonOverlay();
+      cutRibbonBtn.style.display = 'inline-block'; // Show it when unlocked
       cutRibbonBtn.disabled = false;
       cutRibbonBtn.innerHTML = '✂️ Cut the Ribbon';
       cutRibbonBtn.style.opacity = '1';
