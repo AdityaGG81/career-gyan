@@ -24,6 +24,18 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/privacy-policy', function () {
+    return view('privacy');
+})->name('privacy');
+
+Route::get('/terms-of-use', function () {
+    return view('terms');
+})->name('terms');
+
+Route::get('/disclaimer', function () {
+    return view('disclaimer');
+})->name('disclaimer');
+
 // Indian Colleges (All-India + Maharashtra dataset)
 Route::get('/colleges', [IndianCollegeController::class, 'index'])->name('indian-colleges.index');
 Route::get('/colleges/districts', [IndianCollegeController::class, 'districts'])->name('indian-colleges.districts');

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'CareerGyan | Explore Careers')</title>
+@yield('meta')
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1320,9 +1321,10 @@
       <div class="footer-bottom">
         <span>© 2026 <strong style="color:#fff;">CareerGyan</strong> · Helping students make better career decisions</span>
         <div>
-          <a href="{{ url('/about') }}">About & Contact</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+          <a href="{{ route('about') }}">About & Contact</a>
+          <a href="{{ route('privacy') }}">Privacy Policy</a>
+          <a href="{{ route('terms') }}">Terms of Use</a>
+          <a href="{{ route('disclaimer') }}">Disclaimer</a>
         </div>
       </div>
     </div>
