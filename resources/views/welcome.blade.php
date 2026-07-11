@@ -1747,7 +1747,32 @@
       0 15px 40px rgba(0, 0, 0, 0.6);
     animation: inaugRibbonIn 1.2s ease-out 0.6s both;
     z-index: 5;
-    cursor: none; /* Hide default cursor so custom JS cursor shows */
+    cursor: default;
+  }
+
+  .cut-ribbon-btn {
+    margin-top: 40px;
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #FFD700, #F59E0B);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: inaugRibbonIn 1.2s ease-out 1s both;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+  }
+  .cut-ribbon-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+  }
+  .cut-ribbon-btn:active {
+    transform: scale(0.95);
   }
 
   .ribbon-band-inner {
@@ -3094,10 +3119,10 @@
   <div class="inaug-bottom-label">
     <p>Indian Institute of Career Management</p>
   </div>
+  
+  <!-- Cut Ribbon Button -->
+  <button id="cutRibbonBtn" class="cut-ribbon-btn">✂️ Cut the Ribbon</button>
 </div>
-
-<!-- Custom Scissors Cursor -->
-<div id="custom-scissors" style="position: fixed; pointer-events: none; z-index: 99999; display: none; font-size: 40px; transform: translate(-50%, -50%); text-shadow: 0 0 10px rgba(255,255,255,0.8);">✂️</div>
 
 <canvas id="confetti-canvas"></canvas>
 
@@ -3120,26 +3145,10 @@
   let hasPlayedCut = false;
   let pollingInterval = null;
 
-  // Custom cursor logic
-  const customScissors = document.getElementById('custom-scissors');
-  
-  ribbonMain.addEventListener('mousemove', (e) => {
-    customScissors.style.left = e.clientX + 'px';
-    customScissors.style.top = e.clientY + 'px';
-  });
-  
-  ribbonMain.addEventListener('mouseenter', () => {
-    if (currentState === 'ribbon_visible') {
-      customScissors.style.display = 'block';
-    }
-  });
-  
-  ribbonMain.addEventListener('mouseleave', () => {
-    customScissors.style.display = 'none';
-  });
+  const cutRibbonBtn = document.getElementById('cutRibbonBtn');
 
-  // Add click listener for visitors to cut the ribbon
-  ribbonMain.addEventListener('click', () => {
+  // Add click listener for the button to cut the ribbon
+  cutRibbonBtn.addEventListener('click', () => {
     if (currentState === 'ribbon_visible') {
       // Optimistically play the cut animation locally
       handleState('ribbon_cut');
@@ -3155,6 +3164,9 @@
     }
   });
 
+  // Remove the old click listener from ribbonMain (optional, but cleaner)
+  // ribbonMain.addEventListener('click', ...) is removed
+
   // Initially hide all inauguration elements
   function hideAll() {
     overlay.style.display = 'none';
@@ -3163,7 +3175,6 @@
     curtainLeft.style.display = 'none';
     curtainRight.style.display = 'none';
     curtainValance.style.display = 'none';
-    customScissors.style.display = 'none';
   }
   hideAll();
 
