@@ -378,9 +378,12 @@ class DailyQuizController extends Controller
         }
 
         $myRank = null;
-        $myStat = UserQuizStat::forUser(Auth::id());
-        if ($period === 'all_time') {
-            $myRank = UserQuizStat::where('total_points', '>', $myStat->total_points)->count() + 1;
+        $myStat = null;
+        if (Auth::check()) {
+            $myStat = UserQuizStat::forUser(Auth::id());
+            if ($period === 'all_time' && $myStat) {
+                $myRank = UserQuizStat::where('total_points', '>', $myStat->total_points)->count() + 1;
+            }
         }
 
         $allBadges = UserQuizStat::allBadgeDefinitions();

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TestSession extends Model
 {
     protected $fillable = [
+        'user_id',
         'uuid',
         'user_inputs',
         'aptitude_scores',

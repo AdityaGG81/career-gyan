@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
             ArtsMediaEntertainmentCareerSeeder::class,
             MassCareersExpansionSeeder::class,
             BlogSeeder::class,
+            HighQualityBlogSeeder::class,
             CustomDataUpdateSeeder::class,
             DailyQuizSeeder::class,
             IndianCollegeSeeder::class,

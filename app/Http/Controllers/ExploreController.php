@@ -501,6 +501,155 @@ class ExploreController extends Controller
 
 
     /* ─────────────────────────────────────────────
+     | GET /search-redirect?q=
+     | Redirects to exact or closest fuzzy match
+     | ────────────────────────────────────────────── */
+    public function searchRedirect(Request $request)
+    {
+        $q = trim($request->input('q', ''));
+
+        if (strlen($q) < 2) {
+            return redirect()->route('explore.index');
+        }
+
+        $qLower = strtolower($q);
+
+        // 1. Direct Career match (Exact or LIKE)
+        $career = Career::where('name', $q)
+            ->orWhere('name', 'like', "%{$q}%")
+            ->orWhere('slug', 'like', "%{$q}%")
+            ->first();
+        if ($career) {
+            return redirect()->route('career.detail.page', $career->slug);
+        }
+
+        // 2. Direct Field match
+        $field = Field::where('name', $q)
+            ->orWhere('name', 'like', "%{$q}%")
+            ->orWhere('slug', 'like', "%{$q}%")
+            ->first();
+        if ($field) {
+            $careerPathRoutes = [
+                'technology-engineering' => '/career-path/technology-engineering',
+                'medical' => '/career-path/medical',
+                'business' => '/career-path/business',
+                'science' => '/career-path/science',
+                'arts-humanities' => '/career-path/arts-humanities',
+                'commerce' => '/career-path/commerce',
+                'agriculture' => '/career-path/agriculture',
+                'sports' => '/career-path/sports',
+                'skill-development' => '/career-path/skill-development',
+                'modern-tech' => '/career-path/modern-tech-ai',
+                'creative-careers' => '/career-path/creative-careers',
+                'social-media' => '/career-path/social-media-content',
+                'gaming-careers' => '/career-path/gaming-esports',
+                'freelancing' => '/career-path/freelancing-remote',
+                'government-defence' => '/explore/government-defence',
+                'teaching-law' => '/explore/teaching-law',
+                'hotel-management' => '/explore/hotel-management-colleges',
+                'pharmacy' => '/explore/pharmacy-colleges',
+                'ayush-allied' => '/explore/non-mbbs-colleges',
+                'small-scale' => '/explore/small-scale-business',
+                'competitive-exams' => '/explore/competitive-exams',
+            ];
+            $url = $careerPathRoutes[$field->slug] ?? '/career-path/' . $field->slug;
+            return redirect($url);
+        }
+
+        // 3. Blog match
+        $blog = \App\Models\Blog::where('title', 'like', "%{$q}%")
+            ->orWhere('slug', 'like', "%{$q}%")
+            ->first();
+        if ($blog) {
+            return redirect()->route('blog.show', $blog->slug);
+        }
+
+        // 4. College match
+        $college = College::where('name', 'like', "%{$q}%")->first();
+        if ($college) {
+            $slug = $college->field ? $college->field->slug : '';
+            $url = route('explore.index');
+            if ($slug === 'technology-engineering') $url = route('explore.engineering-colleges');
+            elseif ($slug === 'medical') $url = route('explore.medical-colleges');
+            elseif ($slug === 'hotel-management') $url = route('explore.hotel-management-colleges');
+            elseif ($slug === 'business') $url = route('explore.management-colleges');
+            elseif ($slug === 'pharmacy') $url = route('explore.pharmacy-colleges');
+            elseif ($slug === 'ayush-allied') $url = route('explore.non-mbbs-colleges');
+            elseif ($slug === 'science') $url = route('explore.science-colleges');
+            elseif ($slug === 'arts-humanities') $url = route('explore.arts-humanities-colleges');
+            elseif ($slug === 'commerce') $url = route('explore.commerce-colleges');
+            elseif ($slug === 'agriculture') $url = route('explore.agriculture-colleges');
+            return redirect($url . '?college_id=' . $college->id);
+        }
+
+        // 5. IndianCollege match
+        $indianCollege = \App\Models\IndianCollege::where('college_name', 'like', "%{$q}%")->first();
+        if ($indianCollege) {
+            return redirect('/colleges/' . $indianCollege->id);
+        }
+
+        // 6. JobListing match
+        $job = \App\Models\JobListing::where('job_title', 'like', "%{$q}%")->first();
+        if ($job) {
+            return redirect()->route('jobs.show', $job->id);
+        }
+
+        // 7. Fuzzy matching fallback using Levenshtein distance
+        $bestDistance = 999;
+        $bestUrl = null;
+
+        // Compare with Career names
+        $careers = Career::select('name', 'slug')->get();
+        foreach ($careers as $c) {
+            $dist = levenshtein($qLower, strtolower($c->name));
+            if ($dist < $bestDistance) {
+                $bestDistance = $dist;
+                $bestUrl = route('career.detail.page', $c->slug);
+            }
+        }
+
+        // Compare with Field names
+        $fields = Field::select('name', 'slug')->get();
+        foreach ($fields as $f) {
+            $dist = levenshtein($qLower, strtolower($f->name));
+            if ($dist < $bestDistance) {
+                $bestDistance = $dist;
+                $careerPathRoutes = [
+                    'technology-engineering' => '/career-path/technology-engineering',
+                    'medical' => '/career-path/medical',
+                    'business' => '/career-path/business',
+                    'science' => '/career-path/science',
+                    'arts-humanities' => '/career-path/arts-humanities',
+                    'commerce' => '/career-path/commerce',
+                    'agriculture' => '/career-path/agriculture',
+                    'sports' => '/career-path/sports',
+                    'skill-development' => '/career-path/skill-development',
+                    'modern-tech' => '/career-path/modern-tech-ai',
+                    'creative-careers' => '/career-path/creative-careers',
+                    'social-media' => '/career-path/social-media-content',
+                    'gaming-careers' => '/career-path/gaming-esports',
+                    'freelancing' => '/career-path/freelancing-remote',
+                    'government-defence' => '/explore/government-defence',
+                    'teaching-law' => '/explore/teaching-law',
+                    'hotel-management' => '/explore/hotel-management-colleges',
+                    'pharmacy' => '/explore/pharmacy-colleges',
+                    'ayush-allied' => '/explore/non-mbbs-colleges',
+                    'small-scale' => '/explore/small-scale-business',
+                    'competitive-exams' => '/explore/competitive-exams',
+                ];
+                $bestUrl = url($careerPathRoutes[$f->slug] ?? '/career-path/' . $f->slug);
+            }
+        }
+
+        if ($bestUrl) {
+            return redirect($bestUrl);
+        }
+
+        return redirect()->route('explore.index');
+    }
+
+
+    /* ─────────────────────────────────────────────
      | Private helper — uniform career shape for JSON
      ────────────────────────────────────────────── */
     private function formatCareer(Career $career, int $matchCount = 0): array

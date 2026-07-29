@@ -14,33 +14,34 @@ class IndianCollegeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = IndianCollege::query();
+        // Build a base query that applies all filters
+        $baseQuery = IndianCollege::query();
 
         // Apply filters
         if ($request->filled('state')) {
-            $query->where('state', $request->state);
+            $baseQuery->where('state', $request->state);
         }
         if ($request->filled('district')) {
-            $query->where('district', $request->district);
+            $baseQuery->where('district', $request->district);
         }
         if ($request->filled('management')) {
-            $query->where('management', $request->management);
+            $baseQuery->where('management', $request->management);
         }
         if ($request->filled('college_type')) {
-            $query->where('college_type', $request->college_type);
+            $baseQuery->where('college_type', $request->college_type);
         }
         if ($request->filled('university')) {
-            $query->where('university_name', $request->university);
+            $baseQuery->where('university_name', $request->university);
         }
         if ($request->filled('course_category')) {
-            $query->where('course_category', $request->course_category);
+            $baseQuery->where('course_category', $request->course_category);
         }
         if ($request->filled('course_type')) {
-            $query->where('course_type', $request->course_type);
+            $baseQuery->where('course_type', $request->course_type);
         }
         if ($request->filled('q')) {
             $q = trim($request->q);
-            $query->where(function ($qb) use ($q) {
+            $baseQuery->where(function ($qb) use ($q) {
                 $qb->where('college_name', 'like', "%{$q}%")
                    ->orWhere('city', 'like', "%{$q}%")
                    ->orWhere('district', 'like', "%{$q}%")
@@ -50,7 +51,52 @@ class IndianCollegeController extends Controller
             });
         }
 
-        $colleges = $query->orderBy('college_name')->paginate(30)->withQueryString();
+        // Get unique colleges: pick MIN(id) per college_name+district+state group
+        $uniqueIdsQuery = (clone $baseQuery)
+            ->select(DB::raw('MIN(id) as id'))
+            ->groupBy('college_name', 'district', 'state');
+
+        // Get course counts per unique college
+        $courseCounts = (clone $baseQuery)
+            ->select('college_name', 'district', 'state', DB::raw('COUNT(DISTINCT course_name) as course_count'))
+            ->whereNotNull('course_name')
+            ->where('course_name', '!=', '')
+            ->groupBy('college_name', 'district', 'state')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->college_name . '|' . $item->district . '|' . $item->state;
+            });
+
+        // Fetch actual college records using the unique IDs
+        $uniqueIds = $uniqueIdsQuery->pluck('id');
+
+        // Paginate: get the total count of unique colleges
+        $totalUnique = $uniqueIds->count();
+        $perPage = 30;
+        $currentPage = $request->input('page', 1);
+        $offset = ($currentPage - 1) * $perPage;
+
+        // Fetch the page of colleges
+        $collegesPage = IndianCollege::whereIn('id', $uniqueIds)
+            ->orderBy('college_name')
+            ->skip($offset)
+            ->take($perPage)
+            ->get();
+
+        // Attach course_count to each college
+        foreach ($collegesPage as $college) {
+            $key = $college->college_name . '|' . $college->district . '|' . $college->state;
+            $college->course_count = $courseCounts->has($key) ? $courseCounts->get($key)->course_count : 0;
+        }
+
+        // Create a manual paginator
+        $colleges = new \Illuminate\Pagination\LengthAwarePaginator(
+            $collegesPage,
+            $totalUnique,
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         // Get filter options
         $states = IndianCollege::select('state')
@@ -88,8 +134,10 @@ class IndianCollegeController extends Controller
             ->orderBy('course_type')
             ->pluck('course_type');
 
-        // Stats
-        $totalColleges = IndianCollege::count();
+        // Stats — show unique college count, not row count
+        $totalColleges = IndianCollege::select('college_name', 'district', 'state')
+            ->distinct()
+            ->count(DB::raw('college_name || district || state'));
         $totalStates = IndianCollege::whereNotNull('state')->where('state', '!=', '')->distinct('state')->count('state');
 
         return view('indian-colleges.index', compact(

@@ -2,6 +2,10 @@
 
 @section('title', $career->name . ' – Career Guide | Career Gyan')
 
+@section('meta')
+    <meta name="robots" content="noindex, follow">
+@endsection
+
 @section('styles')
 <style>
     body { background-color: var(--bg); color: var(--text-1); }

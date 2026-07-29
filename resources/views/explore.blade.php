@@ -1347,51 +1347,9 @@
   }
 
   function performFieldSearch() {
-      let q = document.getElementById('searchInput').value.trim().toLowerCase();
+      let q = document.getElementById('searchInput').value.trim();
       if (q.length < 2) return;
-      
-      let matchedCareer = currentCareerResults.find(c => c.name.toLowerCase() === q);
-      if (matchedCareer) {
-          navigateToUrl(matchedCareer.url);
-          return;
-      }
-      
-      let matchedField = currentFieldResults.find(f => f.name.toLowerCase() === q);
-      if (matchedField) {
-          navigateToUrl(matchedField.url);
-          return;
-      }
-
-      let matchedCollege = currentCollegeResults.find(col => col.name.toLowerCase() === q);
-      if (matchedCollege) {
-          navigateToUrl(matchedCollege.url);
-          return;
-      }
-
-      let matchedBlog = currentBlogResults.find(b => b.title.toLowerCase() === q);
-      if (matchedBlog) {
-          navigateToUrl(matchedBlog.url);
-          return;
-      }
-
-      if (currentCareerResults.length > 0) {
-          navigateToUrl(currentCareerResults[0].url);
-      } else if (currentFieldResults.length > 0) {
-          navigateToUrl(currentFieldResults[0].url);
-      } else if (currentCollegeResults.length > 0) {
-          navigateToUrl(currentCollegeResults[0].url);
-      } else if (currentBlogResults.length > 0) {
-          navigateToUrl(currentBlogResults[0].url);
-      } else {
-          const suggestionsDiv = document.getElementById('searchSuggestions');
-          const suggestionsList = document.getElementById('suggestionsList');
-          const noResults = document.getElementById('noResults');
-          
-          suggestionsList.innerHTML = '';
-          noResults.style.display = 'block';
-          suggestionsDiv.style.display = 'block';
-          setTimeout(hideSuggestions, 2000);
-      }
+      window.location.href = `/search-redirect?q=${encodeURIComponent(q)}`;
   }
 
   // ── Client-Side Filter Script ──

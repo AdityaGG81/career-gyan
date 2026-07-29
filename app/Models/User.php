@@ -18,18 +18,20 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-   protected $fillable = [
-    'first_name',
-    'last_name',
-    'name',
-    'email',
-    'phone',
-    'password',
-    'email_otp',
-    'email_verified_at',
-    'email_otp_expires_at',
-    'last_otp_sent_at',
-];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'name',
+        'email',
+        'phone',
+        'password',
+        'email_otp',
+        'email_verified_at',
+        'email_otp_expires_at',
+        'last_otp_sent_at',
+        'is_member',
+        'membership_expires_at',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -52,7 +54,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'email_otp_expires_at' => 'datetime',
             'last_otp_sent_at' => 'datetime',
+            'membership_expires_at' => 'datetime',
+            'is_member' => 'boolean',
             'password' => 'hashed',
         ];
+    }
+
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class);
+    }
+
+    public function activeMembership()
+    {
+        return $this->hasOne(Membership::class)->where('status', 'active')->where(function ($query) {
+            $query->whereNull('expires_at')->orWhere('expires_at', '>', now());
+        })->latest();
+    }
+
+    public function hasActiveMembership(): bool
+    {
+        return (bool) $this->is_member && ($this->membership_expires_at === null || $this->membership_expires_at->isFuture());
     }
 }

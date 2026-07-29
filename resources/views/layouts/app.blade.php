@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'CareerGyan | Explore Careers')</title>
+@yield('meta')
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,6 +14,11 @@
 <link rel="icon" type="image/png" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
 <link rel="shortcut icon" href="{{ asset('careergyan-tab-logo.ico') }}?v=10">
 <link rel="apple-touch-icon" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5044851395641771"
+     crossorigin="anonymous"></script>
+
 <style>
   :root {
     --brand: #1a56db;
@@ -1276,10 +1282,10 @@
           <div class="footer-slogan">ज्ञानात् ज्ञानं ततः सिद्धिः</div>
           <div class="footer-slogan-meaning">From knowledge comes wisdom, from wisdom comes success</div>
           <div class="footer-social">
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="javascript:void(0)" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="javascript:void(0)" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="javascript:void(0)" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="javascript:void(0)" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
           </div>
         </div>
 
@@ -1289,6 +1295,7 @@
           <a href="{{ url('/explore') }}">Explore Careers</a>
           <a href="{{ url('/blog') }}">Blog</a>
           <a href="{{ url('/about') }}">About Us</a>
+          <a href="{{ route('contact.show') }}">Contact Us</a>
           <a href="{{ route('quick-test.start') }}">Quick Test</a>
           <a href="{{ route('test.start') }}">Advance Test</a>
         </div>
@@ -1305,17 +1312,19 @@
         <div class="footer-col">
           <h4>Get In Touch</h4>
           <a href="mailto:admin@careergyan.in"><i class="fa-solid fa-envelope" style="margin-right:6px;"></i>admin@careergyan.in</a>
-          <a href="#"><i class="fa-solid fa-location-dot" style="margin-right:6px;"></i>Nashik, Maharashtra, India</a>
-          <a href="#"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Mon-Sat: 8AM - 6PM</a>
+          <a href="tel:+919876543210"><i class="fa-solid fa-phone" style="margin-right:6px;"></i>+91 98765 43210</a>
+          <span style="display:block; color:rgba(255,255,255,.7); margin-bottom:12px;"><i class="fa-solid fa-location-dot" style="margin-right:6px;"></i>Nashik, Maharashtra, India</span>
+          <span style="display:block; color:rgba(255,255,255,.7); margin-bottom:12px;"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Mon-Sat: 8AM - 6PM</span>
         </div>
       </div>
 
       <div class="footer-bottom">
         <span>© 2026 <strong style="color:#fff;">CareerGyan</strong> · Helping students make better career decisions</span>
         <div>
-          <a href="{{ url('/about') }}">About & Contact</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+          <a href="{{ route('about') }}">About & Contact</a>
+          <a href="{{ route('privacy') }}">Privacy Policy</a>
+          <a href="{{ route('terms') }}">Terms of Use</a>
+          <a href="{{ route('disclaimer') }}">Disclaimer</a>
         </div>
       </div>
     </div>
@@ -1582,6 +1591,17 @@
   });
 
   searchInput.addEventListener('input', performSearch);
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const query = searchInput.value.trim();
+      if (query.length >= 2) {
+        e.preventDefault();
+        saveSearchHistory(query);
+        closeSearch();
+        window.location.href = `/search-redirect?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
 
   /* ─── Navbar Auto-Suggestions Logic ─── */
   const navSearchInput = document.getElementById('navGlobalSearchInput');
@@ -1732,13 +1752,14 @@
 
     navSearchInput.addEventListener('keydown', (e) => {
       const items = navSearchSuggestions.querySelectorAll('.nav-sug-item');
-      if (!items || items.length === 0) return;
 
       if (e.key === 'ArrowDown') {
+        if (!items || items.length === 0) return;
         e.preventDefault();
         navSelectedIndex = (navSelectedIndex + 1) % items.length;
         updateNavSelection(items);
       } else if (e.key === 'ArrowUp') {
+        if (!items || items.length === 0) return;
         e.preventDefault();
         navSelectedIndex = (navSelectedIndex - 1 + items.length) % items.length;
         updateNavSelection(items);
@@ -1746,9 +1767,15 @@
         if (navSelectedIndex >= 0 && items[navSelectedIndex]) {
           e.preventDefault();
           items[navSelectedIndex].click();
-        } else if (items.length > 0) {
+        } else if (items && items.length > 0) {
           e.preventDefault();
           items[0].click();
+        } else {
+          const query = navSearchInput.value.trim();
+          if (query.length >= 2) {
+            e.preventDefault();
+            window.location.href = `/search-redirect?q=${encodeURIComponent(query)}`;
+          }
         }
       } else if (e.key === 'Escape') {
         navSearchSuggestions.style.display = 'none';

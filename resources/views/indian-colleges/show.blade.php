@@ -2,6 +2,10 @@
 
 @section('title', $college->college_name . ' | CareerGyan')
 
+@section('meta')
+    <meta name="robots" content="noindex, follow">
+@endsection
+
 @section('styles')
 <style>
     .college-detail-container {

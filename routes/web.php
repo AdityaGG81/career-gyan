@@ -11,6 +11,9 @@ use App\Http\Controllers\AiCareerChatController;
 use App\Http\Controllers\DailyQuizController;
 use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\IndianCollegeController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\AdvancedTestController;
+use App\Http\Controllers\InaugurationController;
 
 // Main pages
 Route::get('/', function () {
@@ -20,6 +23,18 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+Route::get('/privacy-policy', function () {
+    return view('privacy');
+})->name('privacy');
+
+Route::get('/terms-of-use', function () {
+    return view('terms');
+})->name('terms');
+
+Route::get('/disclaimer', function () {
+    return view('disclaimer');
+})->name('disclaimer');
 
 // Indian Colleges (All-India + Maharashtra dataset)
 Route::get('/colleges', [IndianCollegeController::class, 'index'])->name('indian-colleges.index');
@@ -39,6 +54,7 @@ Route::get('/explore', [ExploreController::class, 'index'])->name('explore.index
 Route::get('/explore/search', [ExploreController::class, 'search'])->name('explore.search');
 Route::get('/explore/field-search', [ExploreController::class, 'fieldSearch'])->name('explore.fieldSearch');
 Route::get('/global-search', [ExploreController::class, 'globalSearch'])->name('explore.globalSearch');
+Route::get('/search-redirect', [ExploreController::class, 'searchRedirect'])->name('explore.searchRedirect');
 Route::get('/explore/field/{field}', [ExploreController::class, 'byField'])->name('explore.field');
 Route::post('/explore/subjects', [ExploreController::class, 'bySubjects'])->name('explore.subjects');
 Route::get('/explore/career/{career}', [ExploreController::class, 'careerDetail'])->name('explore.career');
@@ -106,6 +122,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/test/quiz', [TestController::class, 'quiz'])->name('test.quiz');
     Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
     Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
+    Route::get('/test/certificate/{uuid}', [TestController::class, 'certificate'])->name('test.certificate');
+    Route::get('/quick-test/certificate/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'certificate'])->name('quick-test.certificate');
+
+
 
     // College Reviews (Auth required to store)
     Route::post('/colleges/{college}/reviews', [\App\Http\Controllers\CollegeReviewController::class, 'store'])->name('college.reviews.store');
@@ -121,6 +141,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/daily-quiz/my-stats', [DailyQuizController::class, 'myStats'])->name('daily-quiz.my-stats');
 });
 
+
+
 // Quick Test (Public)
 Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
 Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
@@ -129,12 +151,18 @@ Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestControl
 
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
+Route::get('/suggestion', [SuggestionController::class, 'create'])->name('suggestion.create');
+Route::get('/contact', [SuggestionController::class, 'create'])->name('contact.show');
 
 // AI Chatbot (moved to auth group)
 
 // Public Blog Routes
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+
+// Inauguration — Public polling API
+Route::get('/api/inauguration/state', [InaugurationController::class, 'getState'])->name('inauguration.state');
+Route::post('/api/inauguration/cut', [InaugurationController::class, 'publicCut'])->name('inauguration.cut');
 
 // Admin Auth
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
@@ -226,6 +254,13 @@ Route::get('/admin/quiz/leaderboard', [AdminQuizController::class, 'leaderboard'
 Route::get('/admin/quiz/{id}/edit', [AdminQuizController::class, 'edit'])->name('admin.quiz.edit');
 Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('admin.quiz.update');
 Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
+
+// Admin Inauguration Controls
+Route::get('/admin/inauguration', [InaugurationController::class, 'index'])->name('admin.inauguration');
+Route::post('/admin/inauguration/show-ribbon', [InaugurationController::class, 'showRibbon'])->name('admin.inauguration.show');
+Route::post('/admin/inauguration/unlock-ribbon', [InaugurationController::class, 'unlockRibbon'])->name('admin.inauguration.unlock');
+Route::post('/admin/inauguration/cut-ribbon', [InaugurationController::class, 'cutRibbon'])->name('admin.inauguration.cut');
+Route::post('/admin/inauguration/reset', [InaugurationController::class, 'resetRibbon'])->name('admin.inauguration.reset');
 
 Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
 

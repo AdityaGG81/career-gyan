@@ -19,6 +19,7 @@ class SuggestionController extends Controller
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:25',
             'role' => 'required|string',
             'message' => 'required|string|min:5',
             'website' => 'nullable|string' // Honeypot field for spam protection
@@ -33,6 +34,7 @@ class SuggestionController extends Controller
         $suggestion = Suggestion::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'phone' => $validated['phone'],
             'role' => $validated['role'],
             'message' => $validated['message'],
         ]);

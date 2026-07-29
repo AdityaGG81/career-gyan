@@ -39,6 +39,8 @@ jobs:
             public/**
             .env
             tests/**
+            database/*.sqlite
+            database/**/*.sqlite
 
       - name: Sync Public Files to Public_HTML
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
