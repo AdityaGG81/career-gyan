@@ -14,17 +14,6 @@ class JobListingController extends Controller
     {
         $query = JobListing::orderBy('last_date', 'asc');
 
-        // Apply keyword search
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('job_title', 'like', "%{$search}%")
-                  ->orWhere('company_name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%");
-            });
-        }
-
         // Filter by category
         if ($request->filled('category')) {
             $query->where('category', $request->input('category'));
@@ -60,7 +49,48 @@ class JobListingController extends Controller
                   ->where('last_date', '>=', now()->startOfDay());
         }
 
-        $jobs = $query->paginate(6)->withQueryString();
+        // Apply keyword search (fuzzy search if search parameter is present)
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $allJobs = $query->get();
+            $matchedJobs = [];
+            
+            foreach ($allJobs as $j) {
+                $titleScore = $this->fuzzyMatch($search, $j->job_title);
+                $companyScore = $this->fuzzyMatch($search, $j->company_name);
+                $descScore = $this->fuzzyMatch($search, $j->description ?: '');
+                $categoryScore = $this->fuzzyMatch($search, $j->category ?: '');
+                
+                $maxScore = max($titleScore, $companyScore, $descScore, $categoryScore);
+                if ($maxScore > 0) {
+                    $j->fuzzy_score = $maxScore;
+                    $matchedJobs[] = $j;
+                }
+            }
+            
+            // Sort by fuzzy score descending
+            usort($matchedJobs, function ($a, $b) {
+                return $b->fuzzy_score <=> $a->fuzzy_score;
+            });
+            
+            // Paginate manually
+            $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage();
+            $perPage = 6;
+            $currentItems = array_slice($matchedJobs, ($currentPage - 1) * $perPage, $perPage);
+            
+            $jobs = new \Illuminate\Pagination\LengthAwarePaginator(
+                $currentItems,
+                count($matchedJobs),
+                $perPage,
+                $currentPage,
+                [
+                    'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+                    'query' => $request->query(),
+                ]
+            );
+        } else {
+            $jobs = $query->paginate(6)->withQueryString();
+        }
 
         // Get values for filtering options dynamically
         $categories = JobListing::distinct()->pluck('category')->filter()->values()->all();

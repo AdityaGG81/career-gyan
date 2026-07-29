@@ -429,25 +429,41 @@ class ExploreController extends Controller
                 ];
             });
 
-        // 5. Search Jobs
-        $jobs = \App\Models\JobListing::active()
-            ->where(function ($query) use ($q) {
-                $query->where('job_title', 'like', "%{$q}%")
-                      ->orWhere('company_name', 'like', "%{$q}%")
-                      ->orWhere('category', 'like', "%{$q}%");
-            })
-            ->limit(5)
-            ->get()
-            ->map(function ($j) {
-                return [
-                    'id' => $j->id,
-                    'title' => $j->job_title,
-                    'company' => $j->company_name,
-                    'category' => $j->category,
-                    'location' => $j->location,
-                    'url' => route('jobs.show', $j->id),
+        // 5. Search Jobs (with typo-tolerant fuzzy matching)
+        $activeJobs = \App\Models\JobListing::active()->get();
+        $matchedJobs = [];
+        foreach ($activeJobs as $j) {
+            $titleScore = $this->fuzzyMatch($q, $j->job_title);
+            $companyScore = $this->fuzzyMatch($q, $j->company_name);
+            $categoryScore = $this->fuzzyMatch($q, $j->category ?: '');
+            
+            $maxScore = max($titleScore, $companyScore, $categoryScore);
+            if ($maxScore > 0) {
+                $matchedJobs[] = [
+                    'job' => $j,
+                    'score' => $maxScore
                 ];
-            });
+            }
+        }
+
+        // Sort by score descending
+        usort($matchedJobs, function ($a, $b) {
+            return $b['score'] <=> $a['score'];
+        });
+
+        // Limit to 5 and format
+        $jobs = collect(array_slice($matchedJobs, 0, 5))->map(function ($item) {
+            $j = $item['job'];
+            return [
+                'id' => $j->id,
+                'title' => $j->job_title,
+                'company' => $j->company_name,
+                'category' => $j->category,
+                'location' => $j->location,
+                'url' => route('jobs.show', $j->id),
+            ];
+        })->all();
+
 
         // 6. Search Indian Colleges (Kaggle dataset)
         $indianColleges = \App\Models\IndianCollege::where('college_name', 'like', "%{$q}%")
