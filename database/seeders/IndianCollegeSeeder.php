@@ -4,15 +4,37 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class IndianCollegeSeeder extends Seeder
 {
     public function run(): void
     {
+        $existingCount = DB::table('indian_colleges')->count();
+
+        if ($existingCount > 0) {
+            $this->command->warn("Found {$existingCount} existing records in indian_colleges table.");
+            $this->command->info('Clearing existing data before re-import...');
+        }
+
         DB::table('indian_colleges')->delete();
         $this->seedAllIndiaColleges();
         $this->seedMaharashtraColleges();
         $this->seedCollegesJson();
+
+        // Clear the fuzzy search cache so new data is picked up
+        Cache::forget('indian_college_names');
+
+        $finalCount = DB::table('indian_colleges')->count();
+        $uniqueCount = DB::table('indian_colleges')
+            ->select('college_name', 'district', 'state')
+            ->distinct()
+            ->count(DB::raw('college_name || district || state'));
+
+        $this->command->info("════════════════════════════════════════");
+        $this->command->info("✅ Total rows imported: {$finalCount}");
+        $this->command->info("✅ Unique colleges: {$uniqueCount}");
+        $this->command->info("════════════════════════════════════════");
     }
 
     /**

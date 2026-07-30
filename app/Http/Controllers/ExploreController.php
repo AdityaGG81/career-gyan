@@ -319,6 +319,8 @@ class ExploreController extends Controller
             return response()->json(['db_careers' => [], 'config_careers' => [], 'colleges' => [], 'blogs' => []]);
         }
 
+        $didYouMean = null;
+
         // 1. Search Fields (Main fields and sub-fields)
         $careerPathRoutes = [
             'technology-engineering' => '/career-path/technology-engineering',
@@ -344,92 +346,147 @@ class ExploreController extends Controller
             'competitive-exams' => '/explore/competitive-exams',
         ];
 
+        // Phase 1: LIKE search for fields
         $fields = \App\Models\Field::where('name', 'like', "%{$q}%")
             ->limit(5)
-            ->get()
-            ->map(function ($f) use ($careerPathRoutes) {
-                $path = $careerPathRoutes[$f->slug] ?? '/career-path/' . $f->slug;
-                return [
-                    'slug' => $f->slug,
-                    'name' => $f->name,
-                    'icon' => $f->icon ?? 'fa-folder',
-                    'bg_color' => $f->bg_color ?? '#e0e7ff',
-                    'color' => $f->color ?? '#4f46e5',
-                    'url' => url($path),
-                ];
-            });
+            ->get();
 
-        // 2. Search Database Careers
+        // Phase 2: Fuzzy fallback for fields if no results
+        if ($fields->isEmpty()) {
+            $allFields = \App\Models\Field::all();
+            $fieldNames = $allFields->pluck('name', 'id')->toArray();
+            $fuzzyFields = $this->fuzzySearchCandidates($q, $fieldNames, 35, 5);
+            if (!empty($fuzzyFields)) {
+                $matchedIds = array_map(fn($r) => $r['key'], $fuzzyFields);
+                $fields = $allFields->whereIn('id', $matchedIds);
+            }
+        }
+
+        $fields = $fields->map(function ($f) use ($careerPathRoutes) {
+            $path = $careerPathRoutes[$f->slug] ?? '/career-path/' . $f->slug;
+            return [
+                'slug' => $f->slug,
+                'name' => $f->name,
+                'icon' => $f->icon ?? 'fa-folder',
+                'bg_color' => $f->bg_color ?? '#e0e7ff',
+                'color' => $f->color ?? '#4f46e5',
+                'url' => url($path),
+            ];
+        });
+
+        // 2. Search Database Careers with fuzzy fallback
         $dbCareers = Career::with('field')
             ->where('name', 'like', "%{$q}%")
             ->orWhere('description', 'like', "%{$q}%")
             ->limit(8)
-            ->get()
-            ->map(function ($c) {
-                return [
-                    'id' => $c->id,
-                    'name' => $c->name,
-                    'slug' => $c->slug,
-                    'description' => substr($c->description, 0, 100) . '...',
-                    'icon' => $c->icon ?? 'fa-briefcase',
-                    'field' => $c->field ? $c->field->name : 'General',
-                    'bg_color' => $c->field ? $c->field->bg_color : '#f1f5f9',
-                    'color' => $c->field ? $c->field->color : '#64748b',
-                    'url' => url('/career/' . $c->slug),
-                ];
-            });
+            ->get();
 
-        // 3. Search Colleges
+        if ($dbCareers->isEmpty()) {
+            $allCareers = Career::with('field')->get();
+            $careerNames = $allCareers->pluck('name', 'id')->toArray();
+            $fuzzyCareers = $this->fuzzySearchCandidates($q, $careerNames, 35, 8);
+            if (!empty($fuzzyCareers)) {
+                $matchedIds = array_map(fn($r) => $r['key'], $fuzzyCareers);
+                $dbCareers = $allCareers->whereIn('id', $matchedIds)->values();
+                if (!$didYouMean && !empty($fuzzyCareers)) {
+                    $didYouMean = $fuzzyCareers[0]['text'];
+                }
+            }
+        }
+
+        $dbCareers = $dbCareers->map(function ($c) {
+            return [
+                'id' => $c->id,
+                'name' => $c->name,
+                'slug' => $c->slug,
+                'description' => substr($c->description, 0, 100) . '...',
+                'icon' => $c->icon ?? 'fa-briefcase',
+                'field' => $c->field ? $c->field->name : 'General',
+                'bg_color' => $c->field ? $c->field->bg_color : '#f1f5f9',
+                'color' => $c->field ? $c->field->color : '#64748b',
+                'url' => url('/career/' . $c->slug),
+            ];
+        });
+
+        // 3. Search Colleges with fuzzy fallback
         $colleges = College::with('field')
             ->where('name', 'like', "%{$q}%")
             ->orWhere('location', 'like', "%{$q}%")
             ->orWhere('description', 'like', "%{$q}%")
             ->orWhere('popular_branches', 'like', "%{$q}%")
             ->limit(5)
-            ->get()
-            ->map(function ($c) {
-                $slug = $c->field ? $c->field->slug : '';
-                $url = route('explore.index');
-                if ($slug === 'technology-engineering') $url = route('explore.engineering-colleges');
-                elseif ($slug === 'medical') $url = route('explore.medical-colleges');
-                elseif ($slug === 'hotel-management') $url = route('explore.hotel-management-colleges');
-                elseif ($slug === 'business') $url = route('explore.management-colleges');
-                elseif ($slug === 'pharmacy') $url = route('explore.pharmacy-colleges');
-                elseif ($slug === 'ayush-allied') $url = route('explore.non-mbbs-colleges');
-                elseif ($slug === 'science') $url = route('explore.science-colleges');
-                elseif ($slug === 'arts-humanities') $url = route('explore.arts-humanities-colleges');
-                elseif ($slug === 'commerce') $url = route('explore.commerce-colleges');
-                elseif ($slug === 'agriculture') $url = route('explore.agriculture-colleges');
+            ->get();
 
-                return [
-                    'id' => $c->id,
-                    'name' => $c->name,
-                    'location' => $c->location . ', ' . $c->state,
-                    'type' => $c->type,
-                    'branches' => substr($c->popular_branches ?? 'General', 0, 80),
-                    'url' => $url . '?college_id=' . $c->id,
-                    'field' => $c->field ? $c->field->name : 'Institute',
-                ];
-            });
+        if ($colleges->isEmpty()) {
+            $allColleges = College::with('field')->get();
+            $collegeNames = $allColleges->pluck('name', 'id')->toArray();
+            $fuzzyColleges = $this->fuzzySearchCandidates($q, $collegeNames, 35, 5);
+            if (!empty($fuzzyColleges)) {
+                $matchedIds = array_map(fn($r) => $r['key'], $fuzzyColleges);
+                $colleges = $allColleges->whereIn('id', $matchedIds)->values();
+                if (!$didYouMean) {
+                    $didYouMean = $fuzzyColleges[0]['text'];
+                }
+            }
+        }
 
-        // 4. Search Blogs
+        $colleges = $colleges->map(function ($c) {
+            $slug = $c->field ? $c->field->slug : '';
+            $url = route('explore.index');
+            if ($slug === 'technology-engineering') $url = route('explore.engineering-colleges');
+            elseif ($slug === 'medical') $url = route('explore.medical-colleges');
+            elseif ($slug === 'hotel-management') $url = route('explore.hotel-management-colleges');
+            elseif ($slug === 'business') $url = route('explore.management-colleges');
+            elseif ($slug === 'pharmacy') $url = route('explore.pharmacy-colleges');
+            elseif ($slug === 'ayush-allied') $url = route('explore.non-mbbs-colleges');
+            elseif ($slug === 'science') $url = route('explore.science-colleges');
+            elseif ($slug === 'arts-humanities') $url = route('explore.arts-humanities-colleges');
+            elseif ($slug === 'commerce') $url = route('explore.commerce-colleges');
+            elseif ($slug === 'agriculture') $url = route('explore.agriculture-colleges');
+
+            return [
+                'id' => $c->id,
+                'name' => $c->name,
+                'location' => $c->location . ', ' . $c->state,
+                'type' => $c->type,
+                'branches' => substr($c->popular_branches ?? 'General', 0, 80),
+                'url' => $url . '?college_id=' . $c->id,
+                'field' => $c->field ? $c->field->name : 'Institute',
+            ];
+        });
+
+        // 4. Search Blogs with fuzzy fallback
         $blogs = \App\Models\Blog::where('title', 'like', "%{$q}%")
             ->orWhere('excerpt', 'like', "%{$q}%")
             ->orWhere('content', 'like', "%{$q}%")
             ->orWhere('category', 'like', "%{$q}%")
             ->limit(5)
-            ->get()
-            ->map(function ($b) {
-                return [
-                    'title' => $b->title,
-                    'slug' => $b->slug,
-                    'category' => $b->category,
-                    'excerpt' => substr(strip_tags($b->excerpt ?: $b->content), 0, 80) . '...',
-                    'url' => route('blog.show', $b->slug),
-                ];
-            });
+            ->get();
 
-        // 5. Search Jobs (with typo-tolerant fuzzy matching)
+        if ($blogs->isEmpty()) {
+            $allBlogs = \App\Models\Blog::all();
+            $blogTitles = $allBlogs->pluck('title', 'id')->toArray();
+            $fuzzyBlogs = $this->fuzzySearchCandidates($q, $blogTitles, 35, 5);
+            if (!empty($fuzzyBlogs)) {
+                $matchedIds = array_map(fn($r) => $r['key'], $fuzzyBlogs);
+                $blogs = $allBlogs->whereIn('id', $matchedIds)->values();
+                if (!$didYouMean) {
+                    $didYouMean = $fuzzyBlogs[0]['text'];
+                }
+            }
+        }
+
+        $blogs = $blogs->map(function ($b) {
+            return [
+                'title' => $b->title,
+                'slug' => $b->slug,
+                'category' => $b->category,
+                'excerpt' => substr(strip_tags($b->excerpt ?: $b->content), 0, 80) . '...',
+                'url' => route('blog.show', $b->slug),
+            ];
+        });
+
+        // 5. Search Jobs (with typo-tolerant fuzzy matching — already fuzzy)
         $activeJobs = \App\Models\JobListing::active()->get();
         $matchedJobs = [];
         foreach ($activeJobs as $j) {
@@ -465,38 +522,70 @@ class ExploreController extends Controller
         })->all();
 
 
-        // 6. Search Indian Colleges (Kaggle dataset)
+        // 6. Search Indian Colleges with fuzzy fallback
         $indianColleges = \App\Models\IndianCollege::where('college_name', 'like', "%{$q}%")
             ->orWhere('city', 'like', "%{$q}%")
             ->orWhere('state', 'like', "%{$q}%")
             ->orWhere('district', 'like', "%{$q}%")
             ->orWhere('university_name', 'like', "%{$q}%")
             ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name', 'city')
-            ->limit(6)
+            ->limit(10)
             ->get()
             ->unique('college_name')
-            ->values()
-            ->map(function ($c) {
-                $loc = trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? ''));
-                return [
-                    'id'         => $c->id,
-                    'name'       => $c->college_name,
-                    'location'   => $loc ?: 'India',
-                    'type'       => $c->college_type ?? 'College',
-                    'management' => $c->management ?? '',
-                    'university' => $c->university_name ?? '',
-                    'url'        => url('/colleges/' . $c->id),
-                ];
+            ->values();
+
+        if ($indianColleges->isEmpty()) {
+            // Fuzzy fallback for Indian Colleges
+            $candidateNames = \Illuminate\Support\Facades\Cache::remember('indian_college_names', 3600, function () {
+                return \App\Models\IndianCollege::select('college_name')
+                    ->distinct()
+                    ->pluck('college_name')
+                    ->toArray();
             });
 
-        return response()->json([
+            $fuzzyIC = $this->fuzzySearchCandidates($q, $candidateNames, 30, 8);
+            if (!empty($fuzzyIC)) {
+                $matchedNames = array_map(fn($r) => $r['text'], $fuzzyIC);
+                $indianColleges = \App\Models\IndianCollege::whereIn('college_name', $matchedNames)
+                    ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name', 'city')
+                    ->limit(10)
+                    ->get()
+                    ->unique('college_name')
+                    ->values();
+
+                if (!$didYouMean) {
+                    $didYouMean = $fuzzyIC[0]['text'];
+                }
+            }
+        }
+
+        $indianColleges = $indianColleges->map(function ($c) {
+            $loc = trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? ''));
+            return [
+                'id'         => $c->id,
+                'name'       => $c->college_name,
+                'location'   => $loc ?: 'India',
+                'type'       => $c->college_type ?? 'College',
+                'management' => $c->management ?? '',
+                'university' => $c->university_name ?? '',
+                'url'        => url('/colleges/' . $c->id),
+            ];
+        });
+
+        $response = [
             'db_careers' => $dbCareers,
             'config_careers' => $fields,
             'colleges' => $colleges,
             'indian_colleges' => $indianColleges,
             'blogs' => $blogs,
             'jobs' => $jobs,
-        ]);
+        ];
+
+        if ($didYouMean) {
+            $response['did_you_mean'] = $didYouMean;
+        }
+
+        return response()->json($response);
     }
 
 
@@ -582,7 +671,7 @@ class ExploreController extends Controller
             return redirect($url . '?college_id=' . $college->id);
         }
 
-        // 5. IndianCollege match
+        // 5. IndianCollege match (exact + fuzzy)
         $indianCollege = \App\Models\IndianCollege::where('college_name', 'like', "%{$q}%")->first();
         if ($indianCollege) {
             return redirect('/colleges/' . $indianCollege->id);
@@ -594,58 +683,77 @@ class ExploreController extends Controller
             return redirect()->route('jobs.show', $job->id);
         }
 
-        // 7. Fuzzy matching fallback using Levenshtein distance
-        $bestDistance = 999;
+        // 7. Enhanced fuzzy matching fallback using fuzzyMatch scoring
+        $bestScore = 0;
         $bestUrl = null;
 
         // Compare with Career names
         $careers = Career::select('name', 'slug')->get();
         foreach ($careers as $c) {
-            $dist = levenshtein($qLower, strtolower($c->name));
-            if ($dist < $bestDistance) {
-                $bestDistance = $dist;
+            $score = $this->fuzzyMatch($q, $c->name);
+            if ($score > $bestScore) {
+                $bestScore = $score;
                 $bestUrl = route('career.detail.page', $c->slug);
             }
         }
 
         // Compare with Field names
         $fields = Field::select('name', 'slug')->get();
+        $careerPathRoutes = [
+            'technology-engineering' => '/career-path/technology-engineering',
+            'medical' => '/career-path/medical',
+            'business' => '/career-path/business',
+            'science' => '/career-path/science',
+            'arts-humanities' => '/career-path/arts-humanities',
+            'commerce' => '/career-path/commerce',
+            'agriculture' => '/career-path/agriculture',
+            'sports' => '/career-path/sports',
+            'skill-development' => '/career-path/skill-development',
+            'modern-tech' => '/career-path/modern-tech-ai',
+            'creative-careers' => '/career-path/creative-careers',
+            'social-media' => '/career-path/social-media-content',
+            'gaming-careers' => '/career-path/gaming-esports',
+            'freelancing' => '/career-path/freelancing-remote',
+            'government-defence' => '/explore/government-defence',
+            'teaching-law' => '/explore/teaching-law',
+            'hotel-management' => '/explore/hotel-management-colleges',
+            'pharmacy' => '/explore/pharmacy-colleges',
+            'ayush-allied' => '/explore/non-mbbs-colleges',
+            'small-scale' => '/explore/small-scale-business',
+            'competitive-exams' => '/explore/competitive-exams',
+        ];
         foreach ($fields as $f) {
-            $dist = levenshtein($qLower, strtolower($f->name));
-            if ($dist < $bestDistance) {
-                $bestDistance = $dist;
-                $careerPathRoutes = [
-                    'technology-engineering' => '/career-path/technology-engineering',
-                    'medical' => '/career-path/medical',
-                    'business' => '/career-path/business',
-                    'science' => '/career-path/science',
-                    'arts-humanities' => '/career-path/arts-humanities',
-                    'commerce' => '/career-path/commerce',
-                    'agriculture' => '/career-path/agriculture',
-                    'sports' => '/career-path/sports',
-                    'skill-development' => '/career-path/skill-development',
-                    'modern-tech' => '/career-path/modern-tech-ai',
-                    'creative-careers' => '/career-path/creative-careers',
-                    'social-media' => '/career-path/social-media-content',
-                    'gaming-careers' => '/career-path/gaming-esports',
-                    'freelancing' => '/career-path/freelancing-remote',
-                    'government-defence' => '/explore/government-defence',
-                    'teaching-law' => '/explore/teaching-law',
-                    'hotel-management' => '/explore/hotel-management-colleges',
-                    'pharmacy' => '/explore/pharmacy-colleges',
-                    'ayush-allied' => '/explore/non-mbbs-colleges',
-                    'small-scale' => '/explore/small-scale-business',
-                    'competitive-exams' => '/explore/competitive-exams',
-                ];
+            $score = $this->fuzzyMatch($q, $f->name);
+            if ($score > $bestScore) {
+                $bestScore = $score;
                 $bestUrl = url($careerPathRoutes[$f->slug] ?? '/career-path/' . $f->slug);
             }
         }
 
-        if ($bestUrl) {
+        // Compare with Indian College names (fuzzy)
+        $candidateNames = \Illuminate\Support\Facades\Cache::remember('indian_college_names', 3600, function () {
+            return \App\Models\IndianCollege::select('id', 'college_name')
+                ->distinct('college_name')
+                ->limit(5000)
+                ->get()
+                ->pluck('college_name', 'id')
+                ->toArray();
+        });
+
+        foreach ($candidateNames as $icId => $icName) {
+            $score = $this->fuzzyMatch($q, $icName);
+            if ($score > $bestScore) {
+                $bestScore = $score;
+                $bestUrl = url('/colleges/' . $icId);
+            }
+        }
+
+        if ($bestUrl && $bestScore >= 30) {
             return redirect($bestUrl);
         }
 
-        return redirect()->route('explore.index');
+        // Fallback: redirect to colleges page with the search query
+        return redirect()->route('indian-colleges.index', ['q' => $q]);
     }
 
 

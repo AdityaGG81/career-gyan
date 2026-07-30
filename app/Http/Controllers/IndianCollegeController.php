@@ -6,9 +6,24 @@ use App\Models\IndianCollege;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class IndianCollegeController extends Controller
 {
+    /**
+     * Get a cached list of unique college names for fuzzy matching.
+     * Uses caching to avoid re-querying 90k+ rows on every search.
+     */
+    private function getCollegeNameCandidates(): array
+    {
+        return Cache::remember('indian_college_names', 3600, function () {
+            return IndianCollege::select('college_name')
+                ->distinct()
+                ->pluck('college_name')
+                ->toArray();
+        });
+    }
+
     /**
      * GET /colleges — Browse/search/filter all Indian colleges
      */
@@ -39,9 +54,15 @@ class IndianCollegeController extends Controller
         if ($request->filled('course_type')) {
             $baseQuery->where('course_type', $request->course_type);
         }
+
+        $didYouMean = null;
+        $fuzzyUsed = false;
+
         if ($request->filled('q')) {
             $q = trim($request->q);
-            $baseQuery->where(function ($qb) use ($q) {
+
+            // Phase 1: Try exact LIKE search first
+            $testQuery = (clone $baseQuery)->where(function ($qb) use ($q) {
                 $qb->where('college_name', 'like', "%{$q}%")
                    ->orWhere('city', 'like', "%{$q}%")
                    ->orWhere('district', 'like', "%{$q}%")
@@ -49,44 +70,82 @@ class IndianCollegeController extends Controller
                    ->orWhere('university_name', 'like', "%{$q}%")
                    ->orWhere('course_name', 'like', "%{$q}%");
             });
+
+            $exactCount = (clone $testQuery)
+                ->select(DB::raw('MIN(id) as id'))
+                ->groupBy('college_name', 'district', 'state')
+                ->get()
+                ->count();
+
+            if ($exactCount > 0) {
+                // Exact matches found — use them
+                $baseQuery = $testQuery;
+            } else {
+                // Phase 2: Fuzzy search fallback
+                $candidates = $this->getCollegeNameCandidates();
+                $fuzzyResults = $this->fuzzySearchCandidates($q, $candidates, 30, 50);
+
+                if (!empty($fuzzyResults)) {
+                    $fuzzyUsed = true;
+                    // Get the best match as "Did you mean?" suggestion
+                    $didYouMean = $fuzzyResults[0]['text'];
+
+                    // Get all fuzzy-matched college names
+                    $matchedNames = array_map(fn($r) => $r['text'], $fuzzyResults);
+
+                    $baseQuery->whereIn('college_name', $matchedNames);
+                }
+                // If no fuzzy results either, the query stays unmodified
+                // which will return 0 results with the empty state
+            }
         }
 
-        // Get unique colleges: pick MIN(id) per college_name+district+state group
-        $uniqueIdsQuery = (clone $baseQuery)
-            ->select(DB::raw('MIN(id) as id'))
+        // Build query for unique colleges (MIN(id) grouped by college_name, district, state)
+        $uniqueQuery = (clone $baseQuery)
+            ->select('college_name', 'district', 'state', DB::raw('MIN(id) as id'))
             ->groupBy('college_name', 'district', 'state');
 
-        // Get course counts per unique college
-        $courseCounts = (clone $baseQuery)
-            ->select('college_name', 'district', 'state', DB::raw('COUNT(DISTINCT course_name) as course_count'))
-            ->whereNotNull('course_name')
-            ->where('course_name', '!=', '')
-            ->groupBy('college_name', 'district', 'state')
-            ->get()
-            ->keyBy(function ($item) {
-                return $item->college_name . '|' . $item->district . '|' . $item->state;
-            });
+        // Total count of unique colleges for pagination
+        $totalUnique = DB::table(DB::raw("({$uniqueQuery->toSql()}) as sub"))
+            ->mergeBindings($uniqueQuery->getQuery())
+            ->count();
 
-        // Fetch actual college records using the unique IDs
-        $uniqueIds = $uniqueIdsQuery->pluck('id');
-
-        // Paginate: get the total count of unique colleges
-        $totalUnique = $uniqueIds->count();
         $perPage = 30;
-        $currentPage = $request->input('page', 1);
-        $offset = ($currentPage - 1) * $perPage;
+        $currentPage = (int) $request->input('page', 1);
+        $offset = max(0, ($currentPage - 1) * $perPage);
 
-        // Fetch the page of colleges
-        $collegesPage = IndianCollege::whereIn('id', $uniqueIds)
+        // Fetch only the unique college IDs for the CURRENT PAGE (ordered by college_name)
+        $pageUniqueIds = (clone $uniqueQuery)
             ->orderBy('college_name')
             ->skip($offset)
             ->take($perPage)
-            ->get();
+            ->pluck('id');
 
-        // Attach course_count to each college
-        foreach ($collegesPage as $college) {
-            $key = $college->college_name . '|' . $college->district . '|' . $college->state;
-            $college->course_count = $courseCounts->has($key) ? $courseCounts->get($key)->course_count : 0;
+        if ($pageUniqueIds->isNotEmpty()) {
+            // Fetch the 30 college models for the current page
+            $collegesPage = IndianCollege::whereIn('id', $pageUniqueIds)
+                ->orderBy('college_name')
+                ->get();
+
+            // Fetch course counts for the colleges on this page only
+            $namesOnPage = $collegesPage->pluck('college_name')->unique();
+            $courseCounts = IndianCollege::select('college_name', 'district', 'state', DB::raw('COUNT(DISTINCT course_name) as course_count'))
+                ->whereIn('college_name', $namesOnPage)
+                ->whereNotNull('course_name')
+                ->where('course_name', '!=', '')
+                ->groupBy('college_name', 'district', 'state')
+                ->get()
+                ->keyBy(function ($item) {
+                    return $item->college_name . '|' . $item->district . '|' . $item->state;
+                });
+
+            // Attach course_count to each college
+            foreach ($collegesPage as $college) {
+                $key = $college->college_name . '|' . $college->district . '|' . $college->state;
+                $college->course_count = $courseCounts->has($key) ? $courseCounts->get($key)->course_count : 0;
+            }
+        } else {
+            $collegesPage = collect();
         }
 
         // Create a manual paginator
@@ -135,14 +194,13 @@ class IndianCollegeController extends Controller
             ->pluck('course_type');
 
         // Stats — show unique college count, not row count
-        $totalColleges = IndianCollege::select('college_name', 'district', 'state')
-            ->distinct()
-            ->count(DB::raw('college_name || district || state'));
+        $totalColleges = DB::table(DB::raw("(SELECT DISTINCT college_name, district, state FROM indian_colleges) as sub"))->count();
         $totalStates = IndianCollege::whereNotNull('state')->where('state', '!=', '')->distinct('state')->count('state');
 
         return view('indian-colleges.index', compact(
             'colleges', 'states', 'managementTypes', 'collegeTypes',
-            'courseCategories', 'courseTypes', 'totalColleges', 'totalStates'
+            'courseCategories', 'courseTypes', 'totalColleges', 'totalStates',
+            'didYouMean', 'fuzzyUsed'
         ));
     }
 
@@ -214,6 +272,7 @@ class IndianCollegeController extends Controller
 
     /**
      * GET /colleges/api-search?q= — AJAX search for global search integration
+     * Enhanced with fuzzy/typo-tolerant matching
      */
     public function apiSearch(Request $request): JsonResponse
     {
@@ -223,26 +282,53 @@ class IndianCollegeController extends Controller
             return response()->json([]);
         }
 
+        // Phase 1: Try exact LIKE search
         $results = IndianCollege::where('college_name', 'like', "%{$q}%")
             ->orWhere('city', 'like', "%{$q}%")
             ->orWhere('university_name', 'like', "%{$q}%")
             ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name')
-            ->limit(8)
+            ->limit(12)
             ->get()
             ->unique('college_name')
-            ->values()
-            ->map(function ($c) {
-                return [
-                    'id'         => $c->id,
-                    'name'       => $c->college_name,
-                    'location'   => trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? '')),
-                    'type'       => $c->college_type ?? 'College',
-                    'management' => $c->management ?? '',
-                    'university' => $c->university_name ?? '',
-                    'url'        => url('/colleges/' . $c->id),
-                ];
-            });
+            ->values();
 
-        return response()->json($results);
+        $didYouMean = null;
+
+        // Phase 2: If no exact results, try fuzzy matching
+        if ($results->isEmpty()) {
+            $candidates = $this->getCollegeNameCandidates();
+            $fuzzyResults = $this->fuzzySearchCandidates($q, $candidates, 30, 8);
+
+            if (!empty($fuzzyResults)) {
+                $matchedNames = array_map(fn($r) => $r['text'], $fuzzyResults);
+                $didYouMean = $fuzzyResults[0]['text'];
+
+                $results = IndianCollege::whereIn('college_name', $matchedNames)
+                    ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name')
+                    ->limit(12)
+                    ->get()
+                    ->unique('college_name')
+                    ->values();
+            }
+        }
+
+        $formatted = $results->map(function ($c) {
+            return [
+                'id'         => $c->id,
+                'name'       => $c->college_name,
+                'location'   => trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? '')),
+                'type'       => $c->college_type ?? 'College',
+                'management' => $c->management ?? '',
+                'university' => $c->university_name ?? '',
+                'url'        => url('/colleges/' . $c->id),
+            ];
+        });
+
+        $response = ['results' => $formatted];
+        if ($didYouMean) {
+            $response['did_you_mean'] = $didYouMean;
+        }
+
+        return response()->json($response);
     }
 }

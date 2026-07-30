@@ -311,6 +311,39 @@
         cursor: not-allowed;
     }
 
+    /* Did You Mean banner */
+    .did-you-mean-banner {
+        background: linear-gradient(135deg, #fffbeb, #fef3c7);
+        border: 1px solid #fde68a;
+        border-radius: var(--radius-md);
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #92400e;
+        animation: slideDown 0.3s ease;
+    }
+    .did-you-mean-banner i {
+        color: #f59e0b;
+        font-size: 18px;
+    }
+    .did-you-mean-banner a {
+        color: var(--brand);
+        font-weight: 700;
+        font-style: italic;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        transition: var(--transition);
+    }
+    .did-you-mean-banner a:hover {
+        color: var(--brand-dark);
+    }
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* Responsive */
     @media (max-width: 991px) {
         .colleges-layout {
@@ -434,6 +467,19 @@
                     of <strong>{{ number_format($colleges->total()) }}</strong> Colleges
                 </div>
             </div>
+
+            @if(isset($didYouMean) && $didYouMean)
+                <div class="did-you-mean-banner">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>
+                        @if(isset($fuzzyUsed) && $fuzzyUsed)
+                            Showing results for: <a href="{{ route('indian-colleges.index', array_merge(request()->query(), ['q' => $didYouMean])) }}">{{ $didYouMean }}</a>
+                        @else
+                            Did you mean: <a href="{{ route('indian-colleges.index', array_merge(request()->query(), ['q' => $didYouMean])) }}">{{ $didYouMean }}</a>?
+                        @endif
+                    </span>
+                </div>
+            @endif
 
             @if($colleges->isEmpty())
                 <div class="empty-state">

@@ -1458,6 +1458,16 @@
       .then(data => {
         let html = '';
 
+        // Show 'Did you mean?' suggestion if available
+        if (data.did_you_mean) {
+          html += `<div style="padding: 10px 16px; background: #fffbeb; border-bottom: 1px solid #fde68a; display: flex; align-items: center; gap: 8px; font-size: 14px;">
+            <i class="fa-solid fa-lightbulb" style="color: #f59e0b;"></i>
+            <span style="color: #92400e;">Did you mean: 
+              <a href="#" onclick="event.preventDefault(); searchInput.value='${data.did_you_mean}'; performSearch();" style="color: #1a56db; font-weight: 600; font-style: italic; text-decoration: underline;">${data.did_you_mean}</a>?
+            </span>
+          </div>`;
+        }
+
         const hasFields = data.config_careers && data.config_careers.length > 0;
         const hasCareers = data.db_careers && data.db_careers.length > 0;
         const hasColleges = data.colleges && data.colleges.length > 0;
@@ -1466,7 +1476,7 @@
         const hasIndianColleges = data.indian_colleges && data.indian_colleges.length > 0;
 
         if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasJobs && !hasIndianColleges) {
-          searchResults.innerHTML = `
+          searchResults.innerHTML = html + `
             <div class="search-empty">
               <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
               <p>No matching information found. Try another keyword.</p>
@@ -1623,6 +1633,17 @@
         .then(res => res.json())
         .then(data => {
           let html = '';
+
+          // Show 'Did you mean?' in nav search
+          if (data.did_you_mean) {
+            html += `<div class="nav-sug-item" style="padding: 8px 12px; background: #fffbeb; border-bottom: 1px solid #fde68a; font-size: 13px;">
+              <i class="fa-solid fa-lightbulb" style="color: #f59e0b; margin-right: 6px;"></i>
+              <span style="color: #92400e;">Did you mean: 
+                <a href="#" onclick="event.preventDefault(); navSearchInput.value='${data.did_you_mean}'; performNavSearch();" style="color: #1a56db; font-weight: 600; font-style: italic;">${data.did_you_mean}</a>?
+              </span>
+            </div>`;
+          }
+
           const hasFields = data.config_careers && data.config_careers.length > 0;
           const hasCareers = data.db_careers && data.db_careers.length > 0;
           const hasJobs = data.jobs && data.jobs.length > 0;
@@ -1631,7 +1652,7 @@
           const hasIndianColleges = data.indian_colleges && data.indian_colleges.length > 0;
 
           if (!hasFields && !hasCareers && !hasJobs && !hasColleges && !hasBlogs && !hasIndianColleges) {
-            html = `<div style="padding: 16px; font-size: 13.5px; color: var(--text-3); text-align: center;">No suggestions found for "<b>${query}</b>"</div>`;
+            html += `<div style="padding: 16px; font-size: 13.5px; color: var(--text-3); text-align: center;">No suggestions found for "<b>${query}</b>"</div>`;
             navSearchSuggestions.innerHTML = html;
             navSearchSuggestions.style.display = 'block';
             return;
