@@ -4,7 +4,27 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title', 'CareerGyan | Explore Careers')</title>
+
+<!-- Dynamic SEO Meta Tags -->
+<title>@yield('title', 'CareerGyan | Explore Careers, Courses & Colleges in India')</title>
+<meta name="description" content="@yield('meta_description', 'CareerGyan helps students explore 5000+ career paths, take aptitude tests, and find the best colleges and exams in India. Get personalized career guidance completely free.')">
+<meta name="keywords" content="@yield('meta_keywords', 'career guidance, aptitude test, colleges in india, explore careers, jobs, mht cet, jee, neet, maharashtra colleges cutoff')">
+<meta name="author" content="Indian Institute of Career Management">
+
+<!-- Open Graph / Social Media -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:title" content="@yield('title', 'CareerGyan | Explore Careers & Colleges')">
+<meta property="og:description" content="@yield('meta_description', 'Discover your ideal career path with our advanced aptitude tests and comprehensive college database.')">
+<meta property="og:image" content="{{ asset('careergyan-tab-logo.png') }}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{ url()->current() }}">
+<meta property="twitter:title" content="@yield('title', 'CareerGyan | Explore Careers & Colleges')">
+<meta property="twitter:description" content="@yield('meta_description', 'Discover your ideal career path with our advanced aptitude tests and comprehensive college database.')">
+<meta property="twitter:image" content="{{ asset('careergyan-tab-logo.png') }}">
+
 @yield('meta')
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1071,7 +1091,7 @@
           <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">Explore</a>
           <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Daily Quiz 🔥</a>
           <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a>
-          <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Job Corner 💼</a>
+          <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Job Corner</a>
           <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
         </div>
       </div>
@@ -1301,12 +1321,14 @@
         </div>
 
         <div class="footer-col">
-          <h4>Resources</h4>
+          <h4>Tools & Guidance</h4>
           <a href="{{ url('/explore') }}">Career Paths</a>
-          <a href="{{ url('/explore/engineering-colleges') }}">Engineering Colleges</a>
-          <a href="{{ url('/explore/medical-colleges') }}">Medical Colleges</a>
-          <a href="{{ url('/explore/competitive-exams') }}">Competitive Exams</a>
-          <a href="{{ url('/explore/skill-development') }}">Skill Development</a>
+          <a href="{{ url('/tools/maharashtra-colleges-cutoff') }}">MH Colleges Cutoff</a>
+          <a href="{{ url('/tools/percentile-calculator') }}">Percentile Calculator</a>
+          <a href="{{ url('/tools/college-predictor') }}">College Predictor</a>
+          <a href="{{ url('/guidance/mht-cet') }}">MHT-CET Guidance</a>
+          <a href="{{ url('/guidance/jee-neet') }}">JEE/NEET Guidance</a>
+          <a href="{{ url('/guidance/upsc') }}">UPSC Guidance</a>
         </div>
 
         <div class="footer-col">

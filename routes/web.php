@@ -197,6 +197,14 @@ Route::get('/test-mail', function (\Illuminate\Http\Request $request) {
 Route::get('/daily-quiz', [DailyQuizController::class, 'index'])->name('daily-quiz.index');
 Route::get('/daily-quiz/leaderboard', [DailyQuizController::class, 'leaderboard'])->name('daily-quiz.leaderboard');
 
+// SEO Tools & Guidance Routes
+Route::get('/tools/maharashtra-colleges-cutoff', function () { return view('tools.maharashtra-cutoff'); })->name('tools.mh-cutoff');
+Route::get('/tools/percentile-calculator', function () { return view('tools.percentile-calculator'); })->name('tools.percentile-calculator');
+Route::get('/tools/college-predictor', function () { return view('tools.college-predictor'); })->name('tools.college-predictor');
+Route::get('/guidance/mht-cet', function () { return view('guidance.mht-cet'); })->name('guidance.mht-cet');
+Route::get('/guidance/jee-neet', function () { return view('guidance.jee-neet'); })->name('guidance.jee-neet');
+Route::get('/guidance/upsc', function () { return view('guidance.upsc'); })->name('guidance.upsc');
+
 Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
 Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');
