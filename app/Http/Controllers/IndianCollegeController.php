@@ -122,22 +122,31 @@ class IndianCollegeController extends Controller
             ->pluck('id');
 
         if ($pageUniqueIds->isNotEmpty()) {
-            // Fetch the 30 college models for the current page
-            $collegesPage = IndianCollege::whereIn('id', $pageUniqueIds)
-                ->orderBy('college_name')
-                ->get();
+            // Fetch the 30 college models for the current page (chunked to avoid SQLite limits)
+            $collegesPage = collect();
+            foreach ($pageUniqueIds->chunk(500) as $chunk) {
+                $collegesPage = $collegesPage->concat(
+                    IndianCollege::whereIn('id', $chunk)->get()
+                );
+            }
+            $collegesPage = $collegesPage->sortBy('college_name')->values();
 
             // Fetch course counts for the colleges on this page only
             $namesOnPage = $collegesPage->pluck('college_name')->unique();
-            $courseCounts = IndianCollege::select('college_name', 'district', 'state', DB::raw('COUNT(DISTINCT course_name) as course_count'))
-                ->whereIn('college_name', $namesOnPage)
-                ->whereNotNull('course_name')
-                ->where('course_name', '!=', '')
-                ->groupBy('college_name', 'district', 'state')
-                ->get()
-                ->keyBy(function ($item) {
-                    return $item->college_name . '|' . $item->district . '|' . $item->state;
-                });
+            $courseCounts = collect();
+            foreach ($namesOnPage->chunk(500) as $chunk) {
+                $courseCounts = $courseCounts->concat(
+                    IndianCollege::select('college_name', 'district', 'state', \Illuminate\Support\Facades\DB::raw('COUNT(DISTINCT course_name) as course_count'))
+                        ->whereIn('college_name', $chunk)
+                        ->whereNotNull('course_name')
+                        ->where('course_name', '!=', '')
+                        ->groupBy('college_name', 'district', 'state')
+                        ->get()
+                );
+            }
+            $courseCounts = $courseCounts->keyBy(function ($item) {
+                return $item->college_name . '|' . $item->district . '|' . $item->state;
+            });
 
             // Attach course_count to each college
             foreach ($collegesPage as $college) {
