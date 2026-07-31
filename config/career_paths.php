@@ -1750,7 +1750,7 @@ return [
             'after_grad' => 'Pursue M.Pharm/Pharm.D, join pharma manufacturing, or clear exams for Drug Inspector roles.'
         ],
         'opportunities' => [
-            'Manufacturing Hubs: Massive pharma industrial zones in Tarapur (Palghar), Pune, and Aurangabad.',
+            'Manufacturing Hubs: Massive pharma industrial zones in Tarapur (Palghar), Pune, and Chhatrapati Sambhajinagar.',
             'Clinical Research: High concentration of CROs (Clinical Research Organizations) in Mumbai.',
             'Business: Excellent scope for opening medical stores or pharma distributorships.'
         ],

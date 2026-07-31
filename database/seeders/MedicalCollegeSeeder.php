@@ -96,8 +96,8 @@ class MedicalCollegeSeeder extends Seeder
             // Jalna
             ['name' => 'Mahatma Jyotiba Phule Medical College', 'location' => 'Jalna', 'type' => 'Private'],
 
-            // Osmanabad (Dharashiv)
-            ['name' => 'Government Medical College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+            // Dharashiv (Dharashiv)
+            ['name' => 'Government Medical College Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
 
             // Parbhani
             ['name' => 'Government Medical College Parbhani', 'location' => 'Parbhani', 'type' => 'Government'],

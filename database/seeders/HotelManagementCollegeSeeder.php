@@ -59,7 +59,7 @@ class HotelManagementCollegeSeeder extends Seeder
             ['name' => 'College of Hotel Management Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Private', 'tier' => 'Tier 3'],
             ['name' => 'Institute of Hotel Management Palghar', 'location' => 'Palghar', 'type' => 'Private', 'tier' => 'Tier 3'],
             ['name' => 'College of Hotel Management Beed', 'location' => 'Beed', 'type' => 'Private', 'tier' => 'Tier 3'],
-            ['name' => 'Institute of Hotel Management Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private', 'tier' => 'Tier 3'],
+            ['name' => 'Institute of Hotel Management Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private', 'tier' => 'Tier 3'],
             ['name' => 'College of Hotel Management Washim', 'location' => 'Washim', 'type' => 'Private', 'tier' => 'Tier 3'],
             ['name' => 'Institute of Hotel Management Hingoli', 'location' => 'Hingoli', 'type' => 'Private', 'tier' => 'Tier 3'],
             ['name' => 'College of Hotel Management Buldhana', 'location' => 'Buldhana', 'type' => 'Private', 'tier' => 'Tier 3'],

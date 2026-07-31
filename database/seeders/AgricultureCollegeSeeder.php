@@ -42,7 +42,7 @@ class AgricultureCollegeSeeder extends Seeder
             ['name' => 'College of Agriculture Ratnagiri', 'location' => 'Ratnagiri', 'type' => 'Government'],
             ['name' => 'College of Agriculture Palghar', 'location' => 'Palghar', 'type' => 'Government'],
             ['name' => 'College of Agriculture Beed', 'location' => 'Beed', 'type' => 'Government'],
-            ['name' => 'College of Agriculture Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
+            ['name' => 'College of Agriculture Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
             ['name' => 'College of Agriculture Washim', 'location' => 'Washim', 'type' => 'Government'],
             ['name' => 'College of Agriculture Hingoli', 'location' => 'Hingoli', 'type' => 'Government'],
             ['name' => 'College of Agriculture Buldhana', 'location' => 'Buldhana', 'type' => 'Government'],

@@ -114,9 +114,9 @@ class PharmacyCollegeSeeder extends Seeder
             ['name' => 'Government College of Pharmacy Beed', 'location' => 'Beed', 'type' => 'Government'],
             ['name' => 'Mahatma Gandhi College of Pharmacy Beed', 'location' => 'Beed', 'type' => 'Private'],
 
-            // Osmanabad
-            ['name' => 'Government College of Pharmacy Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
-            ['name' => 'Mahatma Gandhi College of Pharmacy Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+            // Dharashiv
+            ['name' => 'Government College of Pharmacy Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Pharmacy Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private'],
 
             // Washim
             ['name' => 'Government College of Pharmacy Washim', 'location' => 'Washim', 'type' => 'Government'],

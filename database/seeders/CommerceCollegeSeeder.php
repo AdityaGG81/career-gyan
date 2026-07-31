@@ -61,7 +61,7 @@ class CommerceCollegeSeeder extends Seeder
             ['name' => 'Pillai College of Arts, Commerce and Science', 'location' => 'Navi Mumbai', 'type' => 'Private'],
 
             // Jalgaon
-            ['name' => 'North Maharashtra University College of Commerce', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'Kavayitri Bahinabai Chaudhari North Maharashtra University College of Commerce', 'location' => 'Jalgaon', 'type' => 'Government'],
             ['name' => 'MGM College of Commerce Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
 
             // Amravati
@@ -112,9 +112,9 @@ class CommerceCollegeSeeder extends Seeder
             ['name' => 'Government College of Commerce Beed', 'location' => 'Beed', 'type' => 'Government'],
             ['name' => 'Mahatma Gandhi College of Commerce Beed', 'location' => 'Beed', 'type' => 'Private'],
 
-            // Osmanabad
-            ['name' => 'Government College of Commerce Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
-            ['name' => 'Mahatma Gandhi College of Commerce Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+            // Dharashiv
+            ['name' => 'Government College of Commerce Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi College of Commerce Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private'],
 
             // Washim
             ['name' => 'Government College of Commerce Washim', 'location' => 'Washim', 'type' => 'Government'],

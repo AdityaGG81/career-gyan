@@ -139,9 +139,9 @@ class EngineeringCollegeSeeder extends Seeder
             ['name' => 'Government College of Engineering Beed', 'location' => 'Beed', 'type' => 'Government'],
             ['name' => 'Mahatma Gandhi Mission College of Engineering Beed', 'location' => 'Beed', 'type' => 'Private'],
 
-            // Osmanabad District
-            ['name' => 'Government College of Engineering Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
-            ['name' => 'Mahatma Gandhi Mission College of Engineering Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+            // Dharashiv District
+            ['name' => 'Government College of Engineering Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Mission College of Engineering Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private'],
 
             // Washim District
             ['name' => 'Government College of Engineering Washim', 'location' => 'Washim', 'type' => 'Government'],

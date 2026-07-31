@@ -70,7 +70,7 @@ class ManagementCollegeSeeder extends Seeder
             ['name' => 'Welingkar Institute of Management Development and Research', 'location' => 'Mumbai', 'type' => 'Private'],
 
             // Jalgaon
-            ['name' => 'North Maharashtra University Department of Management', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'Kavayitri Bahinabai Chaudhari North Maharashtra University Department of Management', 'location' => 'Jalgaon', 'type' => 'Government'],
             ['name' => 'MGM Institute of Management Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
 
             // Amravati
@@ -121,9 +121,9 @@ class ManagementCollegeSeeder extends Seeder
             ['name' => 'Government Institute of Management Beed', 'location' => 'Beed', 'type' => 'Government'],
             ['name' => 'Mahatma Gandhi Institute of Management Beed', 'location' => 'Beed', 'type' => 'Private'],
 
-            // Osmanabad
-            ['name' => 'Government Institute of Management Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
-            ['name' => 'Mahatma Gandhi Institute of Management Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+            // Dharashiv
+            ['name' => 'Government Institute of Management Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Institute of Management Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private'],
 
             // Washim
             ['name' => 'Government Institute of Management Washim', 'location' => 'Washim', 'type' => 'Government'],

@@ -61,7 +61,7 @@ class ArtsCollegeSeeder extends Seeder
             ['name' => 'Walchand College of Arts and Science', 'location' => 'Solapur', 'type' => 'Private'],
 
             // Jalgaon
-            ['name' => 'North Maharashtra University Arts College', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'Kavayitri Bahinabai Chaudhari North Maharashtra University Arts College', 'location' => 'Jalgaon', 'type' => 'Government'],
             ['name' => 'MGM Arts College Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
 
             // Amravati
@@ -112,9 +112,9 @@ class ArtsCollegeSeeder extends Seeder
             ['name' => 'Government Arts College Beed', 'location' => 'Beed', 'type' => 'Government'],
             ['name' => 'Mahatma Gandhi Arts College Beed', 'location' => 'Beed', 'type' => 'Private'],
 
-            // Osmanabad
-            ['name' => 'Government Arts College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
-            ['name' => 'Mahatma Gandhi Arts College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+            // Dharashiv
+            ['name' => 'Government Arts College Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Arts College Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private'],
 
             // Washim
             ['name' => 'Government Arts College Washim', 'location' => 'Washim', 'type' => 'Government'],

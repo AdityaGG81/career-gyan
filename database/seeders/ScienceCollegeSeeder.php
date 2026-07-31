@@ -59,7 +59,7 @@ class ScienceCollegeSeeder extends Seeder
             ['name' => 'Walchand College of Arts and Science', 'location' => 'Solapur', 'type' => 'Private'],
 
             // Jalgaon
-            ['name' => 'North Maharashtra University Science College', 'location' => 'Jalgaon', 'type' => 'Government'],
+            ['name' => 'Kavayitri Bahinabai Chaudhari North Maharashtra University Science College', 'location' => 'Jalgaon', 'type' => 'Government'],
             ['name' => 'MGM College of Science Jalgaon', 'location' => 'Jalgaon', 'type' => 'Private'],
 
             // Amravati
@@ -110,9 +110,9 @@ class ScienceCollegeSeeder extends Seeder
             ['name' => 'Government Science College Beed', 'location' => 'Beed', 'type' => 'Government'],
             ['name' => 'Mahatma Gandhi Science College Beed', 'location' => 'Beed', 'type' => 'Private'],
 
-            // Osmanabad
-            ['name' => 'Government Science College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Government'],
-            ['name' => 'Mahatma Gandhi Science College Osmanabad', 'location' => 'Osmanabad', 'type' => 'Private'],
+            // Dharashiv
+            ['name' => 'Government Science College Dharashiv', 'location' => 'Dharashiv', 'type' => 'Government'],
+            ['name' => 'Mahatma Gandhi Science College Dharashiv', 'location' => 'Dharashiv', 'type' => 'Private'],
 
             // Washim
             ['name' => 'Government Science College Washim', 'location' => 'Washim', 'type' => 'Government'],
