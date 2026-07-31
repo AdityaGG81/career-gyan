@@ -14,6 +14,7 @@ use App\Http\Controllers\IndianCollegeController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\AdvancedTestController;
 use App\Http\Controllers\InaugurationController;
+use App\Http\Controllers\MhtCetCutoffController;
 
 // Main pages
 Route::get('/', function () {
@@ -198,7 +199,11 @@ Route::get('/daily-quiz', [DailyQuizController::class, 'index'])->name('daily-qu
 Route::get('/daily-quiz/leaderboard', [DailyQuizController::class, 'leaderboard'])->name('daily-quiz.leaderboard');
 
 // SEO Tools & Guidance Routes
-Route::get('/tools/maharashtra-colleges-cutoff', function () { return view('tools.maharashtra-cutoff'); })->name('tools.mh-cutoff');
+Route::get('/tools/maharashtra-colleges-cutoff', [MhtCetCutoffController::class, 'index'])->name('tools.mh-cutoff');
+Route::get('/tools/maharashtra-colleges-cutoff/search', [MhtCetCutoffController::class, 'search'])->name('tools.mh-cutoff.search');
+Route::get('/tools/maharashtra-colleges-cutoff/colleges', [MhtCetCutoffController::class, 'apiColleges'])->name('tools.mh-cutoff.colleges');
+Route::get('/tools/maharashtra-colleges-cutoff/branches', [MhtCetCutoffController::class, 'apiBranches'])->name('tools.mh-cutoff.branches');
+Route::get('/tools/maharashtra-colleges-cutoff/download', [MhtCetCutoffController::class, 'download'])->name('tools.mh-cutoff.download');
 Route::get('/tools/percentile-calculator', function () { return view('tools.percentile-calculator'); })->name('tools.percentile-calculator');
 Route::get('/tools/college-predictor', function () { return view('tools.college-predictor'); })->name('tools.college-predictor');
 Route::get('/guidance/mht-cet', function () { return view('guidance.mht-cet'); })->name('guidance.mht-cet');

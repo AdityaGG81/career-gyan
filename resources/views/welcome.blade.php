@@ -1957,6 +1957,239 @@
     .curtain-fringe { width: 10px; }
     .curtain-valance { height: 40px; }
   }
+
+  /* ─── MHT-CET Cutoff Showcase ─── */
+  .cutoff-showcase-section {
+    padding: 90px 0 80px;
+    background: linear-gradient(180deg, #f0f4ff 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .cutoff-showcase-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand), #6366f1, #38bdf8);
+  }
+  .cutoff-showcase-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .cutoff-showcase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(26,86,219,0.08), rgba(99,102,241,0.08));
+    color: var(--brand);
+    padding: 8px 18px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(26,86,219,0.15);
+  }
+  .cutoff-showcase-badge i {
+    font-size: 14px;
+  }
+  .cutoff-mini-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .cutoff-mini-stat {
+    text-align: center;
+  }
+  .cutoff-mini-stat-value {
+    font-family: 'Sora', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--brand);
+    line-height: 1;
+  }
+  .cutoff-mini-stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-3);
+    margin-top: 4px;
+  }
+  .cutoff-search-mini {
+    max-width: 520px;
+    margin: 32px auto 0;
+    position: relative;
+  }
+  .cutoff-search-mini input {
+    width: 100%;
+    padding: 15px 52px 15px 20px;
+    border: 2px solid var(--border);
+    border-radius: 99px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-1);
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+  }
+  .cutoff-search-mini input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 4px 24px rgba(26,86,219,0.12);
+  }
+  .cutoff-search-mini input::placeholder {
+    color: var(--text-3);
+  }
+  .cutoff-search-mini-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .cutoff-search-mini-btn:hover {
+    background: var(--brand-dark);
+    transform: translateY(-50%) scale(1.05);
+  }
+  .cutoff-college-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .cutoff-college-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .cutoff-college-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brand), #6366f1);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cutoff-college-card:hover {
+    border-color: rgba(26,86,219,0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(26,86,219,0.1);
+  }
+  .cutoff-college-card:hover::before {
+    opacity: 1;
+  }
+  .cutoff-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .cutoff-card-college-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-1);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .cutoff-card-percentile {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #059669;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .cutoff-card-percentile small {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    display: block;
+    text-align: right;
+    margin-top: 2px;
+  }
+  .cutoff-card-branch {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cutoff-card-branch i {
+    color: var(--brand);
+    font-size: 12px;
+  }
+  .cutoff-card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cutoff-card-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    background: #f1f5f9;
+    color: var(--text-2);
+  }
+  .cutoff-card-tag.green { background: #ecfdf5; color: #059669; }
+  .cutoff-card-tag.blue { background: #eff6ff; color: #2563eb; }
+  .cutoff-showcase-cta {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .cutoff-showcase-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--brand), #6366f1);
+    color: #fff;
+    padding: 16px 36px;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(26,86,219,0.25);
+  }
+  .cutoff-showcase-cta a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(26,86,219,0.35);
+    color: #fff;
+  }
+  @media (max-width: 767px) {
+    .cutoff-showcase-section { padding: 60px 0; }
+    .cutoff-college-grid { grid-template-columns: 1fr; }
+    .cutoff-mini-stats { gap: 24px; }
+    .cutoff-mini-stat-value { font-size: 24px; }
+  }
 </style>
 @endsection
 
@@ -2182,6 +2415,133 @@
         <h3>100% Free & Unbiased</h3>
         <p>No ads, no paid promotions, and no college biases. Get completely objective advice tailored to your interest profile.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Maharashtra MHT-CET Cutoffs Showcase ─── -->
+<section class="cutoff-showcase-section">
+  <div class="container">
+    <div class="cutoff-showcase-header">
+      <div class="cutoff-showcase-badge">
+        <i class="fa-solid fa-chart-line"></i> New: MHT-CET Cutoffs 2025
+      </div>
+      <h2 class="section-title">Maharashtra Engineering Cutoffs</h2>
+      <p class="section-subtitle">Browse official CAP Round I cutoff percentiles for 363+ engineering colleges across Maharashtra. Search by college or branch instantly.</p>
+
+      <div class="cutoff-mini-stats">
+        <div class="cutoff-mini-stat">
+          <div class="cutoff-mini-stat-value">363+</div>
+          <div class="cutoff-mini-stat-label">Colleges</div>
+        </div>
+        <div class="cutoff-mini-stat">
+          <div class="cutoff-mini-stat-value">103</div>
+          <div class="cutoff-mini-stat-label">Branches</div>
+        </div>
+        <div class="cutoff-mini-stat">
+          <div class="cutoff-mini-stat-value">2,149</div>
+          <div class="cutoff-mini-stat-label">Cutoff Records</div>
+        </div>
+      </div>
+
+      <div class="cutoff-search-mini">
+        <input type="text" id="homeCutoffSearch" placeholder="Search college name... e.g. VJTI, COEP, PICT" autocomplete="off">
+        <button class="cutoff-search-mini-btn" id="homeCutoffSearchBtn"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- Featured College Cutoff Cards -->
+    <div class="cutoff-college-grid">
+      <!-- VJTI -->
+      <div class="cutoff-college-card">
+        <div class="cutoff-card-header">
+          <div class="cutoff-card-college-name">Veermata Jijabai Technological Institute (VJTI), Mumbai</div>
+          <div class="cutoff-card-percentile">99.95<small>Percentile</small></div>
+        </div>
+        <div class="cutoff-card-branch"><i class="fa-solid fa-microchip"></i> Computer Engineering</div>
+        <div class="cutoff-card-meta">
+          <span class="cutoff-card-tag green">GOPENS</span>
+          <span class="cutoff-card-tag blue">CAP Round I</span>
+          <span class="cutoff-card-tag">Merit #103</span>
+        </div>
+      </div>
+
+      <!-- COEP -->
+      <div class="cutoff-college-card">
+        <div class="cutoff-card-header">
+          <div class="cutoff-card-college-name">College of Engineering, Pune (COEP Technological University)</div>
+          <div class="cutoff-card-percentile">99.93<small>Percentile</small></div>
+        </div>
+        <div class="cutoff-card-branch"><i class="fa-solid fa-microchip"></i> Computer Engineering</div>
+        <div class="cutoff-card-meta">
+          <span class="cutoff-card-tag green">GOPENS</span>
+          <span class="cutoff-card-tag blue">CAP Round I</span>
+          <span class="cutoff-card-tag">Merit #152</span>
+        </div>
+      </div>
+
+      <!-- Walchand Sangli -->
+      <div class="cutoff-college-card">
+        <div class="cutoff-card-header">
+          <div class="cutoff-card-college-name">Walchand College of Engineering, Sangli</div>
+          <div class="cutoff-card-percentile">99.47<small>Percentile</small></div>
+        </div>
+        <div class="cutoff-card-branch"><i class="fa-solid fa-microchip"></i> Computer Science and Engineering</div>
+        <div class="cutoff-card-meta">
+          <span class="cutoff-card-tag green">GOPENS</span>
+          <span class="cutoff-card-tag blue">CAP Round I</span>
+          <span class="cutoff-card-tag">Merit #1,133</span>
+        </div>
+      </div>
+
+      <!-- PICT -->
+      <div class="cutoff-college-card">
+        <div class="cutoff-card-header">
+          <div class="cutoff-card-college-name">Pune Institute of Computer Technology (PICT), Pune</div>
+          <div class="cutoff-card-percentile">99.28<small>Percentile</small></div>
+        </div>
+        <div class="cutoff-card-branch"><i class="fa-solid fa-microchip"></i> Computer Engineering</div>
+        <div class="cutoff-card-meta">
+          <span class="cutoff-card-tag green">GOPENS</span>
+          <span class="cutoff-card-tag blue">CAP Round I</span>
+          <span class="cutoff-card-tag">Merit #1,534</span>
+        </div>
+      </div>
+
+      <!-- Government College Amravati -->
+      <div class="cutoff-college-card">
+        <div class="cutoff-card-header">
+          <div class="cutoff-card-college-name">Government College of Engineering, Amravati</div>
+          <div class="cutoff-card-percentile">97.37<small>Percentile</small></div>
+        </div>
+        <div class="cutoff-card-branch"><i class="fa-solid fa-microchip"></i> Computer Science and Engineering</div>
+        <div class="cutoff-card-meta">
+          <span class="cutoff-card-tag green">GOPENS</span>
+          <span class="cutoff-card-tag blue">CAP Round I</span>
+          <span class="cutoff-card-tag">Merit #9,196</span>
+        </div>
+      </div>
+
+      <!-- SPIT Mumbai -->
+      <div class="cutoff-college-card">
+        <div class="cutoff-card-header">
+          <div class="cutoff-card-college-name">Sardar Patel Institute of Technology (SPIT), Mumbai</div>
+          <div class="cutoff-card-percentile">99.60<small>Percentile</small></div>
+        </div>
+        <div class="cutoff-card-branch"><i class="fa-solid fa-microchip"></i> Computer Engineering</div>
+        <div class="cutoff-card-meta">
+          <span class="cutoff-card-tag green">GOPENS</span>
+          <span class="cutoff-card-tag blue">CAP Round I</span>
+          <span class="cutoff-card-tag">Merit #855</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cutoff-showcase-cta">
+      <a href="{{ route('tools.mh-cutoff') }}">
+        <i class="fa-solid fa-table-list"></i> Explore All 2,149 Cutoffs
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
     </div>
   </div>
 </section>
@@ -2835,6 +3195,23 @@
 
 @section('scripts')
 <script>
+  // ─── Home Cutoff Mini-Search ───
+  (function() {
+    const input = document.getElementById('homeCutoffSearch');
+    const btn = document.getElementById('homeCutoffSearchBtn');
+    if (input && btn) {
+      function goToCutoff() {
+        const q = input.value.trim();
+        const url = @json(route('tools.mh-cutoff'));
+        window.location.href = q ? url + '?q=' + encodeURIComponent(q) : url;
+      }
+      btn.addEventListener('click', goToCutoff);
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); goToCutoff(); }
+      });
+    }
+  })();
+
   // Add CSS hover styling enhancements for cards zoom & pop
   const style = document.createElement('style');
   style.innerHTML = `
