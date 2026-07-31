@@ -1,103 +1,94 @@
 <?php
+/**
+ * One-time script to clear Laravel caches on the live server.
+ * Visit: https://yoursite.com/clear-cache.php?key=CareerGyaan2026Update
+ */
 
-// Find autoload.php
-$autoloadPaths = [
-    __DIR__.'/../vendor/autoload.php',
-    __DIR__.'/../repositories/career-gyan/vendor/autoload.php',
-];
+$SECRET_KEY = 'CareerGyaan2026Update';
 
-$autoload = null;
-foreach ($autoloadPaths as $path) {
-    if (file_exists($path)) {
-        $autoload = $path;
-        break;
-    }
+if (!isset($_GET['key']) || $_GET['key'] !== $SECRET_KEY) {
+    http_response_code(403);
+    die('Access denied.');
 }
 
-if (!$autoload) {
-    die("Could not find autoload.php. Checked:<br>" . implode("<br>", $autoloadPaths));
+// Find the base path
+$basePath = realpath(__DIR__ . '/../repositories/career-gyan');
+if (!$basePath) {
+    $basePath = realpath(dirname(__DIR__));
 }
 
-require $autoload;
+echo "<pre>";
+echo "Base path: $basePath\n\n";
 
-// Find app.php
-$appPaths = [
-    __DIR__.'/../bootstrap/app.php',
-    __DIR__.'/../repositories/career-gyan/bootstrap/app.php',
-];
-
-$appFile = null;
-foreach ($appPaths as $path) {
-    if (file_exists($path)) {
-        $appFile = $path;
-        break;
-    }
-}
-
-if (!$appFile) {
-    die("Could not find bootstrap/app.php. Checked:<br>" . implode("<br>", $appPaths));
-}
-
-$app = require_once $appFile;
-
-use Illuminate\Contracts\Console\Kernel;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-
-$kernel = $app->make(Kernel::class);
-
-function runCommand($kernel, $commandName) {
-    $output = new BufferedOutput();
-    try {
-        $status = $kernel->handle(new StringInput($commandName), $output);
-        return "[" . $commandName . "] (status: $status) " . nl2br(e($output->fetch()));
-    } catch (\Exception $e) {
-        return "[" . $commandName . "] Error: " . $e->getMessage();
-    }
-}
-
-echo "<h3>Clearing Laravel Caches</h3>";
-echo runCommand($kernel, 'config:clear') . "<br>";
-echo runCommand($kernel, 'route:clear') . "<br>";
-echo runCommand($kernel, 'cache:clear') . "<br>";
-echo runCommand($kernel, 'view:clear') . "<br>";
-
-echo "<h3>Running Database Migrations</h3>";
-echo runCommand($kernel, 'migrate --force') . "<br>";
-
-echo "<h3>Ensuring Upload Directories & Syncing Files</h3>";
-$uploadsDir = __DIR__ . '/uploads/jobs';
-if (!is_dir($uploadsDir)) {
-    if (mkdir($uploadsDir, 0755, true)) {
-        echo "✅ Created live directory: uploads/jobs/<br>";
-    } else {
-        echo "❌ Failed to create live directory: uploads/jobs/<br>";
+if (file_exists($basePath . '/artisan')) {
+    echo "Running Artisan commands...\n";
+    
+    $commands = [
+        'cache:clear',
+        'config:clear',
+        'view:clear',
+        'route:clear',
+        'optimize:clear'
+    ];
+    
+    foreach ($commands as $cmd) {
+        echo "\nExecuting: php artisan $cmd\n";
+        $output = [];
+        $returnVar = 0;
+        exec("php " . escapeshellarg($basePath . '/artisan') . " $cmd 2>&1", $output, $returnVar);
+        echo implode("\n", $output) . "\n";
+        echo "Exit code: $returnVar\n";
     }
 } else {
-    echo "✅ Live directory exists: uploads/jobs/<br>";
-}
-
-// Sync any existing uploads from repositories folder to public_html
-$repoUploads = [
-    __DIR__ . '/../repositories/career-gyan/public/uploads/jobs',
-    __DIR__ . '/../public/uploads/jobs',
-];
-
-foreach ($repoUploads as $srcDir) {
-    if (is_dir($srcDir) && realpath($srcDir) !== realpath($uploadsDir)) {
-        $files = glob($srcDir . '/*');
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                $dest = $uploadsDir . '/' . basename($file);
-                if (!file_exists($dest)) {
-                    copy($file, $dest);
-                    echo "📁 Synced previously uploaded file to live website: " . htmlspecialchars(basename($file)) . "<br>";
+    echo "Artisan not found at $basePath/artisan\n";
+    
+    // Fallback: manually delete cached files
+    echo "\nTrying to manually delete cached views and config...\n";
+    
+    $cachePaths = [
+        $basePath . '/storage/framework/cache/data',
+        $basePath . '/storage/framework/views',
+        $basePath . '/bootstrap/cache',
+    ];
+    
+    foreach ($cachePaths as $path) {
+        if (is_dir($path)) {
+            echo "Scanning $path...\n";
+            $files = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::CHILD_FIRST
+            );
+            
+            $deleted = 0;
+            foreach ($files as $fileinfo) {
+                if ($fileinfo->isFile() && $fileinfo->getFilename() !== '.gitignore') {
+                    unlink($fileinfo->getRealPath());
+                    $deleted++;
                 }
             }
+            echo "Deleted $deleted files from $path\n";
         }
     }
 }
 
-echo "<h4>Done! All caches cleared, migrations run, and directories verified.</h4>";
-echo "<p>Please delete this file (<code>public_html/clear-cache.php</code>) from your hosting server via cPanel for security reasons once you're done.</p>";
+// Check database cache table if using database cache
+$dbPath = $basePath . '/database/database.sqlite';
+if (file_exists($dbPath)) {
+    try {
+        $db = new PDO("sqlite:$dbPath");
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        // Truncate cache table
+        $db->exec("DELETE FROM cache");
+        echo "\nCleared database cache table.\n";
+    } catch (Exception $e) {
+        echo "\nCould not clear DB cache: " . $e->getMessage() . "\n";
+    }
+}
 
+echo "\n========================================\n";
+echo "🎉 SUCCESS! Cache cleared.\n";
+echo "========================================\n";
+echo "Please check your website now (you may need to hard refresh: Ctrl+F5).\n";
+echo "\n⚠️ IMPORTANT: Delete this file (clear-cache.php) from your server now!\n";
+echo "</pre>";
