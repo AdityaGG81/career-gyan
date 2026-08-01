@@ -178,15 +178,23 @@ class AdsenseBlogSeeder extends Seeder
             ]
         ];
 
+        $articles[0]['cover_image'] = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1000'; // Exam Study
+        $articles[1]['cover_image'] = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1000'; // University Campus
+        $articles[2]['cover_image'] = 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1000'; // Robotics / AI
+        $articles[3]['cover_image'] = 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=1000'; // Exam Focus / Study Desk
+
         foreach ($articles as $article) {
             $article['slug'] = Str::slug($article['title']);
             $article['excerpt'] = Str::limit(strip_tags($article['content']), 150);
-            $article['cover_image'] = 'https://source.unsplash.com/random/800x400/?education,college';
             $article['is_published'] = true;
             $article['published_at'] = now();
             $article['views_count'] = rand(100, 5000);
 
-            Blog::create($article);
+            // Update if exists or create
+            Blog::updateOrCreate(
+                ['slug' => $article['slug']],
+                $article
+            );
         }
     }
 }
