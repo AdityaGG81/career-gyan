@@ -350,7 +350,7 @@
 
         @if($blog->cover_image)
           <div style="width: 100%; border-radius: var(--radius-xl); overflow: hidden; margin-bottom: 40px; box-shadow: var(--shadow-sm);">
-            <img src="{{ $blog->cover_image }}" alt="{{ $blog->title }}" style="width: 100%; height: auto; display: block;">
+            <img src="{{ $blog->cover_image }}" alt="{{ $blog->title }}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000';" style="width: 100%; height: auto; display: block; font-size: 0;">
           </div>
         @endif
 
@@ -381,7 +381,7 @@
           <article class="blog-card" style="background:#ffffff;">
             <div class="blog-img-wrap">
               @if($rel->cover_image)
-                <img src="{{ $rel->cover_image }}" alt="{{ $rel->title }}">
+                <img src="{{ $rel->cover_image }}" alt="{{ $rel->title }}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000';" style="font-size: 0;">
               @else
                 <i class="fa-solid fa-newspaper"></i>
               @endif

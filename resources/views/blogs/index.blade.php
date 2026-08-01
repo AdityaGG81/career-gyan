@@ -186,13 +186,14 @@
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    font-size: 72px;
   }
 
   .featured-img-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    font-size: 0;
+    display: block;
   }
 
   .featured-badge {
@@ -278,13 +279,14 @@
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    font-size: 48px;
   }
 
   .blog-img-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    font-size: 0;
+    display: block;
   }
 
   .blog-category-overlay {
@@ -484,7 +486,7 @@
       <article class="featured-card">
         <div class="featured-img-wrap">
           @if($featuredBlog->cover_image)
-            <img src="{{ $featuredBlog->cover_image }}" alt="{{ $featuredBlog->title }}">
+            <img src="{{ $featuredBlog->cover_image }}" alt="{{ $featuredBlog->title }}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000';">
           @else
             <i class="fa-solid fa-newspaper"></i>
           @endif
@@ -516,7 +518,7 @@
         <article class="blog-card">
           <div class="blog-img-wrap">
             @if($blog->cover_image)
-              <img src="{{ $blog->cover_image }}" alt="{{ $blog->title }}">
+              <img src="{{ $blog->cover_image }}" alt="{{ $blog->title }}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000';">
             @else
               <i class="fa-solid fa-newspaper"></i>
             @endif
