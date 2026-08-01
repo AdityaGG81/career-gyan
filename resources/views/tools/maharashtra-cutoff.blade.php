@@ -838,59 +838,59 @@
 <!-- Schema.org JSON-LD Structured Data for Search Engine Dominance -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@graph": [
+  "@@context": "https://schema.org",
+  "@@graph": [
     {
-      "@type": "WebPage",
-      "@id": "{{ url('/tools/maharashtra-colleges-cutoff') }}",
+      "@@type": "WebPage",
+      "@@id": "{{ url('/tools/maharashtra-colleges-cutoff') }}",
       "url": "{{ url('/tools/maharashtra-colleges-cutoff') }}",
       "name": "MHT CET Cutoff 2025 - All Maharashtra Engineering Colleges",
       "description": "Official MHT CET 2025 CAP Round 1 cutoff percentiles and merit ranks for 363+ engineering colleges in Maharashtra including VJTI, COEP, PICT, Walchand.",
       "breadcrumb": {
-        "@type": "BreadcrumbList",
+        "@@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('/') }}" },
-          { "@type": "ListItem", "position": 2, "name": "MHT CET Cutoff 2025", "item": "{{ url('/tools/maharashtra-colleges-cutoff') }}" }
+          { "@@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('/') }}" },
+          { "@@type": "ListItem", "position": 2, "name": "MHT CET Cutoff 2025", "item": "{{ url('/tools/maharashtra-colleges-cutoff') }}" }
         ]
       }
     },
     {
-      "@type": "Dataset",
+      "@@type": "Dataset",
       "name": "Maharashtra MHT-CET 2025 Engineering College Cutoffs",
       "description": "Comprehensive CAP Round 1 cutoff dataset containing percentiles, merit numbers, categories (GOPENS, GOPENH), and college codes for 363+ colleges.",
       "keywords": ["MHT CET Cutoff 2025", "MHT CET Percentile", "Maharashtra Engineering Cutoff", "VJTI Cutoff", "COEP Cutoff"],
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "isAccessibleForFree": true,
       "distribution": {
-        "@type": "DataDownload",
+        "@@type": "DataDownload",
         "encodingFormat": "text/csv",
         "contentUrl": "{{ route('tools.mh-cutoff.download') }}"
       }
     },
     {
-      "@type": "FAQPage",
+      "@@type": "FAQPage",
       "mainEntity": [
         {
-          "@type": "Question",
+          "@@type": "Question",
           "name": "What is the MHT-CET 2025 Cutoff Percentile?",
           "acceptedAnswer": {
-            "@type": "Answer",
+            "@@type": "Answer",
             "text": "The MHT-CET 2025 Cutoff is the minimum percentile score or State General Merit Rank required by a candidate to secure admission into an engineering branch at a Maharashtra engineering institute during CAP allotment."
           }
         },
         {
-          "@type": "Question",
+          "@@type": "Question",
           "name": "What do GOPENS and GOPENH category codes mean in MHT CET?",
           "acceptedAnswer": {
-            "@type": "Answer",
+            "@@type": "Answer",
             "text": "GOPENS stands for General Open State Level seats, while GOPENH stands for General Open Home University quota seats."
           }
         },
         {
-          "@type": "Question",
+          "@@type": "Question",
           "name": "Which engineering colleges have the highest MHT CET cutoff in Maharashtra?",
           "acceptedAnswer": {
-            "@type": "Answer",
+            "@@type": "Answer",
             "text": "VJTI Mumbai (99.95%), COEP Pune (99.93%), SPIT Mumbai (99.60%), Walchand Sangli (99.47%), and PICT Pune (99.28%) have the highest MHT CET Computer Engineering cutoffs."
           }
         }
