@@ -3,7 +3,9 @@
 @section('title', 'MHT CET Percentile Calculator | CareerGyan')
 @section('meta_description', 'Calculate your expected MHT CET percentile based on your marks. Use our advanced MHT CET marks to percentile calculator to predict your rank.')
 @section('meta_keywords', 'percentile calculator, mht cet marks to percentile, mht cet rank predictor, calculate percentile')
-
+@section('meta')
+<meta name="robots" content="noindex, nofollow">
+@endsection
 @section('content')
 <div style="background:var(--bg); min-height:80vh; padding:60px 0;">
     <div class="container">

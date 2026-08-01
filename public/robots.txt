@@ -1,2 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /*?*
+
+Sitemap: https://careergyan.in/sitemap.xml

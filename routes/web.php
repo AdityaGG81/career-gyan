@@ -215,8 +215,6 @@ Route::get('/sitemap.xml', function () {
     $xml .= "<url><loc>{$baseUrl}/tools/maharashtra-colleges-cutoff</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
     $xml .= "<url><loc>{$baseUrl}</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
     $xml .= "<url><loc>{$baseUrl}/colleges</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>";
-    $xml .= "<url><loc>{$baseUrl}/tools/college-predictor</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
-    $xml .= "<url><loc>{$baseUrl}/tools/percentile-calculator</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
     $xml .= "<url><loc>{$baseUrl}/guidance/mht-cet</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
     $xml .= '</urlset>';
     
@@ -238,10 +236,21 @@ Route::get('/run-cutoff-setup-migration-2025', function () {
         
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'MhtCetCutoffSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdsenseBlogSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-        return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! Database migrated & seeded with 2,149 Cutoff records!<br><br><a href="/">Go to Homepage</a></h1>';
+        return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! Database migrated, cutoffs & 4 new AdSense-ready articles seeded!<br><br><a href="/">Go to Homepage</a></h1>';
     } catch (\Throwable $e) {
         return '<h1 style="color: red; font-family: sans-serif; text-align: center; margin-top: 50px;">Setup Error: ' . $e->getMessage() . '</h1>';
+    }
+});
+
+Route::get('/seed-adsense-articles', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdsenseBlogSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+        return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! 4 Comprehensive, Long-Form AdSense Articles Seeded Successfully!<br><br><a href="/blog">View Blog</a></h1>';
+    } catch (\Throwable $e) {
+        return '<h1 style="color: red; font-family: sans-serif; text-align: center; margin-top: 50px;">Error: ' . $e->getMessage() . '</h1>';
     }
 });
 Route::get('/guidance/jee-neet', function () { return view('guidance.jee-neet'); })->name('guidance.jee-neet');

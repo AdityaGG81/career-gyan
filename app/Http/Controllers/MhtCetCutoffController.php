@@ -15,34 +15,38 @@ class MhtCetCutoffController extends Controller
      */
     public function index(Request $request)
     {
-        $cacheTtl = 3600;
+        try {
+            $cacheTtl = 3600;
 
-        $colleges = Cache::remember('mht_cet_colleges', $cacheTtl, function () {
-            return MhtCetCutoff::select('college_name')->distinct()->orderBy('college_name')->pluck('college_name');
-        });
+            $colleges = Cache::remember('mht_cet_colleges', $cacheTtl, function () {
+                return MhtCetCutoff::select('college_name')->distinct()->orderBy('college_name')->pluck('college_name');
+            });
 
-        $branches = Cache::remember('mht_cet_branches', $cacheTtl, function () {
-            return MhtCetCutoff::select('branch_name')->distinct()->orderBy('branch_name')->pluck('branch_name');
-        });
+            $branches = Cache::remember('mht_cet_branches', $cacheTtl, function () {
+                return MhtCetCutoff::select('branch_name')->distinct()->orderBy('branch_name')->pluck('branch_name');
+            });
 
-        $categories = Cache::remember('mht_cet_categories', $cacheTtl, function () {
-            return MhtCetCutoff::select('category')->distinct()->orderBy('category')->pluck('category');
-        });
+            $categories = Cache::remember('mht_cet_categories', $cacheTtl, function () {
+                return MhtCetCutoff::select('category')->distinct()->orderBy('category')->pluck('category');
+            });
 
-        $totalRecords = Cache::remember('mht_cet_total_records', $cacheTtl, function () {
-            return MhtCetCutoff::count();
-        });
-        $totalColleges = Cache::remember('mht_cet_total_colleges', $cacheTtl, function () {
-            return MhtCetCutoff::distinct('college_name')->count('college_name');
-        });
-        $totalBranches = Cache::remember('mht_cet_total_branches', $cacheTtl, function () {
-            return MhtCetCutoff::distinct('branch_name')->count('branch_name');
-        });
+            $totalRecords = Cache::remember('mht_cet_total_records', $cacheTtl, function () {
+                return MhtCetCutoff::count();
+            });
+            $totalColleges = Cache::remember('mht_cet_total_colleges', $cacheTtl, function () {
+                return MhtCetCutoff::distinct('college_name')->count('college_name');
+            });
+            $totalBranches = Cache::remember('mht_cet_total_branches', $cacheTtl, function () {
+                return MhtCetCutoff::distinct('branch_name')->count('branch_name');
+            });
 
-        return view('tools.maharashtra-cutoff', compact(
-            'colleges', 'branches', 'categories',
-            'totalRecords', 'totalColleges', 'totalBranches'
-        ));
+            return view('tools.maharashtra-cutoff', compact(
+                'colleges', 'branches', 'categories',
+                'totalRecords', 'totalColleges', 'totalBranches'
+            ));
+        } catch (\Exception $e) {
+            return response('<h1 style="color:red; text-align:center; margin-top:50px;">Database Table Missing!<br>Please visit <a href="/run-cutoff-setup-migration-2025">/run-cutoff-setup-migration-2025</a> to set up the live database.</h1>', 500);
+        }
     }
 
     /**
@@ -50,52 +54,58 @@ class MhtCetCutoffController extends Controller
      */
     public function search(Request $request): JsonResponse
     {
-        $query = MhtCetCutoff::query();
+        try {
+            $query = MhtCetCutoff::query();
 
-        if ($request->filled('q')) {
-            $query->forCollege($request->input('q'));
+            if ($request->filled('q')) {
+                $query->forCollege($request->input('q'));
+            }
+            if ($request->filled('branch')) {
+                $query->forBranch($request->input('branch'));
+            }
+            if ($request->filled('category')) {
+                $query->forCategory($request->input('category'));
+            }
+
+            // Defaults
+            $sortBy = $request->input('sort_by', 'percentile');
+            $sortDir = $request->input('sort_dir', 'desc');
+            $perPage = $request->input('per_page', 50);
+
+            // Validations for sort to prevent SQL injection
+            $allowedSorts = ['percentile', 'college_name', 'merit_no', 'branch_name'];
+            if (!in_array($sortBy, $allowedSorts)) {
+                $sortBy = 'percentile';
+            }
+            $sortDir = strtolower($sortDir) === 'asc' ? 'asc' : 'desc';
+
+            $query->orderBy($sortBy, $sortDir);
+
+            // Fetch results
+            $results = $query->paginate($perPage);
+
+            // Format results
+            $results->getCollection()->transform(function ($cutoff) {
+                return [
+                    'id' => $cutoff->id,
+                    'college_code' => $cutoff->college_code,
+                    'college_name' => $cutoff->college_name,
+                    'branch_name' => $cutoff->branch_name,
+                    'category' => $cutoff->category,
+                    'category_full' => $cutoff->category_full,
+                    'percentile' => $cutoff->percentile,
+                    'formatted_percentile' => $cutoff->formatted_percentile,
+                    'merit_no' => $cutoff->merit_no,
+                    'percentile_band' => $cutoff->percentile_band,
+                    'round' => $cutoff->round,
+                    'year' => $cutoff->year,
+                ];
+            });
+
+            return response()->json($results);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Database Table Missing! Please visit /run-cutoff-setup-migration-2025 to set up the live database.'], 500);
         }
-
-        if ($request->filled('branch')) {
-            $query->where('branch_name', $request->input('branch'));
-        }
-
-        if ($request->filled('category')) {
-            $query->forCategory($request->input('category'));
-        }
-
-        $sortBy = $request->input('sort_by', 'percentile');
-        $sortDir = $request->input('sort_dir', 'desc');
-        
-        $allowedSorts = ['college_name', 'branch_name', 'category', 'percentile', 'merit_no'];
-        if (in_array($sortBy, $allowedSorts)) {
-            $query->orderBy($sortBy, $sortDir === 'asc' ? 'asc' : 'desc');
-        } else {
-            $query->orderBy('percentile', 'desc');
-        }
-
-        $perPage = $request->input('per_page', 50);
-        
-        $results = $query->paginate($perPage);
-
-        $results->getCollection()->transform(function ($item) {
-            return [
-                'id' => $item->id,
-                'college_code' => $item->college_code,
-                'college_name' => $item->college_name,
-                'branch_name' => $item->branch_name,
-                'category' => $item->category,
-                'category_full' => $item->category_full,
-                'percentile' => $item->percentile,
-                'formatted_percentile' => $item->formatted_percentile ?? number_format($item->percentile, 7),
-                'merit_no' => $item->merit_no,
-                'percentile_band' => $item->percentile_band,
-                'round' => $item->round,
-                'year' => $item->year,
-            ];
-        });
-
-        return response()->json($results);
     }
 
     /**

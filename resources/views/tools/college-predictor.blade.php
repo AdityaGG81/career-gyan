@@ -3,7 +3,9 @@
 @section('title', 'Engineering & Medical College Predictor | CareerGyan')
 @section('meta_description', 'Predict your admission chances in top engineering and medical colleges in India based on your JEE Main, NEET, or MHT CET scores.')
 @section('meta_keywords', 'college predictor, jee main college predictor, neet college predictor, mht cet college predictor, engineering admission predictor')
-
+@section('meta')
+<meta name="robots" content="noindex, nofollow">
+@endsection
 @section('content')
 <div style="background:var(--bg); min-height:80vh; padding:60px 0;">
     <div class="container">
