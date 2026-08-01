@@ -2017,7 +2017,7 @@
   <div class="news-ticker-content" onclick="window.location.href='{{ route('tools.mh-cutoff') }}'">
     <div class="news-ticker-badge">
       <span class="news-live-pulse"></span>
-      <span>BREAKING NEWS</span>
+      <span>LATEST CUTOFF UPDATE</span>
     </div>
     <div class="news-ticker-text">
       <strong>MHT-CET 2025 Cutoffs Released!</strong> CAP Round 1 percentiles for 363+ colleges.
