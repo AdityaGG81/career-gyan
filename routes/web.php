@@ -211,8 +211,12 @@ Route::get('/guidance/mht-cet', function () { return view('guidance.mht-cet'); }
 // Single-click Live Server Setup Route (Migrate & Seed on production server)
 Route::get('/run-cutoff-setup-migration-2025', function () {
     try {
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
         \Illuminate\Support\Facades\Schema::dropIfExists('mht_cet_cutoffs');
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+        
         \Illuminate\Support\Facades\DB::table('migrations')->where('migration', 'like', '%create_mht_cet_cutoffs_table%')->delete();
+        
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'MhtCetCutoffSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('optimize:clear');
