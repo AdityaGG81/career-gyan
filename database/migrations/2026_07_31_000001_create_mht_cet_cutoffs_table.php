@@ -27,8 +27,6 @@ return new class extends Migration
             $table->integer('merit_no')->nullable();
             $table->string('percentile_band')->nullable();
             $table->timestamps();
-
-            $table->index(['college_name', 'branch_name', 'category', 'round']);
         });
     }
 
