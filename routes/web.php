@@ -204,6 +204,25 @@ Route::get('/tools/maharashtra-colleges-cutoff/search', [MhtCetCutoffController:
 Route::get('/tools/maharashtra-colleges-cutoff/colleges', [MhtCetCutoffController::class, 'apiColleges'])->name('tools.mh-cutoff.colleges');
 Route::get('/tools/maharashtra-colleges-cutoff/branches', [MhtCetCutoffController::class, 'apiBranches'])->name('tools.mh-cutoff.branches');
 Route::get('/tools/maharashtra-colleges-cutoff/download', [MhtCetCutoffController::class, 'download'])->name('tools.mh-cutoff.download');
+
+// Dynamic XML Sitemap for Google Search Console & SEO Ranking
+Route::get('/sitemap.xml', function () {
+    $baseUrl = url('/');
+    $now = date('Y-m-d');
+    
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    $xml .= "<url><loc>{$baseUrl}/tools/maharashtra-colleges-cutoff</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}/colleges</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}/tools/college-predictor</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}/tools/percentile-calculator</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}/guidance/mht-cet</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
+    $xml .= '</urlset>';
+    
+    return response($xml, 200)->header('Content-Type', 'text/xml');
+});
+
 Route::get('/tools/percentile-calculator', function () { return view('tools.percentile-calculator'); })->name('tools.percentile-calculator');
 Route::get('/tools/college-predictor', function () { return view('tools.college-predictor'); })->name('tools.college-predictor');
 Route::get('/guidance/mht-cet', function () { return view('guidance.mht-cet'); })->name('guidance.mht-cet');

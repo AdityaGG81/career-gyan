@@ -2012,6 +2012,141 @@
   });
 </script>
 
+<!-- ─── Floating News Ticker Banner for MHT-CET Cutoff 2025 ─── -->
+<div id="floatingNewsTicker" class="floating-news-ticker">
+  <div class="news-ticker-content" onclick="window.location.href='{{ route('tools.mh-cutoff') }}'">
+    <div class="news-ticker-badge">
+      <span class="news-live-pulse"></span>
+      <span>BREAKING NEWS</span>
+    </div>
+    <div class="news-ticker-text">
+      <strong>MHT-CET 2025 Cutoffs Released!</strong> CAP Round 1 percentiles for 363+ colleges.
+    </div>
+    <div class="news-ticker-cta">
+      <span>Check Cutoff</span> <i class="fa-solid fa-arrow-right"></i>
+    </div>
+  </div>
+  <button type="button" class="news-ticker-close" onclick="dismissNewsTicker(event)" title="Dismiss Notification">&times;</button>
+</div>
+
+<style>
+.floating-news-ticker {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  border-radius: 16px;
+  padding: 10px 16px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
+  max-width: 480px;
+  animation: newsSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all 0.3s ease;
+}
+.floating-news-ticker:hover {
+  transform: translateY(-4px);
+  border-color: rgba(251, 191, 36, 0.85);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.5), 0 0 30px rgba(251, 191, 36, 0.3);
+}
+@keyframes newsSlideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.news-ticker-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+.news-ticker-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(225, 29, 72, 0.2);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+  color: #fb7185;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.news-live-pulse {
+  width: 7px;
+  height: 7px;
+  background: #f43f5e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7);
+  animation: livePulse 1.5s infinite;
+}
+@keyframes livePulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+}
+.news-ticker-text {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.35;
+}
+.news-ticker-text strong {
+  color: #fbbf24;
+}
+.news-ticker-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.news-ticker-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 0 0 10px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.news-ticker-close:hover {
+  color: #ffffff;
+}
+@media (max-width: 640px) {
+  .floating-news-ticker {
+    bottom: 80px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+}
+</style>
+
+<script>
+function dismissNewsTicker(e) {
+  e.stopPropagation();
+  const ticker = document.getElementById('floatingNewsTicker');
+  if (ticker) {
+    ticker.style.display = 'none';
+    sessionStorage.setItem('news_ticker_dismissed', 'true');
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('news_ticker_dismissed') === 'true') {
+    const ticker = document.getElementById('floatingNewsTicker');
+    if (ticker) ticker.style.display = 'none';
+  }
+});
+</script>
+
 <x-ai-career-chat />
 
 <!-- Multilingual Google Translate Element -->
