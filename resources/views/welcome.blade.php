@@ -1764,10 +1764,21 @@
     color: #fff;
   }
   @media (max-width: 767px) {
-    .cutoff-showcase-section { padding: 60px 0; }
-    .cutoff-college-grid { grid-template-columns: 1fr; }
-    .cutoff-mini-stats { gap: 24px; }
-    .cutoff-mini-stat-value { font-size: 24px; }
+    .cutoff-showcase-section { padding: 50px 0; }
+    .cutoff-college-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+    .cutoff-college-card { padding: 18px 16px; border-radius: var(--radius-lg); }
+    .cutoff-card-college-name { font-size: 14px; line-height: 1.35; }
+    .cutoff-card-percentile { font-size: 19px; }
+    .cutoff-card-percentile small { font-size: 10px; }
+    .cutoff-card-branch { font-size: 12px; margin-bottom: 10px; }
+    .cutoff-card-tag { font-size: 10.5px; padding: 3px 8px; }
+    .cutoff-mini-stats { gap: 16px; justify-content: space-around; margin: 20px 0 24px; }
+    .cutoff-mini-stat-value { font-size: 20px; }
+    .cutoff-mini-stat-label { font-size: 11px; }
+    .cutoff-search-mini { max-width: 100%; }
+    .cutoff-search-mini input { font-size: 13.5px; padding: 12px 48px 12px 16px; }
+    .cutoff-showcase-cta { margin-top: 32px; }
+    .cutoff-showcase-cta a { width: 100%; justify-content: center; padding: 14px 24px; font-size: 14.5px; }
   }
 </style>
 @endsection
