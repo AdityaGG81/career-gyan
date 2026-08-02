@@ -1,35 +1,83 @@
 @extends('layouts.app')
 
 @section('title', 'MHT CET Marks vs Percentile & Rank Calculator 2025 | CareerGyan')
-@section('meta_description', 'Calculate your exact expected MHT-CET 2025 percentile and State General Merit Rank from your raw marks. Real-time shift difficulty normalization & college predictions.')
-@section('meta_keywords', 'mht cet marks vs percentile, mht cet percentile calculator 2025, mht cet rank predictor, calculate mht cet percentile, marks to rank converter maharashtra')
+@section('meta_description', 'Calculate your exact expected MHT-CET 2025 percentile and State General Merit Rank from raw marks. Real-time shift difficulty normalization & 1-click college prediction.')
+@section('meta_keywords', 'mht cet marks vs percentile 2025, mht cet percentile calculator, mht cet rank predictor, calculate mht cet score, marks to rank converter maharashtra')
 
 @push('styles')
 <style>
   :root {
-    --pct-brand: #7c3aed;
-    --pct-brand-light: #f5f3ff;
-    --pct-brand-dark: #6d28d9;
-    --pct-safe: #059669;
-    --pct-target: #2563eb;
-    --pct-reach: #d97706;
+    --pct-brand: #6366f1;
+    --pct-brand-dark: #4f46e5;
+    --pct-brand-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    --pct-surface: #ffffff;
+    --pct-card-border: rgba(99, 102, 241, 0.12);
   }
 
+  /* ─── Top Shared Tool Switcher Bar ─── */
+  .tool-nav-bar {
+    background: #0f172a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 0;
+  }
+  .tool-nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tool-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 99px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .tool-nav-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+  }
+  .tool-nav-item.active {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  }
+
+  /* ─── Ultra Modern Hero ─── */
   .calc-hero {
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+    background: linear-gradient(135deg, #090d16 0%, #0f172a 40%, #1e1b4b 100%);
     color: white;
-    padding: 56px 0 44px;
+    padding: 60px 0 50px;
     position: relative;
     overflow: hidden;
   }
-  .calc-hero::before {
-    content: '';
+  .calc-hero-glow-1 {
     position: absolute;
-    top: -50%;
-    right: -10%;
+    top: -30%;
+    left: 20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .calc-hero-glow-2 {
+    position: absolute;
+    bottom: -40%;
+    right: 10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(167, 139, 250, 0.25) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(217, 70, 239, 0.18) 0%, transparent 65%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -37,716 +85,748 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #e0e7ff;
-    font-size: 13px;
+    background: rgba(99, 102, 241, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(165, 180, 252, 0.25);
+    color: #a5b4fc;
+    font-size: 12.5px;
     font-weight: 700;
-    padding: 6px 14px;
+    padding: 6px 16px;
     border-radius: 99px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
   }
   .calc-title {
     font-family: 'Sora', sans-serif;
-    font-size: 36px;
+    font-size: clamp(28px, 4vw, 42px);
     font-weight: 800;
-    line-height: 1.25;
+    line-height: 1.2;
     margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .calc-title span {
+    background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 50%, #f472b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .calc-subtitle {
     font-size: 16px;
-    color: #c7d2fe;
+    color: #cbd5e1;
     max-width: 680px;
     line-height: 1.6;
     margin: 0;
   }
 
-  /* Main Calculator Card Layout */
-  .calc-main-section {
-    padding: 40px 0 70px;
-    background: var(--bg);
+  /* ─── Main Section & Layout ─── */
+  .calc-section {
+    padding: 44px 0 80px;
+    background: #f8fafc;
+    min-height: 600px;
   }
-  .calc-grid {
+  .calc-layout-grid {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 28px;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 32px;
     align-items: start;
   }
-  @media (max-width: 960px) {
-    .calc-grid {
+  @media (max-width: 1024px) {
+    .calc-layout-grid {
       grid-template-columns: 1fr;
     }
   }
 
-  .calc-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 28px 32px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  /* ─── Premium Input Card ─── */
+  .calc-input-card {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 24px;
+    padding: 34px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0,0,0,0.02);
+    position: relative;
+    overflow: hidden;
+  }
+  .calc-input-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--pct-brand-gradient);
   }
 
-  .calc-card-header {
+  .calc-header-row {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #f1f5f9;
   }
-  .calc-card-title {
+  .calc-card-heading {
     font-family: 'Sora', sans-serif;
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 700;
-    color: var(--text-1);
+    color: #0f172a;
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  /* Mode Switcher Tabs */
-  .mode-switch {
+  /* Tab Segmented Control */
+  .segmented-control {
     display: flex;
     background: #f1f5f9;
-    border-radius: var(--radius-md);
     padding: 4px;
+    border-radius: 12px;
     gap: 4px;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
   }
-  .mode-btn {
+  .seg-btn {
     flex: 1;
     border: none;
     background: transparent;
     padding: 10px 16px;
+    border-radius: 9px;
     font-size: 13.5px;
     font-weight: 700;
     color: #64748b;
-    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
   }
-  .mode-btn.active {
+  .seg-btn.active {
     background: #ffffff;
-    color: var(--pct-brand);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    color: var(--pct-brand-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   }
 
-  /* Exam Selector Chips */
-  .chip-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+  /* Pill Chips */
+  .pill-group {
+    margin-bottom: 24px;
   }
-  .chip-label {
+  .pill-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 13px;
     font-weight: 700;
-    color: var(--text-2);
-    margin-bottom: 8px;
-    display: block;
+    color: #475569;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-  .exam-chip, .shift-chip {
+  .pills-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pill-chip {
     padding: 8px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    background: #ffffff;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
     font-size: 13.5px;
-    font-weight: 600;
-    color: var(--text-2);
+    font-weight: 700;
+    color: #334155;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.18s ease;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
-  .exam-chip.active, .shift-chip.active {
-    background: var(--pct-brand-light);
-    border-color: var(--pct-brand);
-    color: var(--pct-brand);
-    font-weight: 700;
+  .pill-chip:hover {
+    border-color: #cbd5e1;
+    background: #ffffff;
+    transform: translateY(-1px);
+  }
+  .pill-chip.active {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #1d4ed8;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  }
+  .pill-chip.shift-easy.active {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #047857;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  }
+  .pill-chip.shift-tough.active {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #b91c1c;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
   }
 
-  /* Slider and Input */
-  .marks-input-wrapper {
-    background: #f8fafc;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
+  /* Interactive Main Score Box */
+  .main-score-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 24px 28px;
     margin-bottom: 24px;
+    transition: all 0.2s ease;
   }
-  .marks-slider-header {
+  .main-score-box:focus-within {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+  .score-box-top {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 16px;
   }
-  .marks-slider-label {
-    font-size: 15px;
+  .score-box-lbl {
+    font-size: 14px;
     font-weight: 700;
-    color: var(--text-1);
+    color: #334155;
   }
-  .marks-display-val {
+  .score-counter-display {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .score-val-big {
     font-family: 'Sora', sans-serif;
-    font-size: 32px;
+    font-size: 40px;
     font-weight: 800;
-    color: var(--pct-brand);
+    color: #0f172a;
+    line-height: 1;
   }
-  .marks-display-max {
-    font-size: 16px;
-    font-weight: 600;
-    color: #64748b;
+  .score-max-sub {
+    font-size: 18px;
+    font-weight: 700;
+    color: #94a3b8;
   }
 
-  .range-slider {
+  /* Range Slider */
+  .custom-range-slider {
+    width: 100%;
     -webkit-appearance: none;
     appearance: none;
-    width: 100%;
     height: 8px;
-    border-radius: 4px;
-    background: #e2e8f0;
+    border-radius: 99px;
+    background: #cbd5e1;
     outline: none;
-    margin: 12px 0 20px;
+    cursor: pointer;
+    margin: 12px 0 6px;
   }
-  .range-slider::-webkit-slider-thumb {
+  .custom-range-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 26px;
     height: 26px;
     border-radius: 50%;
-    background: var(--pct-brand);
-    cursor: pointer;
+    background: #6366f1;
     border: 3px solid #ffffff;
-    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.4);
-    transition: transform 0.1s ease;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    cursor: pointer;
+    transition: transform 0.15s ease;
   }
-  .range-slider::-webkit-slider-thumb:hover {
+  .custom-range-slider::-webkit-slider-thumb:hover {
     transform: scale(1.15);
   }
 
-  /* Subject Inputs */
-  .subject-grid {
+  /* Subject Cards Grid */
+  .subject-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    margin-top: 14px;
+    margin-bottom: 24px;
   }
   @media (max-width: 600px) {
-    .subject-grid {
+    .subject-cards-grid {
       grid-template-columns: 1fr;
     }
   }
-  .subject-input-box {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 14px;
-    text-align: center;
+  .subject-card {
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  .subject-title {
+  .sub-maths { border-top: 4px solid #6366f1; background: #faf5ff; }
+  .sub-physics { border-top: 4px solid #f59e0b; background: #fffbeb; }
+  .sub-chemistry { border-top: 4px solid #10b981; background: #ecfdf5; }
+
+  .sub-title {
     font-size: 13px;
     font-weight: 700;
-    color: var(--text-2);
-    margin-bottom: 6px;
+    color: #334155;
+    display: flex;
+    justify-content: space-between;
   }
-  .subject-input {
+  .sub-input {
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    padding: 10px 12px;
     font-size: 18px;
+    font-weight: 800;
+    font-family: 'Sora', sans-serif;
+    color: #0f172a;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    outline: none;
+    transition: border 0.15s ease;
+  }
+  .sub-input:focus {
+    border-color: #6366f1;
+  }
+
+  /* Quick Presets Row */
+  .quick-marks-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .quick-chip {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    font-size: 12.5px;
     font-weight: 700;
-    color: var(--text-1);
-    text-align: center;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .quick-chip:hover {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: white;
   }
 
-  /* Right Output Gauge Card */
-  .result-card {
-    background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);
-    border: 1px solid #e9d5ff;
-    border-radius: var(--radius-xl);
-    padding: 32px 28px;
-    box-shadow: 0 12px 36px rgba(124, 58, 237, 0.08);
+  /* ─── Ultra Sleek Output Results Card ─── */
+  .calc-result-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: 24px;
+    padding: 34px;
+    box-shadow: 0 20px 50px -15px rgba(99, 102, 241, 0.1), 0 2px 6px rgba(0,0,0,0.02);
     position: sticky;
-    top: 24px;
+    top: 20px;
   }
 
-  /* Gauge Component */
-  .gauge-box {
-    text-align: center;
+  .result-top-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+
+  /* Main Gauge Meter */
+  .gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    margin-bottom: 24px;
+    margin: 10px 0 24px;
   }
   .gauge-svg {
     width: 220px;
     height: 120px;
-    overflow: visible;
   }
-  .gauge-bg {
-    fill: none;
-    stroke: #e2e8f0;
-    stroke-width: 16;
-    stroke-linecap: round;
+  .gauge-percentile-text {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
   }
-  .gauge-fill {
-    fill: none;
-    stroke: url(#gaugeGradient);
-    stroke-width: 16;
-    stroke-linecap: round;
-    stroke-dasharray: 283;
-    stroke-dashoffset: 28;
-    transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .gauge-percentile-num {
+  .gauge-val-big {
     font-family: 'Sora', sans-serif;
-    font-size: 40px;
+    font-size: 38px;
     font-weight: 800;
-    color: var(--pct-brand-dark);
+    color: #0f172a;
     line-height: 1;
-    margin-top: -10px;
   }
-  .gauge-percentile-label {
-    font-size: 13px;
+  .gauge-val-label {
+    font-size: 12.5px;
     font-weight: 700;
     color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 4px;
+    margin-top: 2px;
   }
 
-  /* Stat Rows */
-  .stat-row-box {
+  /* Rank & Band Metrics Box */
+  .metrics-box-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .metric-tile {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: var(--radius-lg);
-    padding: 16px 20px;
-    margin-bottom: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
   }
-  .stat-row-label {
-    font-size: 13.5px;
-    color: #475569;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .metric-lbl {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 4px;
+    text-transform: uppercase;
   }
-  .stat-row-val {
+  .metric-val {
     font-family: 'Sora', sans-serif;
-    font-size: 17px;
+    font-size: 22px;
     font-weight: 800;
-    color: var(--text-1);
+    color: #0f172a;
+  }
+  .metric-sub {
+    font-size: 11.5px;
+    color: #94a3b8;
+    margin-top: 2px;
   }
 
-  /* Action Buttons */
-  .btn-predict-now {
+  /* Tier Description */
+  .tier-desc-card {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .tier-desc-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #7e22ce;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tier-desc-body {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Action CTA Button */
+  .btn-launch-predictor {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     width: 100%;
-    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    padding: 16px 24px;
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
-    transition: all 0.2s ease;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: #ffffff;
     border: none;
-    cursor: pointer;
-    margin-top: 18px;
+    border-radius: 16px;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.45);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
-  .btn-predict-now:hover {
+  .btn-launch-predictor:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 26px rgba(124, 58, 237, 0.45);
-    color: white;
+    box-shadow: 0 14px 30px -5px rgba(99, 102, 241, 0.6);
+    color: #ffffff;
   }
 
-  /* Reference Marks Table */
-  .ref-table-wrapper {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-top: 36px;
+  /* Eligible Institutes Pills */
+  .colleges-preview-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    justify-content: center;
   }
-  .ref-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-    text-align: left;
-  }
-  .ref-table th {
-    background: #f8fafc;
-    padding: 14px 18px;
+  .college-tag {
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11.5px;
     font-weight: 700;
-    color: var(--text-1);
-    border-bottom: 2px solid #e2e8f0;
-  }
-  .ref-table td {
-    padding: 12px 18px;
-    border-bottom: 1px solid #e2e8f0;
-    color: var(--text-2);
-  }
-  .ref-table tr:hover {
-    background: #faf5ff;
+    color: #475569;
   }
 </style>
 @endpush
 
 @section('content')
+<!-- Shared Tools Switcher Bar -->
+<div class="tool-nav-bar">
+  <div class="container">
+    <div class="tool-nav-wrapper">
+      <a href="{{ route('tools.percentile-calculator') }}" class="tool-nav-item active">
+        <i class="fa-solid fa-calculator"></i> Percentile & Rank Calculator
+      </a>
+      <a href="{{ route('tools.college-predictor') }}" class="tool-nav-item">
+        <i class="fa-solid fa-crosshairs"></i> College Predictor 🎯
+      </a>
+      <a href="{{ route('tools.mh-cutoff') }}" class="tool-nav-item">
+        <i class="fa-solid fa-database"></i> CAP Round 1 Cutoffs 2025
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- Hero Section -->
 <section class="calc-hero">
-  <div class="container">
+  <div class="calc-hero-glow-1"></div>
+  <div class="calc-hero-glow-2"></div>
+  <div class="container" style="position: relative; z-index: 2;">
     <div class="calc-badge">
-      <i class="fa-solid fa-bolt"></i> 2025 Normalization Algorithm
+      <i class="fa-solid fa-microchip"></i> 2025 Normalization & Difficulty Math Engine
     </div>
-    <h1 class="calc-title">MHT CET Marks vs Percentile & Rank Calculator</h1>
+    <h1 class="calc-title">
+      MHT-CET <span>Marks vs Percentile</span> & Rank Calculator
+    </h1>
     <p class="calc-subtitle">
       Calculate your exact estimated MHT-CET 2025 percentile and State General Merit Rank from your raw score out of 200 marks, with multi-shift difficulty adjustments.
     </p>
   </div>
 </section>
 
-<!-- Calculator Section -->
-<section class="calc-main-section">
+<!-- Main Calculator Section -->
+<section class="calc-section">
   <div class="container">
-    <div class="calc-grid">
+    <div class="calc-layout-grid">
       
-      <!-- Left Column: Input Controller -->
-      <div class="calc-card">
-        <div class="calc-card-header">
-          <div class="calc-card-title">
-            <i class="fa-solid fa-sliders" style="color: var(--pct-brand);"></i>
-            <span>Score Input Parameters</span>
+      <!-- Input Panel -->
+      <div class="calc-input-card">
+        <div class="calc-header-row">
+          <div class="calc-card-heading">
+            <i class="fa-solid fa-sliders" style="color: #6366f1;"></i>
+            <span>Calculate Score</span>
           </div>
-          <span style="font-size: 12.5px; color: #64748b; font-weight: 600;">
-            <i class="fa-solid fa-clock-rotate-left"></i> Updated for 2025 Pattern
+          <span style="font-size: 13px; font-weight: 700; color: #64748b;">
+            <i class="fa-solid fa-shield-check" style="color: #10b981;"></i> 2025 Standardized
           </span>
         </div>
 
-        <!-- Mode Switcher -->
-        <div class="mode-switch">
-          <button type="button" class="mode-btn active" id="btnQuickMode" onclick="switchMode('quick')">
-            <i class="fa-solid fa-gauge-high"></i> Quick Total Marks (0-200)
+        <!-- Mode Segmented Control -->
+        <div class="segmented-control">
+          <button type="button" class="seg-btn active" id="btnModeTotal" onclick="setCalculationMode('total')">
+            <i class="fa-solid fa-chart-simple"></i> Total Marks (0 - 200)
           </button>
-          <button type="button" class="mode-btn" id="btnSubjectMode" onclick="switchMode('subject')">
-            <i class="fa-solid fa-layer-group"></i> Subject-wise Breakdown
+          <button type="button" class="seg-btn" id="btnModeSubject" onclick="setCalculationMode('subject')">
+            <i class="fa-solid fa-cubes-stacked"></i> Subject Breakdown (M + P + C)
           </button>
         </div>
 
-        <!-- Exam Type -->
-        <div style="margin-bottom: 20px;">
-          <span class="chip-label"><i class="fa-solid fa-graduation-cap"></i> Target Entrance Exam:</span>
-          <div class="chip-group">
-            <button type="button" class="exam-chip active" data-exam="mht_cet" onclick="selectExam('mht_cet')">
-              <i class="fa-solid fa-check"></i> MHT-CET (PCM - 200 Marks)
+        <!-- Exam Type Selector -->
+        <div class="pill-group">
+          <label class="pill-label">
+            <i class="fa-solid fa-file-pen" style="color: #6366f1;"></i> Exam Type
+          </label>
+          <div class="pills-row">
+            <button type="button" class="pill-chip active" data-exam="mht_cet_pcm" onclick="selectExam('mht_cet_pcm')">
+              <i class="fa-solid fa-atom"></i> MHT-CET (PCM - 200 Marks)
             </button>
-            <button type="button" class="exam-chip" data-exam="jee_main" onclick="selectExam('jee_main')">
-              JEE Main (300 Marks)
+            <button type="button" class="pill-chip" data-exam="mht_cet_pcb" onclick="selectExam('mht_cet_pcb')">
+              <i class="fa-solid fa-dna"></i> MHT-CET (PCB - 200 Marks)
             </button>
-          </div>
-        </div>
-
-        <!-- Shift Difficulty -->
-        <div style="margin-bottom: 24px;">
-          <span class="chip-label"><i class="fa-solid fa-chart-line"></i> Exam Shift Difficulty Level:</span>
-          <div class="chip-group">
-            <button type="button" class="shift-chip" data-shift="easy" onclick="selectShift('easy')">
-              <i class="fa-solid fa-face-smile" style="color:#059669;"></i> Easy Shift (-0.6% Normalization)
-            </button>
-            <button type="button" class="shift-chip active" data-shift="moderate" onclick="selectShift('moderate')">
-              <i class="fa-solid fa-face-meh" style="color:#2563eb;"></i> Moderate Shift (Standard)
-            </button>
-            <button type="button" class="shift-chip" data-shift="tough" onclick="selectShift('tough')">
-              <i class="fa-solid fa-face-flushed" style="color:#ea580c;"></i> Tough Shift (+0.8% Boost)
+            <button type="button" class="pill-chip" data-exam="jee_main" onclick="selectExam('jee_main')">
+              <i class="fa-solid fa-award"></i> JEE Main (300 Marks)
             </button>
           </div>
         </div>
 
-        <!-- Quick Mode Slider -->
-        <div id="quickModeWrapper" class="marks-input-wrapper">
-          <div class="marks-slider-header">
-            <div>
-              <div class="marks-slider-label">Your Expected Raw Score</div>
-              <div style="font-size: 12.5px; color: #64748b; margin-top: 2px;">Slide or type your raw marks</div>
-            </div>
-            <div>
-              <span class="marks-display-val" id="marksDisplayVal">{{ $initialPrediction['marks'] }}</span>
-              <span class="marks-display-max" id="marksDisplayMax">/ 200</span>
-            </div>
-          </div>
-
-          <input type="range" class="range-slider" id="marksSlider" min="0" max="200" step="1" value="{{ $initialPrediction['marks'] }}" oninput="updateFromSlider(this.value)">
-          
-          <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: #94a3b8;">
-            <span>0 Marks</span>
-            <span>50 Marks</span>
-            <span>100 Marks</span>
-            <span>150 Marks</span>
-            <span id="maxLabel">200 Marks</span>
+        <!-- Shift Difficulty Adjuster -->
+        <div class="pill-group">
+          <label class="pill-label">
+            <i class="fa-solid fa-gauge" style="color: #f59e0b;"></i> Shift Difficulty Adjustment
+          </label>
+          <div class="pills-row">
+            <button type="button" class="pill-chip shift-chip shift-easy" data-shift="easy" onclick="selectShift('easy')">
+              🟢 Easy Shift (-1.5%)
+            </button>
+            <button type="button" class="pill-chip shift-chip active" data-shift="moderate" onclick="selectShift('moderate')">
+              🟡 Moderate Shift (Standard)
+            </button>
+            <button type="button" class="pill-chip shift-chip shift-tough" data-shift="tough" onclick="selectShift('tough')">
+              🔴 Tough Shift (+2.5%)
+            </button>
           </div>
         </div>
 
-        <!-- Subject Mode Breakdown -->
-        <div id="subjectModeWrapper" class="marks-input-wrapper" style="display: none;">
-          <div class="marks-slider-label" style="margin-bottom: 4px;">Subject-wise Marks Entry</div>
-          <div style="font-size: 12.5px; color: #64748b; margin-bottom: 14px;">Enter your estimated marks in each subject</div>
-
-          <div class="subject-grid">
-            <div class="subject-input-box">
-              <div class="subject-title">Mathematics (100)</div>
-              <input type="number" id="subMaths" class="subject-input" min="0" max="100" value="75" oninput="updateFromSubjects()">
+        <!-- Mode 1: Total Marks Slider Input -->
+        <div id="modeTotalWrapper">
+          <div class="main-score-box">
+            <div class="score-box-top">
+              <span class="score-box-lbl">Your Raw Marks</span>
+              <div class="score-counter-display">
+                <span class="score-val-big" id="marksDisplayVal">{{ $calcData['marks'] }}</span>
+                <span class="score-max-sub" id="marksMaxSub">/ 200</span>
+              </div>
             </div>
-            <div class="subject-input-box">
-              <div class="subject-title">Physics (50)</div>
-              <input type="number" id="subPhysics" class="subject-input" min="0" max="50" value="38" oninput="updateFromSubjects()">
-            </div>
-            <div class="subject-input-box">
-              <div class="subject-title">Chemistry (50)</div>
-              <input type="number" id="subChem" class="subject-input" min="0" max="50" value="42" oninput="updateFromSubjects()">
-            </div>
+            <input type="range" class="custom-range-slider" id="marksSlider" min="0" max="200" step="1" value="{{ $calcData['marks'] }}" oninput="updateFromSlider(this.value)">
           </div>
-          <div style="margin-top: 14px; text-align: right; font-size: 13.5px; font-weight: 700; color: var(--pct-brand);">
-            Calculated Total: <span id="subjectTotalDisplay">155</span> / 200
+
+          <!-- Quick Score Chips -->
+          <div style="margin-bottom: 24px;">
+            <span style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-right: 8px;">Quick Presets:</span>
+            <span class="quick-marks-row" style="display:inline-flex;">
+              <button type="button" class="quick-chip" onclick="setMarks(180)">180+ (COEP / VJTI CS)</button>
+              <button type="button" class="quick-chip" onclick="setMarks(150)">150 (Top Tier 1)</button>
+              <button type="button" class="quick-chip" onclick="setMarks(125)">125 (Top 10%)</button>
+              <button type="button" class="quick-chip" onclick="setMarks(95)">95</button>
+              <button type="button" class="quick-chip" onclick="setMarks(70)">70</button>
+            </span>
           </div>
         </div>
 
-        <!-- Quick Links for Reference -->
-        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
-          <a href="{{ route('tools.mh-cutoff') }}" class="btn-college-info" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; text-decoration: none; color: var(--text-2); font-weight: 600;">
-            <i class="fa-solid fa-list-check" style="color: var(--pct-brand);"></i> Browse 2025 CAP Cutoffs
-          </a>
-          <a href="{{ route('guidance.mht-cet') }}" class="btn-college-info" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; text-decoration: none; color: var(--text-2); font-weight: 600;">
-            <i class="fa-solid fa-book-open" style="color: #059669;"></i> MHT CET Admission Guide
-          </a>
+        <!-- Mode 2: Subject-wise Breakdown -->
+        <div id="modeSubjectWrapper" style="display: none;">
+          <div class="subject-cards-grid">
+            <div class="subject-card sub-maths">
+              <div class="sub-title">
+                <span><i class="fa-solid fa-square-root-variable"></i> Mathematics</span>
+                <span style="color:#6366f1;">/ 100</span>
+              </div>
+              <input type="number" id="subMaths" class="sub-input" min="0" max="100" value="70" oninput="updateFromSubjects()">
+            </div>
+
+            <div class="subject-card sub-physics">
+              <div class="sub-title">
+                <span><i class="fa-solid fa-bolt"></i> Physics</span>
+                <span style="color:#f59e0b;">/ 50</span>
+              </div>
+              <input type="number" id="subPhysics" class="sub-input" min="0" max="50" value="35" oninput="updateFromSubjects()">
+            </div>
+
+            <div class="subject-card sub-chemistry">
+              <div class="sub-title">
+                <span><i class="fa-solid fa-flask"></i> Chemistry</span>
+                <span style="color:#10b981;">/ 50</span>
+              </div>
+              <input type="number" id="subChem" class="sub-input" min="0" max="50" value="35" oninput="updateFromSubjects()">
+            </div>
+          </div>
+          <div style="font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 20px;">
+            Total Computed Score: <strong id="subjectTotalDisplay" style="color:#6366f1; font-size:16px;">140</strong> / 200
+          </div>
         </div>
+
       </div>
 
-      <!-- Right Column: Results & Speedometer Gauge -->
-      <div class="result-card">
+      <!-- Result Card -->
+      <div class="calc-result-card">
         
-        <!-- Speedometer Gauge -->
-        <div class="gauge-box">
+        <div style="text-align: center;">
+          <span class="result-top-badge" id="resBandBadge" style="background: {{ $calcData['band_color'] }}15; color: {{ $calcData['band_color'] }}; border: 1px solid {{ $calcData['band_color'] }}40;">
+            <i class="fa-solid fa-sparkles"></i> <span id="resBadgeText">{{ $calcData['badge'] }}</span>
+          </span>
+        </div>
+
+        <!-- SVG Gauge -->
+        <div class="gauge-container">
           <svg class="gauge-svg" viewBox="0 0 200 110">
+            <!-- Background Arc -->
+            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e2e8f0" stroke-width="18" stroke-linecap="round" />
+            <!-- Animated Value Arc -->
+            <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGradient)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="30" style="transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);" />
             <defs>
               <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#3b82f6" />
                 <stop offset="50%" stop-color="#8b5cf6" />
-                <stop offset="100%" stop-color="#059669" />
+                <stop offset="100%" stop-color="#ec4899" />
               </linearGradient>
             </defs>
-            <!-- Background Arc (Radius 80) -->
-            <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
-            <!-- Animated Value Arc -->
-            <path id="gaugeFill" class="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" />
           </svg>
 
-          <div class="gauge-percentile-num" id="resPercentile">
-            {{ $initialPrediction['percentile_formatted'] }}
-          </div>
-          <div class="gauge-percentile-label">Predicted Percentile Score</div>
-          <div style="font-size: 12px; color: #64748b; margin-top: 4px;" id="resRange">
-            Range: {{ $initialPrediction['percentile_range'] }}
+          <div class="gauge-percentile-text">
+            <div class="gauge-val-big" id="resPercentileBig">{{ $calcData['percentile_formatted'] }}</div>
+            <div class="gauge-val-label">Expected Percentile</div>
           </div>
         </div>
 
-        <!-- Predicted Merit Rank -->
-        <div class="stat-row-box">
-          <div class="stat-row-label">
-            <i class="fa-solid fa-trophy" style="color: #eab308; font-size: 16px;"></i>
-            <span>Est. State General Rank</span>
+        <!-- Metrics Box -->
+        <div class="metrics-box-grid">
+          <div class="metric-tile">
+            <div class="metric-lbl">State Merit Rank</div>
+            <div class="metric-val" id="resRankVal">#{{ $calcData['estimated_rank_formatted'] }}</div>
+            <div class="metric-sub" id="resRankRange">Range: {{ $calcData['rank_range_formatted'] }}</div>
           </div>
-          <div class="stat-row-val" style="color: var(--pct-brand-dark);" id="resRank">
-            #{{ $initialPrediction['estimated_rank_formatted'] }}
+
+          <div class="metric-tile">
+            <div class="metric-lbl">Percentile Band</div>
+            <div class="metric-val" id="resRangeVal" style="font-size: 17px; color: #6366f1;">{{ $calcData['percentile_range'] }}</div>
+            <div class="metric-sub" id="resTotalCand">out of {{ $calcData['total_candidates'] }}</div>
           </div>
         </div>
 
-        <!-- Rank Range & Total Candidates -->
-        <div class="stat-row-box">
-          <div class="stat-row-label">
-            <i class="fa-solid fa-users" style="color: #64748b;"></i>
-            <span>Rank Estimate Range</span>
+        <!-- Tier Info Card -->
+        <div class="tier-desc-card">
+          <div class="tier-desc-title">
+            <i class="fa-solid fa-graduation-cap"></i> <span id="resTierTitle">{{ $calcData['tier_title'] }}</span>
           </div>
-          <div class="stat-row-val" style="font-size: 15px;" id="resRankRange">
-            {{ $initialPrediction['rank_range_formatted'] }}
-          </div>
-        </div>
-
-        <!-- Tier & Category Badge -->
-        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: var(--radius-lg); padding: 18px; margin-top: 14px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-            <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b;">Admission Bracket</span>
-            <span class="college-badge" id="resBandBadge" style="background: #ecfdf5; color: #059669; font-weight: 700;">
-              {{ $initialPrediction['band'] }}
-            </span>
-          </div>
-          <p id="resDescription" style="font-size: 13px; color: #475569; line-height: 1.5; margin: 0;">
-            {{ $initialPrediction['description'] }}
+          <p class="tier-desc-body" id="resTierDesc">
+            {{ $calcData['description'] }}
           </p>
         </div>
 
-        <!-- Direct 1-Click CTA to College Predictor -->
-        <a href="{{ $initialPrediction['predictor_url'] }}" id="resPredictorBtn" class="btn-predict-now">
-          <i class="fa-solid fa-compass"></i> Predict My Eligible Colleges <i class="fa-solid fa-arrow-right"></i>
+        <!-- Launch Predictor CTA -->
+        <a href="{{ $calcData['predictor_url'] }}" id="resPredictorBtn" class="btn-launch-predictor">
+          <span>Predict Eligible Colleges For This Score</span>
+          <i class="fa-solid fa-arrow-right"></i>
         </a>
-        <div style="text-align: center; margin-top: 8px; font-size: 12px; color: #64748b;">
-          Instant match with 363+ Maharashtra Engineering Colleges
+
+        <!-- Eligible Institutes Preview -->
+        <div class="colleges-preview-row" id="resCollegesList">
+          @foreach($calcData['top_colleges'] as $col)
+            <span class="college-tag">{{ $col }}</span>
+          @endforeach
         </div>
+
       </div>
 
     </div>
-
-    <!-- Official Historical Marks vs Percentile Reference Table -->
-    <div class="ref-table-wrapper">
-      <div style="padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div>
-          <h3 style="font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: var(--text-1); margin: 0;">
-            <i class="fa-solid fa-table" style="color: var(--pct-brand); margin-right: 8px;"></i> Official MHT-CET Marks vs Percentile Analysis
-          </h3>
-          <p style="font-size: 13px; color: var(--text-3); margin: 4px 0 0;">Historical normalization trends across state CAP rounds</p>
-        </div>
-        <span class="college-badge" style="background: var(--pct-brand-light); color: var(--pct-brand); font-weight: 700;">
-          State CET Cell Benchmarks
-        </span>
-      </div>
-
-      <div style="overflow-x: auto;">
-        <table class="ref-table">
-          <thead>
-            <tr>
-              <th>Raw Marks Range (out of 200)</th>
-              <th>Expected Percentile</th>
-              <th>Approx. State Merit Rank</th>
-              <th>Eligible Top Institutions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>175 – 200 Marks</strong></td>
-              <td><span class="college-badge" style="background:#ecfdf5; color:#059669; font-weight:700;">99.80 – 100.00%</span></td>
-              <td>Rank 1 – 800</td>
-              <td>COEP Pune, VJTI Mumbai (CSE / IT / AI-DS)</td>
-            </tr>
-            <tr>
-              <td><strong>160 – 174 Marks</strong></td>
-              <td><span class="college-badge" style="background:#ecfdf5; color:#059669; font-weight:700;">99.40 – 99.79%</span></td>
-              <td>Rank 801 – 2,500</td>
-              <td>SPIT Mumbai, PICT Pune, Walchand Sangli</td>
-            </tr>
-            <tr>
-              <td><strong>150 – 159 Marks</strong></td>
-              <td><span class="college-badge" style="background:#eff6ff; color:#2563eb; font-weight:700;">99.00 – 99.39%</span></td>
-              <td>Rank 2,501 – 4,100</td>
-              <td>VIT Pune, PCCOE Pune, D.J. Sanghvi Mumbai</td>
-            </tr>
-            <tr>
-              <td><strong>135 – 149 Marks</strong></td>
-              <td><span class="college-badge" style="background:#eff6ff; color:#2563eb; font-weight:700;">97.50 – 98.99%</span></td>
-              <td>Rank 4,101 – 10,250</td>
-              <td>VESIT Chembur, Thadomal Shahani, VIIT Pune</td>
-            </tr>
-            <tr>
-              <td><strong>120 – 134 Marks</strong></td>
-              <td><span class="college-badge" style="background:#eff6ff; color:#2563eb; font-weight:700;">95.00 – 97.49%</span></td>
-              <td>Rank 10,251 – 20,500</td>
-              <td>K.J. Somaiya, SIES GST, Cummins College Pune</td>
-            </tr>
-            <tr>
-              <td><strong>100 – 119 Marks</strong></td>
-              <td><span class="college-badge" style="background:#fffbeb; color:#d97706; font-weight:700;">89.00 – 94.99%</span></td>
-              <td>Rank 20,501 – 45,000</td>
-              <td>D.Y. Patil Akurdi, Thakur Mumbai, Sinhgad Pune</td>
-            </tr>
-            <tr>
-              <td><strong>80 – 99 Marks</strong></td>
-              <td><span class="college-badge" style="background:#fffbeb; color:#d97706; font-weight:700;">77.00 – 88.99%</span></td>
-              <td>Rank 45,001 – 94,000</td>
-              <td>AISSMS Pune, Pillai College, Atharva Mumbai</td>
-            </tr>
-            <tr>
-              <td><strong>60 – 79 Marks</strong></td>
-              <td><span class="college-badge" style="background:#f1f5f9; color:#475569; font-weight:700;">57.00 – 76.99%</span></td>
-              <td>Rank 94,001 – 1,76,000</td>
-              <td>Regional Engineering Colleges & Tech Institutes</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- SEO FAQ Section -->
-    <div style="margin-top: 40px; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px;">
-      <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-1); margin-bottom: 20px;">
-        <i class="fa-solid fa-circle-question" style="color: var(--pct-brand); margin-right: 8px;"></i> Frequently Asked Questions about MHT-CET Percentile Calculation
-      </h3>
-
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <div>
-          <h4 style="font-size: 15.5px; font-weight: 700; color: var(--text-1); margin-bottom: 4px;">How is MHT CET Percentile calculated from marks?</h4>
-          <p style="font-size: 14px; color: var(--text-2); line-height: 1.6; margin: 0;">
-            The State CET Cell uses relative percentile normalization: <code>Percentile = (100 * Number of candidates with raw score <= candidate's score) / Total candidates in that shift</code>. This prevents candidates in harder shifts from being penalized compared to easier shifts.
-          </p>
-        </div>
-        <div>
-          <h4 style="font-size: 15.5px; font-weight: 700; color: var(--text-1); margin-bottom: 4px;">What is a good score in MHT CET for Computer Science in Top Colleges?</h4>
-          <p style="font-size: 14px; color: var(--text-2); line-height: 1.6; margin: 0;">
-            For COEP, VJTI, and SPIT, a raw score of 165+ marks (99.50+ percentile) is typically required for Open Category. For other top autonomous colleges like PICT, VIT Pune, and PCCOE, 140+ marks (98.00+ percentile) ensures high probability of admission.
-          </p>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 @endsection
 
 @push('scripts')
 <script>
-  let currentExam = '{{ $defaultExam }}';
-  let currentShift = '{{ $defaultShift }}';
-  let currentMode = 'quick';
-  let currentMarks = {{ $initialPrediction['marks'] }};
-
+  let currentExam = 'mht_cet_pcm';
+  let currentShift = 'moderate';
+  let currentMarks = {{ $calcData['marks'] }};
   const API_CALC_URL = "{{ route('tools.percentile-calculator.api') }}";
-  const PREDICTOR_BASE_URL = "{{ route('tools.college-predictor') }}";
 
-  function switchMode(mode) {
-    currentMode = mode;
-    document.getElementById('btnQuickMode').classList.toggle('active', mode === 'quick');
-    document.getElementById('btnSubjectMode').classList.toggle('active', mode === 'subject');
-    
-    document.getElementById('quickModeWrapper').style.display = mode === 'quick' ? 'block' : 'none';
-    document.getElementById('subjectModeWrapper').style.display = mode === 'subject' ? 'block' : 'none';
-
-    if (mode === 'subject') {
-      updateFromSubjects();
-    } else {
-      updateFromSlider(document.getElementById('marksSlider').value);
-    }
+  function setCalculationMode(mode) {
+    document.getElementById('btnModeTotal').classList.toggle('active', mode === 'total');
+    document.getElementById('btnModeSubject').classList.toggle('active', mode === 'subject');
+    document.getElementById('modeTotalWrapper').style.display = (mode === 'total') ? 'block' : 'none';
+    document.getElementById('modeSubjectWrapper').style.display = (mode === 'subject') ? 'block' : 'none';
   }
 
   function selectExam(exam) {
     currentExam = exam;
-    document.querySelectorAll('.exam-chip').forEach(c => {
+    document.querySelectorAll('[data-exam]').forEach(c => {
       c.classList.toggle('active', c.getAttribute('data-exam') === exam);
     });
 
-    const maxMarks = exam === 'jee_main' ? 300 : 200;
-    const slider = document.getElementById('marksSlider');
-    slider.max = maxMarks;
-    document.getElementById('marksDisplayMax').textContent = '/ ' + maxMarks;
-    document.getElementById('maxLabel').textContent = maxMarks + ' Marks';
+    const maxM = (exam === 'jee_main') ? 300 : 200;
+    document.getElementById('marksSlider').max = maxM;
+    document.getElementById('marksMaxSub').textContent = '/ ' + maxM;
 
-    if (parseFloat(slider.value) > maxMarks) {
-      slider.value = maxMarks;
+    if (currentMarks > maxM) {
+      currentMarks = maxM;
+      document.getElementById('marksSlider').value = maxM;
+      document.getElementById('marksDisplayVal').textContent = maxM;
     }
     recalculate();
   }
@@ -756,6 +836,13 @@
     document.querySelectorAll('.shift-chip').forEach(c => {
       c.classList.toggle('active', c.getAttribute('data-shift') === shift);
     });
+    recalculate();
+  }
+
+  function setMarks(m) {
+    currentMarks = m;
+    document.getElementById('marksSlider').value = m;
+    document.getElementById('marksDisplayVal').textContent = m;
     recalculate();
   }
 
@@ -787,47 +874,49 @@
         updateUI(data);
       })
       .catch(err => console.error('Calculation error:', err));
-    }, 120);
+    }, 100);
   }
 
   function updateUI(data) {
-    // Percentile Readout
-    document.getElementById('resPercentile').textContent = data.percentile_formatted;
-    document.getElementById('resRange').textContent = 'Range: ' + data.percentile_range;
-    document.getElementById('resRank').textContent = '#' + data.estimated_rank_formatted;
-    document.getElementById('resRankRange').textContent = data.rank_range_formatted;
-    
-    // Band & Description
-    const badge = document.getElementById('resBandBadge');
-    badge.textContent = data.band;
-    badge.style.color = data.band_color || '#059669';
-    badge.style.backgroundColor = (data.band_color || '#059669') + '15';
-    document.getElementById('resDescription').textContent = data.description;
+    document.getElementById('resPercentileBig').textContent = data.percentile_formatted;
+    document.getElementById('resRankVal').textContent = '#' + data.estimated_rank_formatted;
+    document.getElementById('resRankRange').textContent = 'Range: ' + data.rank_range_formatted;
+    document.getElementById('resRangeVal').textContent = data.percentile_range;
+    document.getElementById('resTotalCand').textContent = 'out of ' + data.total_candidates;
+    document.getElementById('resTierTitle').textContent = data.tier_title;
+    document.getElementById('resTierDesc').textContent = data.description;
+    document.getElementById('resBadgeText').textContent = data.badge;
 
-    // Update Speedometer SVG Arc (Total Arc length = 283)
+    const badgeEl = document.getElementById('resBandBadge');
+    badgeEl.style.color = data.band_color;
+    badgeEl.style.background = data.band_color + '15';
+    badgeEl.style.borderColor = data.band_color + '40';
+
+    document.getElementById('resPredictorBtn').href = data.predictor_url;
+
+    // Update Gauge Arc stroke-dashoffset (total length is 251.2)
     const pct = Math.max(0, Math.min(100, data.percentile));
-    const offset = 283 - ((pct / 100) * 283);
-    const gaugeFill = document.getElementById('gaugeFill');
-    if (gaugeFill) {
-      gaugeFill.style.strokeDashoffset = offset;
-    }
+    const offset = 251.2 - (pct / 100) * 251.2;
+    document.getElementById('gaugeArc').style.strokeDashoffset = offset;
 
-    // Update College Predictor 1-Click CTA link
-    const predictorBtn = document.getElementById('resPredictorBtn');
-    if (predictorBtn) {
-      const categoryParam = currentExam === 'jee_main' ? 'AI' : 'GOPENS';
-      predictorBtn.href = PREDICTOR_BASE_URL + '?percentile=' + encodeURIComponent(data.percentile) + '&category=' + categoryParam;
+    // Update Colleges List
+    const colList = document.getElementById('resCollegesList');
+    colList.innerHTML = '';
+    if (data.top_colleges) {
+      data.top_colleges.forEach(c => {
+        const span = document.createElement('span');
+        span.className = 'college-tag';
+        span.textContent = c;
+        colList.appendChild(span);
+      });
     }
   }
 
-  // Initial gauge arc set
+  // Initial gauge set
   document.addEventListener('DOMContentLoaded', () => {
-    const initialPct = {{ $initialPrediction['percentile'] }};
-    const offset = 283 - ((initialPct / 100) * 283);
-    const gaugeFill = document.getElementById('gaugeFill');
-    if (gaugeFill) {
-      gaugeFill.style.strokeDashoffset = offset;
-    }
+    const initialPct = {{ $calcData['percentile'] }};
+    const offset = 251.2 - (initialPct / 100) * 251.2;
+    document.getElementById('gaugeArc').style.strokeDashoffset = offset;
   });
 </script>
 @endpush

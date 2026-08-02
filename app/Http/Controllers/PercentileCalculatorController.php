@@ -21,6 +21,7 @@ class PercentileCalculatorController extends Controller
         $initialPrediction = PercentilePredictorService::predict($marks, $exam, $shift);
 
         return view('tools.percentile-calculator', [
+            'calcData' => $initialPrediction,
             'initialPrediction' => $initialPrediction,
             'defaultMarks' => $marks,
             'defaultExam' => $exam,

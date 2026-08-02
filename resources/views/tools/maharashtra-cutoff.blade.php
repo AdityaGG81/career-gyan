@@ -778,10 +778,65 @@
       top: 0;
     }
   }
+
+  .tool-nav-bar {
+    background: #0f172a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 0;
+  }
+  .tool-nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tool-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 99px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .tool-nav-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+  }
+  .tool-nav-item.active {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+  }
 </style>
 @endsection
 
 @section('content')
+<!-- Shared Tools Switcher Bar -->
+<div class="tool-nav-bar">
+  <div class="container">
+    <div class="tool-nav-wrapper">
+      <a href="{{ route('tools.percentile-calculator') }}" class="tool-nav-item">
+        <i class="fa-solid fa-calculator"></i> Percentile & Rank Calculator
+      </a>
+      <a href="{{ route('tools.college-predictor') }}" class="tool-nav-item">
+        <i class="fa-solid fa-crosshairs"></i> College Predictor 🎯
+      </a>
+      <a href="{{ route('tools.mh-cutoff') }}" class="tool-nav-item active">
+        <i class="fa-solid fa-database"></i> CAP Round 1 Cutoffs 2025
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- ─── Hero ─── -->
 <section class="cutoff-hero">
   <div class="cutoff-hero-glow"></div>
