@@ -1032,6 +1032,7 @@
 </style>
 
 @yield('styles')
+@stack('styles')
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5044851395641771"
      crossorigin="anonymous"></script>
 </head>
@@ -2206,6 +2207,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+@yield('scripts')
+@stack('scripts')
 
 </body>
 </html>

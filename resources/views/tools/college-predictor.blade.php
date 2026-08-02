@@ -4,7 +4,7 @@
 @section('meta_description', 'Predict your admission chances in 363+ Maharashtra Engineering Colleges with 99% accuracy using official 2025 CAP Round cutoffs, categories, and chance analysis.')
 @section('meta_keywords', 'mht cet college predictor 2025, engineering college predictor maharashtra, mht cet branch predictor, coep cutoff predictor, vjti admission chances, cap round option form generator')
 
-@push('styles')
+@section('styles')
 <style>
   :root {
     --cp-brand: #2563eb;
@@ -568,7 +568,7 @@
     background: #f8fafc;
   }
 </style>
-@endpush
+@endsection
 
 @section('content')
 <!-- Shared Tools Switcher Bar -->
@@ -950,7 +950,7 @@
 </section>
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script>
   let activeChanceFilter = 'all';
   let currentViewMode = 'cards';
@@ -1168,4 +1168,4 @@
     tbody.innerHTML = tableHtml;
   }
 </script>
-@endpush
+@endsection

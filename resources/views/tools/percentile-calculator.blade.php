@@ -4,7 +4,7 @@
 @section('meta_description', 'Calculate your exact expected MHT-CET 2025 percentile and State General Merit Rank from raw marks. Real-time shift difficulty normalization & 1-click college prediction.')
 @section('meta_keywords', 'mht cet marks vs percentile 2025, mht cet percentile calculator, mht cet rank predictor, calculate mht cet score, marks to rank converter maharashtra')
 
-@push('styles')
+@section('styles')
 <style>
   :root {
     --pct-brand: #6366f1;
@@ -563,7 +563,7 @@
     color: #475569;
   }
 </style>
-@endpush
+@endsection
 
 @section('content')
 <!-- Shared Tools Switcher Bar -->
@@ -799,7 +799,7 @@
 </section>
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script>
   let currentExam = 'mht_cet_pcm';
   let currentShift = 'moderate';
@@ -919,4 +919,4 @@
     document.getElementById('gaugeArc').style.strokeDashoffset = offset;
   });
 </script>
-@endpush
+@endsection
