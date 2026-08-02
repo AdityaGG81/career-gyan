@@ -147,14 +147,26 @@ class CollegeCutoffService
         $college = $cQuery->first();
 
         // Build composite profile
+        $resolvedName = $ic?->college_name ?? $college?->name ?? $cutoffCollegeName;
+        $cleanName = trim(preg_replace('/\(Id:\s*[^\)]+\)/i', '', $resolvedName));
+        $address = $ic?->address ?? $college?->address ?? $college?->location;
+        $city = $ic?->city ?? $college?->city ?? $college?->location;
+        $district = $ic?->district;
+        $state = $ic?->state ?? ($college?->state ?? 'Maharashtra');
+
+        $mapParts = array_filter([$cleanName, $address, $city, $district, $state, 'India']);
+        $mapQuery = implode(', ', array_unique($mapParts));
+        $mapEmbedUrl = 'https://maps.google.com/maps?q=' . urlencode($mapQuery) . '&z=15&output=embed';
+        $mapDirectionsUrl = 'https://www.google.com/maps/search/?api=1&query=' . urlencode($mapQuery);
+
         return [
             'found' => ($ic !== null || $college !== null),
             'id' => $ic?->id ?? $college?->id,
-            'college_name' => $ic?->college_name ?? $college?->name ?? $cutoffCollegeName,
+            'college_name' => $resolvedName,
             'college_code' => $collegeCode,
             'district' => $ic?->district ?? ($college?->city ?? 'Maharashtra'),
             'city' => $ic?->city ?? $college?->city,
-            'state' => $ic?->state ?? ($college?->state ?? 'Maharashtra'),
+            'state' => $state,
             'management' => $ic?->management ?? ($college?->type ?? 'Government / Autonomous / Private'),
             'college_type' => $ic?->college_type ?? 'Engineering',
             'university_name' => $ic?->university_name ?? $college?->affiliated_to,
@@ -162,8 +174,11 @@ class CollegeCutoffService
             'website' => $ic?->website ?? $college?->website,
             'total_enrollment' => $ic?->total_enrollment,
             'faculty_count' => $ic?->faculty_count,
-            'address' => $ic?->address ?? $college?->address,
+            'address' => $address,
             'show_url' => $ic ? url('/colleges/' . $ic->id) : ($college ? url('/explore/colleges/' . $college->id) : null),
+            'map_query' => $mapQuery,
+            'map_embed_url' => $mapEmbedUrl,
+            'map_directions_url' => $mapDirectionsUrl,
         ];
     }
 }

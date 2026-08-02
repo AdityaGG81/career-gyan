@@ -89,4 +89,29 @@ class IndianCollege extends Model
             default              => '#64748b',
         };
     }
+
+    public function getMapQueryAttribute(): string
+    {
+        $cleanName = trim(preg_replace('/\(Id:\s*[^\)]+\)/i', '', $this->college_name));
+        $parts = array_filter([
+            $cleanName,
+            $this->address,
+            $this->city,
+            $this->taluka,
+            $this->district,
+            $this->state ?: 'Maharashtra',
+            'India'
+        ]);
+        return implode(', ', array_unique($parts));
+    }
+
+    public function getGoogleMapEmbedUrlAttribute(): string
+    {
+        return 'https://maps.google.com/maps?q=' . urlencode($this->map_query) . '&z=15&output=embed';
+    }
+
+    public function getGoogleMapDirectionsUrlAttribute(): string
+    {
+        return 'https://www.google.com/maps/search/?api=1&query=' . urlencode($this->map_query);
+    }
 }

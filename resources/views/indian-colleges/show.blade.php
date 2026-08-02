@@ -674,6 +674,62 @@
                 @endif
             </section>
 
+            <!-- Campus Location & Interactive Map -->
+            <section class="info-box">
+                <h2 class="info-box-title">
+                    <div class="info-box-title-left">
+                        <i class="fa-solid fa-map-location-dot" style="color: #ea580c;"></i>
+                        <span>Campus Location & Interactive Map</span>
+                    </div>
+                    <a href="{{ $college->google_map_directions_url }}" target="_blank" rel="noopener noreferrer" style="font-size:13px; font-weight:600; color:var(--brand); text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                        <i class="fa-solid fa-diamond-turn-right"></i> Get Directions <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px;"></i>
+                    </a>
+                </h2>
+
+                <div class="college-map-card">
+                    <div class="college-address-box" style="background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius-md); padding:14px 18px; margin-bottom:16px;">
+                        <div style="display:flex; align-items:flex-start; gap:12px;">
+                            <div style="width:36px; height:36px; border-radius:10px; background:#fee2e2; color:#dc2626; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:700; color:var(--text-1); font-size:15px; margin-bottom:3px;">
+                                    {{ $college->college_name }}
+                                </div>
+                                <div style="color:var(--text-2); font-size:13.5px; line-height:1.6;">
+                                    @if($college->address)
+                                        {{ $college->address }}<br>
+                                    @endif
+                                    {{ $college->city ?: ($college->district ?: '') }}{{ $college->taluka && $college->taluka !== $college->city ? ', Tal. ' . $college->taluka : '' }}{{ $college->district ? ', Dist. ' . $college->district : '' }}, {{ $college->state ?: 'Maharashtra' }} {{ $college->pin_code ? '- ' . $college->pin_code : '' }}, India
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Google Map Embed -->
+                    <div class="map-frame-wrapper" style="border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); box-shadow: 0 6px 24px rgba(0,0,0,.05); background: var(--surface);">
+                        <iframe 
+                            src="{{ $college->google_map_embed_url }}" 
+                            width="100%" 
+                            height="380" 
+                            style="border:0; display: block;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <div style="margin-top: 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <span style="font-size:12.5px; color:var(--text-3);">
+                            <i class="fa-solid fa-satellite"></i> Accurate campus geocoding & live location powered by Google Maps
+                        </span>
+                        <a href="{{ $college->google_map_directions_url }}" target="_blank" rel="noopener noreferrer" class="btn-website" style="padding: 8px 16px; font-size: 13px;">
+                            <i class="fa-solid fa-diamond-turn-right"></i> Open in Google Maps
+                        </a>
+                    </div>
+                </div>
+            </section>
+
             <!-- Enrollment & Faculty Stats -->
             @if($college->total_enrollment || $college->faculty_count)
                 <section class="info-box">

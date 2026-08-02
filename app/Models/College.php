@@ -27,4 +27,26 @@ class College extends Model
     {
         return $this->hasMany(CollegeReview::class);
     }
+
+    public function getMapQueryAttribute(): string
+    {
+        $cleanName = trim($this->name);
+        $parts = array_filter([
+            $cleanName,
+            $this->location,
+            $this->state ?: 'India',
+            'India'
+        ]);
+        return implode(', ', array_unique($parts));
+    }
+
+    public function getGoogleMapEmbedUrlAttribute(): string
+    {
+        return 'https://maps.google.com/maps?q=' . urlencode($this->map_query) . '&z=15&output=embed';
+    }
+
+    public function getGoogleMapDirectionsUrlAttribute(): string
+    {
+        return 'https://www.google.com/maps/search/?api=1&query=' . urlencode($this->map_query);
+    }
 }

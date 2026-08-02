@@ -1073,6 +1073,19 @@
           <div class="modal-attr-lbl">Address</div>
           <div class="modal-attr-val" id="modalAddress">N/A</div>
         </div>
+
+        <!-- Campus Map Inside Modal -->
+        <div id="modalMapSection" style="margin-top: 20px; display: none;">
+          <div style="font-size: 13.5px; font-weight: 700; color: var(--text-1); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+            <span><i class="fa-solid fa-map-location-dot" style="color: #ea580c; margin-right: 6px;"></i> Campus Map & Location</span>
+            <a href="#" id="modalDirectionsLink" target="_blank" rel="noopener noreferrer" style="font-size: 12.5px; color: var(--brand); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="fa-solid fa-diamond-turn-right"></i> Directions <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px;"></i>
+            </a>
+          </div>
+          <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.06); background: var(--surface);">
+            <iframe id="modalMapIframe" src="" width="100%" height="220" style="border:0; display: block;" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
       </div>
     </div>
     <div class="college-modal-footer">
@@ -1206,6 +1219,9 @@
   const modalAddress = document.getElementById('modalAddress');
   const modalWebsiteLink = document.getElementById('modalWebsiteLink');
   const modalProfileLink = document.getElementById('modalProfileLink');
+  const modalMapSection = document.getElementById('modalMapSection');
+  const modalMapIframe = document.getElementById('modalMapIframe');
+  const modalDirectionsLink = document.getElementById('modalDirectionsLink');
 
   // ─── Modal Functions ───
   function openCollegeModal(collegeName, collegeCode) {
@@ -1215,6 +1231,8 @@
     modalContent.style.display = 'none';
     modalWebsiteLink.style.display = 'none';
     modalProfileLink.style.display = 'none';
+    if (modalMapSection) modalMapSection.style.display = 'none';
+    if (modalMapIframe) modalMapIframe.src = '';
 
     fetch(PROFILE_URL + '?college_name=' + encodeURIComponent(collegeName || '') + '&college_code=' + encodeURIComponent(collegeCode || ''))
       .then(r => r.json())
@@ -1236,6 +1254,13 @@
         if (p.show_url) {
           modalProfileLink.href = p.show_url;
           modalProfileLink.style.display = 'inline-flex';
+        }
+        if (p.map_embed_url && modalMapSection && modalMapIframe) {
+          modalMapIframe.src = p.map_embed_url;
+          if (modalDirectionsLink) {
+            modalDirectionsLink.href = p.map_directions_url || p.map_embed_url;
+          }
+          modalMapSection.style.display = 'block';
         }
       })
       .catch(err => {
