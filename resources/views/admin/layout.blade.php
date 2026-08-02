@@ -494,12 +494,6 @@
         </a>
       </li>
 
-      <li class="menu-category">Event</li>
-      <li class="admin-menu-item {{ $currentRoute == 'admin.inauguration' ? 'active' : '' }}">
-        <a href="{{ route('admin.inauguration') }}">
-          <i class="fa-solid fa-ribbon"></i> Inauguration
-        </a>
-      </li>
     </ul>
 
     <div class="admin-sidebar-footer">

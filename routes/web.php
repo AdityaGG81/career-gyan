@@ -13,8 +13,8 @@ use App\Http\Controllers\AdminQuizController;
 use App\Http\Controllers\IndianCollegeController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\AdvancedTestController;
-use App\Http\Controllers\InaugurationController;
 use App\Http\Controllers\MhtCetCutoffController;
+
 
 // Main pages
 Route::get('/', function () {
@@ -161,10 +161,6 @@ Route::get('/contact', [SuggestionController::class, 'create'])->name('contact.s
 // Public Blog Routes
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
-
-// Inauguration — Public polling API
-Route::get('/api/inauguration/state', [InaugurationController::class, 'getState'])->name('inauguration.state');
-Route::post('/api/inauguration/cut', [InaugurationController::class, 'publicCut'])->name('inauguration.cut');
 
 // Admin Auth
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
@@ -323,13 +319,6 @@ Route::get('/admin/quiz/leaderboard', [AdminQuizController::class, 'leaderboard'
 Route::get('/admin/quiz/{id}/edit', [AdminQuizController::class, 'edit'])->name('admin.quiz.edit');
 Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('admin.quiz.update');
 Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
-
-// Admin Inauguration Controls
-Route::get('/admin/inauguration', [InaugurationController::class, 'index'])->name('admin.inauguration');
-Route::post('/admin/inauguration/show-ribbon', [InaugurationController::class, 'showRibbon'])->name('admin.inauguration.show');
-Route::post('/admin/inauguration/unlock-ribbon', [InaugurationController::class, 'unlockRibbon'])->name('admin.inauguration.unlock');
-Route::post('/admin/inauguration/cut-ribbon', [InaugurationController::class, 'cutRibbon'])->name('admin.inauguration.cut');
-Route::post('/admin/inauguration/reset', [InaugurationController::class, 'resetRibbon'])->name('admin.inauguration.reset');
 
 Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
 
