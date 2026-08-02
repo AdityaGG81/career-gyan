@@ -44,10 +44,13 @@ class MhtCetCutoffController extends Controller
 
             $popularAcronyms = CollegeSynonymService::getPopularAcronyms();
 
+            $initialCutoffs = MhtCetCutoff::orderBy('percentile', 'desc')->take(50)->get();
+            $initialTotal = $totalRecords;
+
             return view('tools.maharashtra-cutoff', compact(
                 'colleges', 'branches', 'categories',
                 'totalRecords', 'totalColleges', 'totalBranches',
-                'popularAcronyms'
+                'popularAcronyms', 'initialCutoffs', 'initialTotal'
             ));
         } catch (\Exception $e) {
             return response('<h1 style="color:red; text-align:center; margin-top:50px;">Database Table Missing!<br>Please visit <a href="/run-cutoff-setup-migration-2025">/run-cutoff-setup-migration-2025</a> to set up the live database.</h1>', 500);

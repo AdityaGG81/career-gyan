@@ -898,7 +898,7 @@
     <!-- Results header -->
     <div class="results-header">
       <div class="results-count">
-        Showing <strong id="showingCount">0</strong> of <strong id="totalCount">0</strong> results
+        Showing <strong id="showingCount">{{ !empty($initialCutoffs) ? count($initialCutoffs) : 0 }}</strong> of <strong id="totalCount">{{ number_format($initialTotal ?? 0) }}</strong> results
       </div>
       <div class="sort-controls">
         <span>Sort by:</span>
@@ -915,25 +915,25 @@
     </div>
 
     <!-- Loading -->
-    <div id="loadingState" class="loading-overlay active">
+    <div id="loadingState" class="loading-overlay">
       <div class="loading-spinner"></div>
       <div class="loading-text">Loading cutoff data...</div>
     </div>
 
     <!-- Empty state -->
-    <div id="emptyState" class="empty-state">
+    <div id="emptyState" class="empty-state {{ empty($initialCutoffs) || count($initialCutoffs) === 0 ? 'active' : '' }}">
       <i class="fa-solid fa-magnifying-glass"></i>
       <h3>No Cutoffs Found</h3>
       <p>Try adjusting your search filters or searching for acronyms like <strong>COEP</strong>, <strong>VJTI</strong>, or <strong>PICT</strong>.</p>
     </div>
 
     <!-- Desktop table -->
-    <div class="cutoff-table-wrapper" id="tableWrapper" style="display:none;">
+    <div class="cutoff-table-wrapper" id="tableWrapper" style="{{ empty($initialCutoffs) || count($initialCutoffs) === 0 ? 'display:none;' : 'display:block;' }}">
       <div style="overflow-x: auto;">
         <table class="cutoff-table">
           <thead>
             <tr>
-              <th data-col="college_name" class="sorted">College & Institute Profile <i class="fa-solid fa-sort sort-icon"></i></th>
+              <th data-col="college_name">College & Institute Profile <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="branch_name">Branch / Course <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="category">Seat Type <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="percentile" class="sorted">Percentile <i class="fa-solid fa-sort-down sort-icon"></i></th>
@@ -942,16 +942,99 @@
             </tr>
           </thead>
           <tbody id="cutoffTableBody">
+            @if(!empty($initialCutoffs))
+              @foreach($initialCutoffs as $r)
+                @php
+                  $pct = (float)$r->percentile;
+                  $percClass = $pct >= 95 ? 'percentile-high' : ($pct >= 80 ? 'percentile-mid' : 'percentile-low');
+                  $catClass = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $r->category ?? 'OPEN'));
+                @endphp
+                <tr>
+                  <td class="college-name-cell">
+                    <div>{{ $r->college_name }}</div>
+                    <div class="college-action-row">
+                      <span class="btn-college-info" onclick="window.__openProfile('{{ addslashes($r->college_name) }}', '{{ addslashes($r->college_code ?? '') }}')">
+                        <i class="fa-solid fa-circle-info"></i> Details & Institute Info
+                      </span>
+                    </div>
+                  </td>
+                  <td class="branch-cell">{{ $r->branch_name }}</td>
+                  <td><span class="seat-badge {{ $catClass }}">{{ $r->category }}</span></td>
+                  <td class="percentile-cell {{ $percClass }}">{{ number_format($pct, 2) }}%</td>
+                  <td class="merit-cell">{{ $r->merit_no ? '#' . number_format($r->merit_no) : 'N/A' }}</td>
+                  <td>
+                    @if($r->percentile_band)
+                      <span class="band-badge">{{ $r->percentile_band }}</span>
+                    @endif
+                  </td>
+                </tr>
+              @endforeach
+            @endif
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- Mobile cards -->
-    <div class="cutoff-cards-mobile" id="mobileCards"></div>
+    <div class="cutoff-cards-mobile" id="mobileCards">
+      @if(!empty($initialCutoffs))
+        @foreach($initialCutoffs as $r)
+          @php
+            $pct = (float)$r->percentile;
+            $percClass = $pct >= 95 ? 'percentile-high' : ($pct >= 80 ? 'percentile-mid' : 'percentile-low');
+            $catClass = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $r->category ?? 'OPEN'));
+          @endphp
+          <div class="cutoff-card-mobile">
+            <div class="cutoff-card-mobile-header">
+              <div class="cutoff-card-mobile-name">{{ $r->college_name }}</div>
+              <span class="seat-badge {{ $catClass }}">{{ $r->category }}</span>
+            </div>
+            <div class="cutoff-card-mobile-branch">
+              <i class="fa-solid fa-code-branch" style="color:var(--brand); margin-right:4px;"></i>
+              {{ $r->branch_name }}
+            </div>
+            <div class="cutoff-card-mobile-stats">
+              <div class="cutoff-card-stat">
+                <div class="cutoff-card-stat-value {{ $percClass }}">{{ number_format($pct, 2) }}%</div>
+                <div class="cutoff-card-stat-label">Percentile</div>
+              </div>
+              <div class="cutoff-card-stat">
+                <div class="cutoff-card-stat-value" style="color:var(--text-1);">{{ $r->merit_no ? '#' . number_format($r->merit_no) : 'N/A' }}</div>
+                <div class="cutoff-card-stat-label">Merit No.</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; text-align:center;">
+              <button class="btn-college-info" style="width:100%; justify-content:center; padding: 6px 12px;" onclick="window.__openProfile('{{ addslashes($r->college_name) }}', '{{ addslashes($r->college_code ?? '') }}')">
+                <i class="fa-solid fa-circle-info"></i> View Institute Profile & Address
+              </button>
+            </div>
+          </div>
+        @endforeach
+      @endif
+    </div>
 
     <!-- Pagination -->
-    <div class="cutoff-pagination" id="pagination"></div>
+    <div class="cutoff-pagination" id="pagination">
+      @php
+        $lastPage = ceil(($initialTotal ?? 1) / 50);
+      @endphp
+      @if($lastPage > 1)
+        <button class="page-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="page-btn active" onclick="window.__cutoffPage(1)">1</button>
+        @if($lastPage >= 2)
+          <button class="page-btn" onclick="window.__cutoffPage(2)">2</button>
+        @endif
+        @if($lastPage >= 3)
+          <button class="page-btn" onclick="window.__cutoffPage(3)">3</button>
+        @endif
+        @if($lastPage > 4)
+          <span class="page-info">...</span>
+          <button class="page-btn" onclick="window.__cutoffPage({{ $lastPage }})">{{ $lastPage }}</button>
+        @endif
+        <button class="page-btn" onclick="window.__cutoffPage(2)"><i class="fa-solid fa-chevron-right"></i></button>
+        <span class="page-info">Page 1 of {{ $lastPage }}</span>
+      @endif
+    </div>
   </div>
 </section>
 
@@ -1261,12 +1344,9 @@
 
   // ─── Fetch results ───
   function fetchResults(page) {
-    currentPage = page;
+    currentPage = page || 1;
     loadingState.classList.add('active');
     emptyState.classList.remove('active');
-    tableWrapper.style.display = 'none';
-    mobileCards.innerHTML = '';
-    pagination.innerHTML = '';
 
     const params = new URLSearchParams({
       page: page,
@@ -1289,6 +1369,9 @@
         loadingState.classList.remove('active');
 
         if (!result || !result.data || result.data.length === 0) {
+          tableWrapper.style.display = 'none';
+          mobileCards.innerHTML = '';
+          pagination.innerHTML = '';
           emptyState.classList.add('active');
           showingCount.textContent = '0';
           totalCount.textContent = '0';
@@ -1388,7 +1471,6 @@
       })
       .catch(err => {
         loadingState.classList.remove('active');
-        emptyState.classList.add('active');
         console.error('Fetch error:', err);
       });
   }
@@ -1432,7 +1514,10 @@
 
   window.__cutoffPage = function(page) { 
     fetchResults(page); 
-    window.scrollTo({ top: document.querySelector('.cutoff-results-section').offsetTop - 80, behavior: 'smooth' }); 
+    const resultsSec = document.querySelector('.cutoff-results-section');
+    if (resultsSec) {
+      window.scrollTo({ top: resultsSec.offsetTop - 80, behavior: 'smooth' }); 
+    }
   };
 
   function getPercentileClass(p) {
@@ -1463,10 +1548,8 @@
   const initialQ = urlParams.get('q');
   if (initialQ) {
     collegeInput.value = initialQ;
+    fetchResults(1);
   }
-
-  // Initial load
-  fetchResults(1);
 })();
 </script>
 @endsection
