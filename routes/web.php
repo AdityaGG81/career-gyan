@@ -41,6 +41,7 @@ Route::get('/disclaimer', function () {
 Route::get('/colleges', [IndianCollegeController::class, 'index'])->name('indian-colleges.index');
 Route::get('/colleges/districts', [IndianCollegeController::class, 'districts'])->name('indian-colleges.districts');
 Route::get('/colleges/api-search', [IndianCollegeController::class, 'apiSearch'])->name('indian-colleges.api-search');
+Route::get('/colleges/{id}/cutoffs', [IndianCollegeController::class, 'apiCollegeCutoffs'])->where('id', '[0-9]+')->name('indian-colleges.cutoffs');
 Route::get('/colleges/{id}', [IndianCollegeController::class, 'show'])->where('id', '[0-9]+')->name('indian-colleges.show');
 
 // Job Corner public routes
@@ -203,6 +204,7 @@ Route::get('/tools/maharashtra-colleges-cutoff', [MhtCetCutoffController::class,
 Route::get('/tools/maharashtra-colleges-cutoff/search', [MhtCetCutoffController::class, 'search'])->name('tools.mh-cutoff.search');
 Route::get('/tools/maharashtra-colleges-cutoff/colleges', [MhtCetCutoffController::class, 'apiColleges'])->name('tools.mh-cutoff.colleges');
 Route::get('/tools/maharashtra-colleges-cutoff/branches', [MhtCetCutoffController::class, 'apiBranches'])->name('tools.mh-cutoff.branches');
+Route::get('/tools/maharashtra-colleges-cutoff/profile', [MhtCetCutoffController::class, 'apiCollegeProfile'])->name('tools.mh-cutoff.profile');
 Route::get('/tools/maharashtra-colleges-cutoff/download', [MhtCetCutoffController::class, 'download'])->name('tools.mh-cutoff.download');
 
 // Dynamic XML Sitemap for Google Search Console & SEO Ranking

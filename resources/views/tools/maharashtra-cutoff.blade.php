@@ -20,7 +20,7 @@
   /* ─── Cutoff Hero ─── */
   .cutoff-hero {
     background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
-    padding: 70px 0 50px;
+    padding: 60px 0 45px;
     color: #fff;
     position: relative;
     overflow: hidden;
@@ -43,7 +43,7 @@
   }
   .cutoff-hero h1 {
     font-family: 'Sora', sans-serif;
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: clamp(28px, 4.5vw, 40px);
     font-weight: 800;
     margin-bottom: 12px;
     line-height: 1.2;
@@ -55,11 +55,11 @@
     background-clip: text;
   }
   .cutoff-hero-subtitle {
-    font-size: 16px;
+    font-size: 15px;
     color: #94a3b8;
-    max-width: 600px;
+    max-width: 650px;
     line-height: 1.6;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .cutoff-hero-badge {
     display: inline-flex;
@@ -68,23 +68,57 @@
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.15);
-    padding: 8px 16px;
+    padding: 6px 16px;
     border-radius: 99px;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: #e2e8f0;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
   }
   .cutoff-hero-badge i {
     color: #38bdf8;
   }
 
+  /* ─── Popular Acronyms Pill Strip ─── */
+  .cutoff-acronyms-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    margin-bottom: 20px;
+  }
+  .cutoff-acronym-lbl {
+    font-size: 13px;
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+  .cutoff-acronym-chip {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .cutoff-acronym-chip:hover {
+    background: #38bdf8;
+    color: #0f172a;
+    border-color: #38bdf8;
+    transform: translateY(-2px);
+  }
+
   /* ─── Stats Row ─── */
   .cutoff-stats-row {
     display: flex;
-    gap: 24px;
+    gap: 16px;
     flex-wrap: wrap;
-    margin-top: 8px;
+    margin-top: 12px;
   }
   .cutoff-stat {
     display: flex;
@@ -93,30 +127,30 @@
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: var(--radius-md);
-    padding: 14px 20px;
+    padding: 12px 18px;
     backdrop-filter: blur(8px);
   }
   .cutoff-stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
   }
   .cutoff-stat-icon.blue { background: rgba(56,189,248,0.2); color: #38bdf8; }
   .cutoff-stat-icon.purple { background: rgba(139,92,246,0.2); color: #a78bfa; }
   .cutoff-stat-icon.green { background: rgba(52,211,153,0.2); color: #34d399; }
   .cutoff-stat-value {
     font-family: 'Sora', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
     color: #fff;
     line-height: 1;
   }
   .cutoff-stat-label {
-    font-size: 12px;
+    font-size: 11px;
     color: #94a3b8;
     font-weight: 600;
     text-transform: uppercase;
@@ -130,15 +164,15 @@
     gap: 8px;
     background: linear-gradient(135deg, #059669, #10b981);
     color: #fff;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: var(--radius-md);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13.5px;
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    margin-top: 16px;
+    margin-top: 14px;
   }
   .btn-download:hover {
     transform: translateY(-2px);
@@ -150,7 +184,7 @@
   .cutoff-search-section {
     background: #fff;
     border-bottom: 1px solid var(--border);
-    padding: 30px 0;
+    padding: 24px 0;
     position: sticky;
     top: 64px;
     z-index: 50;
@@ -158,7 +192,7 @@
   }
   .search-filter-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 200px 160px;
+    grid-template-columns: 1.2fr 1fr 180px 140px;
     gap: 14px;
     align-items: end;
   }
@@ -176,7 +210,7 @@
   }
   .filter-input,
   .filter-select {
-    padding: 11px 14px;
+    padding: 10px 14px;
     border: 1.5px solid var(--border);
     border-radius: var(--radius-md);
     font-size: 14px;
@@ -202,7 +236,7 @@
     gap: 8px;
     background: var(--brand);
     color: #fff;
-    padding: 11px 24px;
+    padding: 10px 20px;
     border-radius: var(--radius-md);
     font-weight: 700;
     font-size: 14px;
@@ -260,7 +294,7 @@
   }
   .autocomplete-item {
     padding: 10px 14px;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--text-1);
     cursor: pointer;
     transition: background 0.15s;
@@ -339,7 +373,7 @@
   .cutoff-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 13.5px;
   }
   .cutoff-table thead {
     background: linear-gradient(135deg, #f8fafc, #f1f5f9);
@@ -348,7 +382,7 @@
     z-index: 10;
   }
   .cutoff-table th {
-    padding: 14px 16px;
+    padding: 12px 16px;
     text-align: left;
     font-weight: 700;
     font-size: 12px;
@@ -376,7 +410,7 @@
     opacity: 1;
   }
   .cutoff-table td {
-    padding: 14px 16px;
+    padding: 12px 16px;
     color: var(--text-1);
     border-bottom: 1px solid var(--border);
     vertical-align: middle;
@@ -393,8 +427,32 @@
   .college-name-cell {
     font-weight: 600;
     color: var(--text-1);
-    max-width: 320px;
+    max-width: 340px;
     line-height: 1.4;
+  }
+  .college-action-row {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-college-info {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--brand);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn-college-info:hover {
+    background: var(--brand);
+    color: white;
   }
   .branch-cell {
     color: var(--text-1);
@@ -403,7 +461,7 @@
   .percentile-cell {
     font-family: 'Sora', sans-serif;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 15px;
   }
   .percentile-high { color: #059669; }
   .percentile-mid  { color: #d97706; }
@@ -417,7 +475,7 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 99px;
     font-size: 11px;
     font-weight: 700;
@@ -547,7 +605,7 @@
     background: #fff;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 20px;
+    padding: 18px;
     margin-bottom: 12px;
     box-shadow: var(--shadow-sm);
   }
@@ -556,33 +614,34 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .cutoff-card-mobile-name {
     font-weight: 700;
     color: var(--text-1);
-    font-size: 15px;
+    font-size: 14.5px;
     line-height: 1.4;
   }
   .cutoff-card-mobile-branch {
     font-size: 13px;
     color: var(--text-2);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .cutoff-card-mobile-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    margin-bottom: 12px;
   }
   .cutoff-card-stat {
     background: var(--bg);
     border-radius: var(--radius-sm);
-    padding: 10px;
+    padding: 8px;
     text-align: center;
   }
   .cutoff-card-stat-value {
     font-family: 'Sora', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 800;
   }
   .cutoff-card-stat-label {
@@ -591,6 +650,98 @@
     color: var(--text-3);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+  }
+
+  /* ─── College Modal / Slide-over ─── */
+  .college-modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .college-modal-backdrop.active {
+    display: flex;
+  }
+  .college-modal-card {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    animation: modalSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+  @keyframes modalSlide {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .college-modal-header {
+    background: linear-gradient(135deg, #1e3a5f, #1a56db);
+    color: white;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .college-modal-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .btn-modal-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .btn-modal-close:hover {
+    background: rgba(255,255,255,0.4);
+  }
+  .college-modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
+  .modal-attr-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 12px 0;
+    margin-bottom: 20px;
+  }
+  .modal-attr-lbl {
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .modal-attr-val {
+    color: var(--text-1);
+    font-weight: 500;
+  }
+  .college-modal-footer {
+    padding: 16px 24px;
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
   }
 
   /* ─── Responsive ─── */
@@ -611,7 +762,7 @@
       grid-template-columns: 1fr;
     }
     .cutoff-hero {
-      padding: 50px 0 40px;
+      padding: 40px 0 30px;
     }
     .cutoff-table-wrapper {
       display: none;
@@ -642,8 +793,18 @@
     <h1>Maharashtra <span>MHT-CET</span><br>Engineering Cutoffs 2025</h1>
     <p class="cutoff-hero-subtitle">
       Browse the complete MHT-CET engineering cutoff data for 2025-26 CAP Round I across all Maharashtra colleges.
-      Search by college, branch, or seat type. Download the full dataset as CSV.
+      Search by college acronym (COEP, VJTI, PICT, etc.), branch, or seat category.
     </p>
+
+    <!-- Popular College Acronym Filter Chips -->
+    <div class="cutoff-acronyms-strip">
+      <span class="cutoff-acronym-lbl"><i class="fa-solid fa-bolt text-amber-300"></i> Top Institutes:</span>
+      @foreach($popularAcronyms as $acronym => $full)
+        <span class="cutoff-acronym-chip" data-acronym="{{ $acronym }}" title="{{ $full }}">
+          {{ $acronym }}
+        </span>
+      @endforeach
+    </div>
 
     <div class="cutoff-stats-row">
       <div class="cutoff-stat">
@@ -669,9 +830,14 @@
       </div>
     </div>
 
-    <a href="{{ route('tools.mh-cutoff.download') }}" class="btn-download">
-      <i class="fa-solid fa-download"></i> Download Full CSV
-    </a>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+      <a href="{{ route('tools.mh-cutoff.download') }}" class="btn-download">
+        <i class="fa-solid fa-download"></i> Download Full CSV
+      </a>
+      <a href="{{ route('indian-colleges.index') }}" class="btn-download" style="background: rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);">
+        <i class="fa-solid fa-building-columns"></i> Browse All 98k+ Colleges
+      </a>
+    </div>
   </div>
 </section>
 
@@ -680,9 +846,9 @@
   <div class="container">
     <div class="search-filter-grid">
       <div class="filter-group">
-        <label>Search College</label>
+        <label>Search College / Acronym</label>
         <div class="autocomplete-wrapper">
-          <input type="text" id="collegeSearch" class="filter-input" placeholder="Type college name..." autocomplete="off">
+          <input type="text" id="collegeSearch" class="filter-input" placeholder="Type COEP, VJTI, Pune, etc..." autocomplete="off">
           <div id="collegeAutocomplete" class="autocomplete-list"></div>
         </div>
       </div>
@@ -749,7 +915,7 @@
     <div id="emptyState" class="empty-state">
       <i class="fa-solid fa-magnifying-glass"></i>
       <h3>No Cutoffs Found</h3>
-      <p>Try adjusting your search filters or clearing all filters to see all available cutoff data.</p>
+      <p>Try adjusting your search filters or searching for acronyms like <strong>COEP</strong>, <strong>VJTI</strong>, or <strong>PICT</strong>.</p>
     </div>
 
     <!-- Desktop table -->
@@ -758,7 +924,7 @@
         <table class="cutoff-table">
           <thead>
             <tr>
-              <th data-col="college_name" class="sorted">College Name <i class="fa-solid fa-sort sort-icon"></i></th>
+              <th data-col="college_name" class="sorted">College & Institute Profile <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="branch_name">Branch / Course <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="category">Seat Type <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="percentile" class="sorted">Percentile <i class="fa-solid fa-sort-down sort-icon"></i></th>
@@ -779,6 +945,54 @@
     <div class="cutoff-pagination" id="pagination"></div>
   </div>
 </section>
+
+<!-- ─── Institutional Details Modal ─── -->
+<div class="college-modal-backdrop" id="collegeModal">
+  <div class="college-modal-card">
+    <div class="college-modal-header">
+      <div>
+        <div style="font-size: 11px; text-transform:uppercase; letter-spacing:1px; color:#93c5fd; margin-bottom:4px;">Combined Institutional Profile</div>
+        <h3 class="college-modal-title" id="modalCollegeName">College Name</h3>
+      </div>
+      <button type="button" class="btn-modal-close" id="modalCloseBtn">&times;</button>
+    </div>
+    <div class="college-modal-body" id="modalBody">
+      <div id="modalLoading" style="text-align:center; padding:30px 0;">
+        <div class="loading-spinner"></div>
+        <div>Loading college details...</div>
+      </div>
+      <div id="modalContent" style="display:none;">
+        <div class="modal-attr-grid">
+          <div class="modal-attr-lbl">DTE Code</div>
+          <div class="modal-attr-val" id="modalCode">N/A</div>
+
+          <div class="modal-attr-lbl">Location</div>
+          <div class="modal-attr-val" id="modalLocation">N/A</div>
+
+          <div class="modal-attr-lbl">University</div>
+          <div class="modal-attr-val" id="modalUniversity">N/A</div>
+
+          <div class="modal-attr-lbl">Management</div>
+          <div class="modal-attr-val" id="modalManagement">N/A</div>
+
+          <div class="modal-attr-lbl">Established</div>
+          <div class="modal-attr-val" id="modalEstablished">N/A</div>
+
+          <div class="modal-attr-lbl">Address</div>
+          <div class="modal-attr-val" id="modalAddress">N/A</div>
+        </div>
+      </div>
+    </div>
+    <div class="college-modal-footer">
+      <a href="#" id="modalWebsiteLink" target="_blank" rel="noopener noreferrer" class="btn-website" style="background:#475569; display:none;">
+        Official Website <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+      <a href="#" id="modalProfileLink" class="btn-website" style="background:var(--brand); display:none;">
+        View Full College Profile <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- ─── SEO FAQ & Information Section ─── -->
 <section class="cutoff-faq-section" style="padding: 60px 0; background: #ffffff; border-top: 1px solid var(--border);">
@@ -835,7 +1049,7 @@
   </div>
 </section>
 
-<!-- Schema.org JSON-LD Structured Data for Search Engine Dominance -->
+<!-- Schema.org JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
   "@@context": "https://schema.org",
@@ -853,48 +1067,6 @@
           { "@@type": "ListItem", "position": 2, "name": "MHT CET Cutoff 2025", "item": "{{ url('/tools/maharashtra-colleges-cutoff') }}" }
         ]
       }
-    },
-    {
-      "@@type": "Dataset",
-      "name": "Maharashtra MHT-CET 2025 Engineering College Cutoffs",
-      "description": "Comprehensive CAP Round 1 cutoff dataset containing percentiles, merit numbers, categories (GOPENS, GOPENH), and college codes for 363+ colleges.",
-      "keywords": ["MHT CET Cutoff 2025", "MHT CET Percentile", "Maharashtra Engineering Cutoff", "VJTI Cutoff", "COEP Cutoff"],
-      "license": "https://creativecommons.org/licenses/by/4.0/",
-      "isAccessibleForFree": true,
-      "distribution": {
-        "@@type": "DataDownload",
-        "encodingFormat": "text/csv",
-        "contentUrl": "{{ route('tools.mh-cutoff.download') }}"
-      }
-    },
-    {
-      "@@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@@type": "Question",
-          "name": "What is the MHT-CET 2025 Cutoff Percentile?",
-          "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "The MHT-CET 2025 Cutoff is the minimum percentile score or State General Merit Rank required by a candidate to secure admission into an engineering branch at a Maharashtra engineering institute during CAP allotment."
-          }
-        },
-        {
-          "@@type": "Question",
-          "name": "What do GOPENS and GOPENH category codes mean in MHT CET?",
-          "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "GOPENS stands for General Open State Level seats, while GOPENH stands for General Open Home University quota seats."
-          }
-        },
-        {
-          "@@type": "Question",
-          "name": "Which engineering colleges have the highest MHT CET cutoff in Maharashtra?",
-          "acceptedAnswer": {
-            "@@type": "Answer",
-            "text": "VJTI Mumbai (99.95%), COEP Pune (99.93%), SPIT Mumbai (99.60%), Walchand Sangli (99.47%), and PICT Pune (99.28%) have the highest MHT CET Computer Engineering cutoffs."
-          }
-        }
-      ]
     }
   ]
 }
@@ -906,6 +1078,7 @@
 (function() {
   const SEARCH_URL = @json(route('tools.mh-cutoff.search'));
   const COLLEGES_URL = @json(route('tools.mh-cutoff.colleges'));
+  const PROFILE_URL = @json(route('tools.mh-cutoff.profile'));
 
   let currentSort = 'percentile';
   let currentDir = 'desc';
@@ -926,6 +1099,73 @@
   const showingCount = document.getElementById('showingCount');
   const totalCount = document.getElementById('totalCount');
   const autocompleteList = document.getElementById('collegeAutocomplete');
+
+  // Modal elements
+  const modal = document.getElementById('collegeModal');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalCollegeName = document.getElementById('modalCollegeName');
+  const modalLoading = document.getElementById('modalLoading');
+  const modalContent = document.getElementById('modalContent');
+  const modalCode = document.getElementById('modalCode');
+  const modalLocation = document.getElementById('modalLocation');
+  const modalUniversity = document.getElementById('modalUniversity');
+  const modalManagement = document.getElementById('modalManagement');
+  const modalEstablished = document.getElementById('modalEstablished');
+  const modalAddress = document.getElementById('modalAddress');
+  const modalWebsiteLink = document.getElementById('modalWebsiteLink');
+  const modalProfileLink = document.getElementById('modalProfileLink');
+
+  // ─── Modal Functions ───
+  function openCollegeModal(collegeName, collegeCode) {
+    modalCollegeName.textContent = collegeName;
+    modal.classList.add('active');
+    modalLoading.style.display = 'block';
+    modalContent.style.display = 'none';
+    modalWebsiteLink.style.display = 'none';
+    modalProfileLink.style.display = 'none';
+
+    fetch(PROFILE_URL + '?college_name=' + encodeURIComponent(collegeName) + '&college_code=' + encodeURIComponent(collegeCode || ''))
+      .then(r => r.json())
+      .then(p => {
+        modalLoading.style.display = 'none';
+        modalContent.style.display = 'block';
+
+        modalCode.textContent = p.college_code || 'N/A';
+        modalLocation.textContent = (p.district ? p.district + ', ' : '') + (p.state || 'Maharashtra');
+        modalUniversity.textContent = p.university_name || 'Autonomous / SPPU / State Affiliation';
+        modalManagement.textContent = p.management || 'Government / Autonomous / Private';
+        modalEstablished.textContent = p.year_of_establishment || 'Established';
+        modalAddress.textContent = p.address || (p.city ? p.city + ', Maharashtra' : 'Maharashtra, India');
+
+        if (p.website) {
+          modalWebsiteLink.href = p.website;
+          modalWebsiteLink.style.display = 'inline-flex';
+        }
+        if (p.show_url) {
+          modalProfileLink.href = p.show_url;
+          modalProfileLink.style.display = 'inline-flex';
+        }
+      })
+      .catch(err => {
+        modalLoading.style.display = 'none';
+        modalContent.style.display = 'block';
+        modalAddress.textContent = 'Information loaded from Maharashtra DTE registry.';
+      });
+  }
+
+  modalCloseBtn.addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
+  // ─── Acronym Chips Click ───
+  document.querySelectorAll('.cutoff-acronym-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      const ac = this.getAttribute('data-acronym');
+      collegeInput.value = ac;
+      fetchResults(1);
+    });
+  });
 
   // ─── Autocomplete ───
   collegeInput.addEventListener('input', function() {
@@ -1049,10 +1289,17 @@
         // Desktop table
         tableBody.innerHTML = result.data.map(r => `
           <tr>
-            <td class="college-name-cell">${escHtml(r.college_name)}</td>
+            <td class="college-name-cell">
+              <div>${escHtml(r.college_name)}</div>
+              <div class="college-action-row">
+                <span class="btn-college-info" onclick="window.__openProfile('${escAttr(r.college_name)}', '${escAttr(r.college_code)}')">
+                  <i class="fa-solid fa-circle-info"></i> Details & Institute Info
+                </span>
+              </div>
+            </td>
             <td class="branch-cell">${escHtml(r.branch_name)}</td>
             <td><span class="seat-badge ${r.category.toLowerCase()}">${escHtml(r.category)}</span></td>
-            <td class="percentile-cell ${getPercentileClass(r.percentile)}">${formatPercentile(r.percentile)}</td>
+            <td class="percentile-cell ${getPercentileClass(r.percentile)}">${formatPercentile(r.percentile)}%</td>
             <td class="merit-cell">${r.merit_no ? '#' + Number(r.merit_no).toLocaleString() : 'N/A'}</td>
             <td>${r.percentile_band ? '<span class="band-badge">' + escHtml(r.percentile_band) + '</span>' : ''}</td>
           </tr>
@@ -1072,13 +1319,18 @@
             </div>
             <div class="cutoff-card-mobile-stats">
               <div class="cutoff-card-stat">
-                <div class="cutoff-card-stat-value ${getPercentileClass(r.percentile)}">${formatPercentile(r.percentile)}</div>
+                <div class="cutoff-card-stat-value ${getPercentileClass(r.percentile)}">${formatPercentile(r.percentile)}%</div>
                 <div class="cutoff-card-stat-label">Percentile</div>
               </div>
               <div class="cutoff-card-stat">
                 <div class="cutoff-card-stat-value" style="color:var(--text-1);">${r.merit_no ? '#' + Number(r.merit_no).toLocaleString() : 'N/A'}</div>
                 <div class="cutoff-card-stat-label">Merit No.</div>
               </div>
+            </div>
+            <div style="margin-top: 10px; text-align:center;">
+              <button class="btn-college-info" style="width:100%; justify-content:center; padding: 6px 12px;" onclick="window.__openProfile('${escAttr(r.college_name)}', '${escAttr(r.college_code)}')">
+                <i class="fa-solid fa-circle-info"></i> View Institute Profile & Address
+              </button>
             </div>
           </div>
         `).join('');
@@ -1105,6 +1357,10 @@
         console.error('Fetch error:', err);
       });
   }
+
+  window.__openProfile = function(name, code) {
+    openCollegeModal(name, code);
+  };
 
   function renderPagination(current, last, total) {
     if (last <= 1) { pagination.innerHTML = ''; return; }
@@ -1139,7 +1395,10 @@
     return range;
   }
 
-  window.__cutoffPage = function(page) { fetchResults(page); window.scrollTo({ top: document.querySelector('.cutoff-results-section').offsetTop - 80, behavior: 'smooth' }); };
+  window.__cutoffPage = function(page) { 
+    fetchResults(page); 
+    window.scrollTo({ top: document.querySelector('.cutoff-results-section').offsetTop - 80, behavior: 'smooth' }); 
+  };
 
   function getPercentileClass(p) {
     if (p >= 95) return 'percentile-high';
@@ -1159,7 +1418,12 @@
     return d.innerHTML;
   }
 
-  // Pre-fill from URL query param (from homepage mini-search)
+  function escAttr(s) {
+    if (!s) return '';
+    return s.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+  }
+
+  // Pre-fill from URL query param
   const urlParams = new URLSearchParams(window.location.search);
   const initialQ = urlParams.get('q');
   if (initialQ) {

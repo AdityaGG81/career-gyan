@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\MhtCetCutoff;
+use App\Services\CollegeCutoffService;
+use App\Services\CollegeSynonymService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -40,9 +42,12 @@ class MhtCetCutoffController extends Controller
                 return MhtCetCutoff::distinct('branch_name')->count('branch_name');
             });
 
+            $popularAcronyms = CollegeSynonymService::getPopularAcronyms();
+
             return view('tools.maharashtra-cutoff', compact(
                 'colleges', 'branches', 'categories',
-                'totalRecords', 'totalColleges', 'totalBranches'
+                'totalRecords', 'totalColleges', 'totalBranches',
+                'popularAcronyms'
             ));
         } catch (\Exception $e) {
             return response('<h1 style="color:red; text-align:center; margin-top:50px;">Database Table Missing!<br>Please visit <a href="/run-cutoff-setup-migration-2025">/run-cutoff-setup-migration-2025</a> to set up the live database.</h1>', 500);
@@ -58,7 +63,19 @@ class MhtCetCutoffController extends Controller
             $query = MhtCetCutoff::query();
 
             if ($request->filled('q')) {
-                $query->forCollege($request->input('q'));
+                $q = trim($request->input('q'));
+                $synonyms = CollegeSynonymService::resolveQuery($q);
+
+                $query->where(function ($qb) use ($q, $synonyms) {
+                    $qb->where('college_name', 'like', "%{$q}%")
+                       ->orWhere('college_code', 'like', "%{$q}%");
+                    
+                    foreach ($synonyms as $syn) {
+                        if (strlen($syn) >= 2) {
+                            $qb->orWhere('college_name', 'like', "%{$syn}%");
+                        }
+                    }
+                });
             }
             if ($request->filled('branch')) {
                 $query->forBranch($request->input('branch'));
@@ -109,16 +126,26 @@ class MhtCetCutoffController extends Controller
     }
 
     /**
-     * AJAX autocomplete endpoint
+     * AJAX autocomplete endpoint with acronym expansion
      */
     public function apiColleges(Request $request): JsonResponse
     {
-        $q = $request->input('q');
+        $q = trim($request->input('q', ''));
         
         $query = MhtCetCutoff::select('college_name')->distinct();
         
-        if ($q) {
-            $query->where('college_name', 'like', '%' . $q . '%');
+        if (!empty($q)) {
+            $synonyms = CollegeSynonymService::resolveQuery($q);
+            $query->where(function ($qb) use ($q, $synonyms) {
+                $qb->where('college_name', 'like', "%{$q}%")
+                   ->orWhere('college_code', 'like', "%{$q}%");
+                
+                foreach ($synonyms as $syn) {
+                    if (strlen($syn) >= 2) {
+                        $qb->orWhere('college_name', 'like', "%{$syn}%");
+                    }
+                }
+            });
         }
         
         $colleges = $query->orderBy('college_name')
@@ -144,6 +171,22 @@ class MhtCetCutoffController extends Controller
         $branches = $query->orderBy('branch_name')->pluck('branch_name');
 
         return response()->json($branches);
+    }
+
+    /**
+     * AJAX endpoint to get combined institutional profile for a cutoff college
+     */
+    public function apiCollegeProfile(Request $request): JsonResponse
+    {
+        $collegeName = $request->input('college_name', '');
+        $collegeCode = $request->input('college_code', '');
+
+        if (empty($collegeName) && empty($collegeCode)) {
+            return response()->json(['error' => 'College identifier is required.'], 400);
+        }
+
+        $profile = CollegeCutoffService::getCollegeProfileForCutoff($collegeName, $collegeCode);
+        return response()->json($profile);
     }
 
     /**

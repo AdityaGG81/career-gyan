@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\IndianCollege;
+use App\Services\CollegeCutoffService;
+use App\Services\CollegeSynonymService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -60,15 +62,22 @@ class IndianCollegeController extends Controller
 
         if ($request->filled('q')) {
             $q = trim($request->q);
+            $synonyms = CollegeSynonymService::resolveQuery($q);
 
-            // Phase 1: Try exact LIKE search first
-            $testQuery = (clone $baseQuery)->where(function ($qb) use ($q) {
+            // Phase 1: Try expanded exact LIKE search (with acronyms)
+            $testQuery = (clone $baseQuery)->where(function ($qb) use ($q, $synonyms) {
                 $qb->where('college_name', 'like', "%{$q}%")
                    ->orWhere('city', 'like', "%{$q}%")
                    ->orWhere('district', 'like', "%{$q}%")
                    ->orWhere('state', 'like', "%{$q}%")
                    ->orWhere('university_name', 'like', "%{$q}%")
                    ->orWhere('course_name', 'like', "%{$q}%");
+                
+                foreach ($synonyms as $syn) {
+                    if (strlen($syn) >= 2) {
+                        $qb->orWhere('college_name', 'like', "%{$syn}%");
+                    }
+                }
             });
 
             $exactCount = (clone $testQuery)
@@ -78,7 +87,7 @@ class IndianCollegeController extends Controller
                 ->count();
 
             if ($exactCount > 0) {
-                // Exact matches found — use them
+                // Exact / Synonym matches found — use them
                 $baseQuery = $testQuery;
             } else {
                 // Phase 2: Fuzzy search fallback
@@ -148,10 +157,11 @@ class IndianCollegeController extends Controller
                 return $item->college_name . '|' . $item->district . '|' . $item->state;
             });
 
-            // Attach course_count to each college
+            // Attach course_count and cutoff stats to each college
             foreach ($collegesPage as $college) {
                 $key = $college->college_name . '|' . $college->district . '|' . $college->state;
                 $college->course_count = $courseCounts->has($key) ? $courseCounts->get($key)->course_count : 0;
+                $college->cutoff_stats = CollegeCutoffService::getCutoffStats($college);
             }
         } else {
             $collegesPage = collect();
@@ -205,16 +215,17 @@ class IndianCollegeController extends Controller
         // Stats — show unique college count, not row count
         $totalColleges = DB::table(DB::raw("(SELECT DISTINCT college_name, district, state FROM indian_colleges) as sub"))->count();
         $totalStates = IndianCollege::whereNotNull('state')->where('state', '!=', '')->distinct('state')->count('state');
+        $popularAcronyms = CollegeSynonymService::getPopularAcronyms();
 
         return view('indian-colleges.index', compact(
             'colleges', 'states', 'managementTypes', 'collegeTypes',
             'courseCategories', 'courseTypes', 'totalColleges', 'totalStates',
-            'didYouMean', 'fuzzyUsed'
+            'didYouMean', 'fuzzyUsed', 'popularAcronyms'
         ));
     }
 
     /**
-     * GET /colleges/{id} — Individual college detail page
+     * GET /colleges/{id} — Individual college detail page with Combined Cutoff Data
      */
     public function show($id)
     {
@@ -255,7 +266,37 @@ class IndianCollegeController extends Controller
                 ->get();
         }
 
-        return view('indian-colleges.show', compact('college', 'relatedByUniversity', 'relatedByDistrict', 'courses'));
+        // Combined Cutoff Data
+        $cutoffs = CollegeCutoffService::getCutoffsForCollege($college, 100);
+        $cutoffStats = CollegeCutoffService::getCutoffStats($college);
+
+        return view('indian-colleges.show', compact(
+            'college', 'relatedByUniversity', 'relatedByDistrict', 'courses', 'cutoffs', 'cutoffStats'
+        ));
+    }
+
+    /**
+     * GET /colleges/{id}/cutoffs — AJAX endpoint for dynamic cutoff branch/category filtering
+     */
+    public function apiCollegeCutoffs(Request $request, $id): JsonResponse
+    {
+        $college = IndianCollege::findOrFail($id);
+        $cutoffs = CollegeCutoffService::getCutoffsForCollege($college, 200);
+
+        if ($request->filled('branch')) {
+            $branch = $request->input('branch');
+            $cutoffs = $cutoffs->filter(fn($c) => stripos($c->branch_name, $branch) !== false);
+        }
+
+        if ($request->filled('category')) {
+            $cat = strtoupper($request->input('category'));
+            $cutoffs = $cutoffs->filter(fn($c) => strtoupper($c->category) === $cat);
+        }
+
+        return response()->json([
+            'cutoffs' => $cutoffs->values(),
+            'stats' => CollegeCutoffService::getCutoffStats($college),
+        ]);
     }
 
     /**
@@ -281,7 +322,7 @@ class IndianCollegeController extends Controller
 
     /**
      * GET /colleges/api-search?q= — AJAX search for global search integration
-     * Enhanced with fuzzy/typo-tolerant matching
+     * Enhanced with acronym expansion, fuzzy/typo-tolerant matching, and cutoff indicators
      */
     public function apiSearch(Request $request): JsonResponse
     {
@@ -291,12 +332,22 @@ class IndianCollegeController extends Controller
             return response()->json([]);
         }
 
-        // Phase 1: Try exact LIKE search
-        $results = IndianCollege::where('college_name', 'like', "%{$q}%")
-            ->orWhere('city', 'like', "%{$q}%")
-            ->orWhere('university_name', 'like', "%{$q}%")
+        $synonyms = CollegeSynonymService::resolveQuery($q);
+
+        // Phase 1: Try exact + acronym LIKE search
+        $results = IndianCollege::where(function ($qb) use ($q, $synonyms) {
+                $qb->where('college_name', 'like', "%{$q}%")
+                   ->orWhere('city', 'like', "%{$q}%")
+                   ->orWhere('university_name', 'like', "%{$q}%");
+                
+                foreach ($synonyms as $syn) {
+                    if (strlen($syn) >= 2) {
+                        $qb->orWhere('college_name', 'like', "%{$syn}%");
+                    }
+                }
+            })
             ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name')
-            ->limit(12)
+            ->limit(15)
             ->get()
             ->unique('college_name')
             ->values();
@@ -322,14 +373,19 @@ class IndianCollegeController extends Controller
         }
 
         $formatted = $results->map(function ($c) {
+            $cutoffStats = CollegeCutoffService::getCutoffStats($c);
             return [
-                'id'         => $c->id,
-                'name'       => $c->college_name,
-                'location'   => trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? '')),
-                'type'       => $c->college_type ?? 'College',
-                'management' => $c->management ?? '',
-                'university' => $c->university_name ?? '',
-                'url'        => url('/colleges/' . $c->id),
+                'id'            => $c->id,
+                'name'          => $c->college_name,
+                'location'      => trim(($c->district ? $c->district . ', ' : '') . ($c->state ?? '')),
+                'type'          => $c->college_type ?? 'College',
+                'management'    => $c->management ?? '',
+                'university'    => $c->university_name ?? '',
+                'has_cutoffs'   => $cutoffStats['has_cutoffs'],
+                'top_cutoff'    => $cutoffStats['highest_percentile'] ?? null,
+                'top_branch'    => $cutoffStats['top_branch'] ?? null,
+                'cutoffs_url'   => $cutoffStats['cutoffs_url'] ?? null,
+                'url'           => url('/colleges/' . $c->id),
             ];
         });
 
