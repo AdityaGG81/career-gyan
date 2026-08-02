@@ -864,9 +864,18 @@
       <div class="filter-group">
         <label>Seat Type</label>
         <select id="categoryFilter" class="filter-select">
-          <option value="">All Types</option>
+          <option value="">All Seat Types (All Categories)</option>
           @foreach($categories as $c)
-            <option value="{{ $c }}">{{ $c }}</option>
+            @php
+              $label = match(strtoupper($c)) {
+                'GOPENH' => 'GOPENH — Home University Open',
+                'GOPENS' => 'GOPENS — State Level Open',
+                'TFWS' => 'TFWS — Tuition Fee Waiver',
+                'EWS' => 'EWS — Economically Weaker Section',
+                default => $c,
+              };
+            @endphp
+            <option value="{{ $c }}">{{ $label }}</option>
           @endforeach
         </select>
       </div>
@@ -1076,9 +1085,9 @@
 @section('scripts')
 <script>
 (function() {
-  const SEARCH_URL = @json(route('tools.mh-cutoff.search'));
-  const COLLEGES_URL = @json(route('tools.mh-cutoff.colleges'));
-  const PROFILE_URL = @json(route('tools.mh-cutoff.profile'));
+  const SEARCH_URL = @json(route('tools.mh-cutoff.search', [], false));
+  const COLLEGES_URL = @json(route('tools.mh-cutoff.colleges', [], false));
+  const PROFILE_URL = @json(route('tools.mh-cutoff.profile', [], false));
 
   let currentSort = 'percentile';
   let currentDir = 'desc';
@@ -1117,20 +1126,20 @@
 
   // ─── Modal Functions ───
   function openCollegeModal(collegeName, collegeCode) {
-    modalCollegeName.textContent = collegeName;
+    modalCollegeName.textContent = collegeName || 'College Profile';
     modal.classList.add('active');
     modalLoading.style.display = 'block';
     modalContent.style.display = 'none';
     modalWebsiteLink.style.display = 'none';
     modalProfileLink.style.display = 'none';
 
-    fetch(PROFILE_URL + '?college_name=' + encodeURIComponent(collegeName) + '&college_code=' + encodeURIComponent(collegeCode || ''))
+    fetch(PROFILE_URL + '?college_name=' + encodeURIComponent(collegeName || '') + '&college_code=' + encodeURIComponent(collegeCode || ''))
       .then(r => r.json())
       .then(p => {
         modalLoading.style.display = 'none';
         modalContent.style.display = 'block';
 
-        modalCode.textContent = p.college_code || 'N/A';
+        modalCode.textContent = p.college_code || collegeCode || 'N/A';
         modalLocation.textContent = (p.district ? p.district + ', ' : '') + (p.state || 'Maharashtra');
         modalUniversity.textContent = p.university_name || 'Autonomous / SPPU / State Affiliation';
         modalManagement.textContent = p.management || 'Government / Autonomous / Private';
@@ -1179,7 +1188,7 @@
       fetch(COLLEGES_URL + '?q=' + encodeURIComponent(q))
         .then(r => r.json())
         .then(names => {
-          if (names.length === 0) {
+          if (!Array.isArray(names) || names.length === 0) {
             autocompleteList.classList.remove('show');
             return;
           }
@@ -1272,11 +1281,14 @@
     if (categoryFilter.value) params.set('category', categoryFilter.value);
 
     fetch(SEARCH_URL + '?' + params.toString())
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
       .then(result => {
         loadingState.classList.remove('active');
 
-        if (!result.data || result.data.length === 0) {
+        if (!result || !result.data || result.data.length === 0) {
           emptyState.classList.add('active');
           showingCount.textContent = '0';
           totalCount.textContent = '0';
@@ -1284,71 +1296,94 @@
         }
 
         showingCount.textContent = result.data.length;
-        totalCount.textContent = result.total.toLocaleString();
+        totalCount.textContent = Number(result.total || result.data.length).toLocaleString();
 
         // Desktop table
-        tableBody.innerHTML = result.data.map(r => `
-          <tr>
-            <td class="college-name-cell">
-              <div>${escHtml(r.college_name)}</div>
-              <div class="college-action-row">
-                <span class="btn-college-info" onclick="window.__openProfile('${escAttr(r.college_name)}', '${escAttr(r.college_code)}')">
-                  <i class="fa-solid fa-circle-info"></i> Details & Institute Info
-                </span>
-              </div>
-            </td>
-            <td class="branch-cell">${escHtml(r.branch_name)}</td>
-            <td><span class="seat-badge ${r.category.toLowerCase()}">${escHtml(r.category)}</span></td>
-            <td class="percentile-cell ${getPercentileClass(r.percentile)}">${formatPercentile(r.percentile)}%</td>
-            <td class="merit-cell">${r.merit_no ? '#' + Number(r.merit_no).toLocaleString() : 'N/A'}</td>
-            <td>${r.percentile_band ? '<span class="band-badge">' + escHtml(r.percentile_band) + '</span>' : ''}</td>
-          </tr>
-        `).join('');
+        tableBody.innerHTML = result.data.map(r => {
+          const cName = r.college_name || 'N/A';
+          const cCode = r.college_code || '';
+          const bName = r.branch_name || 'N/A';
+          const cat = r.category ? String(r.category) : 'OPEN';
+          const catClass = cat.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const perc = formatPercentile(r.percentile);
+          const percClass = getPercentileClass(r.percentile || 0);
+          const merit = r.merit_no ? '#' + Number(r.merit_no).toLocaleString() : 'N/A';
+          const band = r.percentile_band ? `<span class="band-badge">${escHtml(r.percentile_band)}</span>` : '';
+
+          return `
+            <tr>
+              <td class="college-name-cell">
+                <div>${escHtml(cName)}</div>
+                <div class="college-action-row">
+                  <span class="btn-college-info" onclick="window.__openProfile('${escAttr(cName)}', '${escAttr(cCode)}')">
+                    <i class="fa-solid fa-circle-info"></i> Details & Institute Info
+                  </span>
+                </div>
+              </td>
+              <td class="branch-cell">${escHtml(bName)}</td>
+              <td><span class="seat-badge ${catClass}">${escHtml(cat)}</span></td>
+              <td class="percentile-cell ${percClass}">${perc}%</td>
+              <td class="merit-cell">${merit}</td>
+              <td>${band}</td>
+            </tr>
+          `;
+        }).join('');
         tableWrapper.style.display = 'block';
 
         // Mobile cards
-        mobileCards.innerHTML = result.data.map(r => `
-          <div class="cutoff-card-mobile">
-            <div class="cutoff-card-mobile-header">
-              <div class="cutoff-card-mobile-name">${escHtml(r.college_name)}</div>
-              <span class="seat-badge ${r.category.toLowerCase()}">${escHtml(r.category)}</span>
-            </div>
-            <div class="cutoff-card-mobile-branch">
-              <i class="fa-solid fa-code-branch" style="color:var(--brand); margin-right:4px;"></i>
-              ${escHtml(r.branch_name)}
-            </div>
-            <div class="cutoff-card-mobile-stats">
-              <div class="cutoff-card-stat">
-                <div class="cutoff-card-stat-value ${getPercentileClass(r.percentile)}">${formatPercentile(r.percentile)}%</div>
-                <div class="cutoff-card-stat-label">Percentile</div>
+        mobileCards.innerHTML = result.data.map(r => {
+          const cName = r.college_name || 'N/A';
+          const cCode = r.college_code || '';
+          const bName = r.branch_name || 'N/A';
+          const cat = r.category ? String(r.category) : 'OPEN';
+          const catClass = cat.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const perc = formatPercentile(r.percentile);
+          const percClass = getPercentileClass(r.percentile || 0);
+          const merit = r.merit_no ? '#' + Number(r.merit_no).toLocaleString() : 'N/A';
+
+          return `
+            <div class="cutoff-card-mobile">
+              <div class="cutoff-card-mobile-header">
+                <div class="cutoff-card-mobile-name">${escHtml(cName)}</div>
+                <span class="seat-badge ${catClass}">${escHtml(cat)}</span>
               </div>
-              <div class="cutoff-card-stat">
-                <div class="cutoff-card-stat-value" style="color:var(--text-1);">${r.merit_no ? '#' + Number(r.merit_no).toLocaleString() : 'N/A'}</div>
-                <div class="cutoff-card-stat-label">Merit No.</div>
+              <div class="cutoff-card-mobile-branch">
+                <i class="fa-solid fa-code-branch" style="color:var(--brand); margin-right:4px;"></i>
+                ${escHtml(bName)}
+              </div>
+              <div class="cutoff-card-mobile-stats">
+                <div class="cutoff-card-stat">
+                  <div class="cutoff-card-stat-value ${percClass}">${perc}%</div>
+                  <div class="cutoff-card-stat-label">Percentile</div>
+                </div>
+                <div class="cutoff-card-stat">
+                  <div class="cutoff-card-stat-value" style="color:var(--text-1);">${merit}</div>
+                  <div class="cutoff-card-stat-label">Merit No.</div>
+                </div>
+              </div>
+              <div style="margin-top: 10px; text-align:center;">
+                <button class="btn-college-info" style="width:100%; justify-content:center; padding: 6px 12px;" onclick="window.__openProfile('${escAttr(cName)}', '${escAttr(cCode)}')">
+                  <i class="fa-solid fa-circle-info"></i> View Institute Profile & Address
+                </button>
               </div>
             </div>
-            <div style="margin-top: 10px; text-align:center;">
-              <button class="btn-college-info" style="width:100%; justify-content:center; padding: 6px 12px;" onclick="window.__openProfile('${escAttr(r.college_name)}', '${escAttr(r.college_code)}')">
-                <i class="fa-solid fa-circle-info"></i> View Institute Profile & Address
-              </button>
-            </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
 
         // Pagination
-        renderPagination(result.current_page, result.last_page, result.total);
+        renderPagination(result.current_page || 1, result.last_page || 1, result.total || result.data.length);
 
         // Update sort header icons
         document.querySelectorAll('.cutoff-table th[data-col]').forEach(th => {
           th.classList.remove('sorted');
           const icon = th.querySelector('.sort-icon');
-          icon.className = 'fa-solid fa-sort sort-icon';
+          if (icon) icon.className = 'fa-solid fa-sort sort-icon';
         });
         const sortedTh = document.querySelector(`.cutoff-table th[data-col="${currentSort}"]`);
         if (sortedTh) {
           sortedTh.classList.add('sorted');
           const icon = sortedTh.querySelector('.sort-icon');
-          icon.className = `fa-solid fa-sort-${currentDir === 'asc' ? 'up' : 'down'} sort-icon`;
+          if (icon) icon.className = `fa-solid fa-sort-${currentDir === 'asc' ? 'up' : 'down'} sort-icon`;
         }
       })
       .catch(err => {
