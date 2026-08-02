@@ -215,7 +215,8 @@ Route::get('/sitemap.xml', function () {
     $xml = '<?xml version="1.0" encoding="UTF-8"?>';
     $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     $xml .= "<url><loc>{$baseUrl}/tools/maharashtra-colleges-cutoff</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
-    $xml .= "<url><loc>{$baseUrl}</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}/tools/college-predictor</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>";
+    $xml .= "<url><loc>{$baseUrl}/tools/percentile-calculator</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>";
     $xml .= "<url><loc>{$baseUrl}/colleges</loc><lastmod>{$now}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>";
     $xml .= "<url><loc>{$baseUrl}/guidance/mht-cet</loc><lastmod>{$now}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>";
     $xml .= '</urlset>';
@@ -223,8 +224,15 @@ Route::get('/sitemap.xml', function () {
     return response($xml, 200)->header('Content-Type', 'text/xml');
 });
 
-Route::get('/tools/percentile-calculator', function () { return view('tools.percentile-calculator'); })->name('tools.percentile-calculator');
-Route::get('/tools/college-predictor', function () { return view('tools.college-predictor'); })->name('tools.college-predictor');
+// Percentile & Rank Calculator
+Route::get('/tools/percentile-calculator', [\App\Http\Controllers\PercentileCalculatorController::class, 'index'])->name('tools.percentile-calculator');
+Route::match(['get', 'post'], '/api/tools/percentile-calculator/calculate', [\App\Http\Controllers\PercentileCalculatorController::class, 'calculateApi'])->name('tools.percentile-calculator.api');
+
+// Accurate College Predictor
+Route::get('/tools/college-predictor', [\App\Http\Controllers\CollegePredictorController::class, 'index'])->name('tools.college-predictor');
+Route::get('/api/tools/college-predictor/predict', [\App\Http\Controllers\CollegePredictorController::class, 'predictApi'])->name('tools.college-predictor.api');
+Route::get('/tools/college-predictor/export', [\App\Http\Controllers\CollegePredictorController::class, 'exportPreferenceList'])->name('tools.college-predictor.export');
+
 Route::get('/guidance/mht-cet', function () { return view('guidance.mht-cet'); })->name('guidance.mht-cet');
 
 // Single-click Live Server Setup Route (Migrate & Seed on production server)

@@ -830,12 +830,15 @@
       </div>
     </div>
 
-    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-      <a href="{{ route('tools.mh-cutoff.download') }}" class="btn-download">
-        <i class="fa-solid fa-download"></i> Download Full CSV
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top: 24px;">
+      <a href="{{ route('tools.college-predictor') }}" class="btn-download" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); border:none; box-shadow: 0 4px 14px rgba(37,99,235,0.4);">
+        <i class="fa-solid fa-crosshairs"></i> College Predictor Tool 🎯
       </a>
-      <a href="{{ route('indian-colleges.index') }}" class="btn-download" style="background: rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3);">
-        <i class="fa-solid fa-building-columns"></i> Browse All 98k+ Colleges
+      <a href="{{ route('tools.percentile-calculator') }}" class="btn-download" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); border:none; box-shadow: 0 4px 14px rgba(124,58,237,0.4);">
+        <i class="fa-solid fa-calculator"></i> Percentile Calculator ⚡
+      </a>
+      <a href="{{ route('tools.mh-cutoff.download') }}" class="btn-download" style="background: rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25);">
+        <i class="fa-solid fa-download"></i> Download Full CSV
       </a>
     </div>
   </div>
