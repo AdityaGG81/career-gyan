@@ -2918,29 +2918,21 @@
       
       const startCounting = (counter) => {
           const target = parseInt(counter.getAttribute('data-target'));
+          if (isNaN(target)) return;
+          
           const suffix = counter.getAttribute('data-suffix') || '';
-          let startTime = null;
+          const increment = Math.ceil(target / (duration / 20)); // ~50 FPS
+          let currentVal = 0;
           
-          const updateCount = (timestamp) => {
-              const currentTime = timestamp || performance.now();
-              if (!startTime) startTime = currentTime;
-              const elapsedTime = currentTime - startTime;
-              const progress = Math.min(elapsedTime / duration, 1);
-              
-              // Easing function outQuad
-              const easeProgress = progress * (2 - progress);
-              const currentVal = Math.floor(easeProgress * target);
-              
-              counter.textContent = currentVal + suffix;
-              
-              if (progress < 1) {
-                  requestAnimationFrame(updateCount);
-              } else {
+          const timer = setInterval(() => {
+              currentVal += increment;
+              if (currentVal >= target) {
                   counter.textContent = target + suffix;
+                  clearInterval(timer);
+              } else {
+                  counter.textContent = currentVal + suffix;
               }
-          };
-          
-          requestAnimationFrame(updateCount);
+          }, 20);
       };
       
       counters.forEach(counter => {
