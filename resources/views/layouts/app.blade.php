@@ -1090,10 +1090,10 @@
         <div class="nav-links">
           <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
           <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">Explore</a>
-          <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Daily Quiz 🔥</a>
+          <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Quiz</a>
           <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a>
-          <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Job Corner</a>
-          <a href="{{ route('tools.mh-cutoff') }}" class="{{ request()->is('tools/maharashtra*') ? 'active' : '' }}">MHT-CET 2026 Cutoffs</a>
+          <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Jobs</a>
+          <a href="{{ route('tools.mh-cutoff') }}" class="{{ request()->is('tools/maharashtra*') ? 'active' : '' }}" style="color: var(--brand); font-weight: 700;">2026 Cutoffs</a>
           <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
         </div>
       </div>
