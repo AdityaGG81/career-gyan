@@ -954,7 +954,7 @@
         <label>Year</label>
         <select id="yearFilter" class="filter-select">
           @foreach($years as $y)
-            <option value="{{ $y }}" {{ $y == 2026 ? 'selected' : '' }}>{{ $y }}</option>
+            <option value="{{ $y }}" {{ $y == $latestYear ? 'selected' : '' }}>{{ $y }}</option>
           @endforeach
         </select>
       </div>
@@ -1280,6 +1280,7 @@
   const searchBtn = document.getElementById('searchBtn');
   const clearBtn = document.getElementById('clearBtn');
   const tableBody = document.getElementById('cutoffTableBody');
+  const latestYearVal = document.getElementById('yearFilter').options[0].value;
   const mobileCards = document.getElementById('mobileCards');
   const tableWrapper = document.getElementById('tableWrapper');
   const loadingState = document.getElementById('loadingState');
@@ -1413,7 +1414,7 @@
     collegeInput.value = '';
     branchFilter.value = '';
     categoryFilter.value = '';
-    yearFilter.value = '2026';
+    yearFilter.value = latestYearVal;
     fetchResults(1);
   });
   collegeInput.addEventListener('keydown', e => {

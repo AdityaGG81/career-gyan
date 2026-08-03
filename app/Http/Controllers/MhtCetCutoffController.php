@@ -35,6 +35,7 @@ class MhtCetCutoffController extends Controller
             $years = Cache::remember('mht_cet_years', $cacheTtl, function () {
                 return MhtCetCutoff::select('year')->distinct()->orderBy('year', 'desc')->pluck('year');
             });
+            $latestYear = $years->first() ?? 2025;
 
             $totalRecords = Cache::remember('mht_cet_total_records', $cacheTtl, function () {
                 return MhtCetCutoff::count();
@@ -48,11 +49,11 @@ class MhtCetCutoffController extends Controller
 
             $popularAcronyms = CollegeSynonymService::getPopularAcronyms();
 
-            $initialCutoffs = MhtCetCutoff::where('year', 2026)->orderBy('percentile', 'desc')->take(50)->get();
-            $initialTotal = MhtCetCutoff::where('year', 2026)->count();
+            $initialCutoffs = MhtCetCutoff::where('year', $latestYear)->orderBy('percentile', 'desc')->take(50)->get();
+            $initialTotal = MhtCetCutoff::where('year', $latestYear)->count();
 
             return view('tools.maharashtra-cutoff', compact(
-                'colleges', 'branches', 'categories', 'years',
+                'colleges', 'branches', 'categories', 'years', 'latestYear',
                 'totalRecords', 'totalColleges', 'totalBranches',
                 'popularAcronyms', 'initialCutoffs', 'initialTotal'
             ));
@@ -69,7 +70,8 @@ class MhtCetCutoffController extends Controller
         try {
             $query = MhtCetCutoff::query();
 
-            $year = $request->input('year', 2026);
+            $latestYear = MhtCetCutoff::max('year') ?? 2025;
+            $year = $request->input('year', $latestYear);
             if ($year) {
                 $query->where('year', $year);
             }
