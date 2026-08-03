@@ -2842,33 +2842,40 @@
       const timelineItems = document.querySelectorAll('.timeline-item');
       const timelineContainer = document.querySelector('.timeline-container');
       
-      const timelineObserver = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  entry.target.classList.add('active');
-                  obs.unobserve(entry.target);
-              }
-          });
-      }, { threshold: 0.15 });
-
-      timelineItems.forEach(item => {
-          timelineObserver.observe(item);
-      });
-
-      const lineObserver = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  const line = document.querySelector('.timeline-line');
-                  if (line) {
-                      line.style.height = 'calc(100% - 100px)';
+      if ('IntersectionObserver' in window) {
+          const timelineObserver = new IntersectionObserver((entries, obs) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add('active');
+                      obs.unobserve(entry.target);
                   }
-                  obs.unobserve(entry.target);
-              }
-          });
-      }, { threshold: 0.1 });
+              });
+          }, { threshold: 0.15 });
 
-      if (timelineContainer) {
-          lineObserver.observe(timelineContainer);
+          timelineItems.forEach(item => {
+              timelineObserver.observe(item);
+          });
+
+          const lineObserver = new IntersectionObserver((entries, obs) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      const line = document.querySelector('.timeline-line');
+                      if (line) {
+                          line.style.height = 'calc(100% - 100px)';
+                      }
+                      obs.unobserve(entry.target);
+                  }
+              });
+          }, { threshold: 0.1 });
+
+          if (timelineContainer) {
+              lineObserver.observe(timelineContainer);
+          }
+      } else {
+          // Fallback for older browsers
+          timelineItems.forEach(item => item.classList.add('active'));
+          const line = document.querySelector('.timeline-line');
+          if (line) line.style.height = 'calc(100% - 100px)';
       }
 
       const typewriterSpan = document.querySelector('.typewriter-text');
@@ -2905,7 +2912,7 @@
           type();
       }
 
-      // Count up statistics animation using IntersectionObserver
+      // Count up statistics animation
       const counters = document.querySelectorAll('.counter-val');
       const duration = 1200; // Total count duration in ms
       
@@ -2914,7 +2921,8 @@
           const suffix = counter.getAttribute('data-suffix') || '';
           let startTime = null;
           
-          const updateCount = (currentTime) => {
+          const updateCount = (timestamp) => {
+              const currentTime = timestamp || performance.now();
               if (!startTime) startTime = currentTime;
               const elapsedTime = currentTime - startTime;
               const progress = Math.min(elapsedTime / duration, 1);
@@ -2933,12 +2941,6 @@
           };
           
           requestAnimationFrame(updateCount);
-      };
-      
-      const observerOptions = {
-          root: null,
-          threshold: 0.1,
-          rootMargin: "0px"
       };
       
       counters.forEach(counter => {
