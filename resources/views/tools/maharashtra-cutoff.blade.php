@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'MHT CET Cutoff 2025: Engineering College Wise Percentile & Merit Ranks | CareerGyan')
-@section('meta_description', 'Official MHT CET Cutoff 2025 for 363+ Maharashtra Engineering Colleges. Search CAP Round 1 cutoff percentiles for VJTI, COEP, PICT & filter by branch, category (GOPENS, GOPENH). Download Excel/CSV data.')
-@section('meta_keywords', 'mht cet cutoff 2025, mhtcet cutoff, mht cet engineering cutoff 2025, maharashtra engineering college cutoffs, cap round 1 cutoff, vjti cutoff 2025 mht cet, coep mht cet cutoff 2025, pict cutoff, mht cet percentile list')
+@section('title', 'MHT CET Cutoff: Engineering College Wise Percentile & Merit Ranks | CareerGyan')
+@section('meta_description', 'Official MHT CET Cutoff for 363+ Maharashtra Engineering Colleges. Search CAP Round 1 cutoff percentiles for VJTI, COEP, PICT & filter by branch, category (GOPENS, GOPENH). Download Excel/CSV data.')
+@section('meta_keywords', 'mht cet cutoff, mhtcet cutoff, mht cet engineering cutoff, maharashtra engineering college cutoffs, cap round 1 cutoff, vjti cutoff mht cet, coep mht cet cutoff, pict cutoff, mht cet percentile list')
 
 @section('meta')
     <link rel="canonical" href="{{ url('/tools/maharashtra-colleges-cutoff') }}" />
     <meta property="og:type" content="website">
-    <meta property="og:title" content="MHT CET Cutoff 2025: Engineering College Wise Percentiles">
+    <meta property="og:title" content="MHT CET Cutoff: Engineering College Wise Percentiles">
     <meta property="og:description" content="Explore CAP Round 1 cutoff percentiles for 363+ Maharashtra engineering colleges. Filter by college, branch & category. Download complete CSV.">
     <meta property="og:url" content="{{ url('/tools/maharashtra-colleges-cutoff') }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MHT CET Cutoff 2025 - All Maharashtra Engineering Colleges">
-    <meta name="twitter:description" content="Search official MHT CET 2025 CAP Round 1 cutoff percentiles and merit ranks for VJTI, COEP, PICT, Walchand & more.">
+    <meta name="twitter:title" content="MHT CET Cutoff - All Maharashtra Engineering Colleges">
+    <meta name="twitter:description" content="Search official MHT CET CAP Round 1 cutoff percentiles and merit ranks for VJTI, COEP, PICT, Walchand & more.">
 @endsection
 
 @section('styles')
@@ -762,59 +762,72 @@
       grid-template-columns: 1fr;
     }
     .cutoff-hero {
-      padding: 40px 0 30px;
-    }
-    .cutoff-table-wrapper {
-      display: none;
-    }
-    .cutoff-cards-mobile {
-      display: block;
-    }
-    .cutoff-stats-row {
-      flex-direction: column;
-    }
-    .cutoff-search-section {
-      position: relative;
-      top: 0;
-    }
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
   }
+  .modal-close:hover { background: rgba(255,255,255,0.3); }
+  .modal-title { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; line-height: 1.3; padding-right: 40px; }
+  .modal-code { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700; margin-top: 8px; }
+  .modal-body { padding: 24px; }
+  .modal-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .modal-meta-item { display: flex; align-items: flex-start; gap: 12px; }
+  .modal-meta-icon { width: 36px; height: 36px; background: #f1f5f9; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--brand); font-size: 16px; flex-shrink: 0; }
+  .modal-meta-text h4 { font-size: 11px; text-transform: uppercase; color: var(--text-2); font-weight: 700; margin-bottom: 4px; }
+  .modal-meta-text p { font-size: 14px; font-weight: 600; color: var(--text-1); }
+  
+  .modal-action {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--brand);
+    color: #fff;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .modal-action:hover { background: var(--brand-dark); color: #fff; }
 
+  /* ─── Sub-nav for tools ─── */
   .tool-nav-bar {
     background: #0f172a;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 12px 0;
   }
   .tool-nav-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
+  .tool-nav-wrapper::-webkit-scrollbar { display: none; }
   .tool-nav-item {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 18px;
+    padding: 8px 16px;
     border-radius: 99px;
+    white-space: nowrap;
     font-size: 13.5px;
     font-weight: 700;
     color: #94a3b8;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    text-decoration: none;
-    transition: all 0.2s ease;
   }
   .tool-nav-item:hover {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-1px);
   }
   .tool-nav-item.active {
     background: linear-gradient(135deg, #0284c7, #0369a1);
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
   }
 </style>
 @endsection
@@ -831,7 +844,7 @@
         <i class="fa-solid fa-crosshairs"></i> College Predictor 🎯
       </a>
       <a href="{{ route('tools.mh-cutoff') }}" class="tool-nav-item active">
-        <i class="fa-solid fa-database"></i> CAP Round 1 Cutoffs 2025
+        <i class="fa-solid fa-database"></i> CAP Round 1 Cutoffs 2025 & 2026
       </a>
     </div>
   </div>
@@ -843,11 +856,11 @@
   <div class="container" style="position: relative; z-index: 2;">
     <div class="cutoff-hero-badge">
       <i class="fa-solid fa-database"></i>
-      CAP Round I &middot; 2025-26 Academic Year
+      CAP Round I &middot; Academic Year
     </div>
-    <h1>Maharashtra <span>MHT-CET</span><br>Engineering Cutoffs 2025</h1>
+    <h1>Maharashtra <span>MHT-CET</span><br>Engineering Cutoffs</h1>
     <p class="cutoff-hero-subtitle">
-      Browse the complete MHT-CET engineering cutoff data for 2025-26 CAP Round I across all Maharashtra colleges.
+      Browse the complete MHT-CET engineering cutoff data for 2025-26 and 2026-27 CAP Round I across all Maharashtra colleges.
       Search by college acronym (COEP, VJTI, PICT, etc.), branch, or seat category.
     </p>
 
@@ -938,13 +951,23 @@
         </select>
       </div>
       <div class="filter-group">
+        <label>Year</label>
+        <select id="yearFilter" class="filter-select">
+          @foreach($years as $y)
+            <option value="{{ $y }}" {{ $y == 2026 ? 'selected' : '' }}>{{ $y }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="filter-group">
         <label>&nbsp;</label>
-        <button type="button" id="searchBtn" class="btn-search">
+        <div style="display:flex; gap:8px;">
+        <button type="button" id="searchBtn" class="btn-search" style="margin-top:0;">
           <i class="fa-solid fa-magnifying-glass"></i> Search
         </button>
-        <button type="button" id="clearBtn" class="btn-clear">
-          <i class="fa-solid fa-xmark"></i> Clear All
+        <button type="button" id="clearBtn" class="btn-clear" style="margin-top:0;">
+          <i class="fa-solid fa-xmark"></i> Clear
         </button>
+        </div>
       </div>
     </div>
   </div>
@@ -994,6 +1017,7 @@
               <th data-col="college_name">College & Institute Profile <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="branch_name">Branch / Course <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="category">Seat Type <i class="fa-solid fa-sort sort-icon"></i></th>
+              <th data-col="year">Year <i class="fa-solid fa-sort sort-icon"></i></th>
               <th data-col="percentile" class="sorted">Percentile <i class="fa-solid fa-sort-down sort-icon"></i></th>
               <th data-col="merit_no">Merit No. <i class="fa-solid fa-sort sort-icon"></i></th>
               <th>Band</th>
@@ -1020,6 +1044,7 @@
                   <td><span class="seat-badge {{ $catClass }}">{{ $r->category }}</span></td>
                   <td class="percentile-cell {{ $percClass }}">{{ number_format($pct, 2) }}%</td>
                   <td class="merit-cell">{{ $r->merit_no ? '#' . number_format($r->merit_no) : 'N/A' }}</td>
+                  <td class="val-year">{{ $r->year ?? '2025' }}</td>
                   <td>
                     @if($r->percentile_band)
                       <span class="band-badge">{{ $r->percentile_band }}</span>
@@ -1251,6 +1276,7 @@
   const collegeInput = document.getElementById('collegeSearch');
   const branchFilter = document.getElementById('branchFilter');
   const categoryFilter = document.getElementById('categoryFilter');
+  const yearFilter = document.getElementById('yearFilter');
   const searchBtn = document.getElementById('searchBtn');
   const clearBtn = document.getElementById('clearBtn');
   const tableBody = document.getElementById('cutoffTableBody');
@@ -1387,6 +1413,7 @@
     collegeInput.value = '';
     branchFilter.value = '';
     categoryFilter.value = '';
+    yearFilter.value = '2026';
     fetchResults(1);
   });
   collegeInput.addEventListener('keydown', e => {
@@ -1394,6 +1421,7 @@
   });
   branchFilter.addEventListener('change', () => fetchResults(1));
   categoryFilter.addEventListener('change', () => fetchResults(1));
+  yearFilter.addEventListener('change', () => fetchResults(1));
 
   // ─── Sort buttons ───
   document.querySelectorAll('.sort-btn').forEach(btn => {
@@ -1442,6 +1470,7 @@
     if (q) params.set('q', q);
     if (branchFilter.value) params.set('branch', branchFilter.value);
     if (categoryFilter.value) params.set('category', categoryFilter.value);
+    if (yearFilter.value) params.set('year', yearFilter.value);
 
     fetch(SEARCH_URL + '?' + params.toString())
       .then(r => {
@@ -1490,6 +1519,7 @@
               <td><span class="seat-badge ${catClass}">${escHtml(cat)}</span></td>
               <td class="percentile-cell ${percClass}">${perc}%</td>
               <td class="merit-cell">${merit}</td>
+              <td class="val-year">${r.year || '2025'}</td>
               <td>${band}</td>
             </tr>
           `;
@@ -1525,6 +1555,10 @@
                 <div class="cutoff-card-stat">
                   <div class="cutoff-card-stat-value" style="color:var(--text-1);">${merit}</div>
                   <div class="cutoff-card-stat-label">Merit No.</div>
+                </div>
+                <div class="cutoff-card-stat">
+                  <div class="cutoff-card-stat-value" style="color:var(--text-2); font-size: 14px;">${r.year || '2025'}</div>
+                  <div class="cutoff-card-stat-label">Year</div>
                 </div>
               </div>
               <div style="margin-top: 10px; text-align:center;">
