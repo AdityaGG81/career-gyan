@@ -2912,9 +2912,10 @@
       const startCounting = (counter) => {
           const target = parseInt(counter.getAttribute('data-target'));
           const suffix = counter.getAttribute('data-suffix') || '';
-          const startTime = performance.now();
+          let startTime = null;
           
           const updateCount = (currentTime) => {
+              if (!startTime) startTime = currentTime;
               const elapsedTime = currentTime - startTime;
               const progress = Math.min(elapsedTime / duration, 1);
               

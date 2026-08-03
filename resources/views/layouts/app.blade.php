@@ -1093,6 +1093,7 @@
           <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Daily Quiz 🔥</a>
           <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a>
           <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Job Corner</a>
+          <a href="{{ route('tools.mh-cutoff') }}" class="{{ request()->is('tools/maharashtra*') ? 'active' : '' }}">MHT-CET 2026 Cutoffs</a>
           <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
         </div>
       </div>
@@ -2021,7 +2022,7 @@
       <span>LATEST CUTOFF UPDATE</span>
     </div>
     <div class="news-ticker-text">
-      <strong>MHT-CET 2025 Cutoffs Released!</strong> CAP Round 1 percentiles for 363+ colleges.
+      <strong>MHT-CET 2026 Cutoffs Released!</strong> CAP Round 1 percentiles for 363+ colleges.
     </div>
     <div class="news-ticker-cta">
       <span>Check Cutoff</span> <i class="fa-solid fa-arrow-right"></i>

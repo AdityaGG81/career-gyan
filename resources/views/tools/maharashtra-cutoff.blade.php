@@ -864,6 +864,12 @@
       Search by college acronym (COEP, VJTI, PICT, etc.), branch, or seat category.
     </p>
 
+    <div style="margin-bottom: 20px;">
+      <a href="#faq" class="btn-download" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); margin-top: 0; box-shadow: none;">
+        <i class="fa-solid fa-circle-question"></i> View FAQs & Guide
+      </a>
+    </div>
+
     <!-- Popular College Acronym Filter Chips -->
     <div class="cutoff-acronyms-strip">
       <span class="cutoff-acronym-lbl"><i class="fa-solid fa-bolt text-amber-300"></i> Top Institutes:</span>
@@ -1183,7 +1189,7 @@
 </div>
 
 <!-- ─── SEO FAQ & Information Section ─── -->
-<section class="cutoff-faq-section" style="padding: 60px 0; background: #ffffff; border-top: 1px solid var(--border);">
+<section id="faq" class="cutoff-faq-section" style="padding: 60px 0; background: #ffffff; border-top: 1px solid var(--border);">
   <div class="container">
     <div style="max-width: 900px; margin: 0 auto;">
       <div style="text-align: center; margin-bottom: 40px;">
