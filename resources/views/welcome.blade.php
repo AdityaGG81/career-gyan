@@ -1895,12 +1895,12 @@
 
         <div class="hero-stats">
           <div class="hero-stat-card">
-            <strong><span class="counter-val" data-target="5000" data-suffix="+">0</span></strong>
+            <strong><span class="counter-val" data-target="5000" data-suffix="+">5000+</span></strong>
             <span>Career Paths</span>
           </div>
 
           <div class="hero-stat-card">
-            <strong><span class="counter-val" data-target="50" data-suffix="+">0</span></strong>
+            <strong><span class="counter-val" data-target="50" data-suffix="+">50+</span></strong>
             <span>Fields Covered</span>
           </div>
 
@@ -2923,6 +2923,7 @@
           const suffix = counter.getAttribute('data-suffix') || '';
           const increment = Math.ceil(target / (duration / 20)); // ~50 FPS
           let currentVal = 0;
+          counter.textContent = '0' + suffix;
           
           const timer = setInterval(() => {
               currentVal += increment;
