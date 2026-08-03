@@ -35,7 +35,10 @@ class MhtCetCutoffController extends Controller
             $years = Cache::remember('mht_cet_years', $cacheTtl, function () {
                 return MhtCetCutoff::select('year')->distinct()->orderBy('year', 'desc')->pluck('year');
             });
-            $latestYear = $years->first() ?? 2025;
+            // Ensure latestYear is a year that actually has data
+            $latestYear = $years->first(function ($y) {
+                return MhtCetCutoff::where('year', $y)->exists();
+            }) ?? 2025;
 
             $totalRecords = Cache::remember('mht_cet_total_records', $cacheTtl, function () {
                 return MhtCetCutoff::count();
@@ -70,10 +73,17 @@ class MhtCetCutoffController extends Controller
         try {
             $query = MhtCetCutoff::query();
 
-            $latestYear = MhtCetCutoff::max('year') ?? 2025;
-            $year = $request->input('year', $latestYear);
-            if ($year) {
-                $query->where('year', $year);
+            $latestYearWithData = MhtCetCutoff::select('year')
+                ->groupBy('year')
+                ->orderBy('year', 'desc')
+                ->pluck('year')
+                ->first() ?? 2025;
+
+            $requestedYear = $request->input('year');
+            if ($requestedYear && MhtCetCutoff::where('year', $requestedYear)->exists()) {
+                $query->where('year', $requestedYear);
+            } else {
+                $query->where('year', $latestYearWithData);
             }
 
             if ($request->filled('q')) {

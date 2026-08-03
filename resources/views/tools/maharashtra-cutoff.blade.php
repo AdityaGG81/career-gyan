@@ -1285,8 +1285,8 @@
   const yearFilter = document.getElementById('yearFilter');
   const searchBtn = document.getElementById('searchBtn');
   const clearBtn = document.getElementById('clearBtn');
+  const latestYearVal = (yearFilter && yearFilter.options && yearFilter.options.length > 0) ? yearFilter.options[0].value : '2026';
   const tableBody = document.getElementById('cutoffTableBody');
-  const latestYearVal = document.getElementById('yearFilter').options[0].value;
   const mobileCards = document.getElementById('mobileCards');
   const tableWrapper = document.getElementById('tableWrapper');
   const loadingState = document.getElementById('loadingState');
