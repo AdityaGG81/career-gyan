@@ -2940,17 +2940,8 @@
           rootMargin: "0px"
       };
       
-      const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  startCounting(entry.target);
-                  observer.unobserve(entry.target);
-              }
-          });
-      }, observerOptions);
-      
       counters.forEach(counter => {
-          observer.observe(counter);
+          startCounting(counter);
       });
 
       // ─── Career Detail Marquee Card Popup Modal Logic ───

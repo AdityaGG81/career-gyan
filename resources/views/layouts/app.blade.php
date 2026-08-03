@@ -2127,6 +2127,15 @@
     left: 12px;
     right: 12px;
     max-width: none;
+    align-items: flex-start;
+  }
+  .news-ticker-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .news-ticker-text {
+    font-size: 13px;
   }
 }
 </style>
