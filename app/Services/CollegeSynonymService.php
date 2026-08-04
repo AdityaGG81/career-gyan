@@ -12,39 +12,32 @@ class CollegeSynonymService
         // ─── MAHARASHTRA ENGINEERING COLLEGES ───
         'coep' => [
             'COEP Technological University',
-            'College of Engineering Pune',
-            'College of Engineering, Pune',
-            'Government College of Engineering Pune',
+            'COEP Technological University, Pune',
             'COEP',
         ],
         'coep tech' => [
             'COEP Technological University',
-            'College of Engineering Pune',
-            'College of Engineering, Pune',
+            'COEP Technological University, Pune',
             'COEP',
         ],
         'coep pune' => [
             'COEP Technological University',
-            'College of Engineering Pune',
-            'College of Engineering, Pune',
+            'COEP Technological University, Pune',
             'COEP',
         ],
         'college of engineering pune' => [
             'COEP Technological University',
-            'College of Engineering Pune',
-            'College of Engineering, Pune',
+            'COEP Technological University, Pune',
             'COEP',
         ],
         'college of engineering, pune' => [
             'COEP Technological University',
-            'College of Engineering Pune',
-            'College of Engineering, Pune',
+            'COEP Technological University, Pune',
             'COEP',
         ],
         'coep technological university' => [
             'COEP Technological University',
-            'College of Engineering Pune',
-            'College of Engineering, Pune',
+            'COEP Technological University, Pune',
             'COEP',
         ],
         'vjti' => [
