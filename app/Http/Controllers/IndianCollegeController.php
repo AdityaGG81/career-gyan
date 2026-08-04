@@ -74,11 +74,35 @@ class IndianCollegeController extends Controller
 
                 // If synonyms exist in dictionary for this query (e.g. COEP, VJTI), match strictly on college_name
                 if (!empty($expansions)) {
-                    $qb->where('college_name', 'like', "%{$q}%");
+                    if ($qLen <= 6) {
+                        $qb->where('college_name', 'like', "%({$q})%")
+                           ->orWhere('college_name', 'like', "{$q} %")
+                           ->orWhere('college_name', 'like', "% {$q} %")
+                           ->orWhere('college_name', 'like', "% {$q}")
+                           ->orWhere('college_name', '=', $q);
+                    } else {
+                        $qb->where('college_name', 'like', "%{$q}%");
+                    }
+
                     foreach ($expansions as $syn) {
                         $synLen = strlen($syn);
                         if ($synLen < 2) continue;
-                        $qb->orWhere('college_name', 'like', "%{$syn}%");
+
+                        $synLower = strtolower(trim($syn));
+                        if ($synLower === 'college of engineering, pune' || $synLower === 'college of engineering pune') {
+                            // Match exact name or starting name for COEP to avoid matching society prefixes (AISSMS, PVG, Modern, etc.)
+                            $qb->orWhere('college_name', '=', 'College of Engineering, Pune')
+                               ->orWhere('college_name', 'like', 'College of Engineering, Pune %')
+                               ->orWhere('college_name', 'like', 'College of Engineering, Pune (%');
+                        } elseif ($synLen <= 8) {
+                            $qb->orWhere('college_name', 'like', "%({$syn})%")
+                               ->orWhere('college_name', 'like', "{$syn} %")
+                               ->orWhere('college_name', 'like', "% {$syn} %")
+                               ->orWhere('college_name', 'like', "% {$syn}")
+                               ->orWhere('college_name', '=', $syn);
+                        } else {
+                            $qb->orWhere('college_name', 'like', "%{$syn}%");
+                        }
                     }
                     return;
                 }
