@@ -16,6 +16,23 @@ class CollegeSynonymService
         ],
         'coep tech' => [
             'COEP Technological University',
+            'COEP',
+        ],
+        'coep pune' => [
+            'COEP Technological University',
+            'COEP',
+        ],
+        'college of engineering pune' => [
+            'COEP Technological University',
+            'COEP',
+        ],
+        'college of engineering, pune' => [
+            'COEP Technological University',
+            'COEP',
+        ],
+        'coep technological university' => [
+            'COEP Technological University',
+            'COEP',
         ],
         'vjti' => [
             'Veermata Jijabai Technological Institute',
