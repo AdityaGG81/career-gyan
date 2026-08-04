@@ -62,19 +62,42 @@ class IndianCollegeController extends Controller
 
         if ($request->filled('q')) {
             $q = trim($request->q);
+            $qLower = strtolower($q);
             $synonyms = CollegeSynonymService::resolveQuery($q);
 
-            // Phase 1: Try expanded exact LIKE search (with acronyms)
-            $testQuery = (clone $baseQuery)->where(function ($qb) use ($q, $synonyms) {
-                $qb->where('college_name', 'like', "%{$q}%")
-                   ->orWhere('city', 'like', "%{$q}%")
-                   ->orWhere('district', 'like', "%{$q}%")
-                   ->orWhere('state', 'like', "%{$q}%")
-                   ->orWhere('university_name', 'like', "%{$q}%")
-                   ->orWhere('course_name', 'like', "%{$q}%");
-                
-                foreach ($synonyms as $syn) {
-                    if (strlen($syn) >= 2) {
+            // Exclude the original query itself from expansions
+            $expansions = array_filter($synonyms, fn($s) => strtolower($s) !== $qLower);
+
+            // Phase 1: High-precision search — match college_name only (no course/state/district)
+            $testQuery = (clone $baseQuery)->where(function ($qb) use ($q, $expansions) {
+                $qLen = strlen($q);
+
+                if ($qLen <= 6) {
+                    // Short query (likely an acronym): use word-boundary matching
+                    // Match as start, surrounded by spaces, or in parentheses
+                    $qb->where('college_name', 'like', "%({$q})%")
+                       ->orWhere('college_name', 'like', "{$q} %")
+                       ->orWhere('college_name', 'like', "% {$q} %")
+                       ->orWhere('college_name', 'like', "% {$q}")
+                       ->orWhere('city', 'like', "%{$q}%");
+                } else {
+                    // Long query: standard LIKE match
+                    $qb->where('college_name', 'like', "%{$q}%")
+                       ->orWhere('city', 'like', "%{$q}%");
+                }
+
+                foreach ($expansions as $syn) {
+                    $synLen = strlen($syn);
+                    if ($synLen < 2) continue;
+
+                    if ($synLen <= 8) {
+                        // Short codes (e.g. COEP, VJTI): match as whole word
+                        $qb->orWhere('college_name', 'like', "%({$syn})%")
+                           ->orWhere('college_name', 'like', "{$syn} %")
+                           ->orWhere('college_name', 'like', "% {$syn} %")
+                           ->orWhere('college_name', 'like', "% {$syn}");
+                    } else {
+                        // Long full-name synonyms: precise match
                         $qb->orWhere('college_name', 'like', "%{$syn}%");
                     }
                 }
@@ -87,25 +110,20 @@ class IndianCollegeController extends Controller
                 ->count();
 
             if ($exactCount > 0) {
-                // Exact / Synonym matches found — use them
                 $baseQuery = $testQuery;
             } else {
                 // Phase 2: Fuzzy search fallback
                 $candidates = $this->getCollegeNameCandidates();
-                $fuzzyResults = $this->fuzzySearchCandidates($q, $candidates, 30, 50);
+                $fuzzyResults = $this->fuzzySearchCandidates($q, $candidates, 35, 50);
 
                 if (!empty($fuzzyResults)) {
                     $fuzzyUsed = true;
-                    // Get the best match as "Did you mean?" suggestion
                     $didYouMean = $fuzzyResults[0]['text'];
-
-                    // Get all fuzzy-matched college names
                     $matchedNames = array_map(fn($r) => $r['text'], $fuzzyResults);
-
                     $baseQuery->whereIn('college_name', $matchedNames);
+                } else {
+                    $baseQuery->whereRaw('1 = 0');
                 }
-                // If no fuzzy results either, the query stays unmodified
-                // which will return 0 results with the empty state
             }
         }
 
@@ -334,14 +352,34 @@ class IndianCollegeController extends Controller
 
         $synonyms = CollegeSynonymService::resolveQuery($q);
 
-        // Phase 1: Try exact + acronym LIKE search
-        $results = IndianCollege::where(function ($qb) use ($q, $synonyms) {
-                $qb->where('college_name', 'like', "%{$q}%")
-                   ->orWhere('city', 'like', "%{$q}%")
-                   ->orWhere('university_name', 'like', "%{$q}%");
-                
-                foreach ($synonyms as $syn) {
-                    if (strlen($syn) >= 2) {
+        $qLower = strtolower($q);
+        $expansions = array_filter($synonyms, fn($s) => strtolower($s) !== $qLower);
+
+        // Phase 1: High-precision exact + acronym search — only college_name
+        $results = IndianCollege::where(function ($qb) use ($q, $expansions) {
+                $qLen = strlen($q);
+
+                if ($qLen <= 6) {
+                    $qb->where('college_name', 'like', "%({$q})%")
+                       ->orWhere('college_name', 'like', "{$q} %")
+                       ->orWhere('college_name', 'like', "% {$q} %")
+                       ->orWhere('college_name', 'like', "% {$q}")
+                       ->orWhere('city', 'like', "%{$q}%");
+                } else {
+                    $qb->where('college_name', 'like', "%{$q}%")
+                       ->orWhere('city', 'like', "%{$q}%");
+                }
+
+                foreach ($expansions as $syn) {
+                    $synLen = strlen($syn);
+                    if ($synLen < 2) continue;
+
+                    if ($synLen <= 8) {
+                        $qb->orWhere('college_name', 'like', "%({$syn})%")
+                           ->orWhere('college_name', 'like', "{$syn} %")
+                           ->orWhere('college_name', 'like', "% {$syn} %")
+                           ->orWhere('college_name', 'like', "% {$syn}");
+                    } else {
                         $qb->orWhere('college_name', 'like', "%{$syn}%");
                     }
                 }
