@@ -72,34 +72,27 @@ class IndianCollegeController extends Controller
             $testQuery = (clone $baseQuery)->where(function ($qb) use ($q, $expansions) {
                 $qLen = strlen($q);
 
+                // If synonyms exist in dictionary for this query (e.g. COEP, VJTI), match strictly on college_name
+                if (!empty($expansions)) {
+                    $qb->where('college_name', 'like', "%{$q}%");
+                    foreach ($expansions as $syn) {
+                        $synLen = strlen($syn);
+                        if ($synLen < 2) continue;
+                        $qb->orWhere('college_name', 'like', "%{$syn}%");
+                    }
+                    return;
+                }
+
                 if ($qLen <= 6) {
                     // Short query (likely an acronym): use word-boundary matching
-                    // Match as start, surrounded by spaces, or in parentheses
                     $qb->where('college_name', 'like', "%({$q})%")
                        ->orWhere('college_name', 'like', "{$q} %")
                        ->orWhere('college_name', 'like', "% {$q} %")
-                       ->orWhere('college_name', 'like', "% {$q}")
-                       ->orWhere('city', 'like', "%{$q}%");
+                       ->orWhere('college_name', 'like', "% {$q}");
                 } else {
                     // Long query: standard LIKE match
                     $qb->where('college_name', 'like', "%{$q}%")
                        ->orWhere('city', 'like', "%{$q}%");
-                }
-
-                foreach ($expansions as $syn) {
-                    $synLen = strlen($syn);
-                    if ($synLen < 2) continue;
-
-                    if ($synLen <= 8) {
-                        // Short codes (e.g. COEP, VJTI): match as whole word
-                        $qb->orWhere('college_name', 'like', "%({$syn})%")
-                           ->orWhere('college_name', 'like', "{$syn} %")
-                           ->orWhere('college_name', 'like', "% {$syn} %")
-                           ->orWhere('college_name', 'like', "% {$syn}");
-                    } else {
-                        // Long full-name synonyms: precise match
-                        $qb->orWhere('college_name', 'like', "%{$syn}%");
-                    }
                 }
             });
 
