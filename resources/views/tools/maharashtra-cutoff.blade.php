@@ -1048,9 +1048,9 @@
                   </td>
                   <td class="branch-cell">{{ $r->branch_name }}</td>
                   <td><span class="seat-badge {{ $catClass }}">{{ $r->category }}</span></td>
+                  <td class="val-year">{{ $r->year ?? '2025' }}</td>
                   <td class="percentile-cell {{ $percClass }}">{{ number_format($pct, 2) }}%</td>
                   <td class="merit-cell">{{ $r->merit_no ? '#' . number_format($r->merit_no) : 'N/A' }}</td>
-                  <td class="val-year">{{ $r->year ?? '2025' }}</td>
                   <td>
                     @if($r->percentile_band)
                       <span class="band-badge">{{ $r->percentile_band }}</span>
@@ -1524,9 +1524,9 @@
               </td>
               <td class="branch-cell">${escHtml(bName)}</td>
               <td><span class="seat-badge ${catClass}">${escHtml(cat)}</span></td>
+              <td class="val-year">${r.year || '2025'}</td>
               <td class="percentile-cell ${percClass}">${perc}%</td>
               <td class="merit-cell">${merit}</td>
-              <td class="val-year">${r.year || '2025'}</td>
               <td>${band}</td>
             </tr>
           `;
