@@ -158,42 +158,57 @@ def parse_mh_cutoff(pdf_path):
                     if not table_data or len(table_data) < 2:
                         continue
                         
-                    headers = table_data[0]
-                    values = table_data[1]
+                    # Find the row that contains the actual cutoffs (identifiable by numbers with parenthesis)
+                    value_row_idx = -1
+                    for idx, row in enumerate(table_data):
+                        if not row: continue
+                        # Check if any cell in this row has the cutoff format "123 (99.0)"
+                        has_cutoff = False
+                        for cell in row:
+                            if cell and re.search(r'\d+\s*\([\d\.]+\)', str(cell).replace('\n', ' ')):
+                                has_cutoff = True
+                                break
+                        if has_cutoff:
+                            value_row_idx = idx
+                            break
+                            
+                    if value_row_idx <= 0:
+                        continue
+                        
+                    headers = table_data[value_row_idx - 1]
+                    values = table_data[value_row_idx]
                     
-                    if not headers or headers[0] != 'I' and (len(headers) > 1 and headers[1] not in ['GOPENS', 'GOPENH']):
-                        # Not a cutoff table (maybe a legend or something else)
-                        # Wait, headers in MH CET pdfs: first row usually None, 'GOPENS', 'GSCS'...
-                        # Values row: 'I', '34692\n(91.7858261)'
-                        if headers[0] is None:
-                            # It's a standard table
-                            for col_idx in range(1, len(headers)):
-                                category = headers[col_idx]
-                                val_str = values[col_idx] if col_idx < len(values) else None
+                    for col_idx in range(1, len(headers)):
+                        category = headers[col_idx]
+                        val_str = values[col_idx] if col_idx < len(values) else None
+                        
+                        if category and val_str:
+                            category = category.replace('\n', '').strip()
+                            # Skip if category is something weird
+                            if len(category) > 15 or 'Seat' in category:
+                                continue
                                 
-                                if category and val_str:
-                                    category = category.replace('\n', '')
-                                    val_str = val_str.replace('\n', ' ')
-                                    m = re.search(r'(\d+)\s*\(([\d\.]+)\)', val_str)
-                                    if m:
-                                        merit_no = int(m.group(1))
-                                        percentile = float(m.group(2))
-                                        
-                                        records.append({
-                                            'college_code': int(current_college_code) if current_college_code.isdigit() else current_college_code,
-                                            'college_name': current_college,
-                                            'branch_code': current_course_code,
-                                            'branch_name': current_course,
-                                            'category': category,
-                                            'category_full': category,
-                                            'percentile': percentile,
-                                            'year': 2026,
-                                            'round': 'CAP Round I',
-                                            'status': current_status,
-                                            'quota': 'MH',
-                                            'merit_no': merit_no,
-                                            'percentile_band': None
-                                        })
+                            val_str = val_str.replace('\n', ' ')
+                            m = re.search(r'(\d+)\s*\(([\d\.]+)\)', val_str)
+                            if m:
+                                merit_no = int(m.group(1))
+                                percentile = float(m.group(2))
+                                
+                                records.append({
+                                    'college_code': int(current_college_code) if current_college_code.isdigit() else current_college_code,
+                                    'college_name': current_college,
+                                    'branch_code': current_course_code,
+                                    'branch_name': current_course,
+                                    'category': category,
+                                    'category_full': category,
+                                    'percentile': percentile,
+                                    'year': 2026,
+                                    'round': 'CAP Round I',
+                                    'status': current_status,
+                                    'quota': 'MH',
+                                    'merit_no': merit_no,
+                                    'percentile_band': None
+                                })
     return records
 
 if __name__ == '__main__':
