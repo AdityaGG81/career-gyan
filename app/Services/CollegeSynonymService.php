@@ -900,8 +900,22 @@ class CollegeSynonymService
 
         // 3. Check if query contains any dictionary keys as whole words
         // E.g. "coep pune", "pict cut off", "vjti computer"
+        // Avoid matching generic keys (like "college of engineering, pune") when the query is a long specific college name (like "Pimpri Chinchwad College of Engineering")
         foreach (self::$synonyms as $acronym => $expansions) {
-            // Check word boundary
+            $acronymLower = strtolower($acronym);
+            // If acronym is generic like "college of engineering, pune", only match if query starts with or equals it, not when it is embedded in another society name
+            if (in_array($acronymLower, ['college of engineering, pune', 'college of engineering pune', 'college of engineering'], true)) {
+                if (str_starts_with($cleaned, 'college of engineering') || $cleaned === 'coep' || $cleaned === 'cope') {
+                    foreach ($expansions as $exp) {
+                        if (!in_array($exp, $results, true)) {
+                            $results[] = $exp;
+                        }
+                    }
+                }
+                continue;
+            }
+
+            // Check word boundary for standard acronyms (e.g. COEP, VJTI, PICT, SPIT, PCCOE)
             if (preg_match('/\b' . preg_quote($acronym, '/') . '\b/i', $cleaned)) {
                 foreach ($expansions as $exp) {
                     if (!in_array($exp, $results, true)) {

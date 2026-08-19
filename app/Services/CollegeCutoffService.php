@@ -12,6 +12,7 @@ class CollegeCutoffService
 {
     /**
      * Get MHT-CET cutoffs matching a given college (model instance or name string).
+     * Always sorted from highest to lowest cutoff percentile.
      */
     public static function getCutoffsForCollege($college, int $limit = 100)
     {
@@ -20,12 +21,39 @@ class CollegeCutoffService
             return collect();
         }
 
-        // 1. Try exact or LIKE match on cutoff college_name
-        $query = MhtCetCutoff::query();
-        $synonyms = CollegeSynonymService::resolveQuery($collegeName);
+        $cleanName = trim(preg_replace('/\(Id:\s*[^\)]+\)/i', '', $collegeName));
 
-        $query->where(function ($q) use ($collegeName, $synonyms) {
-            $q->where('college_name', 'like', "%{$collegeName}%");
+        // Step 1: Try exact match on cutoff college_name
+        $exact = MhtCetCutoff::where('college_name', $cleanName)
+            ->orderBy('percentile', 'desc')
+            ->limit($limit)
+            ->get();
+
+        if ($exact->isNotEmpty()) {
+            return $exact;
+        }
+
+        // Step 2: Strip local campus/address details (e.g. ", Dhankavdi, Pune", ", Vadgaon (BK), Pune")
+        $coreName = preg_replace('/,\s*(Dhankavdi|Matunga|Vile Parle|Bandra|Akurdi|Pimpri|Kothrud|Kondhwa|Wagholi|Narhe|Tathawade|Alandi|Vasai|Nerul|Airoli|Panvel|Chembur|Sion|Kurla|Malad|Kandivali|Karvenagar|Bibwewadi|Hadapsar).*$/i', '', $cleanName);
+        $coreName = trim($coreName);
+
+        if (!empty($coreName) && strlen($coreName) >= 6 && $coreName !== $cleanName) {
+            $coreResults = MhtCetCutoff::where('college_name', 'like', "%{$coreName}%")
+                ->orderBy('percentile', 'desc')
+                ->limit($limit)
+                ->get();
+
+            if ($coreResults->isNotEmpty()) {
+                return $coreResults;
+            }
+        }
+
+        // Step 3: Synonym matching (with sanitized synonym resolution)
+        $synonyms = CollegeSynonymService::resolveQuery($cleanName);
+        $query = MhtCetCutoff::query();
+
+        $query->where(function ($q) use ($cleanName, $synonyms) {
+            $q->where('college_name', 'like', "%{$cleanName}%");
             foreach ($synonyms as $syn) {
                 if (strlen($syn) > 2) {
                     $q->orWhere('college_name', 'like', "%{$syn}%");
@@ -35,10 +63,10 @@ class CollegeCutoffService
 
         $results = $query->orderBy('percentile', 'desc')->limit($limit)->get();
 
-        // 2. If nothing found, try token-based search for key institutional words
+        // Step 4: Token fallback matching if nothing found yet
         if ($results->isEmpty()) {
-            $cleaned = CollegeSynonymService::normalizeName($collegeName);
-            $words = array_filter(explode(' ', $cleaned), fn($w) => strlen($w) >= 4);
+            $normalized = CollegeSynonymService::normalizeName($cleanName);
+            $words = array_filter(explode(' ', $normalized), fn($w) => strlen($w) >= 5 && !in_array($w, ['college', 'engineering', 'technology', 'institute', 'pune', 'mumbai'], true));
 
             if (!empty($words)) {
                 $subQuery = MhtCetCutoff::query();
@@ -51,7 +79,7 @@ class CollegeCutoffService
             }
         }
 
-        return $results;
+        return $results->sortByDesc('percentile')->values();
     }
 
     /**
@@ -75,6 +103,9 @@ class CollegeCutoffService
                 'cutoffs_url' => null,
             ];
         }
+
+        // Ensure cutoffs are strictly sorted by percentile descending
+        $cutoffs = $cutoffs->sortByDesc('percentile')->values();
 
         $branches = $cutoffs->pluck('branch_name')->unique()->values();
         $topCutoff = $cutoffs->first();
