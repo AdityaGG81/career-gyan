@@ -1,24 +1,10 @@
 ---
 deployment:
   tasks:
-    # Install/update Composer dependencies (no dev packages in production)
-    - export COMPOSER_HOME="${HOME}/.config/composer" && php composer.phar install --no-dev --optimize-autoloader --no-interaction
-
-    # Run database migrations
-    - export HOME=/home/$USER && php artisan migrate --force
-
-    # Clear all Laravel caches
-    - php artisan config:clear
-    - php artisan cache:clear
-    - php artisan route:clear
-    - php artisan view:clear
-
-    # Re-cache for production performance
-    - php artisan config:cache
-    - php artisan route:cache
-    - php artisan view:cache
-    - php artisan optimize
-
-    # Fix storage permissions
-    - chmod -R 755 storage
-    - chmod -R 755 bootstrap/cache
+    - export DEPLOYPATH=/home/$USER/public_html/
+    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp -R .env $DEPLOYPATH || true
+    - cd $DEPLOYPATH && php artisan optimize:clear || true
+    - cd $DEPLOYPATH && php artisan view:clear || true
+    - cd $DEPLOYPATH && php artisan config:clear || true
+    - cd $DEPLOYPATH && php artisan cache:clear || true
