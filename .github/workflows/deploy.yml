@@ -23,13 +23,13 @@ jobs:
           npm ci
           npm run build
 
-      - name: Sync App Files to Public_HTML
+      - name: Sync App Files to Repository
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: public_html/
+          server-dir: repositories/career-gyan/
           protocol: ftp
           exclude: |
             **/.git*
@@ -65,7 +65,7 @@ jobs:
           key: ${{ secrets.CPANEL_SSH_KEY }}
           port: ${{ secrets.CPANEL_PORT }}
           script: |
-            cd ~/public_html
+            cd ~/repositories/career-gyan
             php artisan optimize:clear || true
             php artisan view:clear || true
             php artisan config:clear || true
