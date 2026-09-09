@@ -23,13 +23,13 @@ jobs:
           npm ci
           npm run build
 
-      - name: Sync App Files to Repositories
+      - name: Sync App Files to Public_HTML
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: repositories/career-gyan/
+          server-dir: public_html/
           protocol: ftp
           exclude: |
             **/.git*
@@ -56,3 +56,17 @@ jobs:
             .htaccess
             **/.git*
             **/.git*/**
+
+      - name: Clear Laravel Caches
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          port: ${{ secrets.CPANEL_PORT }}
+          script: |
+            cd ~/public_html
+            php artisan optimize:clear || true
+            php artisan view:clear || true
+            php artisan config:clear || true
+            php artisan cache:clear || true
