@@ -47,4 +47,9 @@ return [
         'model' => env('AICREDITS_MODEL', 'openai/gpt-4o-mini'),
     ],
 
+    'careergyan_scrapper' => [
+        'base_url' => env('CAREERGYAN_SCRAPPER_URL', 'http://127.0.0.1:8001'),
+        'timeout' => (int) env('CAREERGYAN_SCRAPPER_TIMEOUT', 45),
+    ],
+
 ];

@@ -321,6 +321,7 @@ Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('ad
 Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
 
 Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
+Route::get('/debug-scrapper-test', [AiCareerChatController::class, 'debugScrapperTest'])->name('debug.scrapper');
 
 Route::get('/clear-all-cache', function () {
     try {

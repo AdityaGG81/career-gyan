@@ -328,6 +328,78 @@
         box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     }
 
+    .ai-career-guruji-msg.bot h5,
+    .ai-career-guruji-msg.bot h4 {
+        margin: 10px 0 6px 0;
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #1e3a8a;
+    }
+
+    .ai-career-guruji-msg.bot ul,
+    .ai-career-guruji-msg.bot ol {
+        margin: 6px 0 8px 18px;
+        padding: 0;
+    }
+
+    .ai-career-guruji-msg.bot li {
+        margin-bottom: 4px;
+    }
+
+    .ai-career-guruji-msg.bot strong {
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .ai-career-guruji-msg.bot a {
+        color: #1d4ed8;
+        text-decoration: underline;
+        font-weight: 500;
+    }
+
+    .ai-career-guruji-sources {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .ai-career-guruji-sources-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .ai-career-guruji-source-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #1d4ed8 !important;
+        text-decoration: none !important;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 6px;
+        padding: 4px 8px;
+        transition: all 0.2s;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .ai-career-guruji-source-link:hover {
+        background: #dcfce7;
+        color: #15803d !important;
+    }
+
     .ai-career-guruji-msg.user {
         background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
         color: #1e3a8a;
@@ -645,6 +717,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const welcomeText = "Namaste! I'm AI Career Guruji 👋\nI can help you explore careers, colleges, entrance exams, skills, salary scope, and step-by-step career roadmaps.";
 
     let isRequestInProgress = false;
+    let conversationHistory = [];
+
     @auth
     const isAuthenticated = true;
     @else
@@ -680,6 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clearChatHistory() {
         chatMessages.querySelectorAll('.ai-career-guruji-msg:not(#aiChatWelcomeMsg)').forEach(el => el.remove());
+        conversationHistory = [];
         suggestionsContainer.style.display = '';
         if (remainingText) remainingText.textContent = '5';
         if (chatInput) chatInput.placeholder = 'Ask Guruji about careers, colleges, exams, skills...';
@@ -721,10 +796,75 @@ document.addEventListener('DOMContentLoaded', function() {
         initChatState();
     });
 
-    function appendMessage(text, sender) {
+    function formatMarkdown(text) {
+        if (!text) return '';
+        // Escape raw HTML tags safely
+        let html = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        // Headers
+        html = html.replace(/^### (.*$)/gim, '<h5>$1</h5>');
+        html = html.replace(/^## (.*$)/gim, '<h4>$1</h4>');
+
+        // Bold and italic
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+        // Markdown links: [text](url)
+        html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+        // Bullet lists
+        const lines = html.split('\n');
+        let inList = false;
+        let formattedLines = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if (/^[-*]\s+(.*)/.test(line)) {
+                let item = line.replace(/^[-*]\s+/, '');
+                if (!inList) {
+                    formattedLines.push('<ul>');
+                    inList = true;
+                }
+                formattedLines.push(`<li>${item}</li>`);
+            } else {
+                if (inList) {
+                    formattedLines.push('</ul>');
+                    inList = false;
+                }
+                formattedLines.push(line);
+            }
+        }
+        if (inList) {
+            formattedLines.push('</ul>');
+        }
+
+        return formattedLines.join('<br>').replace(/<br><\/ul>/g, '</ul>').replace(/<ul><br>/g, '<ul>').replace(/<\/ul><br>/g, '</ul>');
+    }
+
+    function appendMessage(text, sender, sources = []) {
         const msgDiv = document.createElement('div');
         msgDiv.className = `ai-career-guruji-msg ${sender}`;
-        msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+
+        if (sender === 'bot') {
+            let contentHtml = formatMarkdown(text);
+            if (sources && sources.length > 0) {
+                let sourcesHtml = '<div class="ai-career-guruji-sources"><span class="ai-career-guruji-sources-title"><i class="fa-solid fa-graduation-cap"></i> Verified CareerGyan Pages:</span>';
+                sources.forEach(s => {
+                    const title = s.title || s.url;
+                    sourcesHtml += `<a href="${s.url}" target="_blank" rel="noopener noreferrer" class="ai-career-guruji-source-link" title="${s.url}"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${title}</a>`;
+                });
+                sourcesHtml += '</div>';
+                contentHtml += sourcesHtml;
+            }
+            msgDiv.innerHTML = contentHtml;
+        } else {
+            const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            msgDiv.innerHTML = escaped.replace(/\n/g, '<br>');
+        }
+
         chatMessages.insertBefore(msgDiv, typingIndicator);
         scrollToBottom();
     }
@@ -762,6 +902,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         chatInput.value = '';
         appendMessage(message, 'user');
+        conversationHistory.push({ role: 'user', content: message });
 
         isRequestInProgress = true;
         sendBtn.disabled = true;
@@ -776,7 +917,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    message: message,
+                    history: conversationHistory.slice(-6)
+                })
             });
 
             const data = await response.json();
@@ -788,7 +932,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (response.ok && data.success) {
-                appendMessage(data.reply, 'bot');
+                conversationHistory.push({ role: 'assistant', content: data.reply });
+                appendMessage(data.reply, 'bot', data.sources || []);
             } else {
                 appendMessage(data.reply || 'Sorry, I encountered an error. Please try again.', 'bot');
                 if (response.status === 429) handleLimitReached();

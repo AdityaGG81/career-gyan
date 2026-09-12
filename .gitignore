@@ -21,3 +21,13 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Python & Scrapper
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+careergyan_scrapper/chroma_db/
+careergyan_scrapper/data/
+
