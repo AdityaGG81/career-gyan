@@ -889,7 +889,7 @@
 
   /* ─── How CareerGyan Works (Timeline) ─── */
   .timeline-section {
-    padding: 100px 0;
+    padding: 60px 0 70px;
     background: #ffffff;
     position: relative;
   }
@@ -898,32 +898,32 @@
     position: relative;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 24px 0 10px;
   }
 
   /* Connecting timeline line */
   .timeline-line {
     position: absolute;
-    top: 50px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 4px;
-    height: 0; /* Animated on scroll */
+    height: calc(100% - 60px);
     background: linear-gradient(180deg, #eff6ff 0%, var(--brand) 50%, #faf5ff 100%);
     z-index: 1;
-    transition: height 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: height 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .timeline-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 36px;
     position: relative;
     z-index: 2;
-    opacity: 0;
-    transform: translateY(40px) scale(0.96);
-    transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .timeline-item.active {
@@ -1009,7 +1009,7 @@
 
   /* ─── Testimonials ─── */
   .testimonials-section {
-    padding: 100px 0;
+    padding: 70px 0 80px;
     background: #f8fafc;
   }
 
@@ -2838,45 +2838,11 @@
           }
       }
 
-      // Timeline scroll animations using IntersectionObserver
+      // Timeline items activation
       const timelineItems = document.querySelectorAll('.timeline-item');
-      const timelineContainer = document.querySelector('.timeline-container');
-      
-      if ('IntersectionObserver' in window) {
-          const timelineObserver = new IntersectionObserver((entries, obs) => {
-              entries.forEach(entry => {
-                  if (entry.isIntersecting) {
-                      entry.target.classList.add('active');
-                      obs.unobserve(entry.target);
-                  }
-              });
-          }, { threshold: 0.15 });
-
-          timelineItems.forEach(item => {
-              timelineObserver.observe(item);
-          });
-
-          const lineObserver = new IntersectionObserver((entries, obs) => {
-              entries.forEach(entry => {
-                  if (entry.isIntersecting) {
-                      const line = document.querySelector('.timeline-line');
-                      if (line) {
-                          line.style.height = 'calc(100% - 100px)';
-                      }
-                      obs.unobserve(entry.target);
-                  }
-              });
-          }, { threshold: 0.1 });
-
-          if (timelineContainer) {
-              lineObserver.observe(timelineContainer);
-          }
-      } else {
-          // Fallback for older browsers
-          timelineItems.forEach(item => item.classList.add('active'));
-          const line = document.querySelector('.timeline-line');
-          if (line) line.style.height = 'calc(100% - 100px)';
-      }
+      timelineItems.forEach(item => item.classList.add('active'));
+      const line = document.querySelector('.timeline-line');
+      if (line) line.style.height = 'calc(100% - 60px)';
 
       const typewriterSpan = document.querySelector('.typewriter-text');
       const words = ["Successful", "Brighter", "Rewarding", "Prosperous", "Fulfilling"];

@@ -1877,8 +1877,6 @@
   });
 </script>
 
-@yield('scripts')
-
 <script>
   // Global College Reviews Logic
   function loadCollegeReviews(collegeId, containerId) {
@@ -2159,6 +2157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <x-ai-career-chat />
+<x-new-blog-popup :newly-uploaded-blog="$newlyUploadedBlog ?? null" />
 
 <!-- Multilingual Google Translate Element -->
 <div id="google_translate_element" style="display:none;"></div>
