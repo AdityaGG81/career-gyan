@@ -57,7 +57,7 @@ jobs:
             **/.git*
             **/.git*/**
 
-      - name: Clear Laravel Caches
+      - name: Run Migrations, Seed Blogs and Clear Caches
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.CPANEL_HOST }}
@@ -66,6 +66,8 @@ jobs:
           port: ${{ secrets.CPANEL_PORT }}
           script: |
             cd ~/repositories/career-gyan
+            php artisan migrate --force || true
+            php artisan db:seed --class=HighQualityBlogSeeder --force || true
             php artisan optimize:clear || true
             php artisan view:clear || true
             php artisan config:clear || true
