@@ -22,17 +22,14 @@
     </button>
 
     <!-- Cover Image / Banner -->
+    @php
+      $fallbackBlogCover = 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=1200';
+      $activeBlogCover = (!empty($newlyUploadedBlog->cover_image) && (str_starts_with($newlyUploadedBlog->cover_image, 'http') || str_starts_with($newlyUploadedBlog->cover_image, '/')))
+          ? $newlyUploadedBlog->cover_image
+          : $fallbackBlogCover;
+    @endphp
     <div class="new-blog-modal-banner" onclick="window.dismissNewBlogPopup({{ $newlyUploadedBlog->id }}, '{{ route('blog.show', $newlyUploadedBlog->slug) }}')">
-      @if(!empty($newlyUploadedBlog->cover_image) && (str_starts_with($newlyUploadedBlog->cover_image, 'http') || str_starts_with($newlyUploadedBlog->cover_image, '/')))
-        <img src="{{ $newlyUploadedBlog->cover_image }}" alt="{{ $newlyUploadedBlog->title }}" class="new-blog-modal-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="new-blog-modal-img-fallback" style="display:none;">
-          <i class="fa-solid fa-newspaper"></i>
-        </div>
-      @else
-        <div class="new-blog-modal-img-fallback">
-          <i class="fa-solid fa-newspaper"></i>
-        </div>
-      @endif
+      <img src="{{ $activeBlogCover }}" alt="{{ $newlyUploadedBlog->title }}" class="new-blog-modal-img" onerror="this.onerror=null; this.src='{{ $fallbackBlogCover }}';">
       <div class="new-blog-banner-overlay"></div>
       
       <!-- Badges on image -->
@@ -96,7 +93,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 99999999 !important;
-    background: rgba(8, 14, 26, 0.78);
+    background: rgba(8, 14, 26, 0.72);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     display: flex;
@@ -116,20 +113,20 @@
     pointer-events: auto !important;
   }
 
-  /* ─── Center Modal Card ─── */
+  /* ─── Center Modal Card (Clean Modern White Theme) ─── */
   .new-blog-modal {
     position: relative;
     width: 100%;
     max-width: 580px;
     max-height: 90vh;
     overflow-y: auto;
-    background: linear-gradient(180deg, #0f172a 0%, #0b1120 100%);
-    border: 1px solid rgba(59, 130, 246, 0.45);
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.95);
     border-radius: 24px;
     box-shadow: 
-      0 25px 60px -15px rgba(0, 0, 0, 0.8),
-      0 0 50px rgba(37, 99, 235, 0.3);
-    color: #ffffff;
+      0 25px 60px -15px rgba(15, 23, 42, 0.22),
+      0 0 1px 1px rgba(15, 23, 42, 0.05);
+    color: #0f172a;
     font-family: 'DM Sans', system-ui, sans-serif;
     transform: scale(0.92) translateY(24px);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -148,11 +145,10 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #f1f5f9;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+    color: #475569;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,10 +158,11 @@
   }
 
   .new-blog-modal-close:hover {
-    background: rgba(239, 68, 68, 0.85);
+    background: #ef4444;
     color: #ffffff;
     transform: rotate(90deg) scale(1.05);
-    border-color: rgba(239, 68, 68, 0.9);
+    border-color: #ef4444;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
   }
 
   /* ─── Banner / Image Header ─── */
@@ -175,7 +172,7 @@
     height: 220px;
     overflow: hidden;
     cursor: pointer;
-    background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+    background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
   }
@@ -198,13 +195,13 @@
     align-items: center;
     justify-content: center;
     font-size: 54px;
-    color: rgba(96, 165, 250, 0.7);
+    color: rgba(59, 130, 246, 0.6);
   }
 
   .new-blog-banner-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.85) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.0) 0%, rgba(15, 23, 42, 0.45) 100%);
     pointer-events: none;
   }
 
@@ -225,9 +222,9 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(37, 99, 235, 0.9);
+    background: rgba(37, 99, 235, 0.92);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(96, 165, 250, 0.7);
+    border: 1px solid rgba(147, 197, 253, 0.7);
     color: #ffffff;
     font-size: 11px;
     font-weight: 800;
@@ -240,24 +237,24 @@
   .new-blog-pulse-dot {
     width: 6px;
     height: 6px;
-    background: #60a5fa;
+    background: #93c5fd;
     border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.7);
+    box-shadow: 0 0 0 0 rgba(147, 197, 253, 0.7);
     animation: pulseDot 1.6s infinite;
   }
 
   @keyframes pulseDot {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(96, 165, 250, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(96, 165, 250, 0); }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(147, 197, 253, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(147, 197, 253, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(147, 197, 253, 0); }
   }
 
   .new-blog-category-pill {
     display: inline-flex;
     align-items: center;
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: #38bdf8;
     font-size: 11px;
     font-weight: 700;
@@ -270,13 +267,16 @@
   /* ─── Modal Content Body ─── */
   .new-blog-modal-content {
     padding: 24px;
+    background: #ffffff;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
   }
 
   .new-blog-modal-title {
     font-family: 'Sora', sans-serif;
     font-size: 20px;
     font-weight: 800;
-    color: #f8fafc;
+    color: #0f172a;
     line-height: 1.35;
     margin: 0 0 10px 0;
     cursor: pointer;
@@ -284,12 +284,12 @@
   }
 
   .new-blog-modal-title:hover {
-    color: #60a5fa;
+    color: #2563eb;
   }
 
   .new-blog-modal-excerpt {
     font-size: 14px;
-    color: #94a3b8;
+    color: #475569;
     line-height: 1.6;
     margin: 0 0 16px 0;
   }
@@ -302,7 +302,7 @@
     color: #64748b;
     margin-bottom: 22px;
     padding-bottom: 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid #f1f5f9;
   }
 
   .new-blog-meta-item {
@@ -312,7 +312,7 @@
   }
 
   .new-blog-meta-divider {
-    color: #475569;
+    color: #cbd5e1;
   }
 
   /* ─── Modal Action Buttons ─── */
@@ -324,9 +324,9 @@
   }
 
   .new-blog-btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #94a3b8;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
     font-size: 13.5px;
     font-weight: 600;
     padding: 10px 18px;
@@ -336,9 +336,9 @@
   }
 
   .new-blog-btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #f8fafc;
-    border-color: rgba(255, 255, 255, 0.3);
+    background: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
   }
 
   .new-blog-btn-primary {
@@ -352,13 +352,13 @@
     padding: 10px 22px;
     border-radius: 12px;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
     transition: all 0.25s ease;
   }
 
   .new-blog-btn-primary:hover {
     background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.55);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
     transform: translateY(-1px);
     color: #ffffff !important;
   }
