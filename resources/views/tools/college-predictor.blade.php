@@ -946,6 +946,59 @@
       </div>
     </div>
 
+    <!-- Connected Ecosystem & Next Steps -->
+    <div style="margin-top: 36px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 34px;">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 30px;">
+        <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #2563eb; background: #eff6ff; padding: 4px 14px; border-radius: 99px;">
+          Next Steps for Aspirants
+        </span>
+        <h3 style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin: 10px 0 6px;">
+          Explore Beyond Cutoffs on CareerGyan
+        </h3>
+        <p style="font-size: 14px; color: #64748b; margin: 0;">
+          Connect your predicted college choices with verified career roadmaps, aptitude validation, and preparation tools.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px;">
+        <a href="{{ route('guidance.mht-cet') }}" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 6px;">MHT CET Prep Guidance</h4>
+          <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin: 0 0 14px; flex: 1;">Access complete preparation roadmaps, high-weightage chapters, and topper advice.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #2563eb;">Read Guide &rarr;</span>
+        </a>
+
+        <a href="{{ route('tools.percentile-calculator') }}" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 6px;">Marks to Percentile Calculator</h4>
+          <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin: 0 0 14px; flex: 1;">Convert raw MHT CET scores into exact expected percentiles and state merit ranks.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #059669;">Calculate Now &rarr;</span>
+        </a>
+
+        <a href="{{ route('quick-test.start') }}" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 6px;">Free Branch Aptitude Test</h4>
+          <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin: 0 0 14px; flex: 1;">Unsure between Computer Science, AI, and Mechanical? Check your cognitive fit.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #d97706;">Start Free Test &rarr;</span>
+        </a>
+
+        <a href="{{ route('daily-quiz.index') }}" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#7c3aed'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #f3e8ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 6px;">Daily Practice Quiz</h4>
+          <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin: 0 0 14px; flex: 1;">Practice logic, reasoning, and general science daily to build competitive reflexes.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #7c3aed;">Take Today's Quiz &rarr;</span>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 @endsection

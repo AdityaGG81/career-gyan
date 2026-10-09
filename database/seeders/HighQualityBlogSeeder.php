@@ -298,7 +298,7 @@ class HighQualityBlogSeeder extends Seeder
 
 <p>In India, this date commemorates the birth anniversary of one of the greatest visionaries and engineers our nation has ever produced: <strong>Bharat Ratna Sir Mokshagundam Visvesvaraya (1861–1962)</strong>. Popularly known as <em>Sir MV</em>, he was not only a preeminent civil engineer, planner, and administrator, but also a nation-builder whose foundational works continue to sustain millions of lives more than a century later.</p>
 
-<div style="background: #f8fafc; border-left: 4px solid #2563eb; padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 28px 0;">
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; padding: 18px 24px; border-radius: 0 12px 12px 0; margin: 28px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
     <h4 style="margin: 0 0 8px; color: #1e293b; font-size: 17px; font-weight: 700;">The Legacy of Sir M. Visvesvaraya</h4>
     <p style="margin: 0; color: #475569; font-size: 15px; line-height: 1.6;">Sir MV\'s engineering masterstrokes include the iconic <strong>Krishna Raja Sagara (KRS) Dam</strong> in Karnataka, the design of automatic floodgates installed at Khadakwasla reservoir in Pune, the modern flood protection system for Hyderabad after the 1908 Musi floods, and the introduction of the block system of irrigation. His guiding motto was simple yet immortal: <em>"Industrialize or Perish."</em></p>
 </div>
@@ -349,9 +349,14 @@ class HighQualityBlogSeeder extends Seeder
 <h2>Engineers: The Vanguard of a Developed India</h2>
 <p>India is currently on an extraordinary historical journey—marching steadfastly toward transforming itself from a developing economy into a fully developed nation (<strong>Viksit Bharat</strong>). At every critical milestone of this ambitious mission, it is the engineering community that translates vision into concrete, scalable reality.</p>
 
+<figure style="margin: 32px 0; text-align: center;">
+    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" alt="Modern Infrastructure Engineering and Nation Building" style="width: 100%; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: block;">
+    <figcaption style="margin-top: 10px; font-size: 13.5px; color: #64748b; font-style: italic;">Engineering marvels: Modern infrastructure, clean energy grids, and architectural innovation propelling India towards Viksit Bharat.</figcaption>
+</figure>
+
 <p>Whether it is electrifying the farthest villages, creating world-class semiconductor fabrication ecosystems, building hydrogen-powered trains, or architecting quantum-resilient cryptographic infrastructure, engineers are the primary engine of sovereign growth.</p>
 
-<blockquote style="font-size: 1.25rem; line-height: 1.6; font-weight: 700; color: #1e3a8a; border-left: 6px solid #2563eb; background: #eff6ff; padding: 22px 28px; border-radius: 12px; margin: 36px 0; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08);">
+<blockquote style="font-size: 1.25rem; line-height: 1.6; font-weight: 700; color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 6px solid #2563eb; background: #ffffff; padding: 22px 28px; border-radius: 12px; margin: 36px 0; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.05);">
     <em>A Heartfelt Salut to Every Engineer Committed to the Mission of Making India a Developed Nation from a Developing One!</em>
 </blockquote>
 
@@ -359,7 +364,7 @@ class HighQualityBlogSeeder extends Seeder
 <p>If you are a student preparing for JEE, MHT CET, or enrolled in your polytechnic or B.Tech/B.E. program, remember that engineering is far more than coding scripts or solving differential equations. It is about empathy, curiosity, and the relentless desire to solve real problems for your fellow citizens.</p>
 
 <p>To the dreamers, the builders, the problem solvers, and the innovators who turn impossibilities into everyday conveniences—<strong>Happy Engineer\'s Day!</strong></p>',
-                'cover_image' => 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1200',
+                'cover_image' => 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80&w=1200',
                 'category' => 'Industry Insights',
                 'tags' => ['Engineers Day', 'Sir M Visvesvaraya', 'Contributions of Engineers', 'Viksit Bharat', 'Innovation', 'Nation Building', 'Technology'],
                 'author' => 'CareerGyan Editorial Team',
@@ -371,10 +376,10 @@ class HighQualityBlogSeeder extends Seeder
         foreach ($blogs as $blogData) {
             $blogData['slug'] = Str::slug($blogData['title']);
             
-            // Avoid duplicates
-            if (!Blog::where('slug', $blogData['slug'])->exists()) {
-                Blog::create($blogData);
-            }
+            Blog::updateOrCreate(
+                ['slug' => $blogData['slug']],
+                $blogData
+            );
         }
     }
 }

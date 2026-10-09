@@ -528,28 +528,62 @@
         </div>
     </div>
 
-    {{-- Related Careers --}}
-    @if($related->count())
-    <div class="related-section">
-        <h3 class="card-title" style="justify-content:center;font-size:24px;border:none;margin-bottom:0;padding-bottom:0;">
-            <i class="fa-solid fa-network-wired"></i> Related Careers
-        </h3>
-        <div class="related-grid">
-            @foreach($related as $rel)
-            <a href="{{ route('career.detail.page', $rel->slug) }}" class="related-card">
-                <div class="icon-wrap">
-                    <i class="fa-solid {{ $rel->icon ?? 'fa-briefcase' }}"></i>
+    {{-- Connected Ecosystem Recommendations Hub --}}
+    <div style="margin-top: 48px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px 32px; box-shadow: var(--shadow-sm);">
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 32px;">
+            <span style="display:inline-block; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--brand); background:var(--brand-light); padding:4px 14px; border-radius:99px; margin-bottom:8px;">
+                <i class="fa-solid fa-compass"></i> Career Action Plan
+            </span>
+            <h3 style="font-family:'Sora', sans-serif; font-size:24px; font-weight:800; color:var(--text-1); margin:0 0 6px;">
+                Next Steps to Pursue {{ $career->name }}
+            </h3>
+            <p style="font-size:14.5px; color:var(--text-2); margin:0;">
+                Connect this career choice with top colleges, admission cutoff tools, aptitude benchmarks, and job alerts.
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <!-- College Exploration -->
+            <a href="{{ route('indian-colleges.index') }}" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--brand)'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                <div style="width:40px; height:40px; border-radius:10px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:12px;">
+                    <i class="fa-solid fa-building-columns"></i>
                 </div>
-                <h4 style="font-family:'Sora';font-weight:800;color:var(--text-1);margin:0;font-size:16px;">{{ $rel->name }}</h4>
-                <p style="font-size:14px;color:var(--text-2);margin:0;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{{ $rel->description }}</p>
-                <div style="font-size:13px;font-weight:700;color:var(--brand);margin-top:auto;display:flex;align-items:center;gap:6px;">
-                    <i class="fa-solid fa-indian-rupee-sign"></i> {{ $rel->salary_range }}
-                </div>
+                <h4 style="font-family:'Sora', sans-serif; font-size:15px; font-weight:700; color:var(--text-1); margin:0 0 6px;">Top Colleges & Degrees</h4>
+                <p style="font-size:13px; color:var(--text-2); line-height:1.5; margin:0 0 14px; flex:1;">Search accredited colleges offering eligible degrees for {{ $career->name }}.</p>
+                <span style="font-size:12.5px; font-weight:700; color:#2563eb; display:inline-flex; align-items:center; gap:4px;">Find Colleges &rarr;</span>
             </a>
-            @endforeach
+
+            <!-- Cutoff & Predictor -->
+            <a href="{{ route('tools.college-predictor') }}" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.2s;" onmouseover="this.style.borderColor='#d97706'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                <div style="width:40px; height:40px; border-radius:10px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:12px;">
+                    <i class="fa-solid fa-crosshairs"></i>
+                </div>
+                <h4 style="font-family:'Sora', sans-serif; font-size:15px; font-weight:700; color:var(--text-1); margin:0 0 6px;">Admission Cutoffs</h4>
+                <p style="font-size:13px; color:var(--text-2); line-height:1.5; margin:0 0 14px; flex:1;">Check past percentiles and calculate your admission probability.</p>
+                <span style="font-size:12.5px; font-weight:700; color:#d97706; display:inline-flex; align-items:center; gap:4px;">Predict Admission &rarr;</span>
+            </a>
+
+            <!-- Free Aptitude Test -->
+            <a href="{{ route('quick-test.start') }}" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.2s;" onmouseover="this.style.borderColor='#059669'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                <div style="width:40px; height:40px; border-radius:10px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:12px;">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h4 style="font-family:'Sora', sans-serif; font-size:15px; font-weight:700; color:var(--text-1); margin:0 0 6px;">Check Your Aptitude</h4>
+                <p style="font-size:13px; color:var(--text-2); line-height:1.5; margin:0 0 14px; flex:1;">Take our free 5-minute assessment to see if you have the natural traits for this field.</p>
+                <span style="font-size:12.5px; font-weight:700; color:#059669; display:inline-flex; align-items:center; gap:4px;">Start Free Test &rarr;</span>
+            </a>
+
+            <!-- Job Corner -->
+            <a href="{{ route('jobs.index') }}" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.2s;" onmouseover="this.style.borderColor='#7c3aed'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                <div style="width:40px; height:40px; border-radius:10px; background:#f3e8ff; color:#7c3aed; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:12px;">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <h4 style="font-family:'Sora', sans-serif; font-size:15px; font-weight:700; color:var(--text-1); margin:0 0 6px;">Live Job Vacancies</h4>
+                <p style="font-size:13px; color:var(--text-2); line-height:1.5; margin:0 0 14px; flex:1;">Browse active hiring notices and internships related to this sector.</p>
+                <span style="font-size:12.5px; font-weight:700; color:#7c3aed; display:inline-flex; align-items:center; gap:4px;">Browse Job Corner &rarr;</span>
+            </a>
         </div>
     </div>
-    @endif
 
     {{-- Back to Path Button --}}
     <div style="text-align:center;margin-top:56px;margin-bottom:56px;">

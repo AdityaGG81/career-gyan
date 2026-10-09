@@ -1124,6 +1124,60 @@
         <span class="page-info">Page 1 of {{ $lastPage }}</span>
       @endif
     </div>
+
+    <!-- Connected Admission Guidance & Next Steps -->
+    <div style="margin-top: 50px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px 32px; box-shadow: var(--shadow-sm);">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 30px;">
+        <span style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--brand); background: var(--brand-light); padding: 4px 14px; border-radius: 99px;">
+          Next Steps
+        </span>
+        <h3 style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: var(--text-1); margin: 10px 0 6px;">
+          Recommended Tools for CAP Round Counseling
+        </h3>
+        <p style="font-size: 14px; color: var(--text-2); margin: 0;">
+          Beyond browsing past cutoffs, use our smart prediction engines and guidance hubs to lock your target branch.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px;">
+        <a href="{{ route('tools.college-predictor') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='var(--brand)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-crosshairs"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Accurate College Predictor</h4>
+          <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 14px; flex: 1;">Predict Safe, Target, Reach, and Dream colleges for your exact percentile.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #2563eb;">Predict Colleges &rarr;</span>
+        </a>
+
+        <a href="{{ route('tools.percentile-calculator') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Percentile Calculator</h4>
+          <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 14px; flex: 1;">Calculate expected percentile and State General Merit (SGM) Rank from marks.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #059669;">Calculate Percentile &rarr;</span>
+        </a>
+
+        <a href="{{ route('guidance.mht-cet') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #fff7ed; color: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">MHT CET Prep Strategy</h4>
+          <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 14px; flex: 1;">Syllabus breakdown, weightage distribution, and topper tips to score 99+ percentile.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #ea580c;">Read Prep Guide &rarr;</span>
+        </a>
+
+        <a href="{{ route('quick-test.start') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 20px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#7c3aed'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #f3e8ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h4 style="font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Free Aptitude Assessment</h4>
+          <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 14px; flex: 1;">Check which engineering branch fits your natural cognitive problem-solving strengths.</p>
+          <span style="font-size: 13px; font-weight: 700; color: #7c3aed;">Start Assessment &rarr;</span>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 

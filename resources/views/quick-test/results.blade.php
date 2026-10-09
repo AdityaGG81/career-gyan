@@ -471,6 +471,63 @@
             </a>
         </div>
 
+        {{-- Next Steps & Interconnected Ecosystem Recommendation Hub --}}
+        <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 36px 32px; margin-top: 40px; box-shadow: var(--shadow-sm);">
+            <div style="text-align: center; max-width: 680px; margin: 0 auto 30px;">
+                <span style="display:inline-block; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--brand); background:var(--brand-light); padding:4px 14px; border-radius:99px; margin-bottom:8px;">
+                    <i class="fa-solid fa-compass"></i> Action Plan
+                </span>
+                <h3 style="font-family:'Sora', sans-serif; font-size:24px; font-weight:800; color:var(--text-1); margin:0 0 6px;">
+                    What to Do Next with Your Aptitude Report
+                </h3>
+                <p style="font-size:14.5px; color:var(--text-2); margin:0;">
+                    Turn these insights into action! Explore verified colleges, predict admission cutoffs, and practice daily.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+                <!-- 1. College Search -->
+                <a href="{{ route('indian-colleges.index') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--brand)'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h4 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Find Top Colleges</h4>
+                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 16px; flex: 1;">Search 90,000+ colleges across India offering degree courses in your recommended career streams.</p>
+                    <span style="font-size: 13px; font-weight: 700; color: #2563eb; display: inline-flex; align-items: center; gap: 6px;">Search Colleges &rarr;</span>
+                </a>
+
+                <!-- 2. College Predictor -->
+                <a href="{{ route('tools.college-predictor') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.2s;" onmouseover="this.style.borderColor='#d97706'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+                        <i class="fa-solid fa-crosshairs"></i>
+                    </div>
+                    <h4 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Predict Admission Cutoffs</h4>
+                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 16px; flex: 1;">Check past MHT-CET & engineering cutoffs and predict your probability of getting selected.</p>
+                    <span style="font-size: 13px; font-weight: 700; color: #d97706; display: inline-flex; align-items: center; gap: 6px;">Launch Predictor &rarr;</span>
+                </a>
+
+                <!-- 3. Daily Quiz -->
+                <a href="{{ route('daily-quiz.index') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.2s;" onmouseover="this.style.borderColor='#7c3aed'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #f3e8ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h4 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Daily Aptitude Quiz</h4>
+                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 16px; flex: 1;">Sharpen your reasoning and general knowledge with 5 quick daily questions and climb the leaderboard.</p>
+                    <span style="font-size: 13px; font-weight: 700; color: #7c3aed; display: inline-flex; align-items: center; gap: 6px;">Play Daily Quiz &rarr;</span>
+                </a>
+
+                <!-- 4. Job Corner -->
+                <a href="{{ route('jobs.index') }}" style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.2s;" onmouseover="this.style.borderColor='#059669'; this.style.transform='translateY(-3px)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none';">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h4 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-1); margin: 0 0 6px;">Job & Internship Alerts</h4>
+                    <p style="font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0 0 16px; flex: 1;">Explore active hiring notifications, eligibility rules, and official application links for freshers.</p>
+                    <span style="font-size: 13px; font-weight: 700; color: #059669; display: inline-flex; align-items: center; gap: 6px;">Browse Jobs &rarr;</span>
+                </a>
+            </div>
+        </div>
+
         {{-- Answersheet Section --}}
         <div id="answersheet" class="answersheet-section">
             <h3 style="font-size: 20px; font-weight: 800; color: var(--text-1); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">

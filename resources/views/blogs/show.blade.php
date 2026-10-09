@@ -7,54 +7,47 @@
   /* ─── Blog Detail Styles ─── */
   .blog-detail-hero {
     position: relative;
-    padding: 100px 0 80px;
-    background-color: #0b1329;
-    color: #ffffff;
+    padding: 70px 0 50px;
+    background-color: #ffffff;
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
     overflow: hidden;
   }
 
   .blog-detail-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    @if($blog->cover_image)
-      background-image: url("{{ $blog->cover_image }}");
-    @endif
-    background-size: cover;
-    background-position: center;
-    filter: blur(20px) brightness(0.35);
-    transform: scale(1.1);
-    z-index: 0;
+    display: none;
   }
 
   .blog-detail-hero-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
+    max-width: 840px;
     margin: 0 auto;
     text-align: center;
   }
 
   .blog-detail-category {
     display: inline-block;
-    background: #f97316;
+    background: #2563eb;
     color: #ffffff;
-    padding: 6px 16px;
+    padding: 6px 18px;
     border-radius: 99px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 24px;
+    letter-spacing: 0.8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18);
   }
 
   .blog-detail-title {
     font-family: 'Sora', sans-serif;
     font-size: clamp(28px, 4.5vw, 42px);
     font-weight: 800;
-    line-height: 1.25;
-    margin-bottom: 24px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    line-height: 1.3;
+    margin-bottom: 20px;
+    color: #0f172a;
+    text-shadow: none;
   }
 
   .blog-detail-meta {
@@ -62,7 +55,7 @@
     justify-content: center;
     gap: 24px;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.75);
+    color: #64748b;
     flex-wrap: wrap;
   }
 
@@ -73,7 +66,7 @@
   }
 
   .blog-detail-meta i {
-    color: #60a5fa;
+    color: #2563eb;
   }
 
   /* Main article container */
@@ -358,6 +351,33 @@
           {!! $blog->content !!}
         </div>
 
+        {{-- In-Article High-Converting Recommendation Callout --}}
+        <div style="background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%); border: 1.5px solid #bfdbfe; border-radius: var(--radius-lg); padding: 26px 28px; margin: 36px 0; box-shadow: var(--shadow-sm);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div style="width:38px; height:38px; border-radius:10px; background:#2563eb; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:18px;">
+              <i class="fa-solid fa-compass"></i>
+            </div>
+            <div>
+              <h4 style="font-family:'Sora', sans-serif; font-size:17px; font-weight:800; color:#0f172a; margin:0;">Plan Your Next Step with CareerGyan</h4>
+              <span style="font-size:12.5px; color:#64748b; font-weight:600;">Personalized recommendations based on your goals</span>
+            </div>
+          </div>
+          <p style="font-size:14px; color:#334155; margin-bottom:18px; line-height:1.6;">
+            Confused about which stream or college suits your aptitude? Use our free tools to predict your admission chances or discover your natural strengths.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <a href="{{ route('quick-test.start') }}" style="display:inline-flex; align-items:center; gap:6px; background:#2563eb; color:#ffffff; padding:10px 18px; border-radius:30px; font-size:13.5px; font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(37,99,235,0.25);">
+              <i class="fa-solid fa-bolt" style="color:#fde047;"></i> Free Aptitude Test
+            </a>
+            <a href="{{ route('tools.college-predictor') }}" style="display:inline-flex; align-items:center; gap:6px; background:#ffffff; color:#1e40af; border:1px solid #bfdbfe; padding:10px 18px; border-radius:30px; font-size:13.5px; font-weight:700; text-decoration:none;">
+              <i class="fa-solid fa-crosshairs"></i> Predict Colleges
+            </a>
+            <a href="{{ route('explore.index') }}" style="display:inline-flex; align-items:center; gap:6px; background:#ffffff; color:#475569; border:1px solid #cbd5e1; padding:10px 18px; border-radius:30px; font-size:13.5px; font-weight:700; text-decoration:none;">
+              <i class="fa-solid fa-route"></i> Explore Careers
+            </a>
+          </div>
+        </div>
+
         @if(is_array($blog->tags) && count($blog->tags) > 0)
           <div class="article-tags-wrap">
             @foreach($blog->tags as $tag)
@@ -366,6 +386,91 @@
           </div>
         @endif
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interconnected Career Ecosystem Hub -->
+<section style="background: #ffffff; padding: 60px 0; border-top: 1px solid var(--border);">
+  <div class="container">
+    <div style="text-align: center; max-width: 680px; margin: 0 auto 40px;">
+      <span style="display:inline-block; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:#2563eb; background:#eff6ff; padding:5px 14px; border-radius:99px; margin-bottom:10px;">
+        <i class="fa-solid fa-network-wired"></i> Connected Career Hub
+      </span>
+      <h2 style="font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 800; color: var(--text-1); margin-bottom: 8px;">
+        Recommended Tools & Guidance for You
+      </h2>
+      <p style="font-size: 14.5px; color: var(--text-2); margin: 0;">
+        Spend more time planning effectively. Dive directly into our specialized portals designed for students and job seekers.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+      <!-- Tool 1: College Predictor & Cutoffs -->
+      <a href="{{ route('tools.college-predictor') }}" style="background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.25s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#2563eb'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div style="width:44px; height:44px; border-radius:12px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:16px;">
+          <i class="fa-solid fa-crosshairs"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:16px; font-weight:700; color:var(--text-1); margin:0 0 6px;">College Predictor & Cutoffs</h3>
+        <p style="font-size:13.5px; color:var(--text-2); line-height:1.5; margin:0 0 16px; flex:1;">
+          Check 2026 MHT-CET cutoffs and find your probability of getting into COEP, VJTI, and 360+ top colleges.
+        </p>
+        <span style="font-size:13px; font-weight:700; color:#2563eb; display:inline-flex; align-items:center; gap:6px;">
+          Predict College <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Tool 2: Free Quick Aptitude Test -->
+      <a href="{{ route('quick-test.start') }}" style="background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.25s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#2563eb'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div style="width:44px; height:44px; border-radius:12px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:16px;">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:16px; font-weight:700; color:var(--text-1); margin:0 0 6px;">5-Min Career Aptitude Test</h3>
+        <p style="font-size:13.5px; color:var(--text-2); line-height:1.5; margin:0 0 16px; flex:1;">
+          Measure your abstract, verbal, numerical, and mechanical aptitudes with instant scientific recommendations.
+        </p>
+        <span style="font-size:13px; font-weight:700; color:#d97706; display:inline-flex; align-items:center; gap:6px;">
+          Start Free Test <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Tool 3: All-India Colleges Directory -->
+      <a href="{{ route('indian-colleges.index') }}" style="background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.25s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#2563eb'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div style="width:44px; height:44px; border-radius:12px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:16px;">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:16px; font-weight:700; color:var(--text-1); margin:0 0 6px;">90,000+ Colleges Directory</h3>
+        <p style="font-size:13.5px; color:var(--text-2); line-height:1.5; margin:0 0 16px; flex:1;">
+          Filter institutes by university, district, management type, courses offered, campus map, and student ratings.
+        </p>
+        <span style="font-size:13px; font-weight:700; color:#059669; display:inline-flex; align-items:center; gap:6px;">
+          Search Colleges <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Tool 4: Daily Career Quiz & Leaderboard -->
+      <a href="{{ route('daily-quiz.index') }}" style="background:#f8fafc; border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; text-decoration:none; display:flex; flex-direction:column; transition:all 0.25s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#2563eb'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--border)'; this.style.boxShadow='none';">
+        <div style="width:44px; height:44px; border-radius:12px; background:#f3e8ff; color:#7c3aed; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:16px;">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:16px; font-weight:700; color:var(--text-1); margin:0 0 6px;">Daily Quiz & Streak Challenge</h3>
+        <p style="font-size:13.5px; color:var(--text-2); line-height:1.5; margin:0 0 16px; flex:1;">
+          Build competitive exam confidence with 5 daily questions in General Knowledge, Reasoning, and Current Affairs.
+        </p>
+        <span style="font-size:13px; font-weight:700; color:#7c3aed; display:inline-flex; align-items:center; gap:6px;">
+          Play Today's Quiz <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+    </div>
+
+    <!-- Additional quick link pills -->
+    <div style="margin-top: 30px; display:flex; flex-wrap:wrap; justify-content:center; gap:10px;">
+      <span style="font-size:13px; font-weight:700; color:var(--text-3); align-self:center; margin-right:6px;">Trending Guidance:</span>
+      <a href="{{ route('guidance.mht-cet') }}" style="background:#f1f5f9; color:var(--text-1); padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; text-decoration:none; transition:0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">MHT-CET Strategy</a>
+      <a href="{{ route('guidance.jee-neet') }}" style="background:#f1f5f9; color:var(--text-1); padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; text-decoration:none; transition:0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">JEE & NEET Hub</a>
+      <a href="{{ route('guidance.upsc') }}" style="background:#f1f5f9; color:var(--text-1); padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; text-decoration:none; transition:0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">UPSC Civil Services</a>
+      <a href="{{ route('jobs.index') }}" style="background:#f1f5f9; color:var(--text-1); padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; text-decoration:none; transition:0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">Job Corner Vacancies</a>
+      <a href="{{ route('explore.index') }}" style="background:#f1f5f9; color:var(--text-1); padding:6px 14px; border-radius:99px; font-size:13px; font-weight:600; text-decoration:none; transition:0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">5,000+ Career Roadmaps</a>
     </div>
   </div>
 </section>

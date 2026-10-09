@@ -23,7 +23,7 @@
 
     <!-- Cover Image / Banner -->
     @php
-      $fallbackBlogCover = 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=1200';
+      $fallbackBlogCover = 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&q=80&w=1200';
       $activeBlogCover = (!empty($newlyUploadedBlog->cover_image) && (str_starts_with($newlyUploadedBlog->cover_image, 'http') || str_starts_with($newlyUploadedBlog->cover_image, '/')))
           ? $newlyUploadedBlog->cover_image
           : $fallbackBlogCover;

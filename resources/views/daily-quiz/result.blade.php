@@ -536,6 +536,65 @@
   </div>
 </section>
 
+<!-- Keep Exploring CareerGyan Ecosystem -->
+<section style="background: #090e1a; border-top: 1px solid rgba(255,255,255,0.08); padding: 70px 20px;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 36px;">
+      <span style="display:inline-block; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:#818cf8; background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); padding:4px 14px; border-radius:99px; margin-bottom:10px;">
+        <i class="fa-solid fa-sparkles"></i> Keep Learning & Exploring
+      </span>
+      <h2 style="font-family:'Sora', sans-serif; font-size:26px; font-weight:800; color:#ffffff; margin:0 0 8px;">
+        Recommended Next Steps on CareerGyan
+      </h2>
+      <p style="font-size:14.5px; color:rgba(255,255,255,0.65); margin:0;">
+        You've completed today's quiz! Don't stop here — explore verified career roadmaps, college cutoffs, and free aptitude tests.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+      <!-- Card 1: Quick Aptitude Test -->
+      <a href="{{ route('quick-test.start') }}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'; this.style.borderColor='#818cf8'; this.style.transform='translateY(-3px)';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='none';">
+        <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(251,191,36,0.15); color: #fbbf24; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 14px;">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px;">5-Min Aptitude Test</h3>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin: 0 0 16px; flex: 1;">Discover which career streams and courses match your natural mental profile with our free assessment.</p>
+        <span style="font-size: 13px; font-weight: 700; color: #fbbf24; display: inline-flex; align-items: center; gap: 6px;">Take Free Test &rarr;</span>
+      </a>
+
+      <!-- Card 2: College Predictor -->
+      <a href="{{ route('tools.college-predictor') }}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'; this.style.borderColor='#818cf8'; this.style.transform='translateY(-3px)';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='none';">
+        <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(59,130,246,0.15); color: #60a5fa; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 14px;">
+          <i class="fa-solid fa-crosshairs"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px;">College Predictor</h3>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin: 0 0 16px; flex: 1;">Predict your admission odds for 360+ Maharashtra engineering institutes based on past cutoffs.</p>
+        <span style="font-size: 13px; font-weight: 700; color: #60a5fa; display: inline-flex; align-items: center; gap: 6px;">Predict Colleges &rarr;</span>
+      </a>
+
+      <!-- Card 3: 5,000+ Career Paths -->
+      <a href="{{ route('explore.index') }}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'; this.style.borderColor='#818cf8'; this.style.transform='translateY(-3px)';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='none';">
+        <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(52,211,153,0.15); color: #34d399; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 14px;">
+          <i class="fa-solid fa-route"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px;">5,000+ Career Paths</h3>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin: 0 0 16px; flex: 1;">Explore in-depth roadmaps, entrance exams, day-to-day duties, and salary charts across 50+ fields.</p>
+        <span style="font-size: 13px; font-weight: 700; color: #34d399; display: inline-flex; align-items: center; gap: 6px;">Explore Careers &rarr;</span>
+      </a>
+
+      <!-- Card 4: 90,000+ Indian Colleges -->
+      <a href="{{ route('indian-colleges.index') }}" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.background='rgba(99,102,241,0.08)'; this.style.borderColor='#818cf8'; this.style.transform='translateY(-3px)';" onmouseout="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='none';">
+        <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(168,85,247,0.15); color: #c084fc; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 14px;">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 6px;">90,000+ Colleges</h3>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin: 0 0 16px; flex: 1;">Search colleges across India by district, affiliation, management, and degree programs.</p>
+        <span style="font-size: 13px; font-weight: 700; color: #c084fc; display: inline-flex; align-items: center; gap: 6px;">Browse Colleges &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 @endsection
 
 @section('scripts')

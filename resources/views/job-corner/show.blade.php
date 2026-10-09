@@ -380,6 +380,38 @@
                     @endif
                 </div>
 
+                {{-- Connected Career Preparation for Job Applicants --}}
+                <div class="job-detail-card" style="background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%); border-color: #bfdbfe;">
+                    <h3 class="job-detail-section-title" style="color: #1e40af; border-bottom-color: #dbeafe;">
+                        <span><i class="fa-solid fa-compass" style="color: #2563eb; margin-right: 8px;"></i> Recommended Preparation for This Opening</span>
+                    </h3>
+                    <p style="font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px;">
+                        Applying for <strong>{{ $job->job_title }}</strong> at {{ $job->company_name }}? Boost your selection probability with these free preparation tools:
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+                        <a href="{{ route('quick-test.start') }}" style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#bfdbfe'; this.style.transform='none';">
+                            <span style="font-weight: 700; font-size: 14px; color: #1e40af; margin-bottom: 4px;"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Free Aptitude Test</span>
+                            <span style="font-size: 12.5px; color: var(--text-2); line-height: 1.4;">Practice numerical, verbal, and abstract questions for placement written exams.</span>
+                        </a>
+
+                        <a href="{{ route('daily-quiz.index') }}" style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#bfdbfe'; this.style.transform='none';">
+                            <span style="font-weight: 700; font-size: 14px; color: #4338ca; margin-bottom: 4px;"><i class="fa-solid fa-brain" style="color: #7c3aed;"></i> Daily Practice Quiz</span>
+                            <span style="font-size: 12.5px; color: var(--text-2); line-height: 1.4;">Test your general knowledge and logic with 5 daily timed questions.</span>
+                        </a>
+
+                        <a href="{{ route('explore.index') }}" style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#bfdbfe'; this.style.transform='none';">
+                            <span style="font-weight: 700; font-size: 14px; color: #0f172a; margin-bottom: 4px;"><i class="fa-solid fa-route" style="color: #ea580c;"></i> Explore Career Roadmaps</span>
+                            <span style="font-size: 12.5px; color: var(--text-2); line-height: 1.4;">Learn the long-term promotion ladders, industry pay bands, and certifications.</span>
+                        </a>
+
+                        <a href="{{ route('blog.index') }}" style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='#bfdbfe'; this.style.transform='none';">
+                            <span style="font-weight: 700; font-size: 14px; color: #059669; margin-bottom: 4px;"><i class="fa-solid fa-newspaper" style="color: #059669;"></i> Career Advice & Tips</span>
+                            <span style="font-size: 12.5px; color: var(--text-2); line-height: 1.4;">Read resume tips, interview prep guides, and competitive exam strategies.</span>
+                        </a>
+                    </div>
+                </div>
+
             </div>
 
             <!-- RIGHT COLUMN: Highlights Card & Actions -->
@@ -444,6 +476,19 @@
                             <i class="fa-solid fa-file-pdf" style="color: #ef4444;"></i> Download Notification
                         </a>
                     @endif
+                </div>
+
+                <!-- Connected Explore Jobs Card -->
+                <div class="job-overview-card" style="background:#f8fafc;">
+                    <h4 style="font-family:'Sora', sans-serif; font-size:14px; font-weight:700; color:var(--text-1); margin-bottom:10px;">
+                        <i class="fa-solid fa-layer-group" style="color:var(--brand);"></i> More Opportunities
+                    </h4>
+                    <p style="font-size:13px; color:var(--text-2); line-height:1.5; margin-bottom:14px;">
+                        Looking for similar openings? Check our updated job listings and government vacancy alerts.
+                    </p>
+                    <a href="{{ route('jobs.index') }}" style="display:inline-flex; align-items:center; justify-content:center; gap:6px; width:100%; padding:10px 14px; border-radius:8px; background:#fff; border:1px solid var(--border); font-size:13px; font-weight:700; color:var(--brand); text-decoration:none; transition:0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+                        View All Jobs &rarr;
+                    </a>
                 </div>
 
             </div>

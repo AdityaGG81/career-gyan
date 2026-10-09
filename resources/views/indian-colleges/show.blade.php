@@ -799,6 +799,52 @@
                     </div>
                 </section>
             @endif
+
+            <!-- Connected Career Ecosystem & Next Steps -->
+            <section class="info-box" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
+                <h2 class="info-box-title">
+                    <div class="info-box-title-left">
+                        <i class="fa-solid fa-graduation-cap" style="color: var(--brand);"></i>
+                        <span>Career Pathways & Opportunities for Graduates</span>
+                    </div>
+                </h2>
+                <p style="font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px;">
+                    Graduating from <strong>{{ $college->college_name }}</strong>? Explore high-demand roles, salary trends, and roadmaps mapped to the courses offered here:
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px;">
+                    <a href="{{ route('explore.index') }}" style="background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+                        <span style="font-weight: 700; font-size: 14px; color: var(--text-1); margin-bottom: 4px;"><i class="fa-solid fa-code" style="color:#2563eb; margin-right:6px;"></i> Software & AI Engineering</span>
+                        <span style="font-size: 12px; color: var(--text-3);">Average ₹6 - ₹24 LPA</span>
+                    </a>
+                    <a href="{{ route('explore.index') }}" style="background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+                        <span style="font-weight: 700; font-size: 14px; color: var(--text-1); margin-bottom: 4px;"><i class="fa-solid fa-chart-pie" style="color:#059669; margin-right:6px;"></i> Data Science & Analytics</span>
+                        <span style="font-size: 12px; color: var(--text-3);">Average ₹7 - ₹28 LPA</span>
+                    </a>
+                    <a href="{{ route('explore.index') }}" style="background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+                        <span style="font-weight: 700; font-size: 14px; color: var(--text-1); margin-bottom: 4px;"><i class="fa-solid fa-gears" style="color:#ea580c; margin-right:6px;"></i> Core Engineering & R&D</span>
+                        <span style="font-size: 12px; color: var(--text-3);">Average ₹5 - ₹18 LPA</span>
+                    </a>
+                    <a href="{{ route('explore.index') }}" style="background: #ffffff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-decoration: none; display: flex; flex-direction: column; transition: 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+                        <span style="font-weight: 700; font-size: 14px; color: var(--text-1); margin-bottom: 4px;"><i class="fa-solid fa-briefcase" style="color:#7c3aed; margin-right:6px;"></i> Product & Tech Consulting</span>
+                        <span style="font-size: 12px; color: var(--text-3);">Average ₹8 - ₹30 LPA</span>
+                    </a>
+                </div>
+
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                    <div>
+                        <div style="font-weight: 700; font-size: 14.5px; color: #1e40af; margin-bottom: 2px;">
+                            <i class="fa-solid fa-bell"></i> Looking for Active Hiring & Placement Drives?
+                        </div>
+                        <div style="font-size: 13px; color: #3b82f6;">
+                            Explore curated fresher opportunities and public sector recruitment in Job Corner.
+                        </div>
+                    </div>
+                    <a href="{{ route('jobs.index') }}" style="background: #2563eb; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        Explore Job Corner <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
         </div>
 
         <!-- Right Column: Sidebar / Affiliated & Nearby Colleges -->
@@ -873,6 +919,36 @@
                     </div>
                 </div>
             @endif
+
+            <!-- Student Career & Guidance Hub -->
+            <div class="info-box" style="background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%); border-color: #bfdbfe;">
+                <h3 class="info-box-title" style="border-bottom-color: #dbeafe;">
+                    <div class="info-box-title-left">
+                        <i class="fa-solid fa-compass" style="color: #2563eb;"></i>
+                        <span>Career & Exam Hub</span>
+                    </div>
+                </h3>
+                <p style="font-size: 13px; color: #475569; margin-bottom: 14px; line-height: 1.5;">
+                    Need direction on career options, entrance cutoff benchmarks, or interview preparation?
+                </p>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <a href="{{ route('quick-test.start') }}" style="display:flex; align-items:center; gap:8px; background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #bfdbfe; font-size:13px; font-weight:700; color:#1e40af; text-decoration:none;">
+                        <i class="fa-solid fa-bolt" style="color:#f59e0b;"></i> Free Aptitude Assessment
+                    </a>
+                    <a href="{{ route('daily-quiz.index') }}" style="display:flex; align-items:center; gap:8px; background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #bfdbfe; font-size:13px; font-weight:700; color:#4338ca; text-decoration:none;">
+                        <i class="fa-solid fa-brain" style="color:#7c3aed;"></i> Daily Practice Quiz
+                    </a>
+                    <a href="{{ route('guidance.mht-cet') }}" style="display:flex; align-items:center; gap:8px; background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #bfdbfe; font-size:13px; font-weight:700; color:#0f172a; text-decoration:none;">
+                        <i class="fa-solid fa-book-open" style="color:#2563eb;"></i> MHT CET Strategy & Guide
+                    </a>
+                    <a href="{{ route('jobs.index') }}" style="display:flex; align-items:center; gap:8px; background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #bfdbfe; font-size:13px; font-weight:700; color:#059669; text-decoration:none;">
+                        <i class="fa-solid fa-briefcase" style="color:#059669;"></i> Live Campus & Govt Jobs
+                    </a>
+                    <a href="{{ route('explore.index') }}" style="display:flex; align-items:center; gap:8px; background:#fff; padding:10px 12px; border-radius:8px; border:1px solid #bfdbfe; font-size:13px; font-weight:700; color:#334155; text-decoration:none;">
+                        <i class="fa-solid fa-route" style="color:#ea580c;"></i> 5,000+ Career Roadmaps
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

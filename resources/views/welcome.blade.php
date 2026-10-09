@@ -2127,10 +2127,18 @@
       </div>
     </div>
 
-    <div class="cutoff-showcase-cta">
+    <div class="cutoff-showcase-cta" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
       <a href="{{ route('tools.mh-cutoff') }}">
-        <i class="fa-solid fa-table-list"></i> Explore All 2,149 Cutoffs
-        <i class="fa-solid fa-arrow-right"></i>
+        <i class="fa-solid fa-table-list"></i> Explore 2,149 Cutoffs
+      </a>
+      <a href="{{ route('tools.college-predictor') }}" style="background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 4px 16px rgba(5,150,105,0.25);">
+        <i class="fa-solid fa-crosshairs"></i> Predict Your College
+      </a>
+      <a href="{{ route('tools.percentile-calculator') }}" style="background: linear-gradient(135deg, #d97706, #b45309); box-shadow: 0 4px 16px rgba(217,119,6,0.25);">
+        <i class="fa-solid fa-calculator"></i> Percentile Calculator
+      </a>
+      <a href="{{ route('guidance.mht-cet') }}" style="background: #ffffff; color: var(--text-1); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+        <i class="fa-solid fa-book-open" style="color:var(--brand);"></i> CET Prep Guide
       </a>
     </div>
   </div>
@@ -2515,6 +2523,151 @@
         <div class="timeline-node">5</div>
         <div class="timeline-spacer"></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Connected Career & Education Ecosystem ─── -->
+<section style="padding: 80px 0; background: #ffffff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto 50px;">
+      <div class="section-label">
+        <i class="fa-solid fa-network-wired"></i> Connected Platform
+      </div>
+      <h2 class="section-title">Explore All of CareerGyan</h2>
+      <p style="color:var(--text-2); font-size:16px;">
+        Everything you need to navigate exams, admissions, college choices, and professional growth — interconnected for seamless student exploration.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px;">
+      
+      <!-- Card 1: Daily Quiz -->
+      <a href="{{ route('daily-quiz.index') }}" style="background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 30px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.borderColor='#6366f1'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none'; this.style.boxShadow='none';">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+          <div style="width:50px; height:50px; border-radius:14px; background:#eff6ff; color:#4f46e5; display:flex; align-items:center; justify-content:center; font-size:24px;">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <span style="background:#e0e7ff; color:#4338ca; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:99px; text-transform:uppercase;">
+            Live Daily
+          </span>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:18px; font-weight:800; color:var(--text-1); margin:0 0 8px;">
+          Daily Career & GK Quiz
+        </h3>
+        <p style="font-size:14px; color:var(--text-2); line-height:1.6; margin:0 0 20px; flex:1;">
+          Take 5 quick daily questions covering reasoning, quantitative aptitude, and current affairs. Build streaks and compete on the leaderboard.
+        </p>
+        <span style="font-size:13.5px; font-weight:700; color:#4f46e5; display:inline-flex; align-items:center; gap:6px;">
+          Play Today's Quiz <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Card 2: College Predictor & Cutoffs -->
+      <a href="{{ route('tools.college-predictor') }}" style="background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 30px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.borderColor='#2563eb'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none'; this.style.boxShadow='none';">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+          <div style="width:50px; height:50px; border-radius:14px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-size:24px;">
+            <i class="fa-solid fa-crosshairs"></i>
+          </div>
+          <span style="background:#dbeafe; color:#1e40af; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:99px; text-transform:uppercase;">
+            CAP 2026 Engine
+          </span>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:18px; font-weight:800; color:var(--text-1); margin:0 0 8px;">
+          College Predictor & Cutoffs
+        </h3>
+        <p style="font-size:14px; color:var(--text-2); line-height:1.6; margin:0 0 20px; flex:1;">
+          Filter 2,149+ engineering allotments across Maharashtra. Find your exact Safe, Target, Reach, and Dream college options in seconds.
+        </p>
+        <span style="font-size:13.5px; font-weight:700; color:#2563eb; display:inline-flex; align-items:center; gap:6px;">
+          Predict My Colleges <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Card 3: Free Aptitude Test -->
+      <a href="{{ route('quick-test.start') }}" style="background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 30px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.borderColor='#d97706'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none'; this.style.boxShadow='none';">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+          <div style="width:50px; height:50px; border-radius:14px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:24px;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <span style="background:#fef3c7; color:#92400e; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:99px; text-transform:uppercase;">
+            100% Free
+          </span>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:18px; font-weight:800; color:var(--text-1); margin:0 0 8px;">
+          Scientific Aptitude Test
+        </h3>
+        <p style="font-size:14px; color:var(--text-2); line-height:1.6; margin:0 0 20px; flex:1;">
+          Unsure about science, commerce, humanities, or engineering? Take our 5-minute test to map your core cognitive affinities.
+        </p>
+        <span style="font-size:13.5px; font-weight:700; color:#d97706; display:inline-flex; align-items:center; gap:6px;">
+          Start Assessment <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Card 4: 90,000+ Colleges -->
+      <a href="{{ route('indian-colleges.index') }}" style="background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 30px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.borderColor='#059669'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none'; this.style.boxShadow='none';">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+          <div style="width:50px; height:50px; border-radius:14px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:24px;">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <span style="background:#d1fae5; color:#065f46; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:99px; text-transform:uppercase;">
+            90k+ Database
+          </span>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:18px; font-weight:800; color:var(--text-1); margin:0 0 8px;">
+          All-India Colleges Directory
+        </h3>
+        <p style="font-size:14px; color:var(--text-2); line-height:1.6; margin:0 0 20px; flex:1;">
+          Filter government, autonomous, and private colleges by state, district, affiliated university, and course offerings.
+        </p>
+        <span style="font-size:13.5px; font-weight:700; color:#059669; display:inline-flex; align-items:center; gap:6px;">
+          Explore Colleges <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Card 5: National Guidance Hubs -->
+      <a href="{{ route('guidance.mht-cet') }}" style="background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 30px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none'; this.style.boxShadow='none';">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+          <div style="width:50px; height:50px; border-radius:14px; background:#fff7ed; color:#ea580c; display:flex; align-items:center; justify-content:center; font-size:24px;">
+            <i class="fa-solid fa-book-open-reader"></i>
+          </div>
+          <span style="background:#ffedd5; color:#9a3412; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:99px; text-transform:uppercase;">
+            MHT CET · JEE · UPSC
+          </span>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:18px; font-weight:800; color:var(--text-1); margin:0 0 8px;">
+          Exam Strategy & Guidance
+        </h3>
+        <p style="font-size:14px; color:var(--text-2); line-height:1.6; margin:0 0 20px; flex:1;">
+          Comprehensive preparation roadmaps, high-yield topics, textbook strategies, and counseling guides for major national tests.
+        </p>
+        <span style="font-size:13.5px; font-weight:700; color:#ea580c; display:inline-flex; align-items:center; gap:6px;">
+          Read Exam Guidance <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- Card 6: Job Corner -->
+      <a href="{{ route('jobs.index') }}" style="background: #f8fafc; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 30px; text-decoration: none; display: flex; flex-direction: column; transition: all 0.25s;" onmouseover="this.style.borderColor='#0284c7'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-md)';" onmouseout="this.style.borderColor='var(--border)'; this.style.transform='none'; this.style.boxShadow='none';">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+          <div style="width:50px; height:50px; border-radius:14px; background:#f0f9ff; color:#0284c7; display:flex; align-items:center; justify-content:center; font-size:24px;">
+            <i class="fa-solid fa-briefcase"></i>
+          </div>
+          <span style="background:#e0f2fe; color:#0369a1; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:99px; text-transform:uppercase;">
+            Freshers & Govt
+          </span>
+        </div>
+        <h3 style="font-family:'Sora', sans-serif; font-size:18px; font-weight:800; color:var(--text-1); margin:0 0 8px;">
+          Job Corner & Hiring Alerts
+        </h3>
+        <p style="font-size:14px; color:var(--text-2); line-height:1.6; margin:0 0 20px; flex:1;">
+          Browse verified government job circulars, private sector fresh graduate openings, and internship drives with direct links.
+        </p>
+        <span style="font-size:13.5px; font-weight:700; color:#0284c7; display:inline-flex; align-items:center; gap:6px;">
+          Explore Job Vacancies <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </a>
+
     </div>
   </div>
 </section>
