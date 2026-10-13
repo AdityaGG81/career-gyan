@@ -14,28 +14,7 @@ class MembershipController extends Controller
 {
     public function index()
     {
-        $plan = MembershipPlan::where('slug', 'pro-member')->first();
-        if (!$plan) {
-            $plan = new MembershipPlan([
-                'name' => 'Pro Member',
-                'slug' => 'pro-member',
-                'description' => 'Unlock premium tools, advanced tests, 1-on-1 counseling, and expert WhatsApp group access.',
-                'price' => 99900,
-                'duration_days' => 365,
-                'features' => [
-                    '🧠 Advanced Personality Profiler Test',
-                    '🎯 Career Deep-Dive Roadmaps & Insights',
-                    '👑 Leadership & Entrepreneurship Assessment',
-                    '⚡ Unlimited AI Chatbot Career Counseling',
-                    '💬 Private Mentor WhatsApp Group Access',
-                    '🤝 1-on-1 Direct Career Session Booking',
-                    '📊 Premium PDF Downloadable Reports',
-                    '🏅 Gold Pro Badge on Leaderboards'
-                ],
-                'is_active' => true
-            ]);
-        }
-        
+        $plan = MembershipPlan::getDefaultPlan();
         $isMember = Auth::check() ? Auth::user()->hasActiveMembership() : false;
         
         return view('membership.index', compact('plan', 'isMember'));
@@ -43,7 +22,7 @@ class MembershipController extends Controller
 
     public function checkout(Request $request)
     {
-        $plan = MembershipPlan::where('slug', 'pro-member')->firstOrFail();
+        $plan = MembershipPlan::getDefaultPlan();
         
         $keyId = env('RAZORPAY_KEY_ID');
         $keySecret = env('RAZORPAY_KEY_SECRET');
@@ -87,7 +66,7 @@ class MembershipController extends Controller
 
     public function verifyPayment(Request $request)
     {
-        $plan = MembershipPlan::where('slug', 'pro-member')->firstOrFail();
+        $plan = MembershipPlan::getDefaultPlan();
         
         $orderId = $request->input('razorpay_order_id');
         $paymentId = $request->input('razorpay_payment_id');

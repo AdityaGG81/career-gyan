@@ -939,6 +939,11 @@
   /* ═══════════════════════════════════════════
      RESPONSIVE
      ═══════════════════════════════════════════ */
+  /* Mobile Sidebar base state - hidden on desktop */
+  .mobile-sidebar {
+    display: none;
+  }
+
   @media(max-width: 1380px) {
     .nav-center,
     .nav-actions { display: none !important; }
@@ -948,6 +953,156 @@
   }
 
   @media(max-width: 768px) {
+    /* Offset body so page content isn't covered by fixed sidebar */
+    body {
+      padding-left: 64px !important;
+    }
+
+    /* Hide hamburger button — sidebar is always visible on the left */
+    .nav-mobile-btn {
+      display: none !important;
+    }
+
+    .nav-mobile-search {
+      display: block !important;
+    }
+
+    /* Hide the old dropdown mobile menu */
+    .nav-mobile-menu,
+    .nav-mobile-menu.open {
+      display: none !important;
+    }
+
+    /* Always-visible left sidebar */
+    .mobile-sidebar {
+      display: flex !important;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 64px;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-right: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: 2px 0 16px rgba(0, 0, 0, 0.04);
+      z-index: 950;
+      padding: 8px 0 10px 0;
+      align-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .mobile-sidebar-brand {
+      padding: 4px 0 8px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+      flex-shrink: 0;
+    }
+
+    .mobile-sidebar-brand .sidebar-brand-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-nav-scroll {
+      flex: 1;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0;
+      gap: 3px;
+    }
+    .sidebar-nav-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mobile-sidebar a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 56px;
+      min-height: 46px;
+      padding: 6px 2px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text-2);
+      font-size: 9.5px;
+      font-weight: 600;
+      line-height: 1.15;
+      text-align: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    .mobile-sidebar a i {
+      font-size: 16px;
+      margin-bottom: 1px;
+      transition: transform 0.2s ease;
+    }
+
+    .mobile-sidebar a:active {
+      transform: scale(0.92);
+    }
+
+    .mobile-sidebar a:hover,
+    .mobile-sidebar a.active {
+      background: var(--brand-light);
+      color: var(--brand);
+    }
+
+    .mobile-sidebar a.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 20px;
+      background: var(--brand);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .mobile-sidebar .sidebar-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+      flex-shrink: 0;
+    }
+
+    .mobile-sidebar .sidebar-bottom-section {
+      flex-shrink: 0;
+      width: 100%;
+      padding: 6px 0 2px 0;
+      border-top: 1px solid rgba(226, 232, 240, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      background: rgba(255, 255, 255, 0.95);
+    }
+
     .navbar { padding: 6px 8px; }
 
     .navbar-glass {
@@ -961,11 +1116,6 @@
 
     .nav-center,
     .nav-actions { display: none; }
-
-    .nav-mobile-btn,
-    .nav-mobile-search { display: block; }
-
-    .nav-mobile-menu.open { display: flex; }
 
     .doodle-container { opacity: 0.06; }
 
@@ -1004,8 +1154,33 @@
   }
 
   @media(max-width: 480px) {
+    body {
+      padding-left: 56px !important;
+    }
+
+    .mobile-sidebar {
+      width: 56px;
+      padding: 6px 0 8px 0;
+    }
+
+    .mobile-sidebar-brand .sidebar-brand-logo {
+      width: 26px;
+      height: 26px;
+    }
+
+    .mobile-sidebar a {
+      width: 50px;
+      min-height: 42px;
+      padding: 4px 2px;
+      font-size: 9px;
+    }
+
+    .mobile-sidebar a i {
+      font-size: 15px;
+    }
+
     .container {
-      padding: 0 16px;
+      padding: 0 12px;
     }
 
     .section {
@@ -1013,7 +1188,7 @@
     }
 
     .navbar-glass {
-      padding: 0 12px;
+      padding: 0 10px;
       margin: 0 4px;
     }
 
@@ -1038,6 +1213,75 @@
 </head>
 
 <body>
+
+<!-- ALWAYS-VISIBLE MOBILE SIDEBAR (rendered on left side for mobile view) -->
+<aside class="mobile-sidebar" id="mobileSidebar" aria-label="Mobile Navigation">
+  <div class="mobile-sidebar-brand">
+    <a href="{{ url('/') }}" title="CareerGyan">
+      <img src="{{ asset('careergyan-tab-logo.png') }}" alt="CareerGyan" class="sidebar-brand-logo">
+    </a>
+  </div>
+
+  <div class="sidebar-nav-scroll">
+    <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}" title="Home">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}" title="Explore">
+      <i class="fa-solid fa-compass"></i>
+      <span>Explore</span>
+    </a>
+    <a href="{{ route('tools.mh-cutoff') }}" class="{{ request()->is('tools/maharashtra*') ? 'active' : '' }}" title="2026 Cutoffs" style="color: var(--brand); font-weight: 700;">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Cutoffs</span>
+    </a>
+    <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}" title="Daily Quiz">
+      <i class="fa-solid fa-fire" style="color: #f59e0b;"></i>
+      <span>Quiz</span>
+    </a>
+    <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}" title="Jobs">
+      <i class="fa-solid fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+    <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}" title="Blog">
+      <i class="fa-solid fa-newspaper"></i>
+      <span>Blog</span>
+    </a>
+    <a href="{{ url('/membership') }}" class="{{ request()->is('membership*') ? 'active' : '' }}" title="Pro" style="color: #b45309; font-weight: 700;">
+      <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+      <span>Pro</span>
+    </a>
+    <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}" title="About">
+      <i class="fa-solid fa-circle-info"></i>
+      <span>About</span>
+    </a>
+
+    <div class="sidebar-divider"></div>
+
+    <a href="{{ route('quick-test.start') }}" title="Quick Test" style="color: var(--brand);">
+      <i class="fa-solid fa-gauge-high"></i>
+      <span>Quick</span>
+    </a>
+    <a href="{{ route('test.start') }}" title="Advance Test" style="color: #b45309;">
+      <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
+      <span>Advance</span>
+    </a>
+  </div>
+
+  <div class="sidebar-bottom-section">
+    @auth
+      <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}" title="Profile">
+        <i class="fa-solid fa-circle-user"></i>
+        <span>Profile</span>
+      </a>
+    @else
+      <a href="{{ route('login') }}" title="Sign In">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        <span>Sign In</span>
+      </a>
+    @endauth
+  </div>
+</aside>
 
 <!-- FLOATING DOODLES -->
 <div class="doodle-container" aria-hidden="true">

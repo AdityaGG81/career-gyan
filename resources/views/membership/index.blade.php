@@ -232,61 +232,85 @@
         @endif
 
         <div class="premium-hero">
-            <span class="premium-badge">CareerGyan Pro</span>
+            <span class="premium-badge">
+                <i class="{{ $plan->symbol ?: 'fa-solid fa-crown' }}" style="margin-right: 6px;"></i> {{ $plan->name }}
+            </span>
             <h1>Supercharge Your Career Direction</h1>
-            <p>Access very advanced assessments, 1-on-1 counseling booking, mentor community WhatsApp group access, and premium PDF certifications signed by industry experts.</p>
+            <p>{{ $plan->description ?: 'Access advanced assessments, 1-on-1 counseling booking, mentor community WhatsApp group access, and premium PDF certifications signed by industry experts.' }}</p>
         </div>
 
         <div class="pricing-grid">
             <!-- Left: Features -->
             <div class="features-card">
-                <h3>What's included in Pro</h3>
+                <h3><i class="{{ $plan->symbol ?: 'fa-solid fa-crown' }}" style="color: #fbbf24; margin-right: 10px;"></i> What's included in {{ $plan->name }}</h3>
                 
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
-                    <div class="feature-text">
-                        <h4>4 Very Advanced Tests</h4>
-                        <p>Assess personality traits, role readiness, corporate soft skills, and entrepreneurial potential.</p>
+                @if(is_array($plan->features) && count($plan->features) > 0)
+                    @foreach($plan->features as $feat)
+                        <div class="feature-item">
+                            <div class="feature-icon"><i class="fa-solid fa-check"></i></div>
+                            <div class="feature-text">
+                                <h4>{{ $feat }}</h4>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+                        <div class="feature-text">
+                            <h4>Advanced Career Assessments</h4>
+                            <p>Assess personality traits, role readiness, and corporate soft skills.</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-award"></i></div>
-                    <div class="feature-text">
-                        <h4>Digital Certificates of Completion</h4>
-                        <p>Earn custom certificates verified and stamped with the signatures of the Founder & CEO.</p>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fa-solid fa-award"></i></div>
+                        <div class="feature-text">
+                            <h4>Digital Certificates of Completion</h4>
+                            <p>Earn custom certificates stamped with official signatures.</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
-                    <div class="feature-text">
-                        <h4>Private Mentor WhatsApp Group</h4>
-                        <p>Join a separate, members-only WhatsApp group for networking, counseling, and direct Q&A.</p>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="feature-text">
+                            <h4>Private Mentor Community Access</h4>
+                            <p>Direct counseling and networking with guidance experts.</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-user-tie"></i></div>
-                    <div class="feature-text">
-                        <h4>1-on-1 Counselor Interaction</h4>
-                        <p>Book private online counseling slots with our career guidance experts.</p>
-                    </div>
-                </div>
+                @endif
             </div>
 
             <!-- Right: Price card -->
             <div class="pricing-card">
+                @if($plan->badge_text)
+                    <div style="position: absolute; top: 25px; right: -35px; background: #fbbf24; color: #78350f; font-size: 10px; font-weight: 800; padding: 6px 40px; transform: rotate(45deg); letter-spacing: 1px;">
+                        {{ $plan->badge_text }}
+                    </div>
+                @endif
+
+                <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(251, 191, 36, 0.2); border: 1px solid rgba(251, 191, 36, 0.4); display: inline-flex; align-items: center; justify-content: center; font-size: 24px; color: #fbbf24; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);">
+                    <i class="{{ $plan->symbol ?: 'fa-solid fa-crown' }}"></i>
+                </div>
+
                 <div class="pricing-plan-name">{{ $plan->name }}</div>
                 
                 <div class="pricing-price-wrap">
-                    <span class="pricing-currency">₹</span>
-                    <span class="pricing-amount">{{ number_format($plan->price / 100) }}</span>
-                    <span class="pricing-period">/ {{ $plan->duration_days == 365 ? 'yr' : 'mo' }}</span>
+                    @if($plan->original_price_in_rupees && $plan->original_price_in_rupees > $plan->price_in_rupees)
+                        <div style="margin-bottom: 6px;">
+                            <span style="font-size: 16px; color: #94a3b8; text-decoration: line-through; margin-right: 8px;">
+                                {{ $plan->currency_symbol ?: '₹' }}{{ number_format($plan->original_price_in_rupees) }}
+                            </span>
+                            <span style="background: #10b981; color: white; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px;">
+                                SAVE {{ $plan->discount_percentage }}%
+                            </span>
+                        </div>
+                    @endif
+
+                    <span class="pricing-currency">{{ $plan->currency_symbol ?: '₹' }}</span>
+                    <span class="pricing-amount">{{ number_format($plan->price_in_rupees) }}</span>
+                    <span class="pricing-period">/ {{ $plan->billing_period ?: ($plan->duration_days == 365 ? 'yr' : 'mo') }}</span>
                 </div>
                 
                 <p class="pricing-desc">
-                    Get full, unrestricted access to the entire CareerGyan ecosystem for one full year. No monthly fees, no hidden limits.
+                    {{ $plan->description ?: 'Get full, unrestricted access to the entire CareerGyan ecosystem. No monthly fees, no hidden limits.' }}
                 </p>
 
                 @if($isMember)
@@ -295,7 +319,7 @@
                     </a>
                 @else
                     <a href="{{ route('membership.checkout') }}" class="buy-btn">
-                        Upgrade to Pro Now
+                        Upgrade to {{ $plan->name }} <i class="fa-solid fa-arrow-right" style="margin-left: 6px;"></i>
                     </a>
                 @endif
 

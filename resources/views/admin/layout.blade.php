@@ -446,6 +446,11 @@
       </li>
       
       <li class="menu-category">Management</li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.membership') ? 'active' : '' }}">
+        <a href="{{ route('admin.membership.index') }}">
+          <i class="fa-solid fa-crown" style="color: #fbbf24;"></i> Membership Plan
+        </a>
+      </li>
       <li class="admin-menu-item {{ $currentRoute == 'admin.users' ? 'active' : '' }}">
         <a href="{{ route('admin.users') }}">
           <i class="fa-solid fa-users"></i> Users

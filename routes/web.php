@@ -141,7 +141,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/daily-quiz/take', [DailyQuizController::class, 'take'])->name('daily-quiz.take');
     Route::get('/daily-quiz/result/{date}', [DailyQuizController::class, 'result'])->name('daily-quiz.result');
     Route::get('/daily-quiz/my-stats', [DailyQuizController::class, 'myStats'])->name('daily-quiz.my-stats');
+
+    // Premium Membership (Auth required)
+    Route::get('/membership/checkout', [MembershipController::class, 'checkout'])->name('membership.checkout');
+    Route::post('/membership/verify-payment', [MembershipController::class, 'verifyPayment'])->name('membership.verify');
+    Route::get('/membership/success', [MembershipController::class, 'success'])->name('membership.success');
+    Route::get('/membership/dashboard', [MembershipController::class, 'dashboard'])->name('membership.dashboard');
+    Route::get('/membership/whatsapp', [MembershipController::class, 'whatsapp'])->name('membership.whatsapp');
 });
+
+// Public Membership Page
+Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
+
 
 
 
@@ -265,6 +276,11 @@ Route::get('/guidance/upsc', function () { return view('guidance.upsc'); })->nam
 Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
 Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');
+
+// Admin Membership Management
+Route::get('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'index'])->name('admin.membership.index');
+Route::post('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'update'])->name('admin.membership.update');
+
 
 // Admin Blog CRUD
 Route::get('/admin/blogs', [\App\Http\Controllers\AdminBlogController::class, 'index'])->name('admin.blogs.index');

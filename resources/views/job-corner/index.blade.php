@@ -4,6 +4,46 @@
 
 @section('styles')
 <style>
+  /* ─── Job Hero Section ─── */
+  .job-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
+    color: #ffffff;
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .job-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .job-hero h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(32px, 5vw, 46px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .job-hero p {
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+  }
+  .job-hero .section-label {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    position: relative;
+    z-index: 2;
+  }
+
   .job-suggestions-dropdown {
     position: absolute;
     top: calc(100% + 8px);
@@ -525,17 +565,18 @@
 @endsection
 
 @section('content')
+<section class="job-hero">
+    <div class="container">
+        <span class="section-label">
+            <i class="fa-solid fa-briefcase"></i> Recruitment Hub
+        </span>
+        <h1>Job Corner</h1>
+        <p>Explore the latest recruitment notices, official notifications, and direct application links for Government & Private jobs.</p>
+    </div>
+</section>
+
 <div class="section job-page-wrapper">
     <div class="container">
-        
-        <!-- HEADER SECTION -->
-        <div class="fade-up fade-up-1 job-page-header">
-            <span class="section-label">
-                <i class="fa-solid fa-briefcase"></i> Recruitment Hub
-            </span>
-            <h1 class="section-title">Job Corner</h1>
-            <p class="section-sub" style="margin: 10px auto 0;">Explore the latest recruitment notices, official notifications, and direct application links for Government & Private jobs.</p>
-        </div>
 
         <!-- MOBILE FILTER TOGGLE BUTTON -->
         <button class="mobile-filter-toggle" id="mobileFilterToggle" onclick="toggleMobileFilters()">

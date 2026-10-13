@@ -6,7 +6,7 @@
 <style>
   /* ─── Blog Listing Styles ─── */
   .blog-hero {
-    background: linear-gradient(135deg, #0e1f6b 0%, #1a56db 60%, #2563eb 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
     color: #ffffff;
     padding: 80px 0 70px;
     text-align: center;

@@ -17,7 +17,7 @@
 
   /* ─── Hero Section ─── */
   .explore-hero {
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #e0f7ff 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
     padding: 80px 0 60px;
     text-align: center;
     position: relative;
@@ -51,14 +51,14 @@
     font-family: 'Sora', sans-serif;
     font-size: clamp(32px, 5vw, 44px);
     font-weight: 800;
-    color: var(--brand);
+    color: #ffffff;
     margin-bottom: 12px;
     letter-spacing: -0.5px;
   }
 
   .explore-hero p {
     font-size: 17px;
-    color: var(--text-2);
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 32px;
   }
 

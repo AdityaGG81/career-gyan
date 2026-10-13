@@ -87,6 +87,13 @@ class AdminAuthController extends Controller
             }
         } catch (\Exception $e) {}
 
+        $memberCount = 0;
+        try {
+            if (class_exists(\App\Models\User::class)) {
+                $memberCount = \App\Models\User::where('is_member', true)->count();
+            }
+        } catch (\Exception $e) {}
+
         return view('admin.dashboard', compact(
             'userCount',
             'careerCount',
@@ -97,7 +104,8 @@ class AdminAuthController extends Controller
             'recentUsers',
             'recentSuggestions',
             'quizAttemptCount',
-            'jobCount'
+            'jobCount',
+            'memberCount'
         ));
     }
 }

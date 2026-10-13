@@ -7,7 +7,7 @@
   /* ── Quiz Landing Hero ── */
   .quiz-hero {
     min-height: 100vh;
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0f172a 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
     position: relative;
     overflow: hidden;
     display: flex;

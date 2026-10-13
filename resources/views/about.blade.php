@@ -23,7 +23,7 @@
 
 /* ─── Hero ─── */
 .about-hero {
-    background: linear-gradient(135deg, #0e1f6b 0%, #1a56db 60%, #2563eb 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
     color: #fff;
     padding: 120px 0 100px;
     text-align: center;

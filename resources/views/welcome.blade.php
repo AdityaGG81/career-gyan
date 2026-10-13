@@ -21,7 +21,7 @@
     align-items: center;
     padding: 100px 0 140px;
     color: #ffffff;
-    background: #0b2545; /* Dark fallback background for the blue sky theme */
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #1a56db 100%);
   }
 
   /* Sky Background Image */
@@ -1780,6 +1780,321 @@
     .cutoff-showcase-cta { margin-top: 32px; }
     .cutoff-showcase-cta a { width: 100%; justify-content: center; padding: 14px 24px; font-size: 14.5px; }
   }
+
+  /* ─── Premium Membership Section ─── */
+  .premium-membership-section {
+    padding: 100px 0;
+    background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0f172a 60%, #090d16 100%);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .premium-membership-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.4), transparent);
+  }
+
+  .premium-membership-section .mem-glow-orb {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(147, 51, 234, 0.05) 50%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .mem-glow-orb-1 { top: -100px; left: -100px; }
+  .mem-glow-orb-2 { bottom: -150px; right: -100px; }
+
+  .mem-section-head {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mem-section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.25));
+    border: 1px solid rgba(251, 191, 36, 0.45);
+    color: #fbbf24;
+    padding: 7px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+  }
+
+  .mem-section-head h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.22;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 60%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .mem-section-head p {
+    font-size: 16.5px;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+
+  .mem-two-col {
+    display: grid;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 991px) {
+    .mem-two-col {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  /* Left: Feature Pillars */
+  .mem-features-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .mem-feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .mem-feature-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(251, 191, 36, 0.4);
+    transform: translateX(6px);
+  }
+
+  .mem-feature-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: #fbbf24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .mem-feature-text h4 {
+    font-family: 'Sora', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 6px;
+  }
+
+  .mem-feature-text p {
+    font-size: 13.5px;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+
+  /* Right: Price Glass Card */
+  .mem-pricing-glass-card {
+    background: linear-gradient(145deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 2px solid rgba(251, 191, 36, 0.6);
+    border-radius: var(--radius-xl);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 50px rgba(245, 158, 11, 0.15);
+    text-align: center;
+  }
+
+  .mem-ribbon-tag {
+    position: absolute;
+    top: 24px;
+    right: -35px;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    color: #78350f;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 6px 42px;
+    transform: rotate(45deg);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  .mem-symbol-display {
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(245, 158, 11, 0.1));
+    border: 1.5px solid rgba(251, 191, 36, 0.5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #fbbf24;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+  }
+
+  .mem-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+  }
+
+  .mem-card-desc {
+    font-size: 13.5px;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .mem-price-area {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+
+  .mem-strike-price-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .mem-strike-price {
+    font-size: 16px;
+    color: #94a3b8;
+    text-decoration: line-through;
+  }
+
+  .mem-save-badge {
+    background: #10b981;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+  }
+
+  .mem-main-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .mem-main-currency {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fbbf24;
+  }
+
+  .mem-main-amount {
+    font-family: 'Sora', sans-serif;
+    font-size: 56px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .mem-main-period {
+    font-size: 15px;
+    color: #94a3b8;
+    font-weight: 600;
+  }
+
+  .mem-checklist {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 30px;
+    padding: 0 6px;
+  }
+
+  .mem-checklist li {
+    font-size: 14px;
+    color: #e2e8f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .mem-checklist li i {
+    color: #10b981;
+    font-size: 15px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .mem-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 28px;
+    background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+    color: #78350f;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 10px 24px rgba(245, 158, 11, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .mem-cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(245, 158, 11, 0.45);
+    color: #78350f;
+  }
+
+  .mem-trust-tag {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
 </style>
 @endsection
 
@@ -2841,6 +3156,144 @@
     </div>
   </div>
 </section>
+
+@php
+  $membershipPlan = $membershipPlan ?? \App\Models\MembershipPlan::getDefaultPlan();
+  $isUserMember = auth()->check() ? auth()->user()->hasActiveMembership() : false;
+@endphp
+
+@if($membershipPlan && $membershipPlan->is_active)
+<!-- ─── Premium Membership Section ─── -->
+<section class="premium-membership-section" id="membershipSection">
+  <div class="mem-glow-orb mem-glow-orb-1"></div>
+  <div class="mem-glow-orb mem-glow-orb-2"></div>
+
+  <div class="container">
+    
+    <div class="mem-section-head">
+      <div class="mem-section-badge">
+        <i class="{{ $membershipPlan->symbol ?: 'fa-solid fa-crown' }}"></i> {{ $membershipPlan->name }}
+      </div>
+      <h2>Accelerate Your Career with Elite Access</h2>
+      <p>
+        {{ $membershipPlan->description ?: 'Gain exclusive access to private mentor guidance, advanced assessment tools, verified executive certifications, and our private student WhatsApp community.' }}
+      </p>
+    </div>
+
+    <div class="mem-two-col">
+      <!-- Left: Key Pillars -->
+      <div class="mem-features-col">
+        <div class="mem-feature-card">
+          <div class="mem-feature-icon-box">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div class="mem-feature-text">
+            <h4>Psychological & Aptitude Deep-Dive</h4>
+            <p>Go beyond surface questionnaires. Identify subconscious behavioral tendencies, leadership metrics, and exact industry matches.</p>
+          </div>
+        </div>
+
+        <div class="mem-feature-card">
+          <div class="mem-feature-icon-box">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <div class="mem-feature-text">
+            <h4>1-on-1 Certified Mentorship Booking</h4>
+            <p>Schedule private, focused counseling appointments with industry experts and college admission advisors.</p>
+          </div>
+        </div>
+
+        <div class="mem-feature-card">
+          <div class="mem-feature-icon-box">
+            <i class="fa-solid fa-comments"></i>
+          </div>
+          <div class="mem-feature-text">
+            <h4>VIP WhatsApp Counseling Community</h4>
+            <p>Never miss critical cutoff updates, internship announcements, and direct Q&A in our private members-only WhatsApp circle.</p>
+          </div>
+        </div>
+
+        <div class="mem-feature-card">
+          <div class="mem-feature-icon-box">
+            <i class="fa-solid fa-certificate"></i>
+          </div>
+          <div class="mem-feature-text">
+            <h4>Government & Institute Endorsed Certificates</h4>
+            <p>Download verifiable, high-resolution credential certificates signed by the CEO and Indian Institute of Career Management.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Premium Price Card -->
+      <div class="mem-pricing-glass-card">
+        @if($membershipPlan->badge_text)
+          <div class="mem-ribbon-tag">{{ $membershipPlan->badge_text }}</div>
+        @endif
+
+        <!-- Admin-Set Symbol Display -->
+        <div class="mem-symbol-display">
+          <i class="{{ $membershipPlan->symbol ?: 'fa-solid fa-crown' }}"></i>
+        </div>
+
+        <h3 class="mem-card-title">{{ $membershipPlan->name }}</h3>
+        <p class="mem-card-desc">Complete all-in-one pass for ambitious students & aspiring professionals</p>
+
+        <!-- Price Area -->
+        <div class="mem-price-area">
+          @if($membershipPlan->original_price_in_rupees && $membershipPlan->original_price_in_rupees > $membershipPlan->price_in_rupees)
+            <div class="mem-strike-price-wrap">
+              <span class="mem-strike-price">
+                {{ $membershipPlan->currency_symbol ?: '₹' }}{{ number_format($membershipPlan->original_price_in_rupees) }}
+              </span>
+              <span class="mem-save-badge">
+                SAVE {{ $membershipPlan->discount_percentage }}%
+              </span>
+            </div>
+          @endif
+
+          <div class="mem-main-price">
+            <span class="mem-main-currency">{{ $membershipPlan->currency_symbol ?: '₹' }}</span>
+            <span class="mem-main-amount">{{ number_format($membershipPlan->price_in_rupees) }}</span>
+            <span class="mem-main-period">/ {{ $membershipPlan->billing_period ?: ($membershipPlan->duration_days == 365 ? 'yr' : 'mo') }}</span>
+          </div>
+        </div>
+
+        <!-- Checklist -->
+        <ul class="mem-checklist">
+          @if(is_array($membershipPlan->features) && count($membershipPlan->features) > 0)
+            @foreach($membershipPlan->features as $feat)
+              <li>
+                <i class="fa-solid fa-circle-check"></i>
+                <span>{{ $feat }}</span>
+              </li>
+            @endforeach
+          @else
+            <li><i class="fa-solid fa-circle-check"></i> <span>All 4 Advanced Personality & Role Profilers</span></li>
+            <li><i class="fa-solid fa-circle-check"></i> <span>1-on-1 Direct Counseling Appointment Booking</span></li>
+            <li><i class="fa-solid fa-circle-check"></i> <span>Private Mentor WhatsApp Group & Direct Q&A</span></li>
+            <li><i class="fa-solid fa-circle-check"></i> <span>Verifiable Downloadable PDF Reports & Badge</span></li>
+          @endif
+        </ul>
+
+        @if($isUserMember)
+          <a href="{{ route('membership.dashboard') }}" class="mem-cta-btn" style="background: linear-gradient(90deg, #10b981 0%, #059669 100%); color: #ffffff;">
+            Go to Pro Member Dashboard <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        @else
+          <a href="{{ route('membership.index') }}" class="mem-cta-btn">
+            Get {{ $membershipPlan->name }} Access <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        @endif
+
+        <div class="mem-trust-tag">
+          <i class="fa-solid fa-shield-halved" style="color: #fbbf24;"></i> Instant Activation • 100% Secure Checkout via Razorpay
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+@endif
 
 <!-- ─── Action Call Section ─── -->
 <section class="section">

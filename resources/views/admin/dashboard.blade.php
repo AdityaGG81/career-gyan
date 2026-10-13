@@ -285,6 +285,17 @@
     <div class="stat-value">{{ number_format($userCount) }}</div>
   </div>
 
+  <!-- Stat Card: Pro Members -->
+  <div class="stat-card" style="border-color: rgba(245, 158, 11, 0.4);">
+    <div class="stat-header">
+      <span class="stat-title">Pro Members</span>
+      <div class="stat-icon-wrap" style="background: #fef3c7; color: #b45309;">
+        <i class="fa-solid fa-crown"></i>
+      </div>
+    </div>
+    <div class="stat-value" style="color: #b45309;">{{ number_format($memberCount ?? 0) }}</div>
+  </div>
+
   <!-- Stat Card: Careers -->
   <div class="stat-card">
     <div class="stat-header">
