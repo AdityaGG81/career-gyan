@@ -7,6 +7,32 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+        if (!Schema::hasTable('business_ideas')) {
+            Schema::create('business_ideas', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('slug')->unique();
+                $table->unsignedBigInteger('field_id')->nullable();
+                $table->string('category')->default('Retail')->nullable();
+                $table->text('description')->nullable();
+                $table->string('investment')->nullable();
+                $table->string('initial_investment')->nullable();
+                $table->string('profit_margin')->nullable();
+                $table->string('risk_level')->default('Low');
+                $table->string('start_time')->default('2-4 Weeks');
+                $table->string('break_even_period')->nullable();
+                $table->string('target_audience')->nullable();
+                $table->text('skills_required')->nullable();
+                $table->text('soft_skills')->nullable();
+                $table->text('opportunities')->nullable();
+                $table->text('equipment_needed')->nullable();
+                $table->string('icon')->nullable()->default('fa-store');
+                $table->string('status')->default('active');
+                $table->timestamps();
+            });
+            return;
+        }
+
         Schema::table('business_ideas', function (Blueprint $table) {
             if (!Schema::hasColumn('business_ideas', 'category')) {
                 $table->string('category')->default('Retail')->nullable();

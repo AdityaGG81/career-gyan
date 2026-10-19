@@ -15,6 +15,14 @@ class BusinessCornerSeeder extends Seeder
             ?? Field::where('slug', 'business')->first() 
             ?? Field::first();
 
+        if (!$field) {
+            $field = Field::create([
+                'name' => 'Business & Small Scale',
+                'slug' => 'small-scale',
+                'description' => 'Small scale business and self employment ventures',
+            ]);
+        }
+
         $businesses = [
             // ─── RETAIL CATEGORY ───
             [
@@ -176,7 +184,7 @@ class BusinessCornerSeeder extends Seeder
             ],
             [
                 'name' => 'Digital Marketing & Social Media Growth Agency',
-                'category' => 'IT & Software',
+                'category' => 'Creative & Digital',
                 'investment' => '₹25,000 - ₹75,000',
                 'initial_investment' => '₹25,000 - ₹75,000',
                 'profit_margin' => '55% - 75%',
@@ -438,7 +446,60 @@ class BusinessCornerSeeder extends Seeder
                 'soft_skills' => "Uncompromising integrity regarding purity, Punctuality in early morning delivery, Warm neighborly relations",
                 'opportunities' => "Monthly early morning glass-bottle milk subscription, High-demand festival bulk paneer orders, Pan-India courier shipping for traditional A2 bilona ghee",
                 'equipment_needed' => "Commercial milk cream separator, Paneer press machine, Deep freezer and chiller vat, Digital ultrasonic milk analyzer, Glass bottling setup",
-            ]
+            ],
+
+            // ─── CREATIVE & DIGITAL CATEGORY ───
+            [
+                'name' => 'Freelance Graphic Design, Branding & UI/UX Studio',
+                'category' => 'Creative & Digital',
+                'investment' => '₹35,000 - ₹90,000',
+                'initial_investment' => '₹35,000 - ₹90,000',
+                'profit_margin' => '65% - 85%',
+                'risk_level' => 'Low',
+                'start_time' => '1-2 Weeks',
+                'break_even_period' => '1 - 2 Months',
+                'target_audience' => 'Startups, D2C brands, local retailers, cafes, corporate consulting firms',
+                'icon' => 'fa-palette',
+                'description' => 'Specialized creative studio crafting corporate brand identities, logos, product packaging labels, marketing collateral, and sleek Figma mobile application UI/UX wireframes.',
+                'skills_required' => "Figma, Adobe Illustrator & Photoshop, Brand color theory, Typography, Vector illustration, Responsive layout design",
+                'soft_skills' => "Visual storytelling, Creative client briefing, Patience during design feedback rounds, Timely milestone delivery",
+                'opportunities' => "Monthly design-as-a-service retainer packages, Complete D2C brand launch kits, E-commerce packaging redesigns",
+                'equipment_needed' => "Color-calibrated designer workstation, Digital drawing tablet (Wacom or iPad), High-speed internet connection, Figma & Adobe CC licenses",
+            ],
+            [
+                'name' => 'Commercial Photography, Videography & Reel Studio',
+                'category' => 'Creative & Digital',
+                'investment' => '₹1,00,000 - ₹2,50,000',
+                'initial_investment' => '₹1.0 Lakh - ₹2.5 Lakhs',
+                'profit_margin' => '50% - 70%',
+                'risk_level' => 'Low',
+                'start_time' => '2 Weeks',
+                'break_even_period' => '2 - 4 Months',
+                'target_audience' => 'Amazon/Flipkart sellers, cloud kitchens, interior designers, fashion influencers, jewelers',
+                'icon' => 'fa-camera',
+                'description' => 'High-conversion visual production company shooting clean white-background e-commerce product listings, mouth-watering food photos, real estate video tours, and viral Instagram reels.',
+                'skills_required' => "Professional DSLR/Mirrorless camera operation, Studio strobe lighting & diffuser setup, Video editing & color grading in DaVinci Resolve or Premiere Pro, Fast-paced reel editing",
+                'soft_skills' => "Directing models and talent with ease, Collaborative client communication, Creative shot composition",
+                'opportunities' => "E-commerce monthly bulk catalog shoots, Restaurant seasonal food menu launches, Pre-wedding and fashion portfolio shoots",
+                'equipment_needed' => "Sony/Canon 4K full-frame camera, 24-70mm f/2.8 lens, 3-point softbox studio lighting kit, 3-axis motorized camera gimbal, Wireless collar microphones",
+            ],
+            [
+                'name' => 'Podcast Production & Voiceover Audio Suite',
+                'category' => 'Creative & Digital',
+                'investment' => '₹50,000 - ₹1,20,000',
+                'initial_investment' => '₹50,000 - ₹1.2 Lakhs',
+                'profit_margin' => '60% - 80%',
+                'risk_level' => 'Low',
+                'start_time' => '1-2 Weeks',
+                'break_even_period' => '1 - 3 Months',
+                'target_audience' => 'Founders, business coaches, healthcare experts, YouTube creators, educational organizations',
+                'icon' => 'fa-microphone-lines',
+                'description' => 'Acoustically insulated micro-recording studio providing podcast recording, professional voiceovers for video ads, audiobook narration, and audio mastering services.',
+                'skills_required' => "Acoustic room dampening, Microphone gain staging, Audio editing and background noise removal in Audacity or Logic Pro, Podcast RSS syndication on Spotify/Apple",
+                'soft_skills' => "Calming nervous first-time speakers, Attentive listening, Professional studio hospitality",
+                'opportunities' => "Corporate leadership podcast hosting, Doctor educational series, E-learning voiceover retainers",
+                'equipment_needed' => "Audio broadcast interface (Rodecaster / Scarlett), Studio dynamic microphones (Shure SM7B / Rode PodMic), Sound dampening acoustic foam panels, Studio monitoring headphones",
+            ],
         ];
 
         foreach ($businesses as $biz) {

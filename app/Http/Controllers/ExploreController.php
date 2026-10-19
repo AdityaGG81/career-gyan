@@ -1019,10 +1019,28 @@ class ExploreController extends Controller
 
     public function businessCorner(Request $request): View
     {
+        // Auto-seed if businesses are missing on deployed site
+        if (BusinessIdea::count() < 90) {
+            try {
+                if (class_exists(\Database\Seeders\BusinessCornerSeeder::class)) {
+                    (new \Database\Seeders\BusinessCornerSeeder())->run();
+                }
+                if (class_exists(\Database\Seeders\BusinessCornerExpansionSeeder::class)) {
+                    (new \Database\Seeders\BusinessCornerExpansionSeeder())->run();
+                }
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Auto-seed business ideas error: ' . $e->getMessage());
+            }
+        }
+
         $query = BusinessIdea::where('status', 'active');
 
         if ($request->filled('category') && $request->category !== 'all') {
-            $query->where('category', $request->category);
+            $catReq = trim($request->category);
+            $query->where(function ($q) use ($catReq) {
+                $q->where('category', $catReq)
+                  ->orWhere('category', 'like', "%{$catReq}%");
+            });
         }
 
         if ($request->filled('search')) {
@@ -1039,12 +1057,24 @@ class ExploreController extends Controller
         $allIdeas = $query->orderBy('name')->get();
 
         // Get standard categories and counts
-        $categories = BusinessIdea::where('status', 'active')
+        $dbCategoryCounts = BusinessIdea::where('status', 'active')
             ->select('category')
             ->selectRaw('count(*) as count')
             ->groupBy('category')
             ->pluck('count', 'category')
             ->toArray();
+
+        // Ensure all 10 standard sectors are always present in the exact desired order
+        $standardSectors = BusinessIdea::getStandardCategories();
+        $categories = [];
+        foreach ($standardSectors as $sec) {
+            $categories[$sec] = $dbCategoryCounts[$sec] ?? 0;
+        }
+        foreach ($dbCategoryCounts as $catName => $count) {
+            if (!empty($catName) && !isset($categories[$catName])) {
+                $categories[$catName] = $count;
+            }
+        }
 
         return view('explore.business-corner', compact('allIdeas', 'categories'));
     }

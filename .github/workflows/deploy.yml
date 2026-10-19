@@ -68,6 +68,8 @@ jobs:
             cd ~/repositories/career-gyan
             php artisan migrate --force || true
             php artisan db:seed --class=HighQualityBlogSeeder --force || true
+            php artisan db:seed --class=BusinessCornerSeeder --force || true
+            php artisan db:seed --class=BusinessCornerExpansionSeeder --force || true
             php artisan optimize:clear || true
             php artisan view:clear || true
             php artisan config:clear || true

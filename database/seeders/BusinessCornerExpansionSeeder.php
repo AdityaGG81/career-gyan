@@ -15,6 +15,14 @@ class BusinessCornerExpansionSeeder extends Seeder
             ?? Field::where('slug', 'business')->first() 
             ?? Field::first();
 
+        if (!$field) {
+            $field = Field::create([
+                'name' => 'Business & Small Scale',
+                'slug' => 'small-scale',
+                'description' => 'Small scale business and self employment ventures',
+            ]);
+        }
+
         $businesses = [
             // ══════════════════════════════════════════════════════
             // ─── RETAIL CATEGORY (32 High-Value Retail Ventures) ───
