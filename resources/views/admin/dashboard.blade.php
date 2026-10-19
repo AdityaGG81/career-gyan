@@ -351,6 +351,17 @@
     <div class="stat-value">{{ number_format($jobCount ?? 0) }}</div>
   </div>
 
+  <!-- Stat Card: Business Opportunities -->
+  <div class="stat-card">
+    <div class="stat-header">
+      <span class="stat-title">Business Opportunities</span>
+      <div class="stat-icon-wrap" style="background: #ecfdf5; color: #10b981;">
+        <i class="fa-solid fa-store"></i>
+      </div>
+    </div>
+    <div class="stat-value" style="color: #047857;">{{ number_format($businessCount ?? 0) }}</div>
+  </div>
+
   <!-- Stat Card: Suggestions -->
   <div class="stat-card">
     <div class="stat-header">
@@ -422,6 +433,13 @@
       <h2>Quick Actions</h2>
     </div>
     <div class="quick-actions-wrap">
+      <a href="{{ route('admin.businesses.index') }}" class="action-btn-link">
+        <div class="action-btn-left">
+          <i class="fa-solid fa-store" style="color: #10b981;"></i>
+          <span>Manage Business Corner</span>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="font-size: 14px; color: #cbd5e1;"></i>
+      </a>
       <a href="{{ route('admin.jobs.index') }}" class="action-btn-link">
         <div class="action-btn-left">
           <i class="fa-solid fa-briefcase"></i>

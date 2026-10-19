@@ -89,6 +89,8 @@ Route::get('/career-path/{stream}', [CareerPathController::class, 'show'])->name
 Route::get('/explore/skill-development', [ExploreController::class, 'skillDevelopment'])->name('explore.skill-development');
 Route::get('/explore/sports-careers', [ExploreController::class, 'sportsCareers'])->name('explore.sports-careers');
 Route::get('/explore/small-scale-business', [ExploreController::class, 'smallScaleBusiness'])->name('explore.small-scale-business');
+Route::get('/explore/business-corner', [ExploreController::class, 'businessCorner'])->name('explore.business-corner');
+Route::get('/business-corner', [ExploreController::class, 'businessCorner'])->name('business-corner.index');
 Route::get('/explore/competitive-exams', [ExploreController::class, 'competitiveExams'])->name('explore.competitive-exams');
 
 // Traditional careers
@@ -324,6 +326,14 @@ Route::post('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::cla
 Route::get('/admin/jobs/{id}/edit', [\App\Http\Controllers\AdminJobListingController::class, 'edit'])->name('admin.jobs.edit');
 Route::put('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'update'])->name('admin.jobs.update');
 Route::delete('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'destroy'])->name('admin.jobs.destroy');
+
+// Admin Business Corner CRUD
+Route::get('/admin/businesses', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'index'])->name('admin.businesses.index');
+Route::get('/admin/businesses/create', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'create'])->name('admin.businesses.create');
+Route::post('/admin/businesses', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'store'])->name('admin.businesses.store');
+Route::get('/admin/businesses/{id}/edit', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'edit'])->name('admin.businesses.edit');
+Route::put('/admin/businesses/{id}', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'update'])->name('admin.businesses.update');
+Route::delete('/admin/businesses/{id}', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'destroy'])->name('admin.businesses.destroy');
 
 
 // Admin Quiz Management

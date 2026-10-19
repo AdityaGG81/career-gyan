@@ -499,6 +499,66 @@
     color: #fff;
   }
 
+  /* Navigation Crown Button (Premium Icon Only after search bar) */
+  .nav-crown-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%);
+    border: 1.5px solid #f59e0b;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.22);
+    color: #d97706;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(.22,.68,0,1);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .nav-crown-btn:hover {
+    transform: translateY(-2px) scale(1.08);
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.38);
+    color: #b45309;
+    border-color: #d97706;
+  }
+
+  .nav-crown-btn i {
+    animation: crownGlow 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes crownGlow {
+    0% { transform: scale(1); filter: drop-shadow(0 0 1px rgba(217,119,6,0.3)); }
+    100% { transform: scale(1.12); filter: drop-shadow(0 0 6px rgba(245,158,11,0.7)); }
+  }
+
+  .nav-mobile-crown {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1.5px solid #f59e0b;
+    color: #d97706;
+    font-size: 14px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 991px) {
+    .nav-crown-btn {
+      display: none !important;
+    }
+    .nav-mobile-crown {
+      display: inline-flex !important;
+    }
+  }
+
   /* Mobile Nav */
   .nav-mobile-btn,
   .nav-mobile-search {
@@ -1350,6 +1410,11 @@
             <div id="navSearchSuggestions" class="autocomplete-dropdown"></div>
           </div>
 
+          <!-- Membership Crown Button (Icon Only, directly after search bar) -->
+          <a href="{{ route('membership.index') }}" class="nav-crown-btn" title="CareerGyan Premium Membership" aria-label="Premium Membership">
+            <i class="fa-solid fa-crown"></i>
+          </a>
+
           <!-- Language Switcher -->
           <div class="lang-dropdown" style="position: relative;">
             <button type="button" class="lang-btn" onclick="toggleLangDropdown(event)" id="currentLangBtn" title="Change Language">
@@ -1419,6 +1484,9 @@
           @endauth
         </div>
 
+        <a href="{{ route('membership.index') }}" class="nav-mobile-crown" aria-label="Membership" title="CareerGyan Premium Membership">
+          <i class="fa-solid fa-crown"></i>
+        </a>
         <button class="nav-mobile-search" id="openGlobalSearchMobile" aria-label="Search">
           <i class="fa-solid fa-search"></i>
         </button>
@@ -1433,6 +1501,9 @@
   <div class="nav-mobile-menu" id="mobileMenu">
     <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">
       <i class="fa-solid fa-house"></i> Home
+    </a>
+    <a href="{{ route('membership.index') }}" class="{{ request()->is('membership*') ? 'active' : '' }}" style="color: #b45309; font-weight: 700; background: #fffbeb;">
+      <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> VIP Membership
     </a>
     <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">
       <i class="fa-solid fa-compass"></i> Explore Careers
@@ -1559,6 +1630,8 @@
           <h4>Quick Links</h4>
           <a href="{{ url('/') }}">Home</a>
           <a href="{{ url('/explore') }}">Explore Careers</a>
+          <a href="{{ route('explore.business-corner') }}">Business Corner</a>
+          <a href="{{ route('membership.index') }}">VIP Membership</a>
           <a href="{{ url('/blog') }}">Blog</a>
           <a href="{{ url('/about') }}">About Us</a>
           <a href="{{ route('contact.show') }}">Contact Us</a>
@@ -1742,8 +1815,9 @@
         const hasBlogs = data.blogs && data.blogs.length > 0;
         const hasJobs = data.jobs && data.jobs.length > 0;
         const hasIndianColleges = data.indian_colleges && data.indian_colleges.length > 0;
+        const hasBusinesses = data.businesses && data.businesses.length > 0;
 
-        if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasJobs && !hasIndianColleges) {
+        if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasJobs && !hasIndianColleges && !hasBusinesses) {
           searchResults.innerHTML = html + `
             <div class="search-empty">
               <i class="fa-solid fa-folder-open" style="font-size: 32px; color: var(--border); margin-bottom: 16px;"></i>
@@ -1800,6 +1874,24 @@
                   <h4>${j.title}</h4>
                   <p>${j.company} - ${j.location}</p>
                   <span class="search-item-badge" style="background: #ecfdf5; color: #10b981;">${j.category || 'Job'}</span>
+                </div>
+              </a>
+            `;
+          });
+        }
+
+        if (hasBusinesses) {
+          html += `<div class="search-section-title">Business Opportunities</div>`;
+          data.businesses.forEach(biz => {
+            html += `
+              <a href="${biz.url}" class="search-item" onclick="saveSearchHistory(searchInput.value); closeSearch()">
+                <div class="search-item-icon" style="background: #fef3c7; color: #d97706;">
+                  <i class="fa-solid ${biz.icon}"></i>
+                </div>
+                <div class="search-item-content">
+                  <h4>${biz.name}</h4>
+                  <p>Investment: <strong>${biz.investment}</strong></p>
+                  <span class="search-item-badge" style="background: #fef3c7; color: #d97706;">${biz.category}</span>
                 </div>
               </a>
             `;
@@ -1918,8 +2010,9 @@
           const hasColleges = data.colleges && data.colleges.length > 0;
           const hasBlogs = data.blogs && data.blogs.length > 0;
           const hasIndianColleges = data.indian_colleges && data.indian_colleges.length > 0;
+          const hasBusinesses = data.businesses && data.businesses.length > 0;
 
-          if (!hasFields && !hasCareers && !hasJobs && !hasColleges && !hasBlogs && !hasIndianColleges) {
+          if (!hasFields && !hasCareers && !hasJobs && !hasColleges && !hasBlogs && !hasIndianColleges && !hasBusinesses) {
             html += `<div style="padding: 16px; font-size: 13.5px; color: var(--text-3); text-align: center;">No suggestions found for "<b>${query}</b>"</div>`;
             navSearchSuggestions.innerHTML = html;
             navSearchSuggestions.style.display = 'block';
@@ -1969,6 +2062,22 @@
                   <div style="flex:1; overflow:hidden;">
                     <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${j.title}</div>
                     <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${j.company}</div>
+                  </div>
+                </a>`;
+            });
+          }
+
+          if (hasBusinesses) {
+            html += `<div class="autocomplete-section-title">Business Opportunities</div>`;
+            data.businesses.forEach(b => {
+              html += `
+                <a href="${b.url}" class="autocomplete-item nav-sug-item">
+                  <div class="autocomplete-icon" style="background: #fef3c7; color: #d97706;">
+                    <i class="fa-solid ${b.icon}"></i>
+                  </div>
+                  <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight:700; font-size:13.5px; color:var(--text-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${b.name}</div>
+                    <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${b.category} • Inv: ${b.investment}</div>
                   </div>
                 </a>`;
             });

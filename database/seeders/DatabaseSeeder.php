@@ -81,6 +81,8 @@ class DatabaseSeeder extends Seeder
             DailyQuizSeeder::class,
             IndianCollegeSeeder::class,
             DailyQuizExpansionSeeder::class,
+            BusinessCornerSeeder::class,
+            BusinessCornerExpansionSeeder::class,
         ]);
     }
 }

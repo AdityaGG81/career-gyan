@@ -120,7 +120,7 @@ class ExploreController extends Controller
                 'hotel-management' => '/explore/hotel-management-colleges',
                 'pharmacy' => '/explore/pharmacy-colleges',
                 'ayush-allied' => '/explore/non-mbbs-colleges',
-                'small-scale' => '/explore/small-scale-business',
+                'small-scale' => '/explore/business-corner',
                 'competitive-exams' => '/explore/competitive-exams',
             ];
 
@@ -342,7 +342,7 @@ class ExploreController extends Controller
             'hotel-management' => '/explore/hotel-management-colleges',
             'pharmacy' => '/explore/pharmacy-colleges',
             'ayush-allied' => '/explore/non-mbbs-colleges',
-            'small-scale' => '/explore/small-scale-business',
+            'small-scale' => '/explore/business-corner',
             'competitive-exams' => '/explore/competitive-exams',
         ];
 
@@ -572,6 +572,26 @@ class ExploreController extends Controller
             ];
         });
 
+        // 7. Search Business Opportunities
+        $businesses = BusinessIdea::where('status', 'active')
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                      ->orWhere('category', 'like', "%{$q}%")
+                      ->orWhere('skills_required', 'like', "%{$q}%")
+                      ->orWhere('description', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get()
+            ->map(function ($b) {
+                return [
+                    'name' => $b->name,
+                    'category' => $b->category,
+                    'investment' => $b->effective_investment,
+                    'icon' => $b->icon ?: 'fa-store',
+                    'url' => route('explore.business-corner') . '?search=' . urlencode($b->name),
+                ];
+            });
+
         $response = [
             'db_careers' => $dbCareers,
             'config_careers' => $fields,
@@ -579,6 +599,7 @@ class ExploreController extends Controller
             'indian_colleges' => $indianColleges,
             'blogs' => $blogs,
             'jobs' => $jobs,
+            'businesses' => $businesses,
         ];
 
         if ($didYouMean) {
@@ -996,17 +1017,41 @@ class ExploreController extends Controller
         return view('colleges.sports', compact('field', 'sports', 'careers'));
     }
 
-    public function smallScaleBusiness()
+    public function businessCorner(Request $request): View
     {
-        $field = Field::where('slug', 'small-scale')->firstOrFail();
-        $ideas = BusinessIdea::where('field_id', $field->id)->get();
-        $businessCategories = [
-            ['title' => 'Food & Catering', 'icon' => 'fa-utensils', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Homemade Cloud Kitchen', 'Stall / Food Truck']))->values()],
-            ['title' => 'Digital & Online', 'icon' => 'fa-globe', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['E-Commerce Reselling', 'Content Creation Studio']))->values()],
-            ['title' => 'Fashion & Clothing', 'icon' => 'fa-shirt', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Custom Embroidery/Tailoring', 'Print-on-Demand Store']))->values()],
-            ['title' => 'Education & Services', 'icon' => 'fa-book-reader', 'ideas' => $ideas->filter(fn($i) => in_array($i->name, ['Tutoring Center', 'Event Planning']))->values()]
-        ];
-        return view('colleges.business_ideas', compact('field', 'businessCategories'));
+        $query = BusinessIdea::where('status', 'active');
+
+        if ($request->filled('category') && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('search')) {
+            $s = $request->search;
+            $query->where(function ($q) use ($s) {
+                $q->where('name', 'like', "%{$s}%")
+                  ->orWhere('description', 'like', "%{$s}%")
+                  ->orWhere('skills_required', 'like', "%{$s}%")
+                  ->orWhere('soft_skills', 'like', "%{$s}%")
+                  ->orWhere('category', 'like', "%{$s}%");
+            });
+        }
+
+        $allIdeas = $query->orderBy('name')->get();
+
+        // Get standard categories and counts
+        $categories = BusinessIdea::where('status', 'active')
+            ->select('category')
+            ->selectRaw('count(*) as count')
+            ->groupBy('category')
+            ->pluck('count', 'category')
+            ->toArray();
+
+        return view('explore.business-corner', compact('allIdeas', 'categories'));
+    }
+
+    public function smallScaleBusiness(Request $request)
+    {
+        return $this->businessCorner($request);
     }
 
     public function traditionalCareers()

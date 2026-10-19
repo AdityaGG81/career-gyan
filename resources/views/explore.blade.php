@@ -733,8 +733,8 @@
   }
   .explore-features-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
   }
   .explore-feature-card {
     background: #ffffff;
@@ -907,6 +907,25 @@
           </div>
         </div>
       </div>
+
+      <!-- Feature 3: Business Corner -->
+      <div class="explore-feature-card">
+        <div class="feature-card-icon" style="background: rgba(245, 158, 11, 0.12); color: #d97706;">
+          <i class="fa-solid fa-store"></i>
+        </div>
+        <div class="feature-card-details">
+          <h3>Business Corner</h3>
+          <p>Explore curated business opportunities across Retail, Wholesale, IT, Software, Electronics & more with initial investments, hard skills, and soft skills.</p>
+          <div class="feature-card-links">
+            <a href="{{ route('explore.business-corner') }}" class="btn-feature-link btn-feature-primary" style="background: #0f172a;">
+              Explore Businesses <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="{{ route('explore.business-corner') }}#launchGuide" class="btn-feature-link btn-feature-secondary">
+              Startup Guide <i class="fa-solid fa-lightbulb"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1013,7 +1032,7 @@
                   'freelancing' => 'Freelance Guide',
                   'competitive-exams' => 'Exams Roadmap',
                   'non-traditional' => 'Modern Career Guide',
-                  'small-scale' => 'Business Ideas',
+                  'small-scale' => 'Business Corner',
                   'sports' => 'Sports Careers',
                   'skill-development' => 'Skills Hub'
               ];
@@ -1028,7 +1047,7 @@
                   'freelancing' => 'explore.freelancing',
                   'competitive-exams' => 'explore.competitive-exams',
                   'non-traditional' => 'explore.non-traditional-careers',
-                  'small-scale' => 'explore.small-scale-business',
+                  'small-scale' => 'explore.business-corner',
                   'sports' => 'explore.sports-careers',
                   'skill-development' => 'explore.skill-development'
               ];
@@ -1261,13 +1280,15 @@
       const careers = data.db_careers || [];
       const colleges = data.colleges || [];
       const blogs = data.blogs || [];
+      const businesses = data.businesses || [];
       
       const hasFields = fields.length > 0;
       const hasCareers = careers.length > 0;
       const hasColleges = colleges.length > 0;
       const hasBlogs = blogs.length > 0;
+      const hasBusinesses = businesses.length > 0;
       
-      if (!hasFields && !hasCareers && !hasColleges && !hasBlogs) {
+      if (!hasFields && !hasCareers && !hasColleges && !hasBlogs && !hasBusinesses) {
           suggestionsList.innerHTML = '';
           noResults.style.display = 'block';
       } else {
@@ -1329,6 +1350,21 @@
                       <div class="suggestion-details">
                           <div class="suggestion-title">${b.title}</div>
                           <span class="suggestion-meta">${b.category}</span>
+                      </div>
+                  </div>
+              `).join('');
+          }
+
+          if (hasBusinesses) {
+              html += `<div class="suggestion-section-title">Business Opportunities</div>`;
+              html += businesses.map(biz => `
+                  <div class="suggestion-item" onclick="navigateToUrl('${biz.url}')">
+                      <div class="suggestion-icon-wrap" style="background: #fef3c7; color: #d97706;">
+                          <i class="fa-solid ${biz.icon}"></i>
+                      </div>
+                      <div class="suggestion-details">
+                          <div class="suggestion-title">${biz.name}</div>
+                          <span class="suggestion-meta">${biz.category} • Invest: ${biz.investment}</span>
                       </div>
                   </div>
               `).join('');

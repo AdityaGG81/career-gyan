@@ -491,6 +491,11 @@
           <i class="fa-solid fa-briefcase"></i> Job Corner
         </a>
       </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.businesses') ? 'active' : '' }}">
+        <a href="{{ route('admin.businesses.index') }}">
+          <i class="fa-solid fa-store" style="color: #10b981;"></i> Business Corner
+        </a>
+      </li>
       
       <li class="menu-category">Feedback</li>
       <li class="admin-menu-item {{ $currentRoute == 'admin.suggestions' ? 'active' : '' }}">

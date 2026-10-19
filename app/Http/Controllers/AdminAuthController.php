@@ -94,6 +94,13 @@ class AdminAuthController extends Controller
             }
         } catch (\Exception $e) {}
 
+        $businessCount = 0;
+        try {
+            if (class_exists(\App\Models\BusinessIdea::class)) {
+                $businessCount = \App\Models\BusinessIdea::count();
+            }
+        } catch (\Exception $e) {}
+
         return view('admin.dashboard', compact(
             'userCount',
             'careerCount',
@@ -105,7 +112,8 @@ class AdminAuthController extends Controller
             'recentSuggestions',
             'quizAttemptCount',
             'jobCount',
-            'memberCount'
+            'memberCount',
+            'businessCount'
         ));
     }
 }
