@@ -1062,8 +1062,10 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
       flex-shrink: 0;
+      background: #ffffff;
+      z-index: 5;
     }
 
     .mobile-sidebar-brand .sidebar-brand-logo {
@@ -1085,22 +1087,23 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 6px 0;
-      gap: 3px;
+      padding: 10px 0;
+      gap: 14px; /* Increased comfortable distance between options */
     }
     .sidebar-nav-scroll::-webkit-scrollbar {
       display: none;
     }
 
-    .mobile-sidebar a {
+    .mobile-sidebar a,
+    .mobile-sidebar .sidebar-action-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      gap: 3.5px;
       width: 56px;
-      min-height: 46px;
-      padding: 6px 2px;
+      min-height: 48px;
+      padding: 7px 3px;
       border-radius: 12px;
       text-decoration: none;
       color: var(--text-2);
@@ -1108,6 +1111,10 @@
       font-weight: 600;
       line-height: 1.15;
       text-align: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       user-select: none;
@@ -1115,23 +1122,28 @@
       box-sizing: border-box;
     }
 
-    .mobile-sidebar a i {
+    .mobile-sidebar a i,
+    .mobile-sidebar .sidebar-action-btn i {
       font-size: 16px;
       margin-bottom: 1px;
       transition: transform 0.2s ease;
     }
 
-    .mobile-sidebar a:active {
+    .mobile-sidebar a:active,
+    .mobile-sidebar .sidebar-action-btn:active {
       transform: scale(0.92);
     }
 
     .mobile-sidebar a:hover,
-    .mobile-sidebar a.active {
+    .mobile-sidebar a.active,
+    .mobile-sidebar .sidebar-action-btn:hover,
+    .mobile-sidebar .sidebar-action-btn.active {
       background: var(--brand-light);
       color: var(--brand);
     }
 
-    .mobile-sidebar a.active::before {
+    .mobile-sidebar a.active::before,
+    .mobile-sidebar .sidebar-action-btn.active::before {
       content: '';
       position: absolute;
       left: 0;
@@ -1147,20 +1159,22 @@
       width: 32px;
       height: 1px;
       background: var(--border);
-      margin: 4px 0;
+      margin: 6px 0;
       flex-shrink: 0;
     }
 
     .mobile-sidebar .sidebar-bottom-section {
       flex-shrink: 0;
       width: 100%;
-      padding: 6px 0 2px 0;
-      border-top: 1px solid rgba(226, 232, 240, 0.7);
+      padding: 10px 0 8px 0;
+      border-top: 1px solid rgba(226, 232, 240, 0.85);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
-      background: rgba(255, 255, 255, 0.95);
+      gap: 12px; /* Increased comfortable distance between language and profile */
+      background: #ffffff;
+      z-index: 5;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .navbar { padding: 6px 8px; }
@@ -1228,15 +1242,28 @@
       height: 26px;
     }
 
-    .mobile-sidebar a {
-      width: 50px;
-      min-height: 42px;
-      padding: 4px 2px;
-      font-size: 9px;
+    .sidebar-nav-scroll {
+      gap: 11px; /* Clear comfortable spacing on compact phones */
+      padding: 8px 0;
     }
 
-    .mobile-sidebar a i {
+    .mobile-sidebar a,
+    .mobile-sidebar .sidebar-action-btn {
+      width: 50px;
+      min-height: 44px;
+      padding: 5px 2px;
+      font-size: 9px;
+      gap: 2.5px;
+    }
+
+    .mobile-sidebar a i,
+    .mobile-sidebar .sidebar-action-btn i {
       font-size: 15px;
+    }
+
+    .mobile-sidebar .sidebar-bottom-section {
+      gap: 9px;
+      padding: 8px 0 6px 0;
     }
 
     .container {
@@ -1263,6 +1290,314 @@
   @keyframes dropdownFadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════════════
+     LANGUAGE SELECTOR MODAL / BOTTOM SHEET
+     ═══════════════════════════════════════════ */
+  .lang-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lang-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lang-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .lang-modal-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+    max-height: 85dvh;
+    z-index: 10;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .lang-modal-overlay.active .lang-modal-dialog {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 769px) {
+    .lang-modal-overlay {
+      align-items: center;
+      padding: 20px;
+    }
+    .lang-modal-dialog {
+      border-radius: 24px;
+      max-height: 80vh;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: translateY(20px) scale(0.96);
+    }
+    .lang-modal-overlay.active .lang-modal-dialog {
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .lang-modal-drag-handle {
+    width: 44px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 100px;
+    margin: 10px auto 4px auto;
+    flex-shrink: 0;
+  }
+
+  .lang-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px 14px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .lang-modal-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lang-modal-icon-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.12), rgba(37, 99, 235, 0.12));
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid rgba(13, 148, 136, 0.2);
+    flex-shrink: 0;
+  }
+
+  .lang-modal-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-1);
+    font-family: 'Sora', sans-serif;
+    line-height: 1.25;
+  }
+
+  .lang-modal-subtitle {
+    margin: 2px 0 0 0;
+    font-size: 11.5px;
+    color: var(--text-3);
+    font-weight: 500;
+  }
+
+  .lang-modal-close-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .lang-modal-close-btn:hover {
+    background: #e2e8f0;
+    color: var(--text-1);
+    transform: rotate(90deg);
+  }
+
+  .lang-modal-search-wrap {
+    position: relative;
+    padding: 12px 20px 8px 20px;
+    flex-shrink: 0;
+  }
+
+  .lang-modal-search-icon {
+    position: absolute;
+    left: 34px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-3);
+    font-size: 13px;
+    pointer-events: none;
+  }
+
+  .lang-modal-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: #f8fafc;
+    font-size: 13.5px;
+    color: var(--text-1);
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .lang-modal-search-input:focus {
+    border-color: var(--brand);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+  }
+
+  .lang-modal-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 20px 24px 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (max-width: 480px) {
+    .lang-modal-scroll {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 8px 16px 24px 16px;
+    }
+    .lang-modal-header {
+      padding: 10px 16px 12px 16px;
+    }
+    .lang-modal-search-wrap {
+      padding: 10px 16px 6px 16px;
+    }
+    .lang-modal-search-icon {
+      left: 28px;
+    }
+  }
+
+  .lang-card-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    background: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .lang-card-item:hover {
+    border-color: rgba(13, 148, 136, 0.5);
+    background: #f8fafc;
+    transform: translateY(-1px);
+  }
+
+  .lang-card-item:active {
+    transform: scale(0.98);
+  }
+
+  .lang-card-item.active {
+    border-color: var(--brand);
+    background: var(--brand-light, #f0fdf4);
+    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.15);
+  }
+
+  .lang-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .lang-card-native {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-1);
+    line-height: 1.2;
+  }
+
+  .lang-card-item.active .lang-card-native {
+    color: var(--brand);
+  }
+
+  .lang-card-sub {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lang-card-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .lang-card-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: var(--text-2);
+    letter-spacing: 0.5px;
+  }
+
+  .lang-card-item.active .lang-card-badge {
+    background: rgba(13, 148, 136, 0.15);
+    color: var(--brand);
+  }
+
+  .lang-card-check {
+    display: none;
+    font-size: 13px;
+    color: var(--brand);
+    margin-left: 2px;
+  }
+
+  .lang-card-item.active .lang-card-check {
+    display: inline-block;
+  }
+
+  .lang-no-results {
+    grid-column: 1 / -1;
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-3);
+    font-size: 13px;
   }
 </style>
 
@@ -1329,6 +1664,12 @@
   </div>
 
   <div class="sidebar-bottom-section">
+    <!-- Language Switcher Option -->
+    <button type="button" class="sidebar-action-btn sidebar-lang-btn" id="mobileSidebarLangBtn" onclick="openLangModal(event)" title="Change Language / भाषा बदलें" aria-label="Change Language">
+      <i class="fa-solid fa-globe" style="color: var(--brand);"></i>
+      <span id="sidebarLangText" class="notranslate">EN</span>
+    </button>
+
     @auth
       <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}" title="Profile">
         <i class="fa-solid fa-circle-user"></i>
@@ -2368,6 +2709,296 @@
 <x-ai-career-chat />
 <x-new-blog-popup :newly-uploaded-blog="$newlyUploadedBlog ?? null" />
 
+<!-- GLOBAL LANGUAGE SELECTOR MODAL (Mobile Bottom Sheet / Desktop Modal) -->
+<div id="languageSelectorModal" class="lang-modal-overlay" aria-hidden="true" style="display: none;">
+  <div class="lang-modal-backdrop" onclick="closeLangModal()"></div>
+  <div class="lang-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="langModalTitle">
+    
+    <div class="lang-modal-drag-handle"></div>
+
+    <div class="lang-modal-header">
+      <div class="lang-modal-title-wrap">
+        <div class="lang-modal-icon-badge">
+          <i class="fa-solid fa-globe"></i>
+        </div>
+        <div>
+          <h3 id="langModalTitle" class="lang-modal-title notranslate">Choose Language</h3>
+          <p class="lang-modal-subtitle notranslate">अपनी भाषा चुनें • Select preferred language</p>
+        </div>
+      </div>
+      <button type="button" class="lang-modal-close-btn" onclick="closeLangModal()" aria-label="Close language selector">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="lang-modal-search-wrap">
+      <i class="fa-solid fa-magnifying-glass lang-modal-search-icon"></i>
+      <input type="text" id="langModalSearchInput" class="lang-modal-search-input notranslate" placeholder="Search language (e.g. Hindi, Marathi, தமிழ்)..." oninput="filterLangList(this.value)" autocomplete="off">
+    </div>
+
+    <div class="lang-modal-scroll" id="langModalList">
+      <button type="button" class="lang-card-item" data-lang="en" data-search="english en default" onclick="changeLanguage('en', 'EN'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">English</span>
+          <span class="lang-card-sub notranslate">Default • All content</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">EN</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="hi" data-search="hindi हिन्दी hi india" onclick="changeLanguage('hi', 'HI (हिन्दी)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">हिन्दी</span>
+          <span class="lang-card-sub notranslate">Hindi</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">HI</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="mr" data-search="marathi मराठी mr maharashtra" onclick="changeLanguage('mr', 'MR (मराठी)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">मराठी</span>
+          <span class="lang-card-sub notranslate">Marathi</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">MR</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="bn" data-search="bengali বাংলা bn bangla" onclick="changeLanguage('bn', 'BN (বাংলা)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">বাংলা</span>
+          <span class="lang-card-sub notranslate">Bengali</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">BN</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="te" data-search="telugu తెలుగు te andhra telangana" onclick="changeLanguage('te', 'TE (తెలుగు)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">తెలుగు</span>
+          <span class="lang-card-sub notranslate">Telugu</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">TE</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="ta" data-search="tamil தமிழ் ta tamil nadu" onclick="changeLanguage('ta', 'TA (தமிழ்)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">தமிழ்</span>
+          <span class="lang-card-sub notranslate">Tamil</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">TA</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="gu" data-search="gujarati ગુજરાતી gu gujarat" onclick="changeLanguage('gu', 'GU (ગુજરાતી)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">ગુજરાતી</span>
+          <span class="lang-card-sub notranslate">Gujarati</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">GU</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="kn" data-search="kannada ಕನ್ನಡ kn karnataka" onclick="changeLanguage('kn', 'KN (ಕನ್ನಡ)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">ಕನ್ನಡ</span>
+          <span class="lang-card-sub notranslate">Kannada</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">KN</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="ml" data-search="malayalam മലയാളം ml kerala" onclick="changeLanguage('ml', 'ML (മലയാളം)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">മലയാളം</span>
+          <span class="lang-card-sub notranslate">Malayalam</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">ML</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="pa" data-search="punjabi ਪੰਜਾਬੀ pa punjab" onclick="changeLanguage('pa', 'PA (ਪੰਜਾਬੀ)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">ਪੰਜਾਬੀ</span>
+          <span class="lang-card-sub notranslate">Punjabi</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">PA</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="or" data-search="odia ଓଡ଼ିଆ or orissa odisha" onclick="changeLanguage('or', 'OR (ଓଡ଼ିଆ)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">ଓଡ଼ିଆ</span>
+          <span class="lang-card-sub notranslate">Odia</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">OR</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="as" data-search="assamese অসমীয়া as assam" onclick="changeLanguage('as', 'AS (অসমীয়া)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">অসমীয়া</span>
+          <span class="lang-card-sub notranslate">Assamese</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">AS</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="ur" data-search="urdu اردو ur" onclick="changeLanguage('ur', 'UR (اردو)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">اردو</span>
+          <span class="lang-card-sub notranslate">Urdu</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">UR</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="bho" data-search="bhojpuri भोजपुरी bho bihar up" onclick="changeLanguage('bho', 'BHO (भोजपुरी)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">भोजपुरी</span>
+          <span class="lang-card-sub notranslate">Bhojpuri</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">BHO</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="sa" data-search="sanskrit संस्कृतम् sa" onclick="changeLanguage('sa', 'SA (संस्कृतम्)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">संस्कृतम्</span>
+          <span class="lang-card-sub notranslate">Sanskrit</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">SA</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="gom" data-search="konkani कोंकणी gom goa" onclick="changeLanguage('gom', 'GOM (कोंकणी)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">कोंकणी</span>
+          <span class="lang-card-sub notranslate">Konkani</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">GOM</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="mai" data-search="maithili मैथिली mai" onclick="changeLanguage('mai', 'MAI (मैथिली)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">मैथिली</span>
+          <span class="lang-card-sub notranslate">Maithili</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">MAI</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="doi" data-search="dogri डोगरी doi jammu" onclick="changeLanguage('doi', 'DOI (डोगरी)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">डोगरी</span>
+          <span class="lang-card-sub notranslate">Dogri</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">DOI</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="mni-Mtei" data-search="manipuri ꯃꯩꯇꯩꯂꯣꯟ mni-mtei manipur" onclick="changeLanguage('mni-Mtei', 'MNI (ꯃꯩꯇꯩꯂꯣꯟ)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">ꯃꯩꯇꯩꯂꯣꯟ</span>
+          <span class="lang-card-sub notranslate">Manipuri</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">MNI</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="ne" data-search="nepali नेपाली ne" onclick="changeLanguage('ne', 'NE (नेपाली)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">नेपाली</span>
+          <span class="lang-card-sub notranslate">Nepali</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">NE</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="sd" data-search="sindhi سنڌي sd" onclick="changeLanguage('sd', 'SD (سنڌي)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">سنڌي</span>
+          <span class="lang-card-sub notranslate">Sindhi</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">SD</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="sat" data-search="santali ᱥᱟᱱᱛᱟᱲᱤ sat" onclick="changeLanguage('sat', 'SAT (ᱥᱟᱱᱛᱟᱲᱤ)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">ᱥᱟᱱᱛᱟᱲᱤ</span>
+          <span class="lang-card-sub notranslate">Santali</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">SAT</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <button type="button" class="lang-card-item" data-lang="lus" data-search="mizo lus mizoram" onclick="changeLanguage('lus', 'LUS (Mizo)'); closeLangModal();">
+        <div class="lang-card-text">
+          <span class="lang-card-native notranslate">Mizo ṭawng</span>
+          <span class="lang-card-sub notranslate">Mizo</span>
+        </div>
+        <div class="lang-card-right">
+          <span class="lang-card-badge notranslate">LUS</span>
+          <i class="fa-solid fa-circle-check lang-card-check"></i>
+        </div>
+      </button>
+
+      <div id="langNoResults" class="lang-no-results notranslate" style="display: none;">
+        <i class="fa-solid fa-magnifying-glass" style="font-size: 24px; opacity: 0.4; margin-bottom: 8px; display: block;"></i>
+        No matching language found. Try searching in English or native script.
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- Multilingual Google Translate Element -->
 <div id="google_translate_element" style="display:none;"></div>
 <script type="text/javascript">
@@ -2383,12 +3014,22 @@ function changeLanguage(lang, label) {
   const shortLabel = label.split(' ')[0];
   const el = document.getElementById('currentLangText');
   if (el) el.innerText = shortLabel;
+  const sidebarEl = document.getElementById('sidebarLangText');
+  if (sidebarEl) sidebarEl.innerText = shortLabel;
+
   localStorage.setItem('user_lang', lang);
   localStorage.setItem('user_lang_label', shortLabel);
   
   // Set Google Translate cookie across paths and domain
-  document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname}`;
-  document.cookie = `googtrans=/en/${lang}; path=/;`;
+  if (lang === 'en') {
+    document.cookie = `googtrans=/en/en; path=/; domain=${window.location.hostname}`;
+    document.cookie = `googtrans=/en/en; path=/;`;
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname}`;
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  } else {
+    document.cookie = `googtrans=/en/${lang}; path=/; domain=${window.location.hostname}`;
+    document.cookie = `googtrans=/en/${lang}; path=/;`;
+  }
   window.location.reload();
 }
 
@@ -2397,6 +3038,75 @@ function toggleLangDropdown(e) {
   const menu = document.getElementById('langDropdownMenu');
   if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
 }
+
+function openLangModal(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const modal = document.getElementById('languageSelectorModal');
+  if (!modal) return;
+  const savedLang = localStorage.getItem('user_lang') || 'en';
+  updateActiveLangCard(savedLang);
+  modal.style.display = 'flex';
+  requestAnimationFrame(() => {
+    modal.classList.add('active');
+    const searchInput = document.getElementById('langModalSearchInput');
+    if (searchInput) {
+      searchInput.value = '';
+      filterLangList('');
+      setTimeout(() => searchInput.focus(), 150);
+    }
+  });
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLangModal() {
+  const modal = document.getElementById('languageSelectorModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 250);
+}
+
+function updateActiveLangCard(lang) {
+  const cards = document.querySelectorAll('.lang-card-item');
+  cards.forEach(card => {
+    if (card.getAttribute('data-lang') === lang) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  });
+}
+
+function filterLangList(query) {
+  const q = (query || '').toLowerCase().trim();
+  const cards = document.querySelectorAll('.lang-card-item');
+  let visibleCount = 0;
+  cards.forEach(card => {
+    const searchTerms = (card.getAttribute('data-search') || '').toLowerCase();
+    const text = card.textContent.toLowerCase();
+    if (!q || searchTerms.includes(q) || text.includes(q)) {
+      card.style.display = 'flex';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  const noResults = document.getElementById('langNoResults');
+  if (noResults) {
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeLangModal();
+  }
+});
 
 document.addEventListener('click', (e) => {
   const menu = document.getElementById('langDropdownMenu');
@@ -2409,16 +3119,20 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedLabel) {
     const el = document.getElementById('currentLangText');
     if (el) el.innerText = savedLabel;
+    const sidebarEl = document.getElementById('sidebarLangText');
+    if (sidebarEl) sidebarEl.innerText = savedLabel;
   }
   if (savedLang) {
     const sel = document.querySelector('.nav-mobile-menu select');
     if (sel) sel.value = savedLang;
+    updateActiveLangCard(savedLang);
   } else {
+    updateActiveLangCard('en');
     // Optional automatic language detection based on browser settings
     const browserLang = navigator.language || navigator.userLanguage || '';
-    if (browserLang.startsWith('hi') && !savedLang) {
+    if (browserLang.startsWith('hi')) {
       changeLanguage('hi', 'HI');
-    } else if (browserLang.startsWith('mr') && !savedLang) {
+    } else if (browserLang.startsWith('mr')) {
       changeLanguage('mr', 'MR');
     }
   }
