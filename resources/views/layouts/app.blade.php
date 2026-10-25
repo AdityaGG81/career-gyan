@@ -1129,6 +1129,12 @@
       transition: transform 0.2s ease;
     }
 
+    .mobile-sidebar a span,
+    .mobile-sidebar .sidebar-action-btn span {
+      white-space: nowrap;
+      letter-spacing: -0.15px;
+    }
+
     .mobile-sidebar a:active,
     .mobile-sidebar .sidebar-action-btn:active {
       transform: scale(0.92);
@@ -1667,7 +1673,7 @@
     <!-- Language Switcher Option -->
     <button type="button" class="sidebar-action-btn sidebar-lang-btn" id="mobileSidebarLangBtn" onclick="openLangModal(event)" title="Change Language / भाषा बदलें" aria-label="Change Language">
       <i class="fa-solid fa-globe" style="color: var(--brand);"></i>
-      <span id="sidebarLangText" class="notranslate">EN</span>
+      <span>Language</span>
     </button>
 
     @auth
@@ -3014,8 +3020,6 @@ function changeLanguage(lang, label) {
   const shortLabel = label.split(' ')[0];
   const el = document.getElementById('currentLangText');
   if (el) el.innerText = shortLabel;
-  const sidebarEl = document.getElementById('sidebarLangText');
-  if (sidebarEl) sidebarEl.innerText = shortLabel;
 
   localStorage.setItem('user_lang', lang);
   localStorage.setItem('user_lang_label', shortLabel);
@@ -3119,8 +3123,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (savedLabel) {
     const el = document.getElementById('currentLangText');
     if (el) el.innerText = savedLabel;
-    const sidebarEl = document.getElementById('sidebarLangText');
-    if (sidebarEl) sidebarEl.innerText = savedLabel;
   }
   if (savedLang) {
     const sel = document.querySelector('.nav-mobile-menu select');
