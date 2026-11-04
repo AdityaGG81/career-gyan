@@ -718,6 +718,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let isRequestInProgress = false;
     let conversationHistory = [];
+    let chatSessionId = sessionStorage.getItem('ai_chat_session_id');
+    if (!chatSessionId) {
+        chatSessionId = 'sess_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
+        sessionStorage.setItem('ai_chat_session_id', chatSessionId);
+    }
 
     @auth
     const isAuthenticated = true;
@@ -755,6 +760,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function clearChatHistory() {
         chatMessages.querySelectorAll('.ai-career-guruji-msg:not(#aiChatWelcomeMsg)').forEach(el => el.remove());
         conversationHistory = [];
+        chatSessionId = 'sess_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
+        sessionStorage.setItem('ai_chat_session_id', chatSessionId);
         suggestionsContainer.style.display = '';
         if (remainingText) remainingText.textContent = '5';
         if (chatInput) chatInput.placeholder = 'Ask Guruji about careers, colleges, exams, skills...';
@@ -919,7 +926,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     message: message,
-                    history: conversationHistory.slice(-6)
+                    history: conversationHistory.slice(-6),
+                    session_id: chatSessionId
                 })
             });
 

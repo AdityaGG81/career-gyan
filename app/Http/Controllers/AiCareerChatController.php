@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AiChatLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AiCareerChatController extends Controller
 {
@@ -15,9 +17,12 @@ class AiCareerChatController extends Controller
      */
     public function message(Request $request)
     {
+        $startTime = microtime(true);
+
         $validator = Validator::make($request->all(), [
             'message' => 'required|string|max:500',
             'history' => 'nullable|array',
+            'session_id' => 'nullable|string|max:100',
         ]);
 
         if ($validator->fails()) {
@@ -31,6 +36,7 @@ class AiCareerChatController extends Controller
         $user = auth()->user();
         $name = $user->name ?? $user->first_name ?? 'User';
         $email = $user->email ?? '';
+        $sessionId = $request->input('session_id') ?: ($request->hasSession() ? $request->session()->getId() : (string) Str::uuid());
         
         $date = now()->format('Y-m-d');
         $userCacheKey = "ai_chat_limit_user_{$user->id}_{$date}";
@@ -41,6 +47,23 @@ class AiCareerChatController extends Controller
         $isTestUser = ($email === 'test@gmail.com');
 
         if (! $isTestUser && $maxCount >= 5) {
+            $responseTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+
+            // Log rate-limited attempt
+            $this->safeLogQuestion([
+                'user_id' => $user->id ?? null,
+                'user_name' => $name,
+                'user_email' => $email,
+                'session_id' => $sessionId,
+                'question' => $request->message,
+                'reply' => 'Daily free question limit reached. Please try again tomorrow.',
+                'status' => 'rate_limited',
+                'model_used' => 'Rate Limiter',
+                'response_time_ms' => $responseTimeMs,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
             return response()->json([
                 'success' => false,
                 'reply' => 'Daily free question limit reached. Please try again tomorrow.',
@@ -99,6 +122,25 @@ class AiCareerChatController extends Controller
 
             Cache::put($userCacheKey, $maxCount + 1, now()->endOfDay());
 
+            $responseTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+            $port = parse_url($activeBaseUrl, PHP_URL_PORT) ?: '8001';
+
+            // Log successful response
+            $this->safeLogQuestion([
+                'user_id' => $user->id ?? null,
+                'user_name' => $name,
+                'user_email' => $email,
+                'session_id' => $sessionId,
+                'question' => $request->message,
+                'reply' => $reply,
+                'sources' => $sources,
+                'model_used' => "RAG Scrapper (Port {$port})",
+                'status' => 'success',
+                'response_time_ms' => $responseTimeMs,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
             return response()->json([
                 'success' => true,
                 'reply' => $reply,
@@ -138,6 +180,23 @@ class AiCareerChatController extends Controller
                     if ($legacyReply) {
                         Cache::put($userCacheKey, $maxCount + 1, now()->endOfDay());
 
+                        $responseTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+
+                        $this->safeLogQuestion([
+                            'user_id' => $user->id ?? null,
+                            'user_name' => $name,
+                            'user_email' => $email,
+                            'session_id' => $sessionId,
+                            'question' => $request->message,
+                            'reply' => trim($legacyReply),
+                            'sources' => [],
+                            'model_used' => 'Legacy AI Fallback',
+                            'status' => 'success',
+                            'response_time_ms' => $responseTimeMs,
+                            'ip_address' => $request->ip(),
+                            'user_agent' => $request->userAgent(),
+                        ]);
+
                         return response()->json([
                             'success' => true,
                             'reply' => trim($legacyReply),
@@ -148,6 +207,7 @@ class AiCareerChatController extends Controller
                 }
             } catch (\Exception $e) {
                 Log::warning('Legacy AI fallback failed: ' . $e->getMessage());
+                $lastError = 'Legacy AI failed: ' . $e->getMessage();
             }
         }
 
@@ -156,11 +216,44 @@ class AiCareerChatController extends Controller
             'last_error' => $lastError,
         ]);
 
+        $failureReply = 'The CareerGyan AI service is starting up or offline. Please make sure the AI scrapper service is running (start it with `python app.py` in the careergyan_scrapper folder).';
+        $responseTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+
+        // Log failed attempt
+        $this->safeLogQuestion([
+            'user_id' => $user->id ?? null,
+            'user_name' => $name,
+            'user_email' => $email,
+            'session_id' => $sessionId,
+            'question' => $request->message,
+            'reply' => $failureReply,
+            'status' => 'failed',
+            'error_message' => $lastError,
+            'model_used' => 'Service Offline / Error',
+            'response_time_ms' => $responseTimeMs,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
         return response()->json([
             'success' => false,
-            'reply' => 'The CareerGyan AI service is starting up or offline. Please make sure the AI scrapper service is running (start it with `python app.py` in the careergyan_scrapper folder).',
+            'reply' => $failureReply,
             'remaining' => $remaining,
         ], 503);
+    }
+
+    /**
+     * Safely record the chat interaction in the database without disrupting the response.
+     */
+    protected function safeLogQuestion(array $attributes): void
+    {
+        try {
+            AiChatLog::create($attributes);
+        } catch (\Throwable $e) {
+            Log::error('Failed to log chatbot query: ' . $e->getMessage(), [
+                'exception' => $e
+            ]);
+        }
     }
 
     /**

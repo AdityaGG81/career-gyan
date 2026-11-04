@@ -101,6 +101,17 @@ class AdminAuthController extends Controller
             }
         } catch (\Exception $e) {}
 
+        $chatQueryCount = 0;
+        $todayChatQueryCount = 0;
+        $recentChatQueries = collect();
+        try {
+            if (class_exists(\App\Models\AiChatLog::class)) {
+                $chatQueryCount = \App\Models\AiChatLog::count();
+                $todayChatQueryCount = \App\Models\AiChatLog::whereDate('created_at', today())->count();
+                $recentChatQueries = \App\Models\AiChatLog::with('user')->latest()->take(5)->get();
+            }
+        } catch (\Exception $e) {}
+
         return view('admin.dashboard', compact(
             'userCount',
             'careerCount',
@@ -113,7 +124,10 @@ class AdminAuthController extends Controller
             'quizAttemptCount',
             'jobCount',
             'memberCount',
-            'businessCount'
+            'businessCount',
+            'chatQueryCount',
+            'todayChatQueryCount',
+            'recentChatQueries'
         ));
     }
 }

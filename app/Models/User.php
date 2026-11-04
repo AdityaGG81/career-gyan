@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return (bool) $this->is_member && ($this->membership_expires_at === null || $this->membership_expires_at->isFuture());
     }
+
+    public function aiChatLogs()
+    {
+        return $this->hasMany(AiChatLog::class);
+    }
 }

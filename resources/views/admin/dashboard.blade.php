@@ -373,6 +373,22 @@
     <div class="stat-value">{{ number_format($suggestionCount) }}</div>
   </div>
 
+  <!-- Stat Card: Chatbot Queries -->
+  <div class="stat-card" style="border-color: rgba(56, 189, 248, 0.4);">
+    <a href="{{ route('admin.chatbot.index') }}" style="text-decoration: none; color: inherit; display: block;">
+      <div class="stat-header">
+        <span class="stat-title">Chatbot Questions</span>
+        <div class="stat-icon-wrap" style="background: #e0f2fe; color: #0284c7;">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+      </div>
+      <div class="stat-value" style="color: #0284c7;">{{ number_format($chatQueryCount ?? 0) }}</div>
+      <div style="font-size: 12px; color: #0284c7; margin-top: 6px; font-weight: 600;">
+        +{{ number_format($todayChatQueryCount ?? 0) }} today &rarr;
+      </div>
+    </a>
+  </div>
+
   <!-- Stat Card: Quiz Attempts -->
   <div class="stat-card">
     <div class="stat-header">
@@ -433,6 +449,13 @@
       <h2>Quick Actions</h2>
     </div>
     <div class="quick-actions-wrap">
+      <a href="{{ route('admin.chatbot.index') }}" class="action-btn-link" style="border-left: 3px solid #0284c7;">
+        <div class="action-btn-left">
+          <i class="fa-solid fa-robot" style="color: #0284c7;"></i>
+          <span>Track Chatbot Queries</span>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="font-size: 14px; color: #cbd5e1;"></i>
+      </a>
       <a href="{{ route('admin.businesses.index') }}" class="action-btn-link">
         <div class="action-btn-left">
           <i class="fa-solid fa-store" style="color: #10b981;"></i>
@@ -490,6 +513,73 @@
         <i class="fa-solid fa-arrow-right" style="font-size: 14px; color: #cbd5e1;"></i>
       </a>
     </div>
+  </div>
+</div>
+
+<!-- Recent Chatbot Questions Panel -->
+<div class="panel-card" style="margin-bottom: 24px;">
+  <div class="panel-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="fa-solid fa-robot" style="color: #0284c7; font-size: 18px;"></i>
+      <h2 style="margin: 0;">Recent Chatbot Questions</h2>
+    </div>
+    <a href="{{ route('admin.chatbot.index') }}" class="panel-action-link">View all questions &rarr;</a>
+  </div>
+
+  <div class="panel-body" style="overflow-x: auto;">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th style="width: 220px;">Student</th>
+          <th>Question Asked</th>
+          <th style="width: 120px;">Status</th>
+          <th style="width: 140px;">Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($recentChatQueries ?? [] as $chatLog)
+          <tr>
+            <td>
+              <span style="font-weight: 600; color: var(--admin-text-1);">
+                {{ $chatLog->user_name ?: ($chatLog->user ? $chatLog->user->name : 'Guest Student') }}
+              </span>
+              <div style="font-size: 11.5px; color: var(--admin-text-3);">
+                {{ $chatLog->user_email ?: ($chatLog->user ? $chatLog->user->email : 'N/A') }}
+              </div>
+            </td>
+            <td>
+              <div style="font-weight: 500; color: var(--admin-text-1);">
+                {{ \Illuminate\Support\Str::limit($chatLog->question, 90) }}
+              </div>
+            </td>
+            <td>
+              @if($chatLog->status === 'success')
+                <span style="color: #16a34a; font-size: 12px; font-weight: 700;">
+                  <i class="fa-solid fa-circle-check"></i> Success
+                </span>
+              @elseif($chatLog->status === 'rate_limited')
+                <span style="color: #d97706; font-size: 12px; font-weight: 700;">
+                  <i class="fa-solid fa-shield-halved"></i> Rate Limit
+                </span>
+              @else
+                <span style="color: #dc2626; font-size: 12px; font-weight: 700;">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Failed
+                </span>
+              @endif
+            </td>
+            <td style="font-size: 12.5px; color: var(--admin-text-3);">
+              {{ $chatLog->created_at->diffForHumans() }}
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--admin-text-3); padding: 36px;">
+              No questions recorded yet. Once students chat with AI Career Guruji, questions will appear here.
+            </td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
   </div>
 </div>
 

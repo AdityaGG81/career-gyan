@@ -279,6 +279,13 @@ Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.das
 Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
 Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');
 
+// Admin Chatbot Tracking & Analytics
+Route::get('/admin/chatbot-queries', [\App\Http\Controllers\AdminChatbotController::class, 'index'])->name('admin.chatbot.index');
+Route::get('/admin/chatbot-queries/export', [\App\Http\Controllers\AdminChatbotController::class, 'exportCsv'])->name('admin.chatbot.export');
+Route::get('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'show'])->name('admin.chatbot.show');
+Route::delete('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'destroy'])->name('admin.chatbot.destroy');
+Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotController::class, 'clearLogs'])->name('admin.chatbot.clear');
+
 // Admin Membership Management
 Route::get('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'index'])->name('admin.membership.index');
 Route::post('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'update'])->name('admin.membership.update');

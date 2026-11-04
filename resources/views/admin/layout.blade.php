@@ -496,6 +496,13 @@
           <i class="fa-solid fa-store" style="color: #10b981;"></i> Business Corner
         </a>
       </li>
+
+      <li class="menu-category">AI Intelligence</li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.chatbot') ? 'active' : '' }}">
+        <a href="{{ route('admin.chatbot.index') }}">
+          <i class="fa-solid fa-robot" style="color: #38bdf8;"></i> Chatbot Queries
+        </a>
+      </li>
       
       <li class="menu-category">Feedback</li>
       <li class="admin-menu-item {{ $currentRoute == 'admin.suggestions' ? 'active' : '' }}">
