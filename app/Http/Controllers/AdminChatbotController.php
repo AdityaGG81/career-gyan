@@ -17,6 +17,39 @@ class AdminChatbotController extends Controller
             return redirect()->route('admin.login');
         }
 
+        // Safety check: ensure table exists or auto-run migration
+        if (!\Illuminate\Support\Facades\Schema::hasTable('ai_chat_logs')) {
+            try {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            } catch (\Throwable $e) {}
+        }
+
+        if (!\Illuminate\Support\Facades\Schema::hasTable('ai_chat_logs')) {
+            $logs = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 20);
+            $filters = [];
+            $totalQueries = 0;
+            $todayQueries = 0;
+            $uniqueUsersCount = 0;
+            $successCount = 0;
+            $failedCount = 0;
+            $rateLimitedCount = 0;
+            $successRate = 100;
+            $avgResponseTime = 0;
+
+            return view('admin.chatbot.index', compact(
+                'logs',
+                'filters',
+                'totalQueries',
+                'todayQueries',
+                'uniqueUsersCount',
+                'successCount',
+                'failedCount',
+                'rateLimitedCount',
+                'successRate',
+                'avgResponseTime'
+            ));
+        }
+
         // Summary KPI Metrics
         $totalQueries = AiChatLog::count();
         $todayQueries = AiChatLog::whereDate('created_at', today())->count();
@@ -56,6 +89,10 @@ class AdminChatbotController extends Controller
     {
         if (!session()->has('admin_logged_in')) {
             return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        if (!\Illuminate\Support\Facades\Schema::hasTable('ai_chat_logs')) {
+            return response()->json(['error' => 'Chatbot logs table is not available yet.'], 404);
         }
 
         $log = AiChatLog::with('user')->findOrFail($id);
@@ -126,6 +163,10 @@ class AdminChatbotController extends Controller
     {
         if (!session()->has('admin_logged_in')) {
             abort(403);
+        }
+
+        if (!\Illuminate\Support\Facades\Schema::hasTable('ai_chat_logs')) {
+            abort(404, 'Chatbot logs table is not available yet.');
         }
 
         $filters = $request->only(['q', 'status', 'date', 'user_id']);
