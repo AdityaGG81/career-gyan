@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AiChatLog::class);
     }
+
+    public function studentAnalyses()
+    {
+        return $this->hasMany(StudentAnalysis::class);
+    }
 }

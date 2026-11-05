@@ -1,285 +1,267 @@
 @extends('layouts.app')
 
-@section('title', 'Advanced Assessments Hub | CareerGyan')
+@section('title', 'Advanced Career Assessment | CareerGyan Pro')
 
 @section('styles')
 <style>
-    .assessment-hub {
-        background: #f8fafc;
-        min-height: calc(100vh - 100px);
-        padding: 60px 24px;
-    }
+  .adv-test-page {
+    background: #f8fafc;
+    min-height: calc(100vh - 80px);
+    padding: 60px 20px 90px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
 
-    .hub-container {
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+  .adv-test-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
 
-    .hub-header {
-        margin-bottom: 40px;
-        text-align: center;
-    }
+  .adv-test-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
 
-    .hub-header h1 {
-        font-family: 'Sora';
-        font-size: 32px;
-        font-weight: 800;
-        color: var(--text-1);
-        margin-bottom: 8px;
-    }
+  .adv-pro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.15);
+    margin-bottom: 16px;
+  }
 
-    .hub-header p {
-        color: var(--text-2);
-        font-size: 15.5px;
-    }
+  .adv-test-header h1 {
+    font-family: 'Outfit', 'Sora', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-1, #0f172a);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
 
-    .assessment-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        margin-bottom: 50px;
-    }
+  .adv-test-header p {
+    color: var(--text-2, #64748b);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
 
-    @media(max-width: 768px) {
-        .assessment-grid {
-            grid-template-columns: 1fr;
-        }
-    }
+  /* Card Container */
+  .adv-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 50px 40px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
 
-    .assessment-card {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 35px;
-        box-shadow: var(--shadow-sm);
-        transition: all 0.3s;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        overflow: hidden;
-    }
+  /* Active Member State (Left Empty for now as requested) */
+  .adv-empty-state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    margin: 0 auto 24px;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
+  }
 
-    .assessment-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: var(--card-color, var(--brand));
-    }
+  .adv-empty-title {
+    font-family: 'Outfit', 'Sora', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
 
-    .assessment-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-md);
-    }
+  .adv-empty-desc {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto 30px;
+  }
 
-    .card-top {
-        margin-bottom: 25px;
-    }
+  .adv-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 999px;
+    margin-bottom: 30px;
+  }
 
-    .card-icon {
-        width: 50px;
-        height: 50px;
-        background: var(--brand-light);
-        color: var(--card-color, var(--brand));
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        margin-bottom: 20px;
-    }
+  .adv-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
 
-    .card-top h3 {
-        font-family: 'Sora';
-        font-size: 19px;
-        font-weight: 800;
-        color: var(--text-1);
-        margin-bottom: 10px;
-    }
+  .btn-adv-primary {
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14.5px;
+    font-weight: 700;
+    padding: 12px 26px;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    transition: transform 0.2s, background 0.2s;
+  }
 
-    .card-top p {
-        font-size: 13.5px;
-        color: var(--text-2);
-        line-height: 1.5;
-    }
+  .btn-adv-primary:hover {
+    background: #1d4ed8;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
 
-    .card-meta {
-        display: flex;
-        gap: 15px;
-        font-size: 12.5px;
-        color: var(--text-3);
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
+  .btn-adv-secondary {
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 14.5px;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
 
-    .card-meta span {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-    }
+  .btn-adv-secondary:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
 
-    .start-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        height: 46px;
-        background: var(--card-color, var(--brand));
-        color: white;
-        border-radius: var(--radius-md);
-        font-weight: 700;
-        font-size: 14.5px;
-        text-decoration: none;
-        transition: opacity 0.2s;
-    }
+  /* Locked Non-Member State */
+  .adv-lock-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #b45309;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    margin: 0 auto 24px;
+    box-shadow: 0 6px 18px rgba(245, 158, 11, 0.2);
+  }
 
-    .start-btn:hover {
-        opacity: 0.9;
-        color: white;
-    }
+  .btn-upgrade-pro {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 14px 30px;
+    border-radius: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(180, 83, 9, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
 
-    /* History table */
-    .history-card {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        padding: 35px;
-        box-shadow: var(--shadow-sm);
-    }
-
-    .history-card h3 {
-        font-family: 'Sora';
-        font-size: 20px;
-        font-weight: 800;
-        color: var(--text-1);
-        margin-bottom: 25px;
-    }
-
-    .history-table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
-    }
-
-    .history-table th {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--text-3);
-        font-weight: 700;
-        padding-bottom: 15px;
-        border-bottom: 2px solid var(--border);
-    }
-
-    .history-table td {
-        padding: 15px 0;
-        border-bottom: 1px solid var(--border);
-        font-size: 14px;
-        color: var(--text-2);
-    }
-
-    .history-table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .result-badge {
-        font-size: 11px;
-        font-weight: 700;
-        padding: 4px 10px;
-        border-radius: 4px;
-        text-transform: uppercase;
-        background: var(--brand-light);
-        color: var(--brand);
-        display: inline-block;
-    }
+  .btn-upgrade-pro:hover {
+    transform: translateY(-2px);
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(180, 83, 9, 0.45);
+  }
 </style>
 @endsection
 
 @section('content')
-<div class="assessment-hub">
-    <div class="hub-container">
-        
-        <div class="hub-header">
-            <h1>Advanced Assessments Hub</h1>
-            <p>Select a detailed testing track to uncover key parameters for your career roadmap.</p>
-        </div>
+<div class="adv-test-page">
+  <div class="adv-test-container">
 
-        <div class="assessment-grid">
-            @foreach($tests as $test)
-                <div class="assessment-card" style="--card-color: {{ $test['color'] }}">
-                    <div class="card-top">
-                        <div class="card-icon" style="background: {{ $test['color'] }}15;">
-                            <i class="{{ $test['icon'] }}"></i>
-                        </div>
-                        <h3>{{ $test['title'] }}</h3>
-                        <p>{{ $test['desc'] }}</p>
-                    </div>
-                    
-                    <div>
-                        <div class="card-meta">
-                            <span><i class="fa-solid fa-list-check"></i> {{ $test['questions_count'] }} Questions</span>
-                            <span><i class="fa-solid fa-clock"></i> {{ $test['duration'] }}</span>
-                        </div>
-                        
-                        <a href="{{ route('advanced-test.start', $test['id']) }}" class="start-btn">
-                            Begin Assessment <i class="fa-solid fa-play" style="font-size: 11px;"></i>
-                        </a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <!-- History -->
-        <div class="history-card">
-            <h3>Your Assessment History</h3>
-            
-            @if($attempts->isEmpty())
-                <div style="text-align: center; padding: 40px 0;">
-                    <i class="fa-solid fa-box-open" style="font-size: 40px; color: var(--text-3); opacity: 0.5; margin-bottom: 15px;"></i>
-                    <p style="color: var(--text-3);">You haven’t completed any advanced assessments yet.</p>
-                </div>
-            @else
-                <div style="overflow-x: auto;">
-                    <table class="history-table">
-                        <thead>
-                            <tr>
-                                <th>Assessment</th>
-                                <th>Date Completed</th>
-                                <th>Archetype / Match</th>
-                                <th style="text-align: right;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($attempts as $attempt)
-                                <tr>
-                                    <td style="font-weight: 700; color: var(--text-1); text-transform: capitalize;">
-                                        {{ str_replace('-', ' ', $attempt->test_type) }}
-                                    </td>
-                                    <td>{{ $attempt->created_at->format('d M Y, h:i A') }}</td>
-                                    <td>
-                                        <span class="result-badge">
-                                            {{ $attempt->recommendations['archetype'] ?? 'Completed' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <a href="{{ route('advanced-test.results', $attempt->uuid) }}" style="font-weight: 700; color: var(--brand); text-decoration: none; margin-right: 15px;">
-                                            View Report
-                                        </a>
-                                        <a href="{{ route('advanced-test.certificate', $attempt->uuid) }}" target="_blank" style="font-weight: 700; color: #10b981; text-decoration: none;">
-                                            <i class="fa-solid fa-award"></i> Certificate
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        </div>
-
+    <div class="adv-test-header">
+      <div class="adv-pro-badge">
+        <i class="fa-solid fa-crown" style="color: #d97706;"></i> Pro Member Assessment
+      </div>
+      <h1>Advanced Career Assessment</h1>
+      <p>High-tier psychometric analysis, leadership profiling, and tailored career matching for CareerGyan Pro members.</p>
     </div>
+
+    @if($isMember)
+      <!-- Pro Member Access State (Left empty as requested) -->
+      <div class="adv-card">
+        <div class="adv-empty-state-icon">
+          <i class="fa-solid fa-clipboard-check"></i>
+        </div>
+
+        <h2 class="adv-empty-title">Advanced Assessment Modules</h2>
+        
+        <p class="adv-empty-desc">
+          Welcome, <strong>{{ $user->name ?? $user->first_name }}</strong>! Your Pro Membership access is verified. 
+          The advanced test questions and psychometric assessment modules will be populated here shortly.
+        </p>
+
+        <div class="adv-status-pill">
+          <i class="fa-solid fa-circle-check"></i> Pro Access Active &bull; Ready for Configuration
+        </div>
+
+        <div class="adv-actions">
+          <a href="{{ route('explore.index') }}#career-assessments" class="btn-adv-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Back to Assessments
+          </a>
+          <a href="{{ route('student-analysis.create') }}" class="btn-adv-primary">
+            <i class="fa-solid fa-clipboard-user"></i> Take Student Analysis
+          </a>
+        </div>
+      </div>
+
+    @else
+      <!-- Locked State for Non-Members -->
+      <div class="adv-card" style="border-color: #fde68a;">
+        <div class="adv-lock-icon">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h2 class="adv-empty-title">Pro Membership Required</h2>
+        
+        <p class="adv-empty-desc">
+          The <strong>Advanced Career Assessment</strong> is reserved exclusively for CareerGyan Pro Members. 
+          Upgrade your plan to unlock premium psychometric tests, one-on-one counselor reviews, and customized admission strategies.
+        </p>
+
+        <div class="adv-actions">
+          <a href="{{ route('membership.index') }}" class="btn-upgrade-pro">
+            <i class="fa-solid fa-crown"></i> Upgrade to Pro Membership
+          </a>
+          <a href="{{ route('student-analysis.create') }}" class="btn-adv-secondary">
+            Take Free Student Analysis &rarr;
+          </a>
+        </div>
+      </div>
+    @endif
+
+  </div>
 </div>
 @endsection

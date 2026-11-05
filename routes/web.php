@@ -164,6 +164,23 @@ Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class
 Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
 Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
 
+// Student Analysis (Career & Course Selection Assessment Form)
+Route::get('/student-analysis', [\App\Http\Controllers\StudentAnalysisController::class, 'create'])->name('student-analysis.create');
+Route::post('/student-analysis', [\App\Http\Controllers\StudentAnalysisController::class, 'store'])->name('student-analysis.store');
+Route::get('/student-analysis/report/{uuid}', [\App\Http\Controllers\StudentAnalysisController::class, 'show'])->name('student-analysis.show');
+Route::get('/student-analysis/my', [\App\Http\Controllers\StudentAnalysisController::class, 'myAnalyses'])->middleware('auth')->name('student-analysis.my');
+
+// Advanced Test (Exclusive for Members - empty for now)
+Route::get('/advanced-test', [\App\Http\Controllers\AdvancedTestController::class, 'index'])->name('advanced-test.index');
+
+// Career Test Hub shortcuts
+Route::get('/career-test', function () {
+    return redirect('/explore#career-assessments');
+})->name('career-test.hub');
+Route::get('/career-tests', function () {
+    return redirect('/explore#career-assessments');
+});
+
 // Suggestions
 Route::post('/suggestion/store', [SuggestionController::class, 'store'])->name('suggestion.store');
 Route::get('/suggestion', [SuggestionController::class, 'create'])->name('suggestion.create');
@@ -285,6 +302,11 @@ Route::get('/admin/chatbot-queries/export', [\App\Http\Controllers\AdminChatbotC
 Route::get('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'show'])->name('admin.chatbot.show');
 Route::delete('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'destroy'])->name('admin.chatbot.destroy');
 Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotController::class, 'clearLogs'])->name('admin.chatbot.clear');
+
+// Admin Student Analyses
+Route::get('/admin/student-analyses', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'index'])->name('admin.student-analyses.index');
+Route::get('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'show'])->name('admin.student-analyses.show');
+Route::delete('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'destroy'])->name('admin.student-analyses.destroy');
 
 // Admin Membership Management
 Route::get('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'index'])->name('admin.membership.index');

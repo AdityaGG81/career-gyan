@@ -826,6 +826,173 @@
       padding: 24px;
     }
   }
+
+  /* ─── Career Assessments Section (3 Options Side-by-Side) ─── */
+  .explore-assessments-section {
+    padding: 70px 0 40px;
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .assessments-header {
+    text-align: center;
+    margin-bottom: 45px;
+  }
+
+  .assessments-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .assessment-choice-card {
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 36px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .assessment-choice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  }
+
+  .assessment-choice-card.highlight {
+    border-color: #3b82f6;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+  }
+
+  .assessment-choice-card.pro-card {
+    border-color: #fbbf24;
+    background: linear-gradient(180deg, #ffffff 0%, #fffdfa 100%);
+  }
+
+  .assessment-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 18px;
+    align-self: flex-start;
+  }
+
+  .badge-blue { background: #eff6ff; color: #1d4ed8; }
+  .badge-emerald { background: #ecfdf5; color: #047857; }
+  .badge-gold { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2); }
+
+  .assessment-icon-circle {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .icon-circle-blue { background: #eff6ff; color: #2563eb; }
+  .icon-circle-emerald { background: #ecfdf5; color: #059669; }
+  .icon-circle-gold { background: #fef3c7; color: #d97706; }
+
+  .assessment-choice-title {
+    font-family: 'Outfit', 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-1);
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+
+  .assessment-choice-sub {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 12px;
+  }
+
+  .assessment-choice-desc {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .assessment-feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 18px;
+  }
+
+  .assessment-feature-list li {
+    font-size: 13px;
+    color: var(--text-1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-take-assessment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s;
+    text-align: center;
+  }
+
+  .btn-sa {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  }
+  .btn-sa:hover { background: #1d4ed8; color: #ffffff; transform: translateY(-2px); }
+
+  .btn-aptitude {
+    background: #059669;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.25);
+  }
+  .btn-aptitude:hover { background: #047857; color: #ffffff; transform: translateY(-2px); }
+
+  .btn-pro {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+  }
+  .btn-pro:hover { color: #ffffff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(217, 119, 6, 0.4); }
+
+  .btn-pro-unlocked {
+    background: #f59e0b;
+    color: #1e3a8a;
+    font-weight: 800;
+  }
+  .btn-pro-unlocked:hover { background: #d97706; color: #ffffff; }
 </style>
 @endsection
 
@@ -885,8 +1052,8 @@
             <a href="#careersGrid" class="btn-feature-link btn-feature-primary">
               Browse Careers <i class="fa-solid fa-arrow-down"></i>
             </a>
-            <a href="{{ route('test.start') }}" class="btn-feature-link btn-feature-secondary">
-              Take Career Test <i class="fa-solid fa-angle-right"></i>
+            <a href="#career-assessments" class="btn-feature-link btn-feature-secondary">
+              Take Career Test <i class="fa-solid fa-arrow-down"></i>
             </a>
           </div>
         </div>
@@ -925,6 +1092,129 @@
             </a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Career Assessments Section: Student Analysis, Aptitude Test, Advanced Test (Membership Only) -->
+<section id="career-assessments" class="explore-assessments-section">
+  <div class="container">
+    <div class="assessments-header">
+      <div class="section-label" style="display:inline-flex; align-items:center; gap:8px; background:rgba(37,99,235,0.08); color:var(--brand); padding:6px 16px; border-radius:999px; font-weight:700; font-size:12.5px; text-transform:uppercase; margin-bottom:12px;">
+        <i class="fa-solid fa-clipboard-check"></i> Career Tests & Evaluation
+      </div>
+      <h2 class="section-title" style="font-family:'Outfit','Sora',sans-serif; font-size:32px; font-weight:800; color:var(--text-1); margin-bottom:8px;">
+        Choose Your Career Assessment
+      </h2>
+      <p style="color:var(--text-2); font-size:16px; max-width:680px; margin:0 auto;">
+        Discover your ideal path with our three assessment tiers &mdash; comprehensive student profiling, scientific cognitive aptitude test, or exclusive pro evaluations.
+      </p>
+    </div>
+
+    @php
+      $currentUser = auth()->user();
+      $isProMember = $currentUser && $currentUser->hasActiveMembership();
+    @endphp
+
+    <div class="assessments-grid-3">
+      <!-- 1. Student Analysis -->
+      <div class="assessment-choice-card highlight">
+        <div>
+          <div class="assessment-badge-pill badge-blue">
+            <i class="fa-solid fa-star"></i> Comprehensive Profiling
+          </div>
+
+          <div class="assessment-icon-circle icon-circle-blue">
+            <i class="fa-solid fa-clipboard-user"></i>
+          </div>
+
+          <h3 class="assessment-choice-title">Student Analysis</h3>
+          <div class="assessment-choice-sub">Career & Course Selection Assessment</div>
+
+          <p class="assessment-choice-desc">
+            An in-depth 47-question questionnaire analyzing your 3-year academic history, favorite subjects, personality, work habits, and practical goals for targeted career and course suggestions.
+          </p>
+
+          <ul class="assessment-feature-list">
+            <li><i class="fa-solid fa-circle-check" style="color: #2563eb;"></i> 47-point detailed student questionnaire</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #2563eb;"></i> Subject strengths & difficulty mapping</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #2563eb;"></i> Personality archetype & work style fit</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #2563eb;"></i> Free instant printable analysis report</li>
+          </ul>
+        </div>
+
+        <a href="{{ route('student-analysis.create') }}" class="btn-take-assessment btn-sa">
+          Start Student Analysis <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- 2. Aptitude Test -->
+      <div class="assessment-choice-card">
+        <div>
+          <div class="assessment-badge-pill badge-emerald">
+            <i class="fa-solid fa-brain"></i> Scientific Cognitive Test
+          </div>
+
+          <div class="assessment-icon-circle icon-circle-emerald">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+
+          <h3 class="assessment-choice-title">Aptitude Test</h3>
+          <div class="assessment-choice-sub">Current Aptitude Evaluation</div>
+
+          <p class="assessment-choice-desc">
+            Scientifically measures your cognitive abilities across 5 key dimensions: numerical, logical-analytical, verbal, spatial, and mechanical reasoning to benchmark your technical strengths.
+          </p>
+
+          <ul class="assessment-feature-list">
+            <li><i class="fa-solid fa-circle-check" style="color: #059669;"></i> 5-Dimension Aptitude Scorecard</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #059669;"></i> Timed aptitude challenge format</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #059669;"></i> Stream & engineering/medical compatibility</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #059669;"></i> Verified aptitude certificate download</li>
+          </ul>
+        </div>
+
+        <a href="{{ route('test.start') }}" class="btn-take-assessment btn-aptitude">
+          Take Aptitude Test <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- 3. Advanced Test (Pro Members Only) -->
+      <div class="assessment-choice-card pro-card">
+        <div>
+          <div class="assessment-badge-pill badge-gold">
+            <i class="fa-solid fa-crown" style="color: #d97706;"></i> Pro Member Only
+          </div>
+
+          <div class="assessment-icon-circle icon-circle-gold">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+
+          <h3 class="assessment-choice-title">Advanced Test</h3>
+          <div class="assessment-choice-sub" style="color: #b45309;">Deep-Dive Psychometric & Executive Profiling</div>
+
+          <p class="assessment-choice-desc">
+            High-tier assessment modules reserved exclusively for CareerGyan Pro Members. Deep-dive psychometric diagnostics, executive aptitude, and personal counselor review.
+          </p>
+
+          <ul class="assessment-feature-list">
+            <li><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Exclusive for Pro Plan Members</li>
+            <li><i class="fa-solid fa-lock" style="color: #b45309;"></i> Advanced psychometric modules</li>
+            <li><i class="fa-solid fa-user-tie" style="color: #b45309;"></i> Executive leadership & readiness scores</li>
+            <li><i class="fa-solid fa-circle-check" style="color: #b45309;"></i> Personal counseling session match</li>
+          </ul>
+        </div>
+
+        @if($isProMember)
+          <a href="{{ route('advanced-test.index') }}" class="btn-take-assessment btn-pro btn-pro-unlocked">
+            <i class="fa-solid fa-crown"></i> Open Advanced Test <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        @else
+          <a href="{{ route('membership.index') }}" class="btn-take-assessment btn-pro">
+            <i class="fa-solid fa-crown"></i> Unlock with Pro Membership
+          </a>
+        @endif
       </div>
     </div>
   </div>

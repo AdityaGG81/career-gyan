@@ -503,6 +503,11 @@
           <i class="fa-solid fa-robot" style="color: #38bdf8;"></i> Chatbot Queries
         </a>
       </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.student-analyses') ? 'active' : '' }}">
+        <a href="{{ route('admin.student-analyses.index') }}">
+          <i class="fa-solid fa-clipboard-user" style="color: #60a5fa;"></i> Student Analyses
+        </a>
+      </li>
       
       <li class="menu-category">Feedback</li>
       <li class="admin-menu-item {{ $currentRoute == 'admin.suggestions' ? 'active' : '' }}">

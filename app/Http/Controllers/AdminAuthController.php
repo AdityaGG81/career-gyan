@@ -112,6 +112,13 @@ class AdminAuthController extends Controller
             }
         } catch (\Exception $e) {}
 
+        $studentAnalysisCount = 0;
+        try {
+            if (class_exists(\App\Models\StudentAnalysis::class)) {
+                $studentAnalysisCount = \App\Models\StudentAnalysis::count();
+            }
+        } catch (\Exception $e) {}
+
         return view('admin.dashboard', compact(
             'userCount',
             'careerCount',
@@ -127,7 +134,8 @@ class AdminAuthController extends Controller
             'businessCount',
             'chatQueryCount',
             'todayChatQueryCount',
-            'recentChatQueries'
+            'recentChatQueries',
+            'studentAnalysisCount'
         ));
     }
 }
