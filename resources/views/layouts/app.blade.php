@@ -1659,16 +1659,12 @@
 
     <div class="sidebar-divider"></div>
 
-    <a href="{{ route('student-analysis.create') }}" title="Student Analysis" style="color: #2563eb;">
-      <i class="fa-solid fa-clipboard-user"></i>
-      <span>Analysis</span>
+    <a href="{{ route('quick-test.start') }}" title="Quick Test" style="color: var(--brand);">
+      <i class="fa-solid fa-gauge-high"></i>
+      <span>Quick</span>
     </a>
-    <a href="{{ route('test.start') }}" title="Aptitude Test" style="color: #059669;">
-      <i class="fa-solid fa-brain"></i>
-      <span>Aptitude</span>
-    </a>
-    <a href="{{ route('advanced-test.index') }}" title="Advance Test (Pro)" style="color: #b45309;">
-      <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+    <a href="{{ route('test.start') }}" title="Advance Test" style="color: #b45309;">
+      <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
       <span>Advance</span>
     </a>
   </div>
@@ -1798,17 +1794,6 @@
             </div>
           </div>
 
-          <a href="{{ route('student-analysis.create') }}" class="nav-link-btn" title="Student Analysis Assessment">
-            <i class="fa-solid fa-clipboard-user" style="color: #2563eb;"></i> Student Analysis
-          </a>
-
-          <a href="{{ route('test.start') }}" class="nav-link-btn" title="Aptitude Test">
-            <i class="fa-solid fa-brain" style="color: #059669;"></i> Aptitude Test
-          </a>
-
-          <a href="{{ route('advanced-test.index') }}" class="nav-cta" title="Advanced Test (Pro Members)">
-            <i class="fa-solid fa-crown" style="color: #fbbf24;"></i> Advance Test
-          </a>
           @auth
             <div class="nav-divider"></div>
             <!-- User Dropdown Menu -->
@@ -1875,14 +1860,11 @@
     <a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">
       <i class="fa-solid fa-info-circle"></i> About
     </a>
-    <a href="{{ route('student-analysis.create') }}" style="color:#2563eb;font-weight:700;">
-      <i class="fa-solid fa-clipboard-user"></i> Student Analysis
+    <a href="{{ route('quick-test.start') }}" style="color:var(--brand);font-weight:700;">
+      <i class="fa-solid fa-gauge-high"></i> Quick Test
     </a>
-    <a href="{{ route('test.start') }}" style="color:#059669;font-weight:700;">
-      <i class="fa-solid fa-brain"></i> Aptitude Test
-    </a>
-    <a href="{{ route('advanced-test.index') }}" style="color:#b45309;font-weight:700;">
-      <i class="fa-solid fa-crown" style="color:#f59e0b;"></i> Advance Test (Pro)
+    <a href="{{ route('test.start') }}" style="color:var(--brand);font-weight:700;">
+      <i class="fa-solid fa-bolt"></i> Advance Test
     </a>
     @auth
     <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
