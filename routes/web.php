@@ -321,6 +321,8 @@ Route::delete('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStuden
 // Admin Membership Management
 Route::get('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'index'])->name('admin.membership.index');
 Route::post('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'update'])->name('admin.membership.update');
+Route::post('/admin/membership/grant', [\App\Http\Controllers\AdminMembershipController::class, 'grant'])->name('admin.membership.grant');
+Route::post('/admin/membership/revoke/{userId}', [\App\Http\Controllers\AdminMembershipController::class, 'revoke'])->name('admin.membership.revoke');
 
 
 // Admin Blog CRUD

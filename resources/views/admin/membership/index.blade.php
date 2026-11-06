@@ -73,6 +73,19 @@
     color: var(--admin-text-1);
   }
 
+  .grant-form-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.1fr 1fr auto;
+    gap: 16px;
+    align-items: end;
+  }
+
+  @media (max-width: 992px) {
+    .grant-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* Form Styling */
   .form-section-title {
     font-family: 'Outfit', sans-serif;
@@ -441,6 +454,87 @@
     </div>
   </div>
 
+  <!-- Grant Premium Membership to Desired Email Section -->
+  <div class="panel-card" id="grant-membership-card" style="margin-bottom: 32px; border: 1.5px solid #fde68a; background: linear-gradient(135deg, #fffdf5 0%, #ffffff 100%); box-shadow: 0 4px 18px rgba(245, 158, 11, 0.08);">
+    <div class="panel-header" style="border-bottom: 1px solid #fef3c7; padding-bottom: 16px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase;">Direct Admin Grant</span>
+          <h2 style="margin: 0; font-size: 18px; color: #92400e; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Grant Premium Membership to Desired Email
+          </h2>
+        </div>
+        <p style="margin: 4px 0 0 0; font-size: 13px; color: #78350f;">
+          Provide full Pro membership privileges (Advanced Assessments, AI Career Guruji unlimited queries, mentor WhatsApp access, and reports) to any email address.
+        </p>
+      </div>
+    </div>
+
+    <form action="{{ route('admin.membership.grant') }}" method="POST" style="padding: 24px;">
+      @csrf
+      <div class="grant-form-grid">
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+            Candidate / Student Email <span style="color: #dc2626;">*</span>
+          </label>
+          <input 
+            type="email" 
+            name="email" 
+            id="grantEmailInput"
+            list="registeredUsersList"
+            required 
+            placeholder="e.g. candidate@gmail.com"
+            style="width: 100%; padding: 11px 14px; border-radius: var(--admin-radius-md); border: 1px solid #cbd5e1; font-size: 14px; outline: none; background: #fff;"
+          >
+          <datalist id="registeredUsersList">
+            @foreach($registeredUsers as $ru)
+              <option value="{{ $ru->email }}">{{ $ru->name ?: $ru->first_name }} (ID #{{ $ru->id }}{{ $ru->is_member ? ' - Already Pro' : '' }})</option>
+            @endforeach
+          </datalist>
+          <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">
+            Select from registered candidates or enter any new email.
+          </div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+            Access Duration
+          </label>
+          <select name="duration_days" id="grantDurationSelect" style="width: 100%; padding: 11px 12px; border-radius: var(--admin-radius-md); border: 1px solid #cbd5e1; font-size: 13px; background: #fff; font-weight: 600;">
+            <option value="365" selected>1 Year (365 Days) — Standard</option>
+            <option value="180">6 Months (180 Days)</option>
+            <option value="90">3 Months (90 Days)</option>
+            <option value="30">1 Month (30 Days)</option>
+            <option value="730">2 Years (730 Days)</option>
+          </select>
+          <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; margin-top: 5px; cursor: pointer;">
+            <input type="checkbox" name="is_lifetime" value="1" id="isLifetimeCheckbox" onchange="document.getElementById('grantDurationSelect').disabled = this.checked;">
+            Lifetime (No Expiry)
+          </label>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+            Admin Note / Reason (Optional)
+          </label>
+          <input 
+            type="text" 
+            name="admin_note" 
+            placeholder="e.g. Scholarship / Promotion" 
+            style="width: 100%; padding: 11px 14px; border-radius: var(--admin-radius-md); border: 1px solid #cbd5e1; font-size: 13px; outline: none; background: #fff;"
+          >
+          <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Saved in audit transaction log</div>
+        </div>
+
+        <div>
+          <button type="submit" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; border: none; padding: 12px 22px; border-radius: var(--admin-radius-md); font-size: 13.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(180, 83, 9, 0.25); white-space: nowrap; height: 44px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">
+            <i class="fa-solid fa-crown" style="color: #fde68a;"></i> Grant Membership
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <div class="mem-grid">
     
     <!-- Left: Settings Form -->
@@ -708,6 +802,7 @@
               <th>Starts At</th>
               <th>Expires At</th>
               <th>Payment ID</th>
+              <th style="text-align: right;">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -723,7 +818,7 @@
                 </td>
                 <td>{{ $mem->user ? $mem->user->email : 'N/A' }}</td>
                 <td style="font-weight: 700; color: #15803d;">
-                  {{ $mem->currency == 'INR' ? '₹' : $mem->currency }} {{ number_format($mem->amount_paid / 100) }}
+                  {{ $mem->amount_paid > 0 ? (($mem->currency == 'INR' ? '₹' : $mem->currency) . ' ' . number_format($mem->amount_paid / 100)) : 'Admin Grant (₹0)' }}
                 </td>
                 <td>
                   <span style="padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: {{ $mem->status == 'active' ? '#dcfce7' : '#fee2e2' }}; color: {{ $mem->status == 'active' ? '#15803d' : '#991b1b' }};">
@@ -732,7 +827,21 @@
                 </td>
                 <td>{{ $mem->starts_at ? $mem->starts_at->format('d M Y') : 'N/A' }}</td>
                 <td>{{ $mem->expires_at ? $mem->expires_at->format('d M Y') : 'Lifetime' }}</td>
-                <td style="font-family: monospace; font-size: 12px;">{{ $mem->razorpay_payment_id ?: 'Simulated' }}</td>
+                <td style="font-family: monospace; font-size: 12px;" title="{{ $mem->razorpay_signature ?: '' }}">
+                  {{ $mem->razorpay_payment_id ?: 'Simulated' }}
+                </td>
+                <td style="text-align: right;">
+                  @if($mem->status == 'active' && $mem->user_id)
+                    <form action="{{ route('admin.membership.revoke', $mem->user_id) }}" method="POST" onsubmit="return confirm('Revoke Pro membership for {{ $mem->user ? $mem->user->email : 'this user' }}?');" style="margin: 0; display: inline-block;">
+                      @csrf
+                      <button type="submit" style="background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#fca5a5'" onmouseout="this.style.background='#fee2e2'">
+                        <i class="fa-solid fa-ban"></i> Revoke
+                      </button>
+                    </form>
+                  @else
+                    <span style="color: #94a3b8; font-size: 11px;">—</span>
+                  @endif
+                </td>
               </tr>
             @endforeach
           </tbody>

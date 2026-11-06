@@ -29,7 +29,11 @@ class AdminMembershipController extends Controller
             ->take(8)
             ->get();
 
-        return view('admin.membership.index', compact('plan', 'stats', 'recentMembers'));
+        $registeredUsers = User::select('id', 'name', 'first_name', 'last_name', 'email', 'is_member')
+            ->orderBy('email')
+            ->get();
+
+        return view('admin.membership.index', compact('plan', 'stats', 'recentMembers', 'registeredUsers'));
     }
 
     public function update(Request $request)
@@ -98,5 +102,90 @@ class AdminMembershipController extends Controller
 
         return redirect()->route('admin.membership.index')
             ->with('success', 'Premium Membership settings, amount, and symbol updated successfully!');
+    }
+
+    /**
+     * Grant premium membership directly to any email from the admin panel.
+     */
+    public function grant(Request $request)
+    {
+        if (!session()->has('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'duration_days' => 'nullable|integer|min:1',
+            'is_lifetime' => 'nullable|boolean',
+            'admin_note' => 'nullable|string|max:255',
+        ]);
+
+        $email = trim(strtolower($request->email));
+        $user = User::where('email', $email)->first();
+
+        // If user does not exist yet, auto-create an account so when they register or login, Pro is already active
+        if (!$user) {
+            $parts = explode('@', $email);
+            $firstName = ucwords(str_replace(['.', '_', '-'], ' ', $parts[0]));
+            $user = User::create([
+                'first_name' => $firstName,
+                'last_name' => '',
+                'name' => $firstName,
+                'email' => $email,
+                'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(16)),
+                'is_member' => true,
+            ]);
+        }
+
+        $plan = MembershipPlan::getDefaultPlan();
+        $isLifetime = (bool) $request->input('is_lifetime', false);
+        $durationDays = $isLifetime ? null : (int) $request->input('duration_days', $plan->duration_days ?: 365);
+        $expiresAt = $durationDays ? now()->addDays($durationDays) : null;
+
+        $user->is_member = true;
+        $user->membership_expires_at = $expiresAt;
+        $user->save();
+
+        // Create a transaction record in memberships table for auditing
+        $note = $request->input('admin_note') ?: 'Granted manually via Admin Panel';
+        Membership::create([
+            'user_id' => $user->id,
+            'plan_id' => $plan->id,
+            'razorpay_order_id' => 'admin_grant_' . uniqid(),
+            'razorpay_payment_id' => 'admin_manual_' . uniqid(),
+            'razorpay_signature' => 'admin_memo: ' . substr($note, 0, 100),
+            'amount_paid' => 0,
+            'currency' => 'INR',
+            'status' => 'active',
+            'starts_at' => now(),
+            'expires_at' => $expiresAt,
+        ]);
+
+        $durationLabel = $isLifetime ? 'Lifetime Access' : "{$durationDays} days (until " . $expiresAt->format('d M, Y') . ")";
+
+        return redirect()->back()
+            ->with('success', "👑 Premium Pro Membership successfully granted to {$user->email} for {$durationLabel}!");
+    }
+
+    /**
+     * Revoke premium membership access for a user.
+     */
+    public function revoke($userId)
+    {
+        if (!session()->has('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
+        $user = User::findOrFail($userId);
+        $user->is_member = false;
+        $user->membership_expires_at = null;
+        $user->save();
+
+        Membership::where('user_id', $user->id)
+            ->where('status', 'active')
+            ->update(['status' => 'cancelled']);
+
+        return redirect()->back()
+            ->with('success', "Pro membership has been revoked for {$user->email}.");
     }
 }
