@@ -120,66 +120,274 @@
         border: 1px solid var(--border);
         border-radius: var(--radius-lg);
     }
-    .answer-row {
-        padding: 15px;
-        border-bottom: 1px solid var(--border);
-        display: grid;
-        grid-template-columns: 80px 2fr 1fr 1fr 80px;
-        gap: 15px;
-        align-items: center;
-    }
-    .answer-row:last-child { border-bottom: none; }
-    .answer-row.correct { background: #f0fdf4; }
-    .answer-row.wrong { background: #fef2f2; }
-    .status-badge {
-        font-size: 11px;
-        font-weight: 700;
-        padding: 4px 8px;
-        border-radius: 4px;
-        text-transform: uppercase;
-        text-align: center;
-    }
-    .status-correct { background: #dcfce7; color: #166534; }
-    .status-wrong { background: #fee2e2; color: #991b1b; }
     
-    .btn-group {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
+    /* Modern Action Center */
+    .results-action-bar {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        padding: 24px 30px;
         margin-top: 40px;
-    }
-    .action-btn {
+        box-shadow: var(--shadow-sm);
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .action-bar-buttons {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn-action-main {
+        display: inline-flex;
         align-items: center;
         gap: 8px;
-        height: 50px;
-        padding: 0 30px;
-        background: var(--brand);
-        color: #fff;
-        border-radius: var(--radius-md);
+        padding: 12px 22px;
+        border-radius: 10px;
         font-weight: 700;
-        font-size: 15px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s;
+        font-size: 14px;
         text-decoration: none;
+        cursor: pointer;
+        border: none;
+        transition: all 0.25s ease;
         box-shadow: var(--shadow-sm);
     }
-    .action-btn:hover {
-        background: var(--brand-dark);
+    .btn-action-main:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
-        color: #fff;
     }
-    .action-btn.btn-outline {
-        background: #fff;
-        color: var(--brand);
-        border: 1.5px solid var(--brand);
-        box-shadow: none;
+
+    .btn-cert {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        color: #ffffff;
     }
-    .action-btn.btn-outline:hover {
-        background: var(--brand-light);
-        color: var(--brand);
+    .btn-cert:hover {
+        background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+        color: #ffffff;
+    }
+    .btn-review-toggle {
+        background: #f8fafc;
+        color: #1e293b;
+        border: 1.5px solid #cbd5e1;
+    }
+    .btn-review-toggle:hover {
+        background: #f1f5f9;
+        border-color: #94a3b8;
+    }
+    .btn-review-toggle.is-active {
+        background: #7c3aed;
+        color: #ffffff;
+        border-color: #7c3aed;
+    }
+    .btn-print {
+        background: #ffffff;
+        color: #475569;
+        border: 1.5px solid #e2e8f0;
+    }
+    .btn-print:hover {
+        background: #f8fafc;
+        color: #1e293b;
+    }
+    .btn-explore {
+        background: #0f172a;
+        color: #ffffff;
+    }
+    .btn-explore:hover {
+        background: #1e293b;
+        color: #ffffff;
+    }
+
+    /* Modern Answer Review Card */
+    .answer-review-container {
+        display: block;
+        margin-top: 35px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .answer-review-header {
+        padding: 28px 32px 20px;
+        background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .review-stats-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+    }
+
+    .review-stat-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        border: 1px solid transparent;
+    }
+    .review-stat-chip.total { background: #f5f3ff; color: #6d28d9; border-color: #ddd6fe; }
+    .review-stat-chip.correct { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+    .review-stat-chip.wrong { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+    .review-stat-chip.acc { background: #f8fafc; color: #334155; border-color: #cbd5e1; }
+
+    .review-filter-nav {
+        display: flex;
+        gap: 8px;
+        padding: 16px 32px;
+        background: #f8fafc;
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+    }
+
+    .review-filter-btn {
+        padding: 7px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        color: var(--text-2);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .review-filter-btn:hover {
+        background: #f1f5f9;
+        color: var(--text-1);
+    }
+    .review-filter-btn.active {
+        background: #7c3aed;
+        color: #ffffff;
+        border-color: #7c3aed;
+        box-shadow: 0 2px 6px rgba(124, 58, 237, 0.25);
+    }
+
+    .review-items-list {
+        padding: 24px 32px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .review-q-card {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: var(--radius-lg);
+        padding: 22px;
+        transition: all 0.2s ease;
+    }
+    .review-q-card:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+    .review-q-card.is-correct-card {
+        border-left: 5px solid #10b981;
+    }
+    .review-q-card.is-wrong-card {
+        border-left: 5px solid #ef4444;
+    }
+
+    .review-q-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .review-pill-status {
+        font-size: 12px;
+        font-weight: 800;
+        padding: 4px 12px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .review-pill-status.corr { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .review-pill-status.incorr { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+
+    .review-q-text {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-1);
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+
+    .review-options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .review-opt-pill {
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 13.5px;
+        border: 1.5px solid #e2e8f0;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+    }
+    .review-opt-pill.is-target {
+        border-color: #10b981;
+        background: #ecfdf5;
+        color: #065f46;
+        font-weight: 700;
+    }
+    .review-opt-pill.is-user-wrong {
+        border-color: #ef4444;
+        background: #fff1f2;
+        color: #991b1b;
+        font-weight: 700;
+    }
+
+    .review-answer-comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 14px;
+    }
+    @media (max-width: 650px) {
+        .review-answer-comparison { grid-template-columns: 1fr; }
+    }
+
+    .review-ans-box {
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 13.5px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .review-ans-box.user-chosen-correct {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+    }
+    .review-ans-box.user-chosen-wrong {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+    }
+    .review-ans-box.official-correct {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
     }
 
     .cta-advanced {
@@ -438,37 +646,224 @@
             </div>
         </div>
 
-        {{-- Advanced Test CTA --}}
-        <div class="cta-advanced fade-up">
-            <h2>Not sure which career path is right for you?</h2>
-            <p>Take our Advanced Test for a deeper aptitude analysis and more accurate career recommendations.</p>
-            <div style="display: flex; justify-content: center;">
-                <a href="{{ route('test.start') }}" class="action-btn" style="background: var(--accent); color: var(--brand-dark); box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);">
-                    <i class="fa-solid fa-bolt"></i> Take Advanced Test
+        {{-- Results Action & Command Toolbar --}}
+        <div class="results-action-bar">
+            <div>
+                <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--brand); letter-spacing: 0.5px;">
+                    Take the Next Step
+                </span>
+                <h3 style="font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 800; color: var(--text-1); margin: 2px 0 0 0;">
+                    Your Official Report & Tools
+                </h3>
+            </div>
+            
+            <div class="action-bar-buttons">
+                @guest
+                <a href="{{ route('quick-test.certificate', $attempt->uuid) }}" target="_blank" class="btn-action-main btn-cert">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In for Certificate
+                </a>
+                @else
+                <a href="{{ route('quick-test.certificate', $attempt->uuid) }}" target="_blank" class="btn-action-main btn-cert">
+                    <i class="fa-solid fa-award"></i> View Certificate
+                </a>
+                @endguest
+
+                <button type="button" id="toggleReviewBtn" onclick="toggleAnswersheet()" class="btn-action-main btn-review-toggle is-active">
+                    <i class="fa-solid fa-list-check"></i> Answer Review ({{ count($questions) }} Qs)
+                </button>
+
+                <button type="button" onclick="window.print()" class="btn-action-main btn-print">
+                    <i class="fa-solid fa-file-pdf"></i> Download PDF
+                </button>
+
+                <a href="{{ url('/explore') }}" class="btn-action-main btn-explore">
+                    Explore Careers <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
 
-        {{-- Actions --}}
-        <div class="btn-group">
-            <button onclick="toggleAnswersheet()" class="action-btn btn-outline">
-                <i class="fa-solid fa-list-check"></i> Show Answersheet
+        {{-- Detailed Question & Answer Review Section --}}
+        @php
+            $answers = $attempt->answers ?? [];
+            $totalQuestionsCount = count($questions);
+            $correctCount = 0;
+            $wrongCount = 0;
+            foreach($questions as $q) {
+                $userAns = $answers[$q->id] ?? null;
+                if ($userAns && strtoupper(trim((string)$userAns)) === strtoupper(trim((string)$q->correct_option))) {
+                    $correctCount++;
+                } else {
+                    $wrongCount++;
+                }
+            }
+            $accuracyPercentage = $totalQuestionsCount > 0 ? round(($correctCount / $totalQuestionsCount) * 100) : 0;
+        @endphp
+
+        <div id="answersheet" class="answer-review-container">
+            <div class="answer-review-header">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span style="font-size: 11px; font-weight: 800; background: #ede9fe; color: #6d28d9; padding: 2px 8px; border-radius: 999px; text-transform: uppercase;">
+                                Questions Breakdown
+                            </span>
+                            <span style="font-size: 12px; color: var(--text-3);">Evaluated against official answer key</span>
+                        </div>
+                        <h3 style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: var(--text-1); margin: 0;">
+                            Detailed Answer Review
+                        </h3>
+                    </div>
+
+                    {{-- Performance Metrics Chips --}}
+                    <div class="review-stats-bar" style="margin-top: 0;">
+                        <span class="review-stat-chip total">
+                            Total: <strong>{{ $totalQuestionsCount }}</strong>
+                        </span>
+                        <span class="review-stat-chip correct">
+                            <i class="fa-solid fa-circle-check"></i> Correct: <strong>{{ $correctCount }}</strong>
+                        </span>
+                        <span class="review-stat-chip wrong">
+                            <i class="fa-solid fa-circle-xmark"></i> Incorrect: <strong>{{ $wrongCount }}</strong>
+                        </span>
+                        <span class="review-stat-chip acc">
+                            Accuracy: <strong>{{ $accuracyPercentage }}%</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Interactive Filter Tabs --}}
+            <div class="review-filter-nav">
+                <button type="button" class="review-filter-btn active" onclick="filterQuickReview('all', this)">
+                    All Questions ({{ $totalQuestionsCount }})
+                </button>
+                <button type="button" class="review-filter-btn" onclick="filterQuickReview('correct', this)">
+                    <i class="fa-solid fa-check" style="color: #10b981;"></i> Correct Only ({{ $correctCount }})
+                </button>
+                <button type="button" class="review-filter-btn" onclick="filterQuickReview('wrong', this)">
+                    <i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Incorrect Only ({{ $wrongCount }})
+                </button>
+            </div>
+
+            {{-- Card-Based Question List --}}
+            <div class="review-items-list" id="quickQuestionsReviewList">
+                @foreach($questions as $index => $q)
+                    @php
+                        $userAns = $answers[$q->id] ?? null;
+                        $isCorrect = ($userAns && strtoupper(trim((string)$userAns)) === strtoupper(trim((string)$q->correct_option)));
+                        $correctOpt = strtoupper(trim((string)$q->correct_option));
+                        $userOpt = $userAns ? strtoupper(trim((string)$userAns)) : null;
+
+                        $optionsMap = [
+                            'A' => ['text' => $q->option_a, 'img' => $q->option_a_image],
+                            'B' => ['text' => $q->option_b, 'img' => $q->option_b_image],
+                            'C' => ['text' => $q->option_c, 'img' => $q->option_c_image],
+                            'D' => ['text' => $q->option_d, 'img' => $q->option_d_image],
+                        ];
+                    @endphp
+                    <div class="review-q-card {{ $isCorrect ? 'is-correct-card' : 'is-wrong-card' }}" data-status="{{ $isCorrect ? 'correct' : 'wrong' }}">
+                        <div class="review-q-meta">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-weight: 800; font-size: 14px; color: var(--text-1);">#{{ $index + 1 }}</span>
+                                <span style="background: #f3e8ff; color: #7c3aed; font-size: 11.5px; font-weight: 700; padding: 2px 10px; border-radius: 6px;">
+                                    {{ $q->section }}
+                                </span>
+                            </div>
+                            <span class="review-pill-status {{ $isCorrect ? 'corr' : 'incorr' }}">
+                                @if($isCorrect)
+                                    <i class="fa-solid fa-circle-check"></i> Correct
+                                @else
+                                    <i class="fa-solid fa-circle-xmark"></i> Incorrect
+                                @endif
+                            </span>
+                        </div>
+
+                        <div class="review-q-text">
+                            {{ $q->question_text }}
+                        </div>
+
+                        {{-- Question Diagram / Visual if available --}}
+                        @if(!empty($q->question_image))
+                            <div style="margin-bottom: 16px;">
+                                <img src="{{ asset($q->question_image) }}" alt="Question Diagram" style="max-height: 180px; max-width: 100%; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; padding: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+                            </div>
+                        @endif
+
+                        {{-- Options List / Grid --}}
+                        <div class="review-options-grid">
+                            @foreach($optionsMap as $optKey => $optData)
+                                @php
+                                    $hasOpt = !empty($optData['text']) || !empty($optData['img']);
+                                    if (!$hasOpt) continue;
+                                    $isThisCorrect = ($optKey === $correctOpt);
+                                    $isThisSelected = ($optKey === $userOpt);
+                                @endphp
+                                <div class="review-opt-pill {{ $isThisCorrect ? 'is-target' : ($isThisSelected ? 'is-user-wrong' : '') }}">
+                                    <span style="font-weight: 800; min-width: 22px;">{{ $optKey }}.</span>
+                                    
+                                    @if(!empty($optData['img']))
+                                        <img src="{{ asset($optData['img']) }}" alt="Option {{ $optKey }}" style="max-height: 48px; border-radius: 4px; border: 1px solid #e2e8f0; background: #fff; padding: 2px;">
+                                    @endif
+
+                                    @if(!empty($optData['text']))
+                                        <span style="flex: 1;">{{ $optData['text'] }}</span>
+                                    @endif
+
+                                    @if($isThisCorrect)
+                                        <span style="font-size: 10px; background: #10b981; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800; margin-left: auto;">CORRECT</span>
+                                    @elseif($isThisSelected)
+                                        <span style="font-size: 10px; background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800; margin-left: auto;">YOUR CHOICE</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Side-by-Side User Answer vs Official Correct Answer Comparison --}}
+                        <div class="review-answer-comparison">
+                            <div class="review-ans-box {{ $isCorrect ? 'user-chosen-correct' : 'user-chosen-wrong' }}">
+                                <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: {{ $isCorrect ? '#15803d' : '#991b1b' }};">
+                                    Your Submitted Choice:
+                                </span>
+                                <span style="font-size: 14.5px; font-weight: 700; color: {{ $isCorrect ? '#15803d' : '#991b1b' }};">
+                                    @if($userOpt)
+                                        Option {{ $userOpt }} {{ !empty($optionsMap[$userOpt]['text']) ? '— ' . $optionsMap[$userOpt]['text'] : '' }}
+                                    @else
+                                        Not Answered / Skipped
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="review-ans-box official-correct">
+                                <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #166534;">
+                                    <i class="fa-solid fa-circle-check"></i> Official Correct Answer:
+                                </span>
+                                <span style="font-size: 14.5px; font-weight: 700; color: #166534;">
+                                    Option {{ $correctOpt }} {{ !empty($optionsMap[$correctOpt]['text']) ? '— ' . $optionsMap[$correctOpt]['text'] : '' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Single Smart AI Career Guruji Consultation Card --}}
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius-xl); padding: 32px 36px; margin-top: 40px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);">
+            <div style="display: flex; align-items: center; gap: 18px; max-width: 680px;">
+                <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #7c3aed, #4f46e5); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ffffff; flex-shrink: 0; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 6px 0; font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 800; color: #ffffff;">
+                        Need Personal Guidance on These Results?
+                    </h4>
+                    <p style="margin: 0; font-size: 14px; color: #cbd5e1; line-height: 1.5;">
+                        AI Career Guruji has analyzed your stream recommendations. Ask about top degrees, entrance examinations, or a customized career roadmap matching your strengths.
+                    </p>
+                </div>
+            </div>
+            <button type="button" onclick="window.openAiChatWithQuery && window.openAiChatWithQuery('Based on my quick stream test results, which careers, streams, and colleges do you recommend for me?')" style="background: #7c3aed; color: #ffffff; padding: 14px 26px; border-radius: 10px; font-size: 14.5px; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                <i class="fa-solid fa-comment-dots"></i> Ask AI About My Scores
             </button>
-            @guest
-            <a href="{{ route('quick-test.certificate', $attempt->uuid) }}" target="_blank" class="action-btn" style="background: #10b981;">
-                <i class="fa-solid fa-right-to-bracket"></i> Sign In to Get Certificate
-            </a>
-            @else
-            <a href="{{ route('quick-test.certificate', $attempt->uuid) }}" target="_blank" class="action-btn" style="background: #10b981;">
-                <i class="fa-solid fa-award"></i> View Certificate
-            </a>
-            @endguest
-            <button onclick="window.print()" class="action-btn">
-                <i class="fa-solid fa-file-pdf"></i> Download Report
-            </button>
-            <a href="{{ url('/explore') }}" class="action-btn" style="background: var(--text-1);">
-                Explore Careers <i class="fa-solid fa-arrow-right"></i>
-            </a>
         </div>
 
         {{-- Next Steps & Interconnected Ecosystem Recommendation Hub --}}
@@ -528,42 +923,15 @@
             </div>
         </div>
 
-        {{-- Answersheet Section --}}
-        <div id="answersheet" class="answersheet-section">
-            <h3 style="font-size: 20px; font-weight: 800; color: var(--text-1); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-file-invoice" style="color: var(--brand);"></i> 
-                Detailed Answer Review
-            </h3>
-            
-            <div class="answer-row" style="background: #f8fafc; font-weight: 700; border-radius: 8px 8px 0 0; border-bottom: 2px solid var(--border);">
-                <div>Q. No</div>
-                <div>Question Section</div>
-                <div style="text-align: center;">Selected</div>
-                <div style="text-align: center;">Correct</div>
-                <div style="text-align: center;">Result</div>
+        {{-- Advanced Test Invitation Banner --}}
+        <div class="cta-advanced fade-up">
+            <h2>Ready for an In-Depth 7-Dimension Career Evaluation?</h2>
+            <p>Our Advanced Career Assessment covers comprehensive verbal, numerical, spatial, and psychometric dimensions with detailed college & career matching.</p>
+            <div style="display: flex; justify-content: center;">
+                <a href="{{ route('test.start') }}" class="action-btn" style="background: var(--accent); color: var(--brand-dark); font-weight: 800; font-size: 15px; padding: 14px 30px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                    <i class="fa-solid fa-bolt"></i> Take Advanced Test Now
+                </a>
             </div>
-
-            @php $answers = $attempt->answers ?? []; @endphp
-            @foreach($questions as $index => $q)
-                @php 
-                    $userAns = $answers[$q->id] ?? 'N/A';
-                    $isCorrect = ($userAns === $q->correct_option);
-                @endphp
-                <div class="answer-row {{ $isCorrect ? 'correct' : 'wrong' }}">
-                    <div style="font-weight: 800; color: var(--text-3);">#{{ $index + 1 }}</div>
-                    <div>
-                        <div style="font-size: 12px; font-weight: 700; color: #7c3aed; text-transform: uppercase; margin-bottom: 3px;">{{ $q->section }}</div>
-                        <div style="font-size: 13.5px; color: var(--text-1); line-height: 1.4;">{{ $q->question_text }}</div>
-                    </div>
-                    <div style="text-align: center; font-weight: 700;">Option {{ $userAns }}</div>
-                    <div style="text-align: center; font-weight: 700; color: #166534;">Option {{ $q->correct_option }}</div>
-                    <div style="text-align: center;">
-                        <span class="status-badge {{ $isCorrect ? 'status-correct' : 'status-wrong' }}">
-                            {{ $isCorrect ? 'Correct' : 'Wrong' }}
-                        </span>
-                    </div>
-                </div>
-            @endforeach
         </div>
     </div>
 </div>
@@ -576,12 +944,32 @@
         // Toggle Answersheet
         window.toggleAnswersheet = function() {
             const sheet = document.getElementById('answersheet');
-            if (sheet.style.display === 'block') {
-                sheet.style.display = 'none';
-            } else {
+            const btn = document.getElementById('toggleReviewBtn');
+            if (!sheet) return;
+
+            if (sheet.style.display === 'none') {
                 sheet.style.display = 'block';
+                if (btn) btn.classList.add('is-active');
                 sheet.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                sheet.style.display = 'none';
+                if (btn) btn.classList.remove('is-active');
             }
+        };
+
+        // Filter Quick Test questions by status
+        window.filterQuickReview = function(status, btnElement) {
+            document.querySelectorAll('.review-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+
+            const cards = document.querySelectorAll('#quickQuestionsReviewList .review-q-card');
+            cards.forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         };
 
         // Sectional Performance Chart
