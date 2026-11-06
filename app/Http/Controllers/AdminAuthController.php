@@ -44,7 +44,7 @@ class AdminAuthController extends Controller
             return redirect()->route('admin.login');
         }
 
-        $users = \App\Models\User::latest()->get();
+        $users = \App\Models\User::with(['testSessions', 'studentAnalyses'])->latest()->get();
         return view('admin.users', compact('users'));
     }
 
@@ -119,6 +119,14 @@ class AdminAuthController extends Controller
             }
         } catch (\Exception $e) {}
 
+        $totalTestResultCount = 0;
+        try {
+            $aptCount = class_exists(\App\Models\TestSession::class) ? \App\Models\TestSession::count() : 0;
+            $saCount = class_exists(\App\Models\StudentAnalysis::class) ? \App\Models\StudentAnalysis::count() : 0;
+            $qtCount = class_exists(\App\Models\QuickTestAttempt::class) ? \App\Models\QuickTestAttempt::count() : 0;
+            $totalTestResultCount = $aptCount + $saCount + $qtCount;
+        } catch (\Exception $e) {}
+
         return view('admin.dashboard', compact(
             'userCount',
             'careerCount',
@@ -135,7 +143,8 @@ class AdminAuthController extends Controller
             'chatQueryCount',
             'todayChatQueryCount',
             'recentChatQueries',
-            'studentAnalysisCount'
+            'studentAnalysisCount',
+            'totalTestResultCount'
         ));
     }
 }

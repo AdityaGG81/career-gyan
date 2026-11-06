@@ -137,6 +137,7 @@ Route::middleware('auth')->group(function () {
     // AI Chatbot
     Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
     Route::get('/ai-career-chat/limit', [AiCareerChatController::class, 'getRemainingLimit'])->name('ai-career-chat.limit');
+    Route::get('/ai-career-chat/profile-status', [AiCareerChatController::class, 'profileStatus'])->name('ai-career-chat.profile-status');
 
     // Daily Quiz (auth required to take & view results)
     Route::post('/daily-quiz/submit', [DailyQuizController::class, 'submit'])->name('daily-quiz.submit');
@@ -302,6 +303,12 @@ Route::get('/admin/chatbot-queries/export', [\App\Http\Controllers\AdminChatbotC
 Route::get('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'show'])->name('admin.chatbot.show');
 Route::delete('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'destroy'])->name('admin.chatbot.destroy');
 Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotController::class, 'clearLogs'])->name('admin.chatbot.clear');
+
+// Admin Unified Test Results Hub
+Route::get('/admin/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'index'])->name('admin.test-results.index');
+Route::get('/admin/test-results/aptitude/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showAptitude'])->name('admin.test-results.aptitude.show');
+Route::delete('/admin/test-results/aptitude/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyAptitude'])->name('admin.test-results.aptitude.destroy');
+Route::get('/admin/users/{id}/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'userTestResults'])->name('admin.test-results.user');
 
 // Admin Student Analyses
 Route::get('/admin/student-analyses', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'index'])->name('admin.student-analyses.index');

@@ -373,6 +373,22 @@
     <div class="stat-value">{{ number_format($suggestionCount) }}</div>
   </div>
 
+  <!-- Stat Card: Candidate Test Results -->
+  <div class="stat-card" style="border-color: rgba(59, 130, 246, 0.4);">
+    <a href="{{ route('admin.test-results.index') }}" style="text-decoration: none; color: inherit; display: block;">
+      <div class="stat-header">
+        <span class="stat-title">Candidate Test Results</span>
+        <div class="stat-icon-wrap" style="background: #eff6ff; color: #2563eb;">
+          <i class="fa-solid fa-square-poll-vertical"></i>
+        </div>
+      </div>
+      <div class="stat-value" style="color: #2563eb;">{{ number_format($totalTestResultCount ?? 0) }}</div>
+      <div style="font-size: 12px; color: #2563eb; margin-top: 6px; font-weight: 600;">
+        View all assessments &rarr;
+      </div>
+    </a>
+  </div>
+
   <!-- Stat Card: Student Analyses -->
   <div class="stat-card" style="border-color: rgba(99, 102, 241, 0.4);">
     <a href="{{ route('admin.student-analyses.index') }}" style="text-decoration: none; color: inherit; display: block;">
@@ -465,6 +481,13 @@
       <h2>Quick Actions</h2>
     </div>
     <div class="quick-actions-wrap">
+      <a href="{{ route('admin.test-results.index') }}" class="action-btn-link" style="border-left: 3px solid #2563eb;">
+        <div class="action-btn-left">
+          <i class="fa-solid fa-square-poll-vertical" style="color: #2563eb;"></i>
+          <span>Track Candidate Test Results</span>
+        </div>
+        <i class="fa-solid fa-arrow-right" style="font-size: 14px; color: #cbd5e1;"></i>
+      </a>
       <a href="{{ route('admin.student-analyses.index') }}" class="action-btn-link" style="border-left: 3px solid #6366f1;">
         <div class="action-btn-left">
           <i class="fa-solid fa-clipboard-user" style="color: #6366f1;"></i>

@@ -456,6 +456,11 @@
           <i class="fa-solid fa-users"></i> Users
         </a>
       </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.test-results') ? 'active' : '' }}">
+        <a href="{{ route('admin.test-results.index') }}">
+          <i class="fa-solid fa-square-poll-vertical" style="color: #38bdf8;"></i> Test Results
+        </a>
+      </li>
       <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.fields') ? 'active' : '' }}">
         <a href="{{ route('admin.fields.index') }}">
           <i class="fa-solid fa-shapes"></i> Categories

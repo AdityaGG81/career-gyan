@@ -92,7 +92,9 @@
           <th>Name</th>
           <th>Email</th>
           <th>Phone</th>
+          <th>Assessments / Tests</th>
           <th>Joined Date</th>
+          <th style="text-align: right;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -101,17 +103,48 @@
             <td style="color: var(--admin-text-3); font-weight: 600; font-size: 13px;">#{{ $user->id }}</td>
             <td class="user-name" style="font-weight: 700; color: var(--admin-text-1);">
               {{ $user->first_name }} {{ $user->last_name }}
+              @if($user->hasActiveMembership())
+                <span style="background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 999px; font-size: 10px; font-weight: 700; margin-left: 4px;">
+                  <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Pro
+                </span>
+              @endif
             </td>
             <td class="user-email">{{ $user->email }}</td>
             <td class="user-phone">{{ $user->phone ?: 'Not Provided' }}</td>
             <td>
+              @php
+                $aptCount = $user->testSessions ? $user->testSessions->count() : 0;
+                $saCount = $user->studentAnalyses ? $user->studentAnalyses->count() : 0;
+              @endphp
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                @if($aptCount > 0)
+                  <span style="background: #ecfdf5; color: #047857; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;" title="Completed {{ $aptCount }} Aptitude Test(s)">
+                    <i class="fa-solid fa-brain"></i> Aptitude ({{ $aptCount }})
+                  </span>
+                @endif
+                @if($saCount > 0)
+                  <span style="background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;" title="Completed 47-Question Student Analysis">
+                    <i class="fa-solid fa-clipboard-user"></i> Analysis
+                  </span>
+                @endif
+                @if($aptCount == 0 && $saCount == 0)
+                  <span style="color: #94a3b8; font-size: 12px;">No tests yet</span>
+                @endif
+              </div>
+            </td>
+            <td>
               {{ $user->created_at->format('d M, Y') }}
               <div style="font-size: 11.5px; color: var(--admin-text-3);">{{ $user->created_at->format('h:i A') }}</div>
+            </td>
+            <td style="text-align: right;">
+              <a href="{{ route('admin.test-results.user', $user->id) }}" style="display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: #ffffff; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
+                <i class="fa-solid fa-square-poll-vertical"></i> View Results
+              </a>
             </td>
           </tr>
         @empty
           <tr>
-            <td colspan="5" style="text-align: center; padding: 50px; color: var(--admin-text-3);">
+            <td colspan="7" style="text-align: center; padding: 50px; color: var(--admin-text-3);">
               <i class="fa-solid fa-users-slash" style="font-size: 40px; margin-bottom: 16px; color: var(--admin-text-3); display: block;"></i>
               No registered users found yet.
             </td>

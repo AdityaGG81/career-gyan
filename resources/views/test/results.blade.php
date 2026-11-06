@@ -229,8 +229,29 @@
             </div>
         </div>
 
+        {{-- AI Career Guruji Assistant Box --}}
+        <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1.5px solid #93c5fd; border-radius: 16px; padding: 24px; margin-top: 35px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; box-shadow: 0 4px 18px rgba(37, 99, 235, 0.08);">
+            <div style="display: flex; align-items: center; gap: 16px; max-width: 650px;">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #1e3a8a, #2563eb); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35);">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h4 style="margin: 0; font-size: 17px; font-weight: 800; color: #1e3a8a;">Want personalized advice on these results?</h4>
+                    <p style="margin: 4px 0 0; font-size: 13.5px; color: #334155; line-height: 1.45;">
+                        AI Career Guruji has synced your 7-dimension scores! Ask about optimal college degrees, entrance exams, or custom roadmaps matching your top strengths.
+                    </p>
+                </div>
+            </div>
+            <button type="button" onclick="window.openAiChatWithQuery && window.openAiChatWithQuery('Based on my aptitude test results, which careers, streams, and skills do you recommend for me?')" class="action-btn" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); padding: 12px 22px; font-size: 14px; border: none; cursor: pointer; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-comment-dots"></i> Ask AI About My Scores
+            </button>
+        </div>
+
         {{-- Actions --}}
         <div class="btn-group">
+            <button onclick="window.openAiChatWithQuery && window.openAiChatWithQuery('Based on my aptitude test results, which careers, streams, and skills do you recommend for me?')" class="action-btn" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white;">
+                <i class="fa-solid fa-robot"></i> Ask AI Assistant
+            </button>
             <button onclick="toggleAnswersheet()" class="action-btn btn-outline">
                 <i class="fa-solid fa-list-check"></i> Show Answersheet
             </button>

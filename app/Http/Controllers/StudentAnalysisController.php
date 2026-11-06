@@ -110,6 +110,8 @@ class StudentAnalysisController extends Controller
         }
         $analysis->save();
 
+        session(['last_analysis_uuid' => $analysis->uuid]);
+
         return redirect()->route('student-analysis.show', $analysis->uuid)
             ->with('success', 'Your Student Analysis assessment has been successfully submitted!');
     }

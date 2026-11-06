@@ -120,6 +120,8 @@ class TestController extends Controller
 
         $this->calculateRecommendations($session);
 
+        session(['last_test_uuid' => $session->uuid]);
+
         return response()->json([
             'success' => true,
             'redirect_url' => route('test.results', $session->uuid)

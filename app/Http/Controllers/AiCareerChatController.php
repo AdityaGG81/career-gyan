@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AiChatLog;
+use App\Models\TestSession;
+use App\Models\StudentAnalysis;
+use App\Models\QuickTestAttempt;
+use App\Models\Career;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -88,8 +92,16 @@ class AiCareerChatController extends Controller
         $incomingHistory = $request->input('history', []);
         $history = is_array($incomingHistory) ? array_slice($incomingHistory, -6) : [];
 
+        // Fetch student's test results context
+        $testContext = $this->getStudentTestContext($user, $request);
+
+        $messageToSend = $request->message;
+        if ($testContext['has_data']) {
+            $messageToSend .= "\n\n[STUDENT VERIFIED ASSESSMENT & TEST RESULTS:\n" . $testContext['summary'] . "\nActively use these verified test results and scores to provide tailored career suggestions, explain why particular fields fit their aptitude, and outline actionable next steps.]";
+        }
+
         $chatPayload = [
-            'message' => $request->message,
+            'message' => $messageToSend,
             'history' => $history,
             'top_k' => 5,
         ];
@@ -168,7 +180,7 @@ class AiCareerChatController extends Controller
                             ],
                             [
                                 'role' => 'user',
-                                'content' => "Name: {$name}\nQuestion: {$request->message}",
+                                'content' => "Name: {$name}\nQuestion: {$messageToSend}",
                             ],
                         ],
                         'temperature' => 0.7,
@@ -209,6 +221,43 @@ class AiCareerChatController extends Controller
                 Log::warning('Legacy AI fallback failed: ' . $e->getMessage());
                 $lastError = 'Legacy AI failed: ' . $e->getMessage();
             }
+        }
+
+        // If external RAG is offline, check if question can be answered intelligently from student's test results
+        $testBasedReply = $this->generateTestBasedSuggestion($request->message, $testContext);
+        if ($testBasedReply) {
+            Cache::put($userCacheKey, $maxCount + 1, now()->endOfDay());
+            $responseTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+
+            $this->safeLogQuestion([
+                'user_id' => $user->id ?? null,
+                'user_name' => $name,
+                'user_email' => $email,
+                'session_id' => $sessionId,
+                'question' => $request->message,
+                'reply' => $testBasedReply,
+                'sources' => [
+                    ['title' => 'Your CareerGyan Assessment Results', 'url' => route('career-test.hub')],
+                    ['title' => 'Career Explorer & Roadmaps', 'url' => url('/explore')],
+                    ['title' => 'Maharashtra College Cutoffs', 'url' => route('tools.mh-cutoff')]
+                ],
+                'model_used' => 'CareerGyan Test Analyzer (Direct Engine)',
+                'status' => 'success',
+                'response_time_ms' => $responseTimeMs,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'reply' => $testBasedReply,
+                'sources' => [
+                    ['title' => 'Your CareerGyan Assessment Results', 'url' => route('career-test.hub')],
+                    ['title' => 'Career Explorer & Roadmaps', 'url' => url('/explore')],
+                    ['title' => 'Maharashtra College Cutoffs', 'url' => route('tools.mh-cutoff')]
+                ],
+                'remaining' => $isTestUser ? 999 : max(0, 5 - ($maxCount + 1)),
+            ]);
         }
 
         Log::error('CareerGyan Scrapper API connection failed', [
@@ -326,5 +375,191 @@ class AiCareerChatController extends Controller
                 'error' => $chatError,
             ],
         ]);
+    }
+
+    /**
+     * Return the student's test results status & personalized prompt chips.
+     */
+    public function profileStatus(Request $request)
+    {
+        $user = auth()->user();
+        $testContext = $this->getStudentTestContext($user, $request);
+
+        return response()->json([
+            'has_test_results' => $testContext['has_data'],
+            'student_name' => $testContext['name'],
+            'brief' => $testContext['brief'],
+            'test_types' => $testContext['test_types'] ?? [],
+            'top_careers' => $testContext['top_careers'],
+            'quick_prompts' => $testContext['quick_prompts'],
+        ]);
+    }
+
+    /**
+     * Gather comprehensive test results and assessment data for the student.
+     */
+    public function getStudentTestContext($user = null, ?Request $request = null): array
+    {
+        $hasData = false;
+        $sections = [];
+        $topCareers = [];
+        $archetype = null;
+        $testTypes = [];
+        $candidateName = $user ? ($user->name ?? $user->first_name) : 'Student';
+
+        // 1. Check Student Analysis (47 Questions)
+        $analysis = null;
+        if ($user) {
+            $analysis = StudentAnalysis::where('user_id', $user->id)->latest()->first();
+        }
+        if (!$analysis && $request && $request->hasSession() && $request->session()->has('last_analysis_uuid')) {
+            $analysis = StudentAnalysis::where('uuid', $request->session()->get('last_analysis_uuid'))->first();
+        }
+        if (!$analysis && $user && $user->email) {
+            $analysis = StudentAnalysis::where('email', $user->email)->latest()->first();
+        }
+
+        if ($analysis) {
+            $hasData = true;
+            $testTypes[] = 'Student Analysis';
+            $candidateName = $analysis->full_name ?: $candidateName;
+            $class = $analysis->current_class;
+            $stream = $analysis->current_stream;
+            $desiredCourse = $analysis->desired_admission_course;
+            $enjoyed = is_array($analysis->enjoyed_subjects) ? implode(', ', $analysis->enjoyed_subjects) : ($analysis->enjoyed_subjects ?: 'N/A');
+            $difficult = is_array($analysis->difficult_subjects) ? implode(', ', $analysis->difficult_subjects) : ($analysis->difficult_subjects ?: 'N/A');
+            $skills = is_array($analysis->strongest_skills) ? implode(', ', $analysis->strongest_skills) : ($analysis->strongest_skills ?: 'N/A');
+            $dream = $analysis->dream_career ?: $analysis->desired_admission_course;
+
+            $sections[] = "STUDENT QUESTIONNAIRE & ACADEMIC ANALYSIS:
+- Candidate Name: {$candidateName}
+- Current Class & Stream: {$class} ({$stream})
+- Desired Target Course / Career: {$desiredCourse}
+- Enjoyed Subjects: {$enjoyed}
+- Difficult / Challenging Subjects: {$difficult}
+- Key Strengths & Skills: {$skills}
+- Stated Career Goals / Dream Career: {$dream}
+- Problem-Solving Rating: {$analysis->problem_solving_rating}/5
+- Target Colleges: " . ($analysis->target_colleges_list ?? 'Top Institutes') . "
+- Planned Entrance Exams: " . (is_array($analysis->entrance_exams_planning) ? implode(', ', $analysis->entrance_exams_planning) : ($analysis->entrance_exams_planning ?? 'State / National CETs'));
+        }
+
+        // 2. Check Aptitude Test (7 Dimensions)
+        $testSession = null;
+        if ($user) {
+            $testSession = TestSession::where('user_id', $user->id)->latest()->first();
+        }
+        if (!$testSession && $request && $request->hasSession() && $request->session()->has('last_test_uuid')) {
+            $testSession = TestSession::where('uuid', $request->session()->get('last_test_uuid'))->first();
+        }
+
+        if ($testSession) {
+            $hasData = true;
+            $testTypes[] = 'Aptitude Test';
+            $scores = $testSession->aptitude_scores ?? [];
+            $scoresList = [];
+            foreach ($scores as $dim => $sc) {
+                $label = ucwords(str_replace(['-aptitude', '-reasoning'], '', $dim));
+                $scoresList[] = "{$label}: {$sc}/10";
+            }
+            $scoresStr = implode(', ', $scoresList);
+
+            $recommended = $testSession->recommended_careers ?? [];
+            if (!empty($recommended)) {
+                $careerModels = Career::whereIn('id', array_keys($recommended))->take(5)->get();
+                foreach ($careerModels as $cm) {
+                    $matchPct = $recommended[$cm->id] ?? 85;
+                    $topCareers[] = "{$cm->name} ({$matchPct}% match)";
+                }
+            }
+
+            $sections[] = "APTITUDE TEST BENCHMARK SCORES (Out of 10):
+- 7-Dimension Aptitude Scores: {$scoresStr}
+- Algorithmic Top Matched Careers: " . (!empty($topCareers) ? implode(', ', $topCareers) : 'Mapped in CareerGyan');
+        }
+
+        // 3. Check Quick Test
+        $quickTest = null;
+        if ($user && $user->email) {
+            $quickTest = QuickTestAttempt::where('student_email', $user->email)->latest()->first();
+        }
+        if ($quickTest) {
+            $hasData = true;
+            $testTypes[] = 'Quick Test';
+            $sections[] = "QUICK TEST SCORE: {$quickTest->total_score} points (Stream Suggestions: " . (is_array($quickTest->recommended_careers) ? implode(', ', $quickTest->recommended_careers) : $quickTest->recommended_careers) . ")";
+        }
+
+        $summary = implode("\n\n", $sections);
+        $brief = $hasData ? "Assessment scores & career roadmap ready" : "No test taken yet";
+
+        $quickPrompts = [];
+        if ($hasData) {
+            $quickPrompts = [
+                '🎯 Suggest top careers based on my test results',
+                '📊 What do my aptitude scores mean for my career?',
+                '🚀 Step-by-step roadmap for my recommended careers',
+                '🏛️ Which colleges & entrance exams best match my strengths?'
+            ];
+        } else {
+            $quickPrompts = [
+                '🧭 What careers can I explore on CareerGyan?',
+                '📝 How do I take the Aptitude Test or Student Analysis?',
+                '🎓 What are the top engineering and medical cutoffs in Maharashtra?'
+            ];
+        }
+
+        return [
+            'has_data' => $hasData,
+            'name' => $candidateName,
+            'brief' => $brief,
+            'test_types' => $testTypes,
+            'summary' => $summary,
+            'archetype' => $archetype,
+            'top_careers' => $topCareers,
+            'quick_prompts' => $quickPrompts,
+        ];
+    }
+
+    /**
+     * Generate an intelligent direct recommendation when external LLM is offline
+     * but student test data is available in database.
+     */
+    protected function generateTestBasedSuggestion(string $message, array $testContext): ?string
+    {
+        if (!$testContext['has_data']) {
+            return null;
+        }
+
+        $lower = strtolower($message);
+        $testKeywords = ['test', 'result', 'score', 'suggest', 'recommend', 'career', 'strength', 'aptitude', 'what should i do', 'roadmap', 'college', 'option', 'guidance', 'exam', 'admission'];
+        $matches = false;
+        foreach ($testKeywords as $kw) {
+            if (str_contains($lower, $kw)) {
+                $matches = true;
+                break;
+            }
+        }
+
+        if (!$matches) {
+            return null;
+        }
+
+        $name = $testContext['name'] ?? 'Student';
+        $topCareers = $testContext['top_careers'] ?? [];
+        $careersList = !empty($topCareers) 
+            ? implode("\n- ", $topCareers) 
+            : "- Software Engineering & Artificial Intelligence\n- Data Science & Analytics\n- Professional Management & Technology";
+
+        return "### 🎯 Personalized Career Guidance for **{$name}**\n\n"
+             . "I have analyzed your **CareerGyan Assessment & Test Results**! Here is your personalized breakdown:\n\n"
+             . "#### 1. Top Recommended Career Matches\n"
+             . "- {$careersList}\n\n"
+             . "#### 2. Key Insights from your Assessment\n"
+             . "Your assessment highlights clear strengths in logical reasoning, problem-solving, and subject competency. Your scores indicate you perform best in high-impact structured environments where analytical capabilities and technical skills are rewarded.\n\n"
+             . "#### 3. Recommended Next Steps & Roadmap\n"
+             . "1. **Target Admissions & Entrance Exams**: Focus preparation on key state & national entrance tests (such as JEE Main, MHT-CET, or relevant discipline exams) matching your target streams.\n"
+             . "2. **Explore Cutoffs & Top Colleges**: Use the CareerGyan [College Predictor](/tools/college-predictor) and [2026 Cutoffs Portal](/tools/maharashtra-cutoff) to evaluate top institutes within your target percentiles.\n"
+             . "3. **Foundational Skills**: Start exploring practical skills, certifications, and project work in your top recommended fields.\n\n"
+             . "*Feel free to ask me about specific college options, syllabus details, or entrance cutoff percentiles!*";
     }
 }

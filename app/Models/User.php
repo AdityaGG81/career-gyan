@@ -86,4 +86,31 @@ class User extends Authenticatable
     {
         return $this->hasMany(StudentAnalysis::class);
     }
+
+    public function testSessions()
+    {
+        return $this->hasMany(TestSession::class);
+    }
+
+    public function latestTestSession()
+    {
+        return $this->hasOne(TestSession::class)->latestOfMany();
+    }
+
+    public function latestStudentAnalysis()
+    {
+        return $this->hasOne(StudentAnalysis::class)->latestOfMany();
+    }
+
+    public function quickTestAttempts()
+    {
+        return $this->hasMany(QuickTestAttempt::class, 'student_email', 'email');
+    }
+
+    public function hasAnyTestResults(): bool
+    {
+        return $this->testSessions()->exists()
+            || $this->studentAnalyses()->exists()
+            || QuickTestAttempt::where('student_email', $this->email)->exists();
+    }
 }

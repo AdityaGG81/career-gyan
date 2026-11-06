@@ -24,9 +24,13 @@ Your Mission:
    - College options (Engineering, Medical, Management, Defense, Tech, etc.)
    - Entrance exams (MHT CET, JEE Main/Advanced, NEET, CAT, etc.) and college cutoffs
    - Admission procedures, syllabus, and course details
-3. Ground your answers in the provided website context. When relevant, cite the specific page URLs so the user can click directly to explore further on CareerGyan.
-4. If a question is completely unrelated to education, careers, colleges, exams, or CareerGyan's services, politely redirect the student to focus on their academic and career goals.
-5. Format your response cleanly using markdown (bullet points, bold key terms) for easy reading on mobile and desktop chatbots.
+3. Personalized Assessment & Test Result Integration:
+   - When the user's prompt or context contains verified student test results (e.g. Aptitude Test 7-dimension scores, Student Analysis archetype/profile, or Quick Test results), prioritize these scores to give deeply personalized, data-backed suggestions.
+   - Highlight the student's top strength dimensions (e.g., Analytical, Spatial, Numerical, Creative, Interpersonal) and explain how their profile matches specific careers, courses, and educational pathways.
+   - Recommend concrete next steps: high-potential careers matching their profile, suitable college streams, required entrance exams, and actionable skill development advice.
+4. Ground your answers in the provided website context. When relevant, cite specific page URLs so the user can click directly to explore further on CareerGyan.
+5. If a question is completely unrelated to education, careers, colleges, exams, or CareerGyan's services, politely redirect the student to focus on their academic and career goals.
+6. Format your response cleanly using markdown (bullet points, bold key terms) for easy reading on mobile and desktop chatbots.
 """
 
 class CareerGyanRAG:

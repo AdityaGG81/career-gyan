@@ -327,6 +327,9 @@
         <p>Generated for <strong>{{ $analysis->full_name }}</strong> on {{ $analysis->created_at->format('d M, Y') }}</p>
       </div>
       <div class="report-actions-top">
+        <button type="button" class="btn-report-action" onclick="window.openAiChatWithQuery && window.openAiChatWithQuery('Based on my Student Analysis profile ({{ addslashes($archetype['title']) }}), which careers, degrees, and roadmaps fit me best?')">
+          <i class="fa-solid fa-robot"></i> Ask AI About Results
+        </button>
         <button type="button" class="btn-report-action" onclick="window.print()">
           <i class="fa-solid fa-print"></i> Print / Save PDF
         </button>
@@ -512,6 +515,9 @@
         Combine this qualitative Student Analysis with our scientific 5-dimensional Aptitude Test to get quantified numerical, logical, and spatial scores.
       </p>
       <div class="next-steps-btns">
+        <button type="button" onclick="window.openAiChatWithQuery && window.openAiChatWithQuery('Based on my Student Analysis profile ({{ addslashes($archetype['title']) }}), what careers and colleges match me best?')" class="btn-next-aptitude" style="background: linear-gradient(135deg, #1e3a8a, #2563eb); border: none; cursor: pointer; color: white;">
+          <i class="fa-solid fa-robot"></i> Discuss With AI Career Guruji
+        </button>
         <a href="{{ route('test.start') }}" class="btn-next-aptitude">
           <i class="fa-solid fa-brain"></i> Take Current Aptitude Test
         </a>

@@ -223,6 +223,21 @@
         line-height: 1.3;
     }
 
+    .ai-career-guruji-synced-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(16, 185, 129, 0.2);
+        border: 1px solid rgba(110, 231, 183, 0.6);
+        color: #ecfdf5;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 999px;
+        margin-top: 3px;
+        letter-spacing: 0.2px;
+    }
+
     .ai-career-guruji-header-actions {
         display: flex;
         gap: 6px;
@@ -633,6 +648,9 @@
                 <div class="ai-career-guruji-header-text">
                     <h4>AI Career Guruji</h4>
                     <p>Your personal career guidance assistant</p>
+                    <div id="aiTestSyncedPill" style="display: none;">
+                        <span class="ai-career-guruji-synced-pill"><i class="fa-solid fa-circle-check"></i> Test Results Synced</span>
+                    </div>
                 </div>
             </div>
             <div class="ai-career-guruji-header-actions">
@@ -759,6 +777,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clearChatHistory() {
         chatMessages.querySelectorAll('.ai-career-guruji-msg:not(#aiChatWelcomeMsg)').forEach(el => el.remove());
+        const testGroup = suggestionsContainer.querySelector('.test-prompts-group');
+        if (testGroup) testGroup.remove();
         conversationHistory = [];
         chatSessionId = 'sess_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
         sessionStorage.setItem('ai_chat_session_id', chatSessionId);
@@ -792,11 +812,71 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Failed to fetch limit:', e);
         }
 
+        try {
+            const profileRes = await fetch('/ai-career-chat/profile-status', {
+                headers: { 'Accept': 'application/json' }
+            });
+            if (profileRes.ok) {
+                const profileData = await profileRes.json();
+                const syncedPill = document.getElementById('aiTestSyncedPill');
+                if (profileData.has_test_results) {
+                    if (syncedPill) syncedPill.style.display = 'block';
+                    const testNames = (profileData.test_types || []).join(' & ');
+                    welcomeMsg.innerHTML = `Namaste! I'm AI Career Guruji 👋<br><br>🎯 <strong>Your verified CareerGyan test results (${testNames || 'Assessment'}) are synced!</strong><br>I have direct access to your scores and traits. Ask me which careers fit your strengths, compare colleges, or request a custom roadmap.`;
+
+                    if (profileData.quick_prompts && profileData.quick_prompts.length > 0) {
+                        const existingCustom = suggestionsContainer.querySelector('.test-prompts-group');
+                        if (!existingCustom) {
+                            const group = document.createElement('div');
+                            group.className = 'test-prompts-group';
+                            group.style.display = 'contents';
+                            profileData.quick_prompts.forEach(p => {
+                                const btn = document.createElement('button');
+                                btn.type = 'button';
+                                btn.className = 'ai-career-guruji-suggestions-chip ai-chat-suggestion-chip';
+                                btn.style.background = '#eff6ff';
+                                btn.style.borderColor = '#60a5fa';
+                                btn.style.color = '#1d4ed8';
+                                btn.style.fontWeight = '700';
+                                btn.dataset.prompt = p;
+                                btn.textContent = p;
+                                btn.addEventListener('click', function() {
+                                    if (!isOnboardingComplete() || isRequestInProgress || chatInput.disabled) return;
+                                    chatInput.value = p;
+                                    sendMessage(p);
+                                });
+                                group.appendChild(btn);
+                            });
+                            suggestionsContainer.insertBefore(group, suggestionsContainer.firstChild);
+                        }
+                    }
+                } else {
+                    if (syncedPill) syncedPill.style.display = 'none';
+                }
+            }
+        } catch (e) {
+            console.error('Failed to fetch profile status:', e);
+        }
+
         if (chatWindow.classList.contains('active') && !chatInput.disabled) {
             chatInput.focus();
         }
         scrollToBottom();
     }
+
+    // Expose global helper to open AI chat and run queries from test reports or pages
+    window.openAiChatWithQuery = function(query) {
+        if (!chatWindow.classList.contains('active')) {
+            chatWindow.classList.add('active');
+            initChatState();
+        }
+        if (query) {
+            if (chatInput) chatInput.value = query;
+            setTimeout(() => {
+                sendMessage(query);
+            }, 350);
+        }
+    };
 
     resetDetailsBtn.addEventListener('click', () => {
         clearChatHistory();
