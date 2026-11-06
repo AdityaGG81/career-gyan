@@ -59,8 +59,16 @@ class AdminStudentAnalysisController extends Controller
         }
 
         $analysis = StudentAnalysis::findOrFail($id);
+        $name = $analysis->full_name;
         $analysis->delete();
 
-        return redirect()->route('admin.student-analyses.index')->with('success', 'Student Analysis submission deleted successfully.');
+        // If coming from the single analysis detail page, go back to student analyses index
+        if (str_contains(url()->previous(), "/student-analyses/{$id}")) {
+            return redirect()->route('admin.student-analyses.index')
+                ->with('success', "Student Analysis for '{$name}' deleted successfully.");
+        }
+
+        return redirect()->back()
+            ->with('success', "Student Analysis for '{$name}' deleted successfully.");
     }
 }

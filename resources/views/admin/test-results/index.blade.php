@@ -198,6 +198,13 @@
     background: #dcfce7;
     color: #15803d;
   }
+
+  .row-select-checkbox {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+    accent-color: #2563eb;
+  }
 </style>
 @endsection
 
@@ -277,12 +284,20 @@
     <input type="text" name="search" class="form-control" placeholder="Search by student name, email, or course..." value="{{ $search }}">
   </form>
 
-  <div style="display: flex; gap: 10px;">
+  <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
     @if($search)
       <a href="{{ route('admin.test-results.index', ['tab' => $tab]) }}" class="action-btn-sm" style="background:#f1f5f9; color:#475569;">
         <i class="fa-solid fa-xmark"></i> Clear Search
       </a>
     @endif
+
+    <button type="button" id="btnDeleteSelected" onclick="submitBulkDelete()" class="action-btn-sm" style="display: none; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; cursor: pointer; padding: 8px 14px; font-weight: 700; border-radius: 6px;">
+      <i class="fa-solid fa-trash"></i> Delete Selected (<span id="selectedCountText">0</span>)
+    </button>
+
+    <button type="button" onclick="openClearModal()" class="action-btn-sm" style="background: #ffffff; color: #475569; border: 1px solid #cbd5e1; cursor: pointer; padding: 8px 14px; font-weight: 600; border-radius: 6px;" title="Purge older test records or clear by category">
+      <i class="fa-solid fa-broom"></i> Clean Up Records...
+    </button>
   </div>
 </div>
 
@@ -294,6 +309,7 @@
       <table class="admin-table">
         <thead>
           <tr>
+            <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="row-select-checkbox" title="Select all on this page"></th>
             <th>Candidate</th>
             <th>Email / Phone</th>
             <th>Aptitude Scores Breakdown</th>
@@ -311,6 +327,9 @@
               $recommended = $sess->recommended_careers ?? [];
             @endphp
             <tr>
+              <td style="text-align: center;">
+                <input type="checkbox" value="{{ $sess->id }}" class="row-select-checkbox item-checkbox" onchange="updateSelectedCount()">
+              </td>
               <td>
                 <div style="font-weight: 700; color: var(--admin-text-1);">
                   @if($sess->user_id)
@@ -373,7 +392,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="6" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
+              <td colspan="7" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
                 <i class="fa-solid fa-brain" style="font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.5;"></i>
                 No aptitude test sessions found.
               </td>
@@ -392,6 +411,7 @@
       <table class="admin-table">
         <thead>
           <tr>
+            <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="row-select-checkbox" title="Select all on this page"></th>
             <th>Student Name</th>
             <th>Contact Info</th>
             <th>Class & Stream</th>
@@ -404,6 +424,9 @@
         <tbody>
           @forelse($studentAnalyses as $analysis)
             <tr>
+              <td style="text-align: center;">
+                <input type="checkbox" value="{{ $analysis->id }}" class="row-select-checkbox item-checkbox" onchange="updateSelectedCount()">
+              </td>
               <td>
                 <div style="font-weight: 700; color: var(--admin-text-1);">
                   @if($analysis->user_id)
@@ -439,19 +462,26 @@
                 <div style="font-size: 11.5px; color: var(--admin-text-3);">{{ $analysis->created_at->format('h:i A') }}</div>
               </td>
               <td style="text-align: right;">
-                <div style="display: inline-flex; gap: 8px;">
-                  <a href="{{ route('admin.student-analyses.show', $analysis->id) }}" class="action-btn-sm btn-view-report">
+                <div style="display: inline-flex; gap: 8px; justify-content: flex-end;">
+                  <a href="{{ route('admin.student-analyses.show', $analysis->id) }}" class="action-btn-sm btn-view-report" title="Inspect Full 47 Questions">
                     <i class="fa-solid fa-clipboard-check"></i> Inspect 47-Q
                   </a>
                   <a href="{{ route('student-analysis.show', $analysis->uuid) }}" target="_blank" class="action-btn-sm" style="background:#f1f5f9; color:#1e293b;" title="View Student Report Page">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                   </a>
+                  <form action="{{ route('admin.student-analyses.destroy', $analysis->id) }}" method="POST" onsubmit="return confirm('Delete this student analysis questionnaire record?');" style="margin: 0; display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="action-btn-sm btn-delete-report" title="Delete record">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>
           @empty
             <tr>
-              <td colspan="7" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
+              <td colspan="8" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
                 <i class="fa-solid fa-clipboard-user" style="font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.5;"></i>
                 No student questionnaire submissions found.
               </td>
@@ -470,6 +500,7 @@
       <table class="admin-table">
         <thead>
           <tr>
+            <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="row-select-checkbox" title="Select all on this page"></th>
             <th>Student</th>
             <th>Email</th>
             <th>Total Score</th>
@@ -481,6 +512,9 @@
         <tbody>
           @forelse($quickAttempts as $quick)
             <tr>
+              <td style="text-align: center;">
+                <input type="checkbox" value="{{ $quick->id }}" class="row-select-checkbox item-checkbox" onchange="updateSelectedCount()">
+              </td>
               <td style="font-weight: 700; color: var(--admin-text-1);">
                 {{ $quick->student_name ?: 'Candidate #' . $quick->id }}
               </td>
@@ -524,14 +558,23 @@
                 <div style="font-size: 11.5px; color: var(--admin-text-3);">{{ $quick->created_at->format('h:i A') }}</div>
               </td>
               <td style="text-align: right;">
-                <a href="{{ route('admin.test-results.quick.show', $quick->uuid) }}" class="action-btn-sm" style="background: #7c3aed; color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px;">
-                  <i class="fa-solid fa-list-check"></i> Inspect Answers &rarr;
-                </a>
+                <div style="display: inline-flex; gap: 8px; justify-content: flex-end;">
+                  <a href="{{ route('admin.test-results.quick.show', $quick->uuid) }}" class="action-btn-sm" style="background: #7c3aed; color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px;">
+                    <i class="fa-solid fa-list-check"></i> Inspect Answers &rarr;
+                  </a>
+                  <form action="{{ route('admin.test-results.quick.destroy', $quick->id) }}" method="POST" onsubmit="return confirm('Delete this quick test record?');" style="margin: 0; display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="action-btn-sm btn-delete-report" title="Delete record">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
           @empty
             <tr>
-              <td colspan="6" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
+              <td colspan="7" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
                 <i class="fa-solid fa-bolt" style="font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.5;"></i>
                 No quick test attempts found.
               </td>
@@ -548,5 +591,131 @@
   </div>
 </div>
 
+<!-- Hidden Bulk Delete Form -->
+<form id="bulkDeleteForm" action="{{ route('admin.test-results.bulk-delete') }}" method="POST" style="display: none;">
+  @csrf
+  <input type="hidden" name="type" value="{{ $tab }}">
+  <div id="bulkDeleteInputs"></div>
+</form>
+
+<!-- Clean Up Records Modal -->
+<div id="clearRecordsModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px;">
+  <div style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 480px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;">
+    <div style="background: #1e293b; padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <i class="fa-solid fa-broom" style="color: #f59e0b; font-size: 18px;"></i>
+        <h3 style="margin: 0; font-size: 17px; font-weight: 700;">Clean Up Test Records</h3>
+      </div>
+      <button type="button" onclick="closeClearModal()" style="background: none; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; padding: 4px; line-height: 1;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form action="{{ route('admin.test-results.clear') }}" method="POST" style="padding: 24px;" onsubmit="return confirm('Are you sure you want to proceed with clearing these test records? This action cannot be undone.');">
+      @csrf
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+          Select Category to Clean:
+        </label>
+        <select name="category" class="form-control" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px;">
+          <option value="{{ $tab }}" selected>Current Tab Only ({{ ucfirst($tab) }})</option>
+          <option value="aptitude">Aptitude Tests Only ({{ $aptitudeCount }} total)</option>
+          <option value="analysis">Student Analyses Only ({{ $analysisCount }} total)</option>
+          <option value="quick">Quick Stream Tests Only ({{ $quickCount }} total)</option>
+          <option value="all">All Test Categories Platform-wide ({{ $totalTests }} total)</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+          Retention Age / Purge Range:
+        </label>
+        <select name="range" class="form-control" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px;">
+          <option value="older_30">Delete records older than 30 days (Recommended)</option>
+          <option value="older_60">Delete records older than 60 days</option>
+          <option value="older_90">Delete records older than 90 days</option>
+          <option value="all" style="color: #dc2626; font-weight: 700;">⚠ Delete ALL records in selected category</option>
+        </select>
+        <div style="font-size: 11.5px; color: #64748b; margin-top: 6px;">
+          Permanent deletion will remove matching attempts and their answersheets.
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" onclick="closeClearModal()" style="padding: 10px 18px; border-radius: 8px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; font-weight: 600; font-size: 13px; cursor: pointer;">
+          Cancel
+        </button>
+        <button type="submit" style="padding: 10px 22px; border-radius: 8px; border: none; background: #dc2626; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-trash"></i> Confirm Purge
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+@endsection
+
+@section('scripts')
+<script>
+  function toggleSelectAll(master) {
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+    checkboxes.forEach(cb => {
+      cb.checked = master.checked;
+    });
+    updateSelectedCount();
+  }
+
+  function updateSelectedCount() {
+    const checked = document.querySelectorAll('.item-checkbox:checked');
+    const count = checked.length;
+    const btn = document.getElementById('btnDeleteSelected');
+    const text = document.getElementById('selectedCountText');
+    const master = document.getElementById('selectAllCheckbox');
+
+    if (text) text.textContent = count;
+    if (btn) {
+      btn.style.display = count > 0 ? 'inline-flex' : 'none';
+    }
+
+    const all = document.querySelectorAll('.item-checkbox');
+    if (master && all.length > 0) {
+      master.checked = count === all.length;
+    }
+  }
+
+  function submitBulkDelete() {
+    const checked = document.querySelectorAll('.item-checkbox:checked');
+    if (checked.length === 0) return;
+
+    if (!confirm(`Are you sure you want to permanently delete the ${checked.length} selected test record(s)?`)) {
+      return;
+    }
+
+    const container = document.getElementById('bulkDeleteInputs');
+    container.innerHTML = '';
+
+    checked.forEach(cb => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'ids[]';
+      input.value = cb.value;
+      container.appendChild(input);
+    });
+
+    document.getElementById('bulkDeleteForm').submit();
+  }
+
+  function openClearModal() {
+    document.getElementById('clearRecordsModal').style.display = 'flex';
+  }
+
+  function closeClearModal() {
+    document.getElementById('clearRecordsModal').style.display = 'none';
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeClearModal();
+  });
+</script>
 @endsection
 

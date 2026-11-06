@@ -307,6 +307,8 @@ Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotC
 
 // Admin Unified Test Results Hub
 Route::get('/admin/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'index'])->name('admin.test-results.index');
+Route::post('/admin/test-results/bulk-delete', [\App\Http\Controllers\AdminTestResultController::class, 'bulkDelete'])->name('admin.test-results.bulk-delete');
+Route::post('/admin/test-results/clear', [\App\Http\Controllers\AdminTestResultController::class, 'clearRecords'])->name('admin.test-results.clear');
 Route::get('/admin/test-results/aptitude/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showAptitude'])->name('admin.test-results.aptitude.show');
 Route::delete('/admin/test-results/aptitude/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyAptitude'])->name('admin.test-results.aptitude.destroy');
 Route::get('/admin/test-results/quick/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showQuick'])->name('admin.test-results.quick.show');

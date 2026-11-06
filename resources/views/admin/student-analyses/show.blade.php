@@ -8,8 +8,17 @@
   <a href="{{ route('admin.student-analyses.index') }}" class="btn" style="background: #f4f4f5; color: var(--admin-text-1); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">
     &larr; Back to All Submissions
   </a>
-  <div style="font-size: 13px; color: var(--admin-text-3);">
-    Submitted: {{ $analysis->created_at->format('d M, Y h:i A') }} ({{ $analysis->created_at->diffForHumans() }})
+  <div style="display: flex; gap: 12px; align-items: center;">
+    <div style="font-size: 13px; color: var(--admin-text-3);">
+      Submitted: {{ $analysis->created_at->format('d M, Y h:i A') }} ({{ $analysis->created_at->diffForHumans() }})
+    </div>
+    <form method="POST" action="{{ route('admin.student-analyses.destroy', $analysis->id) }}" onsubmit="return confirm('Delete this student analysis permanently?');" style="margin: 0; display: inline;">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="btn" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
+        <i class="fa-solid fa-trash"></i> Delete Analysis
+      </button>
+    </form>
   </div>
 </div>
 

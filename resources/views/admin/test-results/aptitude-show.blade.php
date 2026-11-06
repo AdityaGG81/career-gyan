@@ -280,12 +280,20 @@
   </div>
 
   <div class="btn-no-print" style="display: flex; gap: 10px; align-items: center;">
-    <button onclick="window.print()" class="action-btn-sm" style="background: #f1f5f9; color: #1e293b; padding: 10px 16px; border: 1px solid #cbd5e1; cursor: pointer;">
+    <button onclick="window.print()" class="action-btn-sm" style="background: #f1f5f9; color: #1e293b; padding: 10px 16px; border: 1px solid #cbd5e1; cursor: pointer; border-radius: 6px; font-weight: 600;">
       <i class="fa-solid fa-print"></i> Print Report
     </button>
-    <a href="{{ route('test.results', $session->uuid) }}" target="_blank" class="action-btn-sm btn-view-report" style="padding: 10px 16px;">
+    <a href="{{ route('test.results', $session->uuid) }}" target="_blank" class="action-btn-sm btn-view-report" style="padding: 10px 16px; border-radius: 6px;">
       <i class="fa-solid fa-arrow-up-right-from-square"></i> Student View
     </a>
+    <form action="{{ route('admin.test-results.aptitude.destroy', $session->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete this aptitude test report?');" style="display: inline;">
+      @csrf
+      @method('DELETE')
+      <input type="hidden" name="redirect_to" value="index">
+      <button type="submit" style="background: #fff; color: #dc2626; border: 1px solid #fecaca; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        <i class="fa-solid fa-trash"></i> Delete Record
+      </button>
+    </form>
   </div>
 </div>
 

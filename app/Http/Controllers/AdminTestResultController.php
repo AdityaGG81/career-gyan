@@ -132,15 +132,21 @@ class AdminTestResultController extends Controller
     /**
      * Delete an Aptitude Test session.
      */
-    public function destroyAptitude($id)
+    public function destroyAptitude(Request $request, $id)
     {
         if ($redirect = $this->checkAdminAuth()) return $redirect;
 
         $session = TestSession::findOrFail($id);
+        $candidate = $session->candidate_name;
         $session->delete();
 
-        return redirect()->route('admin.test-results.index', ['tab' => 'aptitude'])
-            ->with('success', 'Aptitude Test result record deleted successfully.');
+        if ($request->input('redirect_to') === 'index' || str_contains(url()->previous(), '/aptitude/')) {
+            return redirect()->route('admin.test-results.index', ['tab' => 'aptitude'])
+                ->with('success', "Aptitude Test result record for '{$candidate}' deleted successfully.");
+        }
+
+        return redirect()->back()
+            ->with('success', "Aptitude Test result record for '{$candidate}' deleted successfully.");
     }
 
     /**
@@ -162,15 +168,101 @@ class AdminTestResultController extends Controller
     /**
      * Delete a Quick Test attempt.
      */
-    public function destroyQuick($id)
+    public function destroyQuick(Request $request, $id)
     {
         if ($redirect = $this->checkAdminAuth()) return $redirect;
 
         $attempt = QuickTestAttempt::findOrFail($id);
+        $candidate = $attempt->student_name ?: ('Candidate #' . $attempt->id);
         $attempt->delete();
 
-        return redirect()->route('admin.test-results.index', ['tab' => 'quick'])
-            ->with('success', 'Quick Test record deleted successfully.');
+        if ($request->input('redirect_to') === 'index' || str_contains(url()->previous(), '/quick/')) {
+            return redirect()->route('admin.test-results.index', ['tab' => 'quick'])
+                ->with('success', "Quick Test record for '{$candidate}' deleted successfully.");
+        }
+
+        return redirect()->back()
+            ->with('success', "Quick Test record for '{$candidate}' deleted successfully.");
+    }
+
+    /**
+     * Bulk delete selected test records across any tab.
+     */
+    public function bulkDelete(Request $request)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $request->validate([
+            'type' => 'required|in:aptitude,analysis,quick',
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer',
+        ]);
+
+        $type = $request->input('type');
+        $ids = $request->input('ids');
+        $count = count($ids);
+
+        if ($type === 'aptitude') {
+            TestSession::whereIn('id', $ids)->delete();
+            $label = "{$count} Aptitude Test record(s)";
+        } elseif ($type === 'analysis') {
+            StudentAnalysis::whereIn('id', $ids)->delete();
+            $label = "{$count} Student Analysis questionnaire(s)";
+        } elseif ($type === 'quick') {
+            QuickTestAttempt::whereIn('id', $ids)->delete();
+            $label = "{$count} Quick Test record(s)";
+        }
+
+        return redirect()->back()->with('success', "Successfully deleted {$label}.");
+    }
+
+    /**
+     * Clear test records based on filter criteria.
+     */
+    public function clearRecords(Request $request)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $request->validate([
+            'category' => 'required|in:aptitude,analysis,quick,all',
+            'range' => 'required|in:all,older_30,older_60,older_90',
+        ]);
+
+        $category = $request->input('category');
+        $range = $request->input('range');
+
+        $cutoff = match($range) {
+            'older_30' => now()->subDays(30),
+            'older_60' => now()->subDays(60),
+            'older_90' => now()->subDays(90),
+            default => null,
+        };
+
+        $totalDeleted = 0;
+
+        if ($category === 'aptitude' || $category === 'all') {
+            $q = TestSession::query();
+            if ($cutoff) $q->where('created_at', '<', $cutoff);
+            $totalDeleted += $q->delete();
+        }
+
+        if ($category === 'quick' || $category === 'all') {
+            $q = QuickTestAttempt::query();
+            if ($cutoff) $q->where('created_at', '<', $cutoff);
+            $totalDeleted += $q->delete();
+        }
+
+        if ($category === 'analysis' || $category === 'all') {
+            $q = StudentAnalysis::query();
+            if ($cutoff) $q->where('created_at', '<', $cutoff);
+            $totalDeleted += $q->delete();
+        }
+
+        $tab = $category === 'all' ? 'aptitude' : $category;
+        $rangeLabel = $cutoff ? "older than " . str_replace('older_', '', $range) . " days" : "in total";
+
+        return redirect()->route('admin.test-results.index', ['tab' => $tab])
+            ->with('success', "Cleared {$totalDeleted} test record(s) {$rangeLabel}.");
     }
 
     /**

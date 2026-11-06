@@ -175,6 +175,13 @@
         <a href="{{ route('admin.test-results.aptitude.show', $session->uuid) }}" class="action-btn-sm" style="background: #2563eb; color: #ffffff;">
           <i class="fa-solid fa-list-check"></i> Inspect Answers & Report
         </a>
+        <form action="{{ route('admin.test-results.aptitude.destroy', $session->id) }}" method="POST" onsubmit="return confirm('Delete this aptitude test record for this candidate?');" style="margin: 0; display: inline;">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="action-btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; cursor: pointer; padding: 6px 10px; border-radius: 6px;" title="Delete Record">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
       </div>
     </div>
   @empty
@@ -200,13 +207,20 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 8px;">
+      <div style="display: flex; gap: 8px; align-items: center;">
         <a href="{{ route('admin.student-analyses.show', $analysis->id) }}" class="action-btn-sm" style="background: #6366f1; color: #ffffff;">
           <i class="fa-solid fa-clipboard-check"></i> Inspect 47 Questions
         </a>
         <a href="{{ route('student-analysis.show', $analysis->uuid) }}" target="_blank" class="action-btn-sm" style="background: #f1f5f9; color: #1e293b;">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Student Report
         </a>
+        <form action="{{ route('admin.student-analyses.destroy', $analysis->id) }}" method="POST" onsubmit="return confirm('Delete this student analysis record for this candidate?');" style="margin: 0; display: inline;">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="action-btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; cursor: pointer; padding: 6px 10px; border-radius: 6px;" title="Delete Record">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
       </div>
     </div>
   @empty
@@ -235,10 +249,17 @@
             @endif
           </div>
         </div>
-        <div>
+        <div style="display: flex; gap: 8px; align-items: center;">
           <a href="{{ route('admin.test-results.quick.show', $quick->uuid) }}" class="action-btn-sm" style="background: #7c3aed; color: #ffffff;">
             <i class="fa-solid fa-list-check"></i> Inspect Answers
           </a>
+          <form action="{{ route('admin.test-results.quick.destroy', $quick->id) }}" method="POST" onsubmit="return confirm('Delete this quick test record?');" style="margin: 0; display: inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="action-btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; cursor: pointer; padding: 6px 10px; border-radius: 6px;" title="Delete Record">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </form>
         </div>
       </div>
     @endforeach
