@@ -552,7 +552,8 @@
                 <div class="answer-row {{ $isCorrect ? 'correct' : 'wrong' }}">
                     <div style="font-weight: 800; color: var(--text-3);">#{{ $index + 1 }}</div>
                     <div>
-                        <div style="font-size: 14px; font-weight: 700; color: var(--text-1);">{{ $q->section }}</div>
+                        <div style="font-size: 12px; font-weight: 700; color: #7c3aed; text-transform: uppercase; margin-bottom: 3px;">{{ $q->section }}</div>
+                        <div style="font-size: 13.5px; color: var(--text-1); line-height: 1.4;">{{ $q->question_text }}</div>
                     </div>
                     <div style="text-align: center; font-weight: 700;">Option {{ $userAns }}</div>
                     <div style="text-align: center; font-weight: 700; color: #166534;">Option {{ $q->correct_option }}</div>

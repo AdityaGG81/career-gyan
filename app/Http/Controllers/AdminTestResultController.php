@@ -144,6 +144,36 @@ class AdminTestResultController extends Controller
     }
 
     /**
+     * Detailed inspection of an individual Quick Test attempt with question & answersheet review.
+     */
+    public function showQuick($uuidOrId)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $attempt = QuickTestAttempt::where('uuid', $uuidOrId)
+            ->orWhere('id', $uuidOrId)
+            ->firstOrFail();
+
+        $questions = \App\Models\QuickTestQuestion::all();
+
+        return view('admin.test-results.quick-show', compact('attempt', 'questions'));
+    }
+
+    /**
+     * Delete a Quick Test attempt.
+     */
+    public function destroyQuick($id)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $attempt = QuickTestAttempt::findOrFail($id);
+        $attempt->delete();
+
+        return redirect()->route('admin.test-results.index', ['tab' => 'quick'])
+            ->with('success', 'Quick Test record deleted successfully.');
+    }
+
+    /**
      * Candidate-specific assessment dossier showing all tests taken by a user.
      */
     public function userTestResults($userId)

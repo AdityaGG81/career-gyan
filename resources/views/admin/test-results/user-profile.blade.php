@@ -173,7 +173,7 @@
           {{ count($recommended) }} Matched Careers
         </span>
         <a href="{{ route('admin.test-results.aptitude.show', $session->uuid) }}" class="action-btn-sm" style="background: #2563eb; color: #ffffff;">
-          <i class="fa-solid fa-chart-pie"></i> Detailed Report
+          <i class="fa-solid fa-list-check"></i> Inspect Answers & Report
         </a>
       </div>
     </div>
@@ -223,7 +223,7 @@
     </div>
 
     @foreach($quickAttempts as $quick)
-      <div class="sub-test-item">
+      <div class="sub-test-item" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
         <div>
           <div style="font-weight: 700; font-size: 14px;">Taken on {{ $quick->created_at->format('d M, Y') }}</div>
           <div style="font-size: 12.5px; color: var(--admin-text-2);">
@@ -234,6 +234,11 @@
               {{ $quick->stream_summary }}
             @endif
           </div>
+        </div>
+        <div>
+          <a href="{{ route('admin.test-results.quick.show', $quick->uuid) }}" class="action-btn-sm" style="background: #7c3aed; color: #ffffff;">
+            <i class="fa-solid fa-list-check"></i> Inspect Answers
+          </a>
         </div>
       </div>
     @endforeach

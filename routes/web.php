@@ -309,6 +309,8 @@ Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotC
 Route::get('/admin/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'index'])->name('admin.test-results.index');
 Route::get('/admin/test-results/aptitude/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showAptitude'])->name('admin.test-results.aptitude.show');
 Route::delete('/admin/test-results/aptitude/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyAptitude'])->name('admin.test-results.aptitude.destroy');
+Route::get('/admin/test-results/quick/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showQuick'])->name('admin.test-results.quick.show');
+Route::delete('/admin/test-results/quick/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyQuick'])->name('admin.test-results.quick.destroy');
 Route::get('/admin/users/{id}/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'userTestResults'])->name('admin.test-results.user');
 
 // Admin Student Analyses

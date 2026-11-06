@@ -475,6 +475,7 @@
             <th>Total Score</th>
             <th>Recommended Stream / Careers</th>
             <th>Date Taken</th>
+            <th style="text-align: right;">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -522,10 +523,15 @@
                 <div style="font-size: 13px;">{{ $quick->created_at->format('d M, Y') }}</div>
                 <div style="font-size: 11.5px; color: var(--admin-text-3);">{{ $quick->created_at->format('h:i A') }}</div>
               </td>
+              <td style="text-align: right;">
+                <a href="{{ route('admin.test-results.quick.show', $quick->uuid) }}" class="action-btn-sm" style="background: #7c3aed; color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px;">
+                  <i class="fa-solid fa-list-check"></i> Inspect Answers &rarr;
+                </a>
+              </td>
             </tr>
           @empty
             <tr>
-              <td colspan="5" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
+              <td colspan="6" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
                 <i class="fa-solid fa-bolt" style="font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.5;"></i>
                 No quick test attempts found.
               </td>

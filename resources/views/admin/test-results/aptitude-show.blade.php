@@ -170,6 +170,72 @@
     white-space: nowrap;
   }
 
+  /* Answersheet Styles */
+  .answersheet-card {
+    background: #ffffff;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-lg);
+    box-shadow: var(--admin-shadow);
+    padding: 26px;
+    margin-top: 28px;
+  }
+
+  .q-filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--admin-border);
+    background: #fff;
+    color: var(--admin-text-2);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .q-filter-btn.active {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+  }
+
+  .answer-card-item {
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius-md);
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    transition: all 0.2s;
+  }
+
+  .answer-card-item.is-correct {
+    background: #f0fdf4;
+    border-color: #86efac;
+  }
+
+  .answer-card-item.is-wrong {
+    background: #fef2f2;
+    border-color: #fca5a5;
+  }
+
+  .status-badge-res {
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .status-badge-res.correct {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .status-badge-res.wrong {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
   @media print {
     .admin-sidebar, .admin-topbar, .btn-no-print {
       display: none !important;
@@ -341,6 +407,162 @@
     @endif
   </div>
 </div>
+
+@php
+  $userAnswers = $session->user_inputs['answers'] ?? [];
+  $correctCount = 0;
+  $wrongCount = 0;
+  $answeredQuestions = [];
+
+  foreach($questions as $q) {
+      if (isset($userAnswers[$q->id])) {
+          $uAns = $userAnswers[$q->id];
+          $isCorr = (trim(strtolower((string)$uAns)) === trim(strtolower((string)$q->correct_answer)));
+          if ($isCorr) {
+              $correctCount++;
+          } else {
+              $wrongCount++;
+          }
+          $answeredQuestions[] = [
+              'question' => $q,
+              'userAnswer' => $uAns,
+              'isCorrect' => $isCorr
+          ];
+      }
+  }
+  $totalAnswered = count($userAnswers);
+  $accuracyPct = $totalAnswered > 0 ? round(($correctCount / $totalAnswered) * 100) : 0;
+@endphp
+
+<!-- Detailed Question & Answersheet Review -->
+<div class="answersheet-card">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--admin-border);">
+    <div>
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--admin-text-1); margin: 0 0 4px 0; display: flex; align-items: center; gap: 10px;">
+        <i class="fa-solid fa-list-check" style="color: #2563eb;"></i>
+        Detailed Questions & Answersheet Review
+      </h3>
+      <p style="margin: 0; font-size: 13.5px; color: var(--admin-text-2);">
+        Candidate's submitted answers evaluated against official correct options across all dimensions.
+      </p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <div style="background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; border-radius: 8px; padding: 6px 14px; font-size: 12.5px; font-weight: 700;">
+        Total Answered: {{ $totalAnswered }}
+      </div>
+      <div style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; border-radius: 8px; padding: 6px 14px; font-size: 12.5px; font-weight: 700;">
+        <i class="fa-solid fa-check"></i> Correct: {{ $correctCount }}
+      </div>
+      <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-radius: 8px; padding: 6px 14px; font-size: 12.5px; font-weight: 700;">
+        <i class="fa-solid fa-xmark"></i> Incorrect: {{ $wrongCount }}
+      </div>
+      <div style="background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 14px; font-size: 12.5px; font-weight: 700;">
+        Accuracy: {{ $accuracyPct }}%
+      </div>
+    </div>
+  </div>
+
+  @if($totalAnswered > 0)
+    <!-- Filter Pills -->
+    <div style="display: flex; gap: 8px; margin-bottom: 20px;" class="btn-no-print">
+      <button type="button" class="q-filter-btn active" onclick="filterAptitudeAnswers('all', this)">
+        All Questions ({{ $totalAnswered }})
+      </button>
+      <button type="button" class="q-filter-btn" onclick="filterAptitudeAnswers('correct', this)">
+        <i class="fa-solid fa-check" style="color: #10b981;"></i> Correct ({{ $correctCount }})
+      </button>
+      <button type="button" class="q-filter-btn" onclick="filterAptitudeAnswers('wrong', this)">
+        <i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Incorrect ({{ $wrongCount }})
+      </button>
+    </div>
+
+    <div id="aptitudeQuestionsList">
+      @foreach($answeredQuestions as $idx => $item)
+        @php
+          $q = $item['question'];
+          $uAns = $item['userAnswer'];
+          $isCorr = $item['isCorrect'];
+        @endphp
+        <div class="answer-card-item {{ $isCorr ? 'is-correct' : 'is-wrong' }}" data-status="{{ $isCorr ? 'correct' : 'wrong' }}">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-weight: 800; font-size: 14px; color: var(--admin-text-1);">
+                #{{ $idx + 1 }}
+              </span>
+              @if($q->dimension)
+                <span style="background: #e0e7ff; color: #3730a3; font-size: 11.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">
+                  {{ $q->dimension->name }}
+                </span>
+              @endif
+              <span style="font-size: 11.5px; color: var(--admin-text-3);">Question ID: #{{ $q->id }}</span>
+            </div>
+            <div>
+              @if($isCorr)
+                <span class="status-badge-res correct">
+                  <i class="fa-solid fa-circle-check"></i> Correct
+                </span>
+              @else
+                <span class="status-badge-res wrong">
+                  <i class="fa-solid fa-circle-xmark"></i> Incorrect
+                </span>
+              @endif
+            </div>
+          </div>
+
+          <div style="font-size: 14.5px; font-weight: 600; color: #0f172a; margin-bottom: 12px; line-height: 1.5;">
+            {{ $q->question_text }}
+          </div>
+
+          @if(!empty($q->question_images) && is_array($q->question_images))
+            <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;">
+              @foreach($q->question_images as $img)
+                <img src="{{ asset($img) }}" alt="Question Image" style="max-height: 140px; border-radius: 6px; border: 1px solid #cbd5e1;">
+              @endforeach
+            </div>
+          @endif
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; padding: 12px;">
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748b; display: block; margin-bottom: 3px;">Candidate's Answer:</span>
+              <span style="font-size: 14px; font-weight: 700; color: {{ $isCorr ? '#166534' : '#991b1b' }};">
+                {{ $uAns }}
+              </span>
+            </div>
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748b; display: block; margin-bottom: 3px;">Correct Answer:</span>
+              <span style="font-size: 14px; font-weight: 700; color: #166534;">
+                <i class="fa-solid fa-check"></i> {{ $q->correct_answer }}
+              </span>
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  @else
+    <div style="text-align: center; padding: 36px 20px; color: var(--admin-text-3);">
+      <i class="fa-solid fa-clipboard-question" style="font-size: 40px; margin-bottom: 10px; opacity: 0.4;"></i>
+      <p style="font-size: 14.5px; margin: 0;">No individual answer selections were recorded for this session (legacy session or custom input format).</p>
+    </div>
+  @endif
+</div>
+
+<script>
+function filterAptitudeAnswers(status, btn) {
+  document.querySelectorAll('.q-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const items = document.querySelectorAll('#aptitudeQuestionsList .answer-card-item');
+  items.forEach(item => {
+    if (status === 'all' || item.dataset.status === status) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+</script>
 
 @endsection
 

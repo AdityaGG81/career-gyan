@@ -282,11 +282,19 @@
                 <div style="text-align: center;">Result</div>
             </div>
 
-            @php $userAnswers = $session->user_inputs['answers'] ?? []; @endphp
-            @foreach($questions as $index => $q)
+            @php 
+                $userAnswers = $session->user_inputs['answers'] ?? []; 
+                $answeredQuestions = $questions->filter(function($q) use ($userAnswers) {
+                    return array_key_exists($q->id, $userAnswers);
+                });
+                if ($answeredQuestions->isEmpty()) {
+                    $answeredQuestions = $questions->take(35);
+                }
+            @endphp
+            @foreach($answeredQuestions->values() as $index => $q)
                 @php 
                     $userAns = $userAnswers[$q->id] ?? 'N/A';
-                    $isCorrect = (trim(strtolower($userAns)) === trim(strtolower($q->correct_answer)));
+                    $isCorrect = (trim(strtolower((string)$userAns)) === trim(strtolower((string)$q->correct_answer)));
                 @endphp
                 <div class="answer-row {{ $isCorrect ? 'correct' : 'wrong' }}">
                     <div style="font-weight: 800; color: var(--text-3);">#{{ $index + 1 }}</div>
