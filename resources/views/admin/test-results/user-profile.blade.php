@@ -227,7 +227,12 @@
         <div>
           <div style="font-weight: 700; font-size: 14px;">Taken on {{ $quick->created_at->format('d M, Y') }}</div>
           <div style="font-size: 12.5px; color: var(--admin-text-2);">
-            Score: <strong>{{ $quick->total_score }} pts</strong> | Stream Recommendations: {{ is_array($quick->recommended_careers) ? implode(', ', $quick->recommended_careers) : $quick->recommended_careers }}
+            Score: <strong>{{ $quick->total_score }} pts</strong> | Stream Recommendations: 
+            @if(!empty($quick->top_stream_names))
+              <strong>{{ implode(', ', $quick->top_stream_names) }}</strong>
+            @else
+              {{ $quick->stream_summary }}
+            @endif
           </div>
         </div>
       </div>
@@ -260,3 +265,4 @@
 </div>
 
 @endsection
+

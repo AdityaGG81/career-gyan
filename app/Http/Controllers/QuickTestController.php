@@ -361,14 +361,18 @@ class QuickTestController extends Controller
     {
         $attempt = QuickTestAttempt::where('uuid', $uuid)->firstOrFail();
         
-        $name = Auth::user()->name;
+        $name = Auth::check() ? Auth::user()->name : ($attempt->student_name ?: 'Candidate');
         $testTitle = 'Quick Career Test';
         $date = $attempt->created_at ? $attempt->created_at->format('d F Y') : now()->format('d F Y');
         
         $recommended = $attempt->recommended_careers ?? [];
-        $topCareer = 'N/A';
-        if (!empty($recommended) && isset($recommended[0]['section'])) {
-            $topCareer = $recommended[0]['section'];
+        $topCareer = 'Career Stream Explorer';
+        if (!empty($recommended)) {
+            if (isset($recommended[0]['section'])) {
+                $topCareer = $recommended[0]['section'];
+            } elseif (is_string($recommended[0])) {
+                $topCareer = $recommended[0];
+            }
         }
         
         return view('certificate.show', compact('name', 'testTitle', 'date', 'uuid', 'topCareer'));

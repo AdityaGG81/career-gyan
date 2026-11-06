@@ -493,10 +493,28 @@
               </td>
               <td>
                 <div style="max-width: 320px; font-size: 13px; color: var(--admin-text-1);">
-                  @if(is_array($quick->recommended_careers))
-                    {{ implode(', ', array_slice($quick->recommended_careers, 0, 3)) }}
+                  @php
+                    $recItems = $quick->recommended_careers ?? [];
+                  @endphp
+                  @if(is_array($recItems) && count($recItems) > 0)
+                    @foreach(array_slice($recItems, 0, 3) as $r)
+                      @if(is_array($r) && isset($r['section']))
+                        <div style="margin-bottom: 4px;">
+                          <strong style="color: #7c3aed;">{{ $r['section'] }}</strong>
+                          @if(!empty($r['areas']) && is_array($r['areas']))
+                            <div style="color: var(--admin-text-2); font-size: 11.5px;">
+                              {{ implode(', ', array_slice($r['areas'], 0, 2)) }}
+                            </div>
+                          @endif
+                        </div>
+                      @elseif(is_string($r))
+                        <span class="pill-badge pill-quick" style="margin: 2px;">{{ $r }}</span>
+                      @endif
+                    @endforeach
+                  @elseif(is_string($recItems))
+                    {{ $recItems }}
                   @else
-                    {{ $quick->recommended_careers ?: 'N/A' }}
+                    <span style="color: var(--admin-text-3);">Aptitude Stream Analyzed</span>
                   @endif
                 </div>
               </td>
@@ -525,3 +543,4 @@
 </div>
 
 @endsection
+

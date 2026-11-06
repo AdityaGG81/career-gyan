@@ -157,3 +157,4 @@ class AdminTestResultController extends Controller
         return view('admin.test-results.user-profile', compact('user', 'quickAttempts'));
     }
 }
+

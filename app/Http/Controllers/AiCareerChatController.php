@@ -486,7 +486,7 @@ class AiCareerChatController extends Controller
         if ($quickTest) {
             $hasData = true;
             $testTypes[] = 'Quick Test';
-            $sections[] = "QUICK TEST SCORE: {$quickTest->total_score} points (Stream Suggestions: " . (is_array($quickTest->recommended_careers) ? implode(', ', $quickTest->recommended_careers) : $quickTest->recommended_careers) . ")";
+            $sections[] = "QUICK TEST SCORE: {$quickTest->total_score} points (Stream Suggestions: " . $quickTest->stream_summary . ")";
         }
 
         $summary = implode("\n\n", $sections);
