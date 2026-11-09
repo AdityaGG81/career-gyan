@@ -680,17 +680,12 @@
         </div>
       </div>
 
-      @php
-        $shareText = "Hey! I found a useful platform for students where you can explore your career options, take aptitude tests and analyze your skills.\n\nJoin using my referral link and get 100 reward points!\n\n" . $user->referral_link;
-        $whatsappUrl = "https://wa.me/?text=" . urlencode($shareText);
-      @endphp
-
       <div class="share-action-buttons">
-        <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-share">
+        <a href="{{ $user->whatsapp_share_url }}" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-share">
           <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Share on WhatsApp
         </a>
 
-        <button type="button" class="btn-native-share" onclick="triggerWebShare('{{ addslashes($user->referral_link) }}', 'Join CareerGyan', '{{ addslashes($shareText) }}')">
+        <button type="button" class="btn-native-share" onclick="triggerWebShare()">
           <i class="fa-solid fa-share-nodes"></i> Share via Apps
         </button>
       </div>
@@ -984,13 +979,20 @@
     }, 2800);
   }
 
-  function triggerWebShare(url, title, text) {
+  function triggerWebShare() {
+    const input = document.getElementById('refLinkInput');
+    const url = input ? input.value : '{{ $user->referral_link }}';
+    const text = "Hey! I found a useful platform for students where you can explore your career options, take aptitude tests and analyze your skills.\n\nJoin using my referral link and get 100 reward points!\n\n" + url;
+
     if (navigator.share) {
       navigator.share({
-        title: title,
-        text: text,
-        url: url
-      }).catch((err) => console.log('Share canceled', err));
+        title: 'Join CareerGyan',
+        text: text
+      }).catch((err) => {
+        if (err.name !== 'AbortError') {
+          copyToClipboard('refLinkInput', 'Referral link copied! Share it with your friends.');
+        }
+      });
     } else {
       copyToClipboard('refLinkInput', 'Referral link copied! Share it with your friends.');
     }

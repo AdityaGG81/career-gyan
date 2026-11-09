@@ -105,7 +105,46 @@ class User extends Authenticatable
 
     public function getReferralLinkAttribute(): string
     {
-        return route('signup', ['ref' => $this->referral_code]);
+        $code = urlencode($this->referral_code ?? '');
+        $host = null;
+
+        if (!app()->runningInConsole() && request()) {
+            $reqHost = request()->getHttpHost();
+            if ($reqHost && !str_contains($reqHost, 'localhost') && !str_contains($reqHost, '127.0.0.1')) {
+                $host = 'https://' . $reqHost;
+            }
+        }
+
+        if (!$host) {
+            $appUrl = env('APP_URL');
+            if ($appUrl && !str_contains($appUrl, 'localhost') && !str_contains($appUrl, '127.0.0.1')) {
+                $host = rtrim($appUrl, '/');
+                if (!str_starts_with($host, 'http://') && !str_starts_with($host, 'https://')) {
+                    $host = 'https://' . $host;
+                }
+            }
+        }
+
+        if (!$host) {
+            $host = 'https://careergyan.in';
+        }
+
+        if (str_starts_with($host, 'http://') && !str_contains($host, 'localhost')) {
+            $host = 'https://' . substr($host, 7);
+        }
+
+        return rtrim($host, '/') . '/signup?ref=' . $code;
+    }
+
+    public function getReferralShareTextAttribute(): string
+    {
+        $link = $this->referral_link;
+        return "Hey! I found a useful platform for students where you can explore your career options, take aptitude tests and analyze your skills.\n\nJoin using my referral link and get 100 reward points!\n\n" . $link;
+    }
+
+    public function getWhatsappShareUrlAttribute(): string
+    {
+        return 'https://api.whatsapp.com/send?text=' . rawurlencode($this->referral_share_text);
     }
 
     public function memberships()

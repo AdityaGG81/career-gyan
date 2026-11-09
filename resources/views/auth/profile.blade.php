@@ -134,7 +134,7 @@
             <a href="{{ route('rewards.index') }}" style="background: var(--brand); color: #ffffff; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none;">
                 <i class="fa-solid fa-wallet"></i> Points Wallet
             </a>
-            <a href="https://wa.me/?text={{ urlencode('Hey! Join CareerGyan using my referral link and get 100 reward points!\n\n' . ($user->referral_link ?? url('/signup'))) }}" target="_blank" rel="noopener noreferrer" style="background: #25d366; color: #ffffff; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none;">
+            <a href="{{ $user->whatsapp_share_url }}" target="_blank" rel="noopener noreferrer" style="background: #25d366; color: #ffffff; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none;">
                 <i class="fa-brands fa-whatsapp"></i> WhatsApp Share
             </a>
         </div>
