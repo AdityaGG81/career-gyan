@@ -120,6 +120,23 @@
             </div>
         </div>
 
+        @if($user->current_badge)
+            <div style="margin-bottom: 14px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 10px; padding: 12px 14px; color: #ffffff; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: {{ $user->current_badge['badge_bg'] ?? '#fef3c7' }}; color: {{ $user->current_badge['badge_color'] ?? '#b45309' }}; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                        <i class="{{ $user->current_badge['badge_icon'] ?? 'fa-solid fa-award' }}"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 10.5px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em;">Milestone Badge Rank</div>
+                        <div style="font-family: 'Sora', sans-serif; font-size: 13.5px; font-weight: 800; color: #ffffff;">{{ $user->current_badge['badge_name'] }}</div>
+                    </div>
+                </div>
+                <span style="font-size: 11px; font-weight: 800; background: rgba(255,255,255,0.18); color: #fde047; padding: 3px 8px; border-radius: 99px;">
+                    Tier {{ $user->current_badge['tier_level'] }}
+                </span>
+            </div>
+        @endif
+
         <div style="background: #f8fafc; border: 1px dashed var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;">
             <div style="font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; margin-bottom: 4px;">Your Referral Code</div>
             <div style="display: flex; justify-content: space-between; align-items: center;">

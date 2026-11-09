@@ -33,6 +33,9 @@ class RewardPointsController extends Controller
         // Wallet and Referral Statistics
         $stats = $this->rewardService->getUserWalletStats($user);
 
+        // Milestone Badges Summary (Every 1,000 points)
+        $badgeSummary = $this->rewardService->getUserBadgeSummary($user);
+
         // User's Referrals (only display safe public data for privacy)
         $referrals = Referral::with('referredUser:id,name,first_name,last_name,created_at')
             ->where('referrer_id', $user->id)
@@ -55,7 +58,7 @@ class RewardPointsController extends Controller
 
         $transactions = $query->latest()->paginate(15)->withQueryString();
 
-        return view('rewards.index', compact('user', 'stats', 'referrals', 'transactions', 'filter'));
+        return view('rewards.index', compact('user', 'stats', 'referrals', 'transactions', 'filter', 'badgeSummary'));
     }
 }
 

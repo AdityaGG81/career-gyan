@@ -144,6 +144,7 @@ class AdminReferralController extends Controller
             $descendantsCount = $this->calculateTotalDescendants($selectedUser->id);
 
             $walletStats = $this->rewardService->getUserWalletStats($selectedUser);
+            $badgeSummary = $this->rewardService->getUserBadgeSummary($selectedUser);
 
             $transactions = PointTransaction::where('user_id', $selectedUser->id)
                 ->latest()
@@ -155,6 +156,7 @@ class AdminReferralController extends Controller
                 'direct_referrals' => $directReferralsCount,
                 'chain_members' => $descendantsCount,
                 'stats' => $walletStats,
+                'badge_summary' => $badgeSummary,
                 'transactions' => $transactions,
             ];
         }
@@ -183,6 +185,8 @@ class AdminReferralController extends Controller
             'chain_members' => $descendants,
             'points_balance' => (int) $user->points_balance,
             'total_earned' => $stats['total_earned_points'],
+            'badge' => $user->current_badge ? $user->current_badge['badge_name'] : 'None',
+            'badges_count' => $user->badges_count,
             'aptitude_claimed' => $stats['aptitude_claimed'],
             'analysis_claimed' => $stats['analysis_claimed'],
             'created_at' => $user->created_at ? $user->created_at->format('d M Y') : 'N/A',

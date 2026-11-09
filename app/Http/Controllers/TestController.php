@@ -122,13 +122,13 @@ class TestController extends Controller
 
         session(['last_test_uuid' => $session->uuid]);
 
-        // Automatically award 10 reward points upon successful test completion (once per user)
+        // Automatically award 50 reward points upon successful test completion (once per user)
         $rewardMessage = null;
         if (Auth::check()) {
             $rewardService = app(\App\Services\RewardPointsService::class);
             $points = $rewardService->awardAptitudeTestReward(Auth::user(), $session->id);
             if ($points) {
-                $rewardMessage = 'Congratulations! You earned 10 reward points for completing your Aptitude Test.';
+                $rewardMessage = 'Congratulations! You earned 50 reward points for completing your Aptitude Test.';
                 session()->flash('reward_notification', $rewardMessage);
             }
         }

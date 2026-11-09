@@ -103,6 +103,49 @@ class User extends Authenticatable
         return $this->hasMany(RewardClaim::class);
     }
 
+    public function badges()
+    {
+        return $this->hasMany(UserBadge::class)->orderBy('tier_level', 'asc');
+    }
+
+    public function latestBadge()
+    {
+        return $this->hasOne(UserBadge::class)->latestOfMany('tier_level');
+    }
+
+    public function getCurrentBadgeAttribute(): ?array
+    {
+        $badge = $this->badges()->orderByDesc('tier_level')->first();
+        if ($badge) {
+            return [
+                'tier_level' => $badge->tier_level,
+                'points_milestone' => $badge->points_milestone,
+                'badge_name' => $badge->badge_name,
+                'badge_icon' => $badge->badge_icon,
+                'badge_color' => $badge->badge_color,
+                'badge_bg' => $badge->badge_bg,
+                'badge_description' => $badge->badge_description,
+                'unlocked_at' => $badge->unlocked_at,
+            ];
+        }
+
+        $tier = intdiv((int) $this->points_balance, 1000);
+        if ($tier >= 1) {
+            return app(\App\Services\RewardPointsService::class)->getBadgeDefinitionForTier($tier);
+        }
+
+        return null;
+    }
+
+    public function getBadgesCountAttribute(): int
+    {
+        $dbCount = $this->badges()->count();
+        if ($dbCount > 0) {
+            return $dbCount;
+        }
+        return intdiv((int) $this->points_balance, 1000);
+    }
+
     public function getReferralLinkAttribute(): string
     {
         $code = urlencode($this->referral_code ?? '');

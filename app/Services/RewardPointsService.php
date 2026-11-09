@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Referral;
 use App\Models\PointTransaction;
 use App\Models\RewardClaim;
+use App\Models\UserBadge;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -195,12 +196,15 @@ class RewardPointsService
                 'completed_at' => now(),
             ]);
 
+            $this->syncUserMilestoneBadges($referrer);
+            $this->syncUserMilestoneBadges($newUser);
+
             return true;
         });
     }
 
     /**
-     * Award Aptitude Test completion reward (+10 points once).
+     * Award Aptitude Test completion reward (+50 points once).
      */
     public function awardAptitudeTestReward(User $user, $referenceId = null): ?int
     {
@@ -220,7 +224,7 @@ class RewardPointsService
                     'user_id' => $user->id,
                     'reward_type' => 'aptitude_test',
                     'reference_id' => $referenceId,
-                    'points_awarded' => 10,
+                    'points_awarded' => 50,
                 ]);
             } catch (\Exception $e) {
                 // Caught duplicate constraint
@@ -230,20 +234,22 @@ class RewardPointsService
             PointTransaction::create([
                 'user_id' => $user->id,
                 'transaction_type' => 'aptitude_test',
-                'points' => 10,
+                'points' => 50,
                 'description' => 'Aptitude Test Completed',
                 'reference_type' => 'test_session',
                 'reference_id' => $referenceId,
             ]);
 
-            $user->increment('points_balance', 10);
+            $user->increment('points_balance', 50);
 
-            return 10;
+            $this->syncUserMilestoneBadges($user);
+
+            return 50;
         });
     }
 
     /**
-     * Award Student Analysis Test completion reward (+10 points once).
+     * Award Student Analysis Test completion reward (+50 points once).
      */
     public function awardStudentAnalysisReward(User $user, $referenceId = null): ?int
     {
@@ -263,7 +269,7 @@ class RewardPointsService
                     'user_id' => $user->id,
                     'reward_type' => 'student_analysis',
                     'reference_id' => $referenceId,
-                    'points_awarded' => 10,
+                    'points_awarded' => 50,
                 ]);
             } catch (\Exception $e) {
                 // Caught duplicate constraint
@@ -273,15 +279,17 @@ class RewardPointsService
             PointTransaction::create([
                 'user_id' => $user->id,
                 'transaction_type' => 'student_analysis',
-                'points' => 10,
+                'points' => 50,
                 'description' => 'Student Analysis Completed',
                 'reference_type' => 'student_analysis',
                 'reference_id' => $referenceId,
             ]);
 
-            $user->increment('points_balance', 10);
+            $user->increment('points_balance', 50);
 
-            return 10;
+            $this->syncUserMilestoneBadges($user);
+
+            return 50;
         });
     }
 
@@ -304,6 +312,8 @@ class RewardPointsService
 
             $user->points_balance = max(0, $user->points_balance + $points);
             $user->save();
+
+            $this->syncUserMilestoneBadges($user);
 
             return $tx;
         });
@@ -431,6 +441,262 @@ class RewardPointsService
             'direct_count' => $directChildren->count(),
             'descendants_count' => $totalDescendants,
             'children' => $childrenNodes,
+        ];
+    }
+
+    /**
+     * Standard milestone badge catalog for every 1,000 points.
+     */
+    public function getBadgeDefinitions(): array
+    {
+        return [
+            1 => [
+                'tier_level' => 1,
+                'points_milestone' => 1000,
+                'badge_name' => 'Bronze Explorer',
+                'badge_slug' => 'bronze-explorer',
+                'badge_icon' => 'fa-solid fa-award',
+                'badge_color' => '#b45309',
+                'badge_bg' => '#fef3c7',
+                'badge_border' => '#fde68a',
+                'badge_gradient' => 'linear-gradient(135deg, #f59e0b, #b45309)',
+                'badge_description' => 'Unlocked at 1,000 Points. Commenced your career roadmap with active participation.',
+            ],
+            2 => [
+                'tier_level' => 2,
+                'points_milestone' => 2000,
+                'badge_name' => 'Silver Scholar',
+                'badge_slug' => 'silver-scholar',
+                'badge_icon' => 'fa-solid fa-medal',
+                'badge_color' => '#475569',
+                'badge_bg' => '#f1f5f9',
+                'badge_border' => '#cbd5e1',
+                'badge_gradient' => 'linear-gradient(135deg, #94a3b8, #475569)',
+                'badge_description' => 'Unlocked at 2,000 Points. Consistently mastering assessments and expanding your network.',
+            ],
+            3 => [
+                'tier_level' => 3,
+                'points_milestone' => 3000,
+                'badge_name' => 'Gold Champion',
+                'badge_slug' => 'gold-champion',
+                'badge_icon' => 'fa-solid fa-trophy',
+                'badge_color' => '#ca8a04',
+                'badge_bg' => '#fef9c3',
+                'badge_border' => '#fef08a',
+                'badge_gradient' => 'linear-gradient(135deg, #eab308, #ca8a04)',
+                'badge_description' => 'Unlocked at 3,000 Points. A recognized campus champion empowering friends and classmates.',
+            ],
+            4 => [
+                'tier_level' => 4,
+                'points_milestone' => 4000,
+                'badge_name' => 'Platinum Leader',
+                'badge_slug' => 'platinum-leader',
+                'badge_icon' => 'fa-solid fa-star',
+                'badge_color' => '#0891b2',
+                'badge_bg' => '#ecfeff',
+                'badge_border' => '#a5f3fc',
+                'badge_gradient' => 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                'badge_description' => 'Unlocked at 4,000 Points. Demonstrating outstanding leadership in career guidance.',
+            ],
+            5 => [
+                'tier_level' => 5,
+                'points_milestone' => 5000,
+                'badge_name' => 'Diamond Master',
+                'badge_slug' => 'diamond-master',
+                'badge_icon' => 'fa-solid fa-gem',
+                'badge_color' => '#7c3aed',
+                'badge_bg' => '#f5f3ff',
+                'badge_border' => '#ddd6fe',
+                'badge_gradient' => 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                'badge_description' => 'Unlocked at 5,000 Points. Half-way to 10k! Exceptional dedication and peer influence.',
+            ],
+            6 => [
+                'tier_level' => 6,
+                'points_milestone' => 6000,
+                'badge_name' => 'Crown Ambassador',
+                'badge_slug' => 'crown-ambassador',
+                'badge_icon' => 'fa-solid fa-crown',
+                'badge_color' => '#db2777',
+                'badge_bg' => '#fdf2f8',
+                'badge_border' => '#fbcfe8',
+                'badge_gradient' => 'linear-gradient(135deg, #ec4899, #db2777)',
+                'badge_description' => 'Unlocked at 6,000 Points. Official student community ambassador across Maharashtra.',
+            ],
+            7 => [
+                'tier_level' => 7,
+                'points_milestone' => 7000,
+                'badge_name' => 'Elite Pioneer',
+                'badge_slug' => 'elite-pioneer',
+                'badge_icon' => 'fa-solid fa-fire',
+                'badge_color' => '#ea580c',
+                'badge_bg' => '#fff7ed',
+                'badge_border' => '#fed7aa',
+                'badge_gradient' => 'linear-gradient(135deg, #f97316, #ea580c)',
+                'badge_description' => 'Unlocked at 7,000 Points. Blazing a trail of academic curiosity and peer mentorship.',
+            ],
+            8 => [
+                'tier_level' => 8,
+                'points_milestone' => 8000,
+                'badge_name' => 'Grand Mentor',
+                'badge_slug' => 'grand-mentor',
+                'badge_icon' => 'fa-solid fa-bolt',
+                'badge_color' => '#e11d48',
+                'badge_bg' => '#fff1f2',
+                'badge_border' => '#fecdd3',
+                'badge_gradient' => 'linear-gradient(135deg, #f43f5e, #e11d48)',
+                'badge_description' => 'Unlocked at 8,000 Points. Pillar of our platform helping dozens find career direction.',
+            ],
+            9 => [
+                'tier_level' => 9,
+                'points_milestone' => 9000,
+                'badge_name' => 'Apex Vanguard',
+                'badge_slug' => 'apex-vanguard',
+                'badge_icon' => 'fa-solid fa-shield-halved',
+                'badge_color' => '#059669',
+                'badge_bg' => '#ecfdf5',
+                'badge_border' => '#a7f3d0',
+                'badge_gradient' => 'linear-gradient(135deg, #10b981, #059669)',
+                'badge_description' => 'Unlocked at 9,000 Points. Standing in the top 0.1% of all registered students.',
+            ],
+            10 => [
+                'tier_level' => 10,
+                'points_milestone' => 10000,
+                'badge_name' => 'Hall of Fame Titan',
+                'badge_slug' => 'hall-of-fame-titan',
+                'badge_icon' => 'fa-solid fa-dragon',
+                'badge_color' => '#4f46e5',
+                'badge_bg' => '#eef2ff',
+                'badge_border' => '#c7d2fe',
+                'badge_gradient' => 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                'badge_description' => 'Unlocked at 10,000 Points. Inducted permanently into the CareerGyan Hall of Fame.',
+            ],
+        ];
+    }
+
+    /**
+     * Get or dynamically compute definition for any tier (every 1000 points).
+     */
+    public function getBadgeDefinitionForTier(int $tier): array
+    {
+        $defs = $this->getBadgeDefinitions();
+        if (isset($defs[$tier])) {
+            return $defs[$tier];
+        }
+
+        $milestone = $tier * 1000;
+        return [
+            'tier_level' => $tier,
+            'points_milestone' => $milestone,
+            'badge_name' => 'Titan Tier ' . $tier,
+            'badge_slug' => 'titan-tier-' . $tier,
+            'badge_icon' => 'fa-solid fa-crown',
+            'badge_color' => '#4f46e5',
+            'badge_bg' => '#eef2ff',
+            'badge_border' => '#c7d2fe',
+            'badge_gradient' => 'linear-gradient(135deg, #6366f1, #4f46e5)',
+            'badge_description' => 'Unlocked at ' . number_format($milestone) . ' Points. Unstoppable legend of CareerGyan.',
+        ];
+    }
+
+    /**
+     * Sync user's earned badges in database according to their points.
+     * Awards 1 badge for every 1,000 points achieved.
+     */
+    public function syncUserMilestoneBadges(User $user): array
+    {
+        $user = User::where('id', $user->id)->first();
+        if (!$user) {
+            return [];
+        }
+
+        $totalEarned = (int) PointTransaction::where('user_id', $user->id)
+            ->where('points', '>', 0)
+            ->sum('points');
+
+        $qualifyingPoints = max((int) $user->points_balance, $totalEarned);
+        $earnedTiersCount = intdiv($qualifyingPoints, 1000);
+
+        $newlyUnlocked = [];
+
+        for ($tier = 1; $tier <= $earnedTiersCount; $tier++) {
+            $existing = UserBadge::where('user_id', $user->id)
+                ->where('tier_level', $tier)
+                ->first();
+
+            if (!$existing) {
+                $def = $this->getBadgeDefinitionForTier($tier);
+                $badge = UserBadge::create([
+                    'user_id' => $user->id,
+                    'tier_level' => $tier,
+                    'points_milestone' => $def['points_milestone'],
+                    'badge_name' => $def['badge_name'],
+                    'badge_slug' => $def['badge_slug'],
+                    'badge_icon' => $def['badge_icon'],
+                    'badge_color' => $def['badge_color'],
+                    'badge_bg' => $def['badge_bg'],
+                    'badge_description' => $def['badge_description'],
+                    'unlocked_at' => now(),
+                ]);
+                $newlyUnlocked[] = $badge;
+            }
+        }
+
+        return $newlyUnlocked;
+    }
+
+    /**
+     * Get full badge summary and showcase data for user rewards page.
+     */
+    public function getUserBadgeSummary(User $user): array
+    {
+        $this->syncUserMilestoneBadges($user);
+
+        $totalEarned = (int) PointTransaction::where('user_id', $user->id)
+            ->where('points', '>', 0)
+            ->sum('points');
+
+        $qualifyingPoints = max((int) $user->points_balance, $totalEarned);
+        $currentTierLevel = intdiv($qualifyingPoints, 1000);
+
+        $unlockedBadges = UserBadge::where('user_id', $user->id)
+            ->orderBy('tier_level', 'asc')
+            ->get();
+
+        $currentBadge = $currentTierLevel >= 1 ? $this->getBadgeDefinitionForTier($currentTierLevel) : null;
+        $nextTierLevel = $currentTierLevel + 1;
+        $nextBadge = $this->getBadgeDefinitionForTier($nextTierLevel);
+
+        $pointsInCurrentTier = $qualifyingPoints % 1000;
+        $progressPercent = min(100, round(($pointsInCurrentTier / 1000) * 100));
+        $pointsNeeded = 1000 - $pointsInCurrentTier;
+
+        $maxDisplayTier = max(10, $currentTierLevel + 2);
+        $unlockedMap = $unlockedBadges->keyBy('tier_level');
+
+        $displayTiers = [];
+        for ($t = 1; $t <= $maxDisplayTier; $t++) {
+            $def = $this->getBadgeDefinitionForTier($t);
+            $isUnlocked = isset($unlockedMap[$t]) || ($t <= $currentTierLevel);
+            $unlockedAt = isset($unlockedMap[$t]) ? $unlockedMap[$t]->unlocked_at : null;
+
+            $displayTiers[] = array_merge($def, [
+                'is_unlocked' => $isUnlocked,
+                'unlocked_at' => $unlockedAt,
+                'is_current' => ($t === $currentTierLevel),
+                'is_next' => ($t === $nextTierLevel),
+            ]);
+        }
+
+        return [
+            'qualifying_points' => $qualifyingPoints,
+            'badges_earned_count' => $currentTierLevel,
+            'current_badge' => $currentBadge,
+            'next_badge' => $nextBadge,
+            'points_in_tier' => $pointsInCurrentTier,
+            'points_needed' => $pointsNeeded,
+            'progress_percent' => $progressPercent,
+            'unlocked_badges' => $unlockedBadges,
+            'display_tiers' => $displayTiers,
         ];
     }
 }

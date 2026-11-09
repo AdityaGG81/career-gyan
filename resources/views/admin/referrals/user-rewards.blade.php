@@ -177,22 +177,34 @@
 
       {{-- Hierarchy & Rewards Checklist --}}
       <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 12px; padding: 18px 20px;">
-        <div style="margin-bottom: 12px; font-size: 13.5px;">
-          <strong style="color: var(--admin-text-1);">Sponsor (Referred By):</strong>
-          @if($student->referrer)
-            <a href="{{ route('admin.referrals.user-rewards', ['user_id' => $student->referrer->id]) }}" style="color: #2563eb; font-weight: 700; margin-left: 6px; text-decoration: none;">
-              {{ $student->referrer->name }} ({{ $student->referrer->email }}) &rarr;
-            </a>
-          @else
-            <span style="color: var(--admin-text-3); margin-left: 6px;">Direct Registration (No sponsor)</span>
-          @endif
+        <div style="margin-bottom: 12px; font-size: 13.5px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <strong style="color: var(--admin-text-1);">Sponsor (Referred By):</strong>
+            @if($student->referrer)
+              <a href="{{ route('admin.referrals.user-rewards', ['user_id' => $student->referrer->id]) }}" style="color: #2563eb; font-weight: 700; margin-left: 6px; text-decoration: none;">
+                {{ $student->referrer->name }} ({{ $student->referrer->email }}) &rarr;
+              </a>
+            @else
+              <span style="color: var(--admin-text-3); margin-left: 6px;">Direct Registration (No sponsor)</span>
+            @endif
+          </div>
+          <div>
+            <strong style="color: var(--admin-text-1);">Milestone Badge:</strong>
+            @if($student->current_badge)
+              <span style="background: {{ $student->current_badge['badge_bg'] ?? '#fef3c7' }}; color: {{ $student->current_badge['badge_color'] ?? '#b45309' }}; font-weight: 800; padding: 4px 10px; border-radius: 99px; font-size: 12px; margin-left: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="{{ $student->current_badge['badge_icon'] ?? 'fa-solid fa-award' }}"></i> {{ $student->current_badge['badge_name'] }} (Tier {{ $student->current_badge['tier_level'] }})
+              </span>
+            @else
+              <span style="color: var(--admin-text-3); font-size: 12px; margin-left: 4px;">Working toward Tier 1 ({{ number_format(1000 - ($student->points_balance % 1000)) }} pts needed)</span>
+            @endif
+          </div>
         </div>
 
         <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px;">
           <div>
             <strong>Aptitude Reward:</strong>
             @if($stats['aptitude_claimed'])
-              <span style="color: #16a34a; font-weight: 700; margin-left: 4px;"><i class="fa-solid fa-circle-check"></i> Awarded (+10 pts)</span>
+              <span style="color: #16a34a; font-weight: 700; margin-left: 4px;"><i class="fa-solid fa-circle-check"></i> Awarded (+50 pts)</span>
             @else
               <span style="color: var(--admin-text-3); margin-left: 4px;"><i class="fa-solid fa-clock"></i> Not Yet Completed</span>
             @endif
@@ -200,7 +212,7 @@
           <div>
             <strong>Student Analysis Reward:</strong>
             @if($stats['analysis_claimed'])
-              <span style="color: #16a34a; font-weight: 700; margin-left: 4px;"><i class="fa-solid fa-circle-check"></i> Awarded (+10 pts)</span>
+              <span style="color: #16a34a; font-weight: 700; margin-left: 4px;"><i class="fa-solid fa-circle-check"></i> Awarded (+50 pts)</span>
             @else
               <span style="color: var(--admin-text-3); margin-left: 4px;"><i class="fa-solid fa-clock"></i> Not Yet Completed</span>
             @endif

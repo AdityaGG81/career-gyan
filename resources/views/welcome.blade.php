@@ -2297,6 +2297,11 @@
             <span style="background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #fde047; padding: 7px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 800;">
               <i class="fa-solid fa-coins"></i> {{ number_format(Auth::user()->points_balance ?? 0) }} Points
             </span>
+            @if(Auth::user()->current_badge)
+              <span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #ffffff; padding: 7px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="{{ Auth::user()->current_badge['badge_icon'] ?? 'fa-solid fa-award' }}" style="color: #fde047;"></i> {{ Auth::user()->current_badge['badge_name'] }}
+              </span>
+            @endif
           </div>
         </div>
 
@@ -2319,7 +2324,7 @@
             Earn 100 Reward Points on Signup & Test Completions!
           </h2>
           <p style="font-size: 14.5px; color: #475569; margin: 0;">
-            Invite your friends to CareerGyan and both of you earn 100 points, plus 10 points for completing aptitude assessments.
+            Invite your friends to CareerGyan and both of you earn 100 points, plus 50 points for completing aptitude and career assessments.
           </p>
         </div>
         <div>

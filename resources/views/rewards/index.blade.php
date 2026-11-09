@@ -562,6 +562,126 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Milestone Badges System */
+  .badge-showcase-section {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .badge-showcase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .badge-current-rank-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .badge-current-rank-card::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .badge-progress-wrap {
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .badge-progress-bar-bg {
+    height: 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+
+  .badge-progress-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #f59e0b, #10b981);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .badge-tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+  }
+
+  .badge-tier-card {
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: all var(--transition);
+  }
+
+  .badge-tier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .badge-tier-card.unlocked {
+    border-color: #fde047;
+    background: linear-gradient(180deg, #ffffff 0%, #fefce8 100%);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.08);
+  }
+
+  .badge-tier-card.locked {
+    opacity: 0.72;
+    background: #fafafa;
+  }
+
+  .badge-tier-card.locked:hover {
+    opacity: 0.95;
+  }
+
+  .badge-icon-disc {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: transform 0.3s;
+  }
+
+  .badge-tier-card:hover .badge-icon-disc {
+    transform: scale(1.1) rotate(5deg);
+  }
 </style>
 @endsection
 
@@ -645,6 +765,109 @@
           <h4>Successful Referrals</h4>
           <div class="val">{{ number_format($stats['successful_referrals']) }}</div>
         </div>
+      </div>
+    </div>
+
+    {{-- Milestone Badges & Ranks Showcase (Every 1,000 Points) --}}
+    <div class="badge-showcase-section" id="badges-section">
+      <div class="badge-showcase-header">
+        <div>
+          <span style="background: #fef3c7; color: #b45309; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 99px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+            <i class="fa-solid fa-trophy"></i> MILESTONE BADGE SYSTEM
+          </span>
+          <h2 style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: var(--text-1); margin: 0 0 4px;">
+            Milestone Badges & Student Ranks
+          </h2>
+          <p style="font-size: 14px; color: var(--text-2); margin: 0;">
+            Earn a distinguished prestige badge for <strong>every 1,000 reward points</strong> accumulated across tests, referrals, and activities.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: var(--radius-md); padding: 10px 18px; text-align: center;">
+            <div style="font-size: 11px; font-weight: 700; color: #1e40af; text-transform: uppercase; letter-spacing: 0.05em;">Badges Earned</div>
+            <div style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: #1d4ed8;">
+              <i class="fa-solid fa-award"></i> {{ $badgeSummary['badges_earned_count'] ?? 0 }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{-- Current Rank & Next Milestone Progress Bar --}}
+      <div class="badge-current-rank-card">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="width: 58px; height: 58px; border-radius: 50%; background: {{ $badgeSummary['current_badge']['badge_gradient'] ?? 'linear-gradient(135deg, #475569, #334155)' }}; display: flex; align-items: center; justify-content: center; font-size: 26px; color: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            <i class="{{ $badgeSummary['current_badge']['badge_icon'] ?? 'fa-solid fa-seedling' }}"></i>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 2px;">
+              Current Milestone Rank
+            </div>
+            <div style="font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; color: #ffffff;">
+              {{ $badgeSummary['current_badge']['badge_name'] ?? 'Rookie Explorer' }}
+              @if(!empty($badgeSummary['current_badge']))
+                <span style="font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 99px; margin-left: 6px;">
+                  Tier {{ $badgeSummary['current_badge']['tier_level'] }}
+                </span>
+              @endif
+            </div>
+            <div style="font-size: 12.5px; color: #cbd5e1; margin-top: 2px;">
+              {{ $badgeSummary['current_badge']['badge_description'] ?? 'Earn 1,000 points to unlock your first Bronze Explorer badge!' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="badge-progress-wrap">
+          <div style="display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: #94a3b8;">
+            <span>Next: <strong style="color: #fde047;">{{ $badgeSummary['next_badge']['badge_name'] ?? 'Bronze Explorer' }}</strong> ({{ number_format($badgeSummary['next_badge']['points_milestone'] ?? 1000) }} PTS)</span>
+            <span style="color: #ffffff;">{{ $badgeSummary['points_in_tier'] ?? 0 }} / 1,000 PTS ({{ $badgeSummary['progress_percent'] ?? 0 }}%)</span>
+          </div>
+          <div class="badge-progress-bar-bg">
+            <div class="badge-progress-bar-fill" style="width: {{ $badgeSummary['progress_percent'] ?? 0 }}%;"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: #94a3b8;">
+            <span>{{ number_format($badgeSummary['points_needed'] ?? 1000) }} points needed to unlock next badge</span>
+            <span>+1 Badge per 1,000 PTS</span>
+          </div>
+        </div>
+      </div>
+
+      {{-- Milestone Tiers Grid --}}
+      <div class="badge-tier-grid">
+        @foreach($badgeSummary['display_tiers'] ?? [] as $tier)
+          <div class="badge-tier-card {{ $tier['is_unlocked'] ? 'unlocked' : 'locked' }}">
+            @if($tier['is_unlocked'])
+              <span style="position: absolute; top: 12px; right: 12px; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-circle-check"></i> UNLOCKED
+              </span>
+            @elseif($tier['is_next'])
+              <span style="position: absolute; top: 12px; right: 12px; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-hourglass-half"></i> NEXT UP
+              </span>
+            @else
+              <span style="position: absolute; top: 12px; right: 12px; background: #f1f5f9; color: #64748b; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-lock"></i> LOCKED
+              </span>
+            @endif
+
+            <div class="badge-icon-disc" style="background: {{ $tier['is_unlocked'] ? $tier['badge_gradient'] : '#e2e8f0' }}; color: {{ $tier['is_unlocked'] ? '#ffffff' : '#94a3b8' }};">
+              <i class="{{ $tier['badge_icon'] }}"></i>
+            </div>
+
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: {{ $tier['is_unlocked'] ? $tier['badge_color'] : '#64748b' }}; margin-bottom: 2px;">
+              Tier {{ $tier['tier_level'] }} Milestone
+            </div>
+            <h4 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: {{ $tier['is_unlocked'] ? 'var(--text-1)' : '#64748b' }}; margin-bottom: 4px;">
+              {{ $tier['badge_name'] }}
+            </h4>
+            <div style="font-family: monospace; font-size: 13.5px; font-weight: 800; color: {{ $tier['is_unlocked'] ? '#b45309' : '#94a3b8' }}; margin-bottom: 8px;">
+              {{ number_format($tier['points_milestone']) }} PTS
+            </div>
+            <p style="font-size: 12px; color: var(--text-3); line-height: 1.4; margin: 0;">
+              {{ $tier['badge_description'] }}
+            </p>
+          </div>
+        @endforeach
       </div>
     </div>
 
@@ -747,14 +970,14 @@
             <div class="rule-icon-box" style="background: #eff6ff; color: #1d4ed8;">
               <i class="fa-solid fa-clipboard-check"></i>
             </div>
-            <span class="rule-pts-badge">+10 PTS</span>
+            <span class="rule-pts-badge">+50 PTS</span>
           </div>
           <h3>3. Complete Aptitude Test</h3>
-          <p>Take our comprehensive aptitude assessment to test your analytical, verbal, and spatial abilities.</p>
+          <p>Take our comprehensive aptitude assessment to test your analytical, verbal, and spatial abilities. Earn 50 points on completion!</p>
         </div>
         <div class="earn-rule-action">
           @if($stats['aptitude_claimed'])
-            <span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Completed & Claimed</span>
+            <span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Completed & Claimed (+50 PTS)</span>
           @else
             <a href="{{ route('test.start') }}" style="color: var(--brand);">
               Take Test <i class="fa-solid fa-arrow-right"></i>
@@ -770,14 +993,14 @@
             <div class="rule-icon-box" style="background: #fdf2f8; color: #be185d;">
               <i class="fa-solid fa-chart-pie"></i>
             </div>
-            <span class="rule-pts-badge">+10 PTS</span>
+            <span class="rule-pts-badge">+50 PTS</span>
           </div>
           <h3>4. Student Analysis Test</h3>
-          <p>Fill out our scientific student self-analysis to discover your personality archetype and ideal career fields.</p>
+          <p>Fill out our scientific student self-analysis to discover your personality archetype and ideal career fields. Earn 50 points on completion!</p>
         </div>
         <div class="earn-rule-action">
           @if($stats['analysis_claimed'])
-            <span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Completed & Claimed</span>
+            <span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Completed & Claimed (+50 PTS)</span>
           @else
             <a href="{{ route('student-analysis.create') }}" style="color: var(--brand);">
               Start Assessment <i class="fa-solid fa-arrow-right"></i>
