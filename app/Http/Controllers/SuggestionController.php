@@ -47,6 +47,10 @@ class SuggestionController extends Controller
 
     public function index()
     {
+        if (!session()->has('admin_logged_in')) {
+            return redirect()->route('admin.login');
+        }
+
         $suggestions = Suggestion::latest()->get();
         return view('admin.suggestions', compact('suggestions'));
     }

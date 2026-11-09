@@ -456,6 +456,11 @@
           <i class="fa-solid fa-users"></i> Users
         </a>
       </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.referrals') ? 'active' : '' }}">
+        <a href="{{ route('admin.referrals.index') }}">
+          <i class="fa-solid fa-gift" style="color: #f59e0b;"></i> Referrals & Rewards
+        </a>
+      </li>
       <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.test-results') ? 'active' : '' }}">
         <a href="{{ route('admin.test-results.index') }}">
           <i class="fa-solid fa-square-poll-vertical" style="color: #38bdf8;"></i> Test Results

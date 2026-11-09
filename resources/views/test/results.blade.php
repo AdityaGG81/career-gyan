@@ -293,6 +293,20 @@
                 <i class="fa-solid fa-check-circle"></i> Assessment Complete
             </span>
             <h1 style="font-family: 'Sora'; font-size: 32px; font-weight: 700;">Your Cognitive Profile & Matches</h1>
+
+            @if(session('reward_notification'))
+                <div style="background: rgba(16, 185, 129, 0.2); border: 1.5px solid rgba(52, 211, 153, 0.8); color: #ecfdf5; padding: 14px 22px; border-radius: var(--radius-lg); margin: 20px auto 0; max-width: 650px; display: flex; align-items: center; justify-content: space-between; gap: 16px; backdrop-filter: blur(8px);">
+                    <div style="display: flex; align-items: center; gap: 12px; text-align: left;">
+                        <i class="fa-solid fa-gift" style="font-size: 24px; color: #34d399;"></i>
+                        <div>
+                            <div style="font-weight: 700; font-size: 14px;">{{ session('reward_notification') }}</div>
+                        </div>
+                    </div>
+                    <a href="{{ route('rewards.index') }}" style="background: #10b981; color: #ffffff; padding: 7px 14px; border-radius: 99px; font-weight: 700; font-size: 12px; text-decoration: none; white-space: nowrap;">
+                        My Wallet &rarr;
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 

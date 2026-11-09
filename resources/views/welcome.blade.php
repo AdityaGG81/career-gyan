@@ -2275,6 +2275,63 @@
   </div>
 </section>
 
+<!-- ─── Refer & Earn Section (Front & Center) ─── -->
+<section style="padding: 36px 0; background: #ffffff; border-bottom: 1px solid var(--border);">
+  <div class="container">
+    @auth
+      <div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%); border-radius: var(--radius-xl); padding: 32px 36px; color: #ffffff; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.15); display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+        <div style="max-width: 580px;">
+          <span style="background: rgba(255,255,255,0.15); color: #fde047; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 99px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+            <i class="fa-solid fa-gift"></i> REFER & EARN
+          </span>
+          <h2 style="font-family: 'Sora', sans-serif; font-size: clamp(20px, 3vw, 26px); font-weight: 800; margin-bottom: 8px;">
+            Invite Friends & Earn 100 Points Together!
+          </h2>
+          <p style="font-size: 14px; opacity: 0.9; margin-bottom: 16px;">
+            "Your friends deserve to know about us! Invite them and earn rewards together."
+          </p>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <span style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); padding: 7px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 700;">
+              Your Code: <strong style="color: #fde047; font-family: monospace; font-size: 15px;">{{ Auth::user()->referral_code }}</strong>
+            </span>
+            <span style="background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #fde047; padding: 7px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 800;">
+              <i class="fa-solid fa-coins"></i> {{ number_format(Auth::user()->points_balance ?? 0) }} Points
+            </span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <a href="{{ route('rewards.index') }}" style="background: #ffffff; color: #1e3a8a; padding: 12px 24px; border-radius: var(--radius-md); font-weight: 800; font-size: 14.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fa-solid fa-wallet" style="color: #f59e0b;"></i> Open Points Wallet
+          </a>
+          <a href="https://wa.me/?text={{ urlencode('Hey! I found a useful platform for students where you can explore your career options, take aptitude tests and analyze your skills.\n\nJoin using my referral link and get 100 reward points!\n\n' . (Auth::user()->referral_link ?? url('/signup'))) }}" target="_blank" rel="noopener noreferrer" style="background: #25d366; color: #ffffff; padding: 12px 20px; border-radius: var(--radius-md); font-weight: 700; font-size: 14.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,211,102,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> WhatsApp Share
+          </a>
+        </div>
+      </div>
+    @else
+      <div style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 1.5px solid #bfdbfe; border-radius: var(--radius-xl); padding: 28px 36px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+        <div>
+          <span style="background: #dbeafe; color: #1d4ed8; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; padding: 5px 12px; border-radius: 99px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+            <i class="fa-solid fa-gift"></i> REWARD POINTS PROGRAM
+          </span>
+          <h2 style="font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+            Earn 100 Reward Points on Signup & Test Completions!
+          </h2>
+          <p style="font-size: 14.5px; color: #475569; margin: 0;">
+            Invite your friends to CareerGyan and both of you earn 100 points, plus 10 points for completing aptitude assessments.
+          </p>
+        </div>
+        <div>
+          <a href="{{ route('signup') }}" style="background: var(--brand); color: #ffffff; padding: 12px 24px; border-radius: var(--radius-md); font-weight: 700; font-size: 14.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(26, 86, 219, 0.25);">
+            Join & Get 100 Points <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    @endauth
+  </div>
+</section>
+
 <!-- ─── Why Choose CareerGyan Section (USPs) ─── -->
 <section class="usp-section">
   <div class="container">

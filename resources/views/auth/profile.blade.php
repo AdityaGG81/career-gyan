@@ -102,6 +102,43 @@
             </form>
         </div>
     </div>
+
+    <!-- Refer & Earn & Rewards Card in Profile -->
+    <div style="max-width: 480px; width: 100%; margin-top: 24px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.04);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 38px; height: 38px; border-radius: 10px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <div>
+                    <h4 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-1); margin: 0;">Refer & Earn Points</h4>
+                    <span style="font-size: 12px; color: var(--text-3);">100 Points per friend</span>
+                </div>
+            </div>
+            <div style="background: #fef3c7; color: #92400e; font-family: 'Sora', sans-serif; font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 99px;">
+                <i class="fa-solid fa-coins"></i> {{ number_format($user->points_balance ?? 0) }} PTS
+            </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px dashed var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; margin-bottom: 4px;">Your Referral Code</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: monospace; font-size: 17px; font-weight: 800; color: var(--brand); letter-spacing: 0.05em;">{{ $user->referral_code }}</span>
+                <a href="{{ route('rewards.index') }}" style="color: var(--brand); font-size: 13px; font-weight: 700; text-decoration: none;">
+                    Manage & Share &rarr;
+                </a>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <a href="{{ route('rewards.index') }}" style="background: var(--brand); color: #ffffff; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none;">
+                <i class="fa-solid fa-wallet"></i> Points Wallet
+            </a>
+            <a href="https://wa.me/?text={{ urlencode('Hey! Join CareerGyan using my referral link and get 100 reward points!\n\n' . ($user->referral_link ?? url('/signup'))) }}" target="_blank" rel="noopener noreferrer" style="background: #25d366; color: #ffffff; text-align: center; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none;">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp Share
+            </a>
+        </div>
+    </div>
 </div>
 
 <style>

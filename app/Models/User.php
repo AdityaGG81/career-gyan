@@ -14,6 +14,15 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'points_balance' => 0,
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -31,6 +40,9 @@ class User extends Authenticatable
         'last_otp_sent_at',
         'is_member',
         'membership_expires_at',
+        'referral_code',
+        'referred_by',
+        'points_balance',
     ];
 
     /**
@@ -56,8 +68,44 @@ class User extends Authenticatable
             'last_otp_sent_at' => 'datetime',
             'membership_expires_at' => 'datetime',
             'is_member' => 'boolean',
+            'points_balance' => 'integer',
             'password' => 'hashed',
         ];
+    }
+
+    public function referrer()
+    {
+        return $this->belongsTo(User::class, 'referred_by');
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(Referral::class, 'referrer_id');
+    }
+
+    public function successfulReferrals()
+    {
+        return $this->hasMany(Referral::class, 'referrer_id')->where('status', 'completed');
+    }
+
+    public function directReferredUsers()
+    {
+        return $this->hasMany(User::class, 'referred_by');
+    }
+
+    public function pointTransactions()
+    {
+        return $this->hasMany(PointTransaction::class)->latest();
+    }
+
+    public function rewardClaims()
+    {
+        return $this->hasMany(RewardClaim::class);
+    }
+
+    public function getReferralLinkAttribute(): string
+    {
+        return route('signup', ['ref' => $this->referral_code]);
     }
 
     public function memberships()

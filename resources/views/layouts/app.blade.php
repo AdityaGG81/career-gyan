@@ -1740,6 +1740,7 @@
       <div class="nav-center">
         <div class="nav-links">
           <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
+          <a href="{{ route('rewards.index') }}" class="{{ request()->is('rewards*') || request()->is('my-rewards*') ? 'active' : '' }}" style="color: #ea580c; font-weight: 700;"><i class="fa-solid fa-gift"></i> Refer & Earn</a>
           <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">Explore</a>
           <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Quiz</a>
           <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a>
@@ -1795,6 +1796,13 @@
           </div>
 
           @auth
+            <!-- Points Wallet Indicator -->
+            <a href="{{ route('rewards.index') }}" title="My Points Wallet & Rewards" style="display: flex; align-items: center; gap: 6px; background: #fef3c7; border: 1.5px solid #fde68a; color: #92400e; padding: 5px 12px; border-radius: 99px; font-weight: 800; font-size: 13px; text-decoration: none; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <i class="fa-solid fa-coins" style="color: #f59e0b; font-size: 14px;"></i>
+              <span>{{ number_format(Auth::user()->points_balance ?? 0) }}</span>
+              <span style="font-size: 10px; opacity: 0.85;">PTS</span>
+            </a>
+
             <div class="nav-divider"></div>
             <!-- User Dropdown Menu -->
             <div class="user-dropdown" style="position: relative;">
@@ -1806,6 +1814,9 @@
                   <div style="font-weight: 700; font-size: 14px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">{{ Auth::user()->name }}</div>
                   <div style="font-size: 11px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">{{ Auth::user()->email }}</div>
                 </div>
+                <a href="{{ route('rewards.index') }}" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; font-size: 14px; font-weight: 700; color: #92400e; background: #fffbeb; transition: 0.2s;" class="dropdown-item">
+                  <i class="fa-solid fa-coins" style="color: #f59e0b;"></i> My Rewards ({{ number_format(Auth::user()->points_balance ?? 0) }} pts)
+                </a>
                 <a href="{{ route('profile') }}" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; font-size: 14px; font-weight: 600; color: var(--text-2); transition: 0.2s;" class="dropdown-item">
                   <i class="fa-solid fa-user-circle" style="color: var(--brand);"></i> View Profile
                 </a>
@@ -1841,6 +1852,9 @@
   <div class="nav-mobile-menu" id="mobileMenu">
     <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">
       <i class="fa-solid fa-house"></i> Home
+    </a>
+    <a href="{{ route('rewards.index') }}" class="{{ request()->is('rewards*') ? 'active' : '' }}" style="color: #ea580c; font-weight: 700; background: #fff7ed;">
+      <i class="fa-solid fa-gift" style="color: #f97316;"></i> Refer & Earn (Rewards)
     </a>
     <a href="{{ route('membership.index') }}" class="{{ request()->is('membership*') ? 'active' : '' }}" style="color: #b45309; font-weight: 700; background: #fffbeb;">
       <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> VIP Membership

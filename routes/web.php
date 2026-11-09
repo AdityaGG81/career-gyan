@@ -14,6 +14,8 @@ use App\Http\Controllers\IndianCollegeController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\AdvancedTestController;
 use App\Http\Controllers\MhtCetCutoffController;
+use App\Http\Controllers\RewardPointsController;
+use App\Http\Controllers\AdminReferralController;
 
 
 // Main pages
@@ -109,38 +111,42 @@ Route::get('/explore/non-traditional-careers', [ExploreController::class, 'nonTr
 // Auth Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1')->name('login.submit');
     Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');
-    Route::post('/signup', [AuthController::class, 'signup'])->name('signup.submit');
+    Route::post('/signup', [AuthController::class, 'signup'])->middleware('throttle:10,1')->name('signup.submit');
+    Route::get('/register', function (\Illuminate\Http\Request $request) {
+        return redirect()->route('signup', $request->query());
+    })->name('register');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // User Profile
+    // User Profile & Points Wallet
     Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
     Route::post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/my-rewards', [RewardPointsController::class, 'index'])->name('rewards.index');
+    Route::get('/rewards', function () { return redirect()->route('rewards.index'); });
+    Route::get('/dashboard', function () { return redirect()->route('rewards.index'); })->name('dashboard');
 
     // Aptitude Test
     Route::get('/test', [TestController::class, 'start'])->name('test.start');
     Route::get('/test/quiz', [TestController::class, 'quiz'])->name('test.quiz');
-    Route::post('/test/submit', [TestController::class, 'submit'])->name('test.submit');
+    Route::post('/test/submit', [TestController::class, 'submit'])->middleware('throttle:15,1')->name('test.submit');
     Route::get('/test/results/{uuid}', [TestController::class, 'results'])->name('test.results');
     Route::get('/test/certificate/{uuid}', [TestController::class, 'certificate'])->name('test.certificate');
     Route::get('/quick-test/certificate/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'certificate'])->name('quick-test.certificate');
-
-
 
     // College Reviews (Auth required to store)
     Route::post('/colleges/{college}/reviews', [\App\Http\Controllers\CollegeReviewController::class, 'store'])->name('college.reviews.store');
 
     // AI Chatbot
-    Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->name('ai-career-chat.message');
+    Route::post('/ai-career-chat/message', [AiCareerChatController::class, 'message'])->middleware('throttle:30,1')->name('ai-career-chat.message');
     Route::get('/ai-career-chat/limit', [AiCareerChatController::class, 'getRemainingLimit'])->name('ai-career-chat.limit');
     Route::get('/ai-career-chat/profile-status', [AiCareerChatController::class, 'profileStatus'])->name('ai-career-chat.profile-status');
 
     // Daily Quiz (auth required to take & view results)
-    Route::post('/daily-quiz/submit', [DailyQuizController::class, 'submit'])->name('daily-quiz.submit');
+    Route::post('/daily-quiz/submit', [DailyQuizController::class, 'submit'])->middleware('throttle:15,1')->name('daily-quiz.submit');
     Route::get('/daily-quiz/take', [DailyQuizController::class, 'take'])->name('daily-quiz.take');
     Route::get('/daily-quiz/result/{date}', [DailyQuizController::class, 'result'])->name('daily-quiz.result');
     Route::get('/daily-quiz/my-stats', [DailyQuizController::class, 'myStats'])->name('daily-quiz.my-stats');
@@ -156,19 +162,16 @@ Route::middleware('auth')->group(function () {
 // Public Membership Page
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership.index');
 
-
-
-
 // Quick Test (Public)
 Route::get('/quick-test', [\App\Http\Controllers\QuickTestController::class, 'start'])->name('quick-test.start');
 Route::redirect('/quick-test/start', '/quick-test');
 Route::get('/quick-test/quiz', [\App\Http\Controllers\QuickTestController::class, 'quiz'])->name('quick-test.quiz');
-Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->name('quick-test.submit');
+Route::post('/quick-test/submit', [\App\Http\Controllers\QuickTestController::class, 'submit'])->middleware('throttle:15,1')->name('quick-test.submit');
 Route::get('/quick-test/results/{uuid}', [\App\Http\Controllers\QuickTestController::class, 'results'])->name('quick-test.results');
 
 // Student Analysis (Career & Course Selection Assessment Form)
 Route::get('/student-analysis', [\App\Http\Controllers\StudentAnalysisController::class, 'create'])->name('student-analysis.create');
-Route::post('/student-analysis', [\App\Http\Controllers\StudentAnalysisController::class, 'store'])->name('student-analysis.store');
+Route::post('/student-analysis', [\App\Http\Controllers\StudentAnalysisController::class, 'store'])->middleware('throttle:15,1')->name('student-analysis.store');
 Route::get('/student-analysis/report/{uuid}', [\App\Http\Controllers\StudentAnalysisController::class, 'show'])->name('student-analysis.show');
 Route::get('/student-analysis/my', [\App\Http\Controllers\StudentAnalysisController::class, 'myAnalyses'])->middleware('auth')->name('student-analysis.my');
 
@@ -196,7 +199,7 @@ Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show']
 
 // Admin Auth
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:10,1')->name('admin.login.submit');
 Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 Route::get('/verify-email', function () {
@@ -204,23 +207,12 @@ Route::get('/verify-email', function () {
 })->name('verify.email');
 
 Route::post('/verify-email', [AuthController::class, 'verifyEmailOtp'])
+    ->middleware('throttle:10,1')
     ->name('verify.email.submit');
 
-    Route::post('/resend-email-otp', [AuthController::class, 'resendEmailOtp'])
+Route::post('/resend-email-otp', [AuthController::class, 'resendEmailOtp'])
+    ->middleware('throttle:5,1')
     ->name('resend.email.otp');
-
-Route::get('/test-mail', function (\Illuminate\Http\Request $request) {
-    $to = $request->query('email', 'ffczmy26@gmail.com');
-    try {
-        \Illuminate\Support\Facades\Mail::raw("Test email from careergyan.in web route. Target recipient: {$to}", function ($message) use ($to) {
-            $message->to($to)
-                    ->subject('Web Route Test - CareerGyan');
-        });
-        return "Mail successfully sent from web to: {$to}";
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
-    }
-});
 
 // Admin Panel (Protected by session checks inside the controllers)
 // Daily Quiz (public landing + leaderboard)
@@ -254,175 +246,194 @@ Route::get('/sitemap.xml', function () {
 
 // Percentile & Rank Calculator
 Route::get('/tools/percentile-calculator', [\App\Http\Controllers\PercentileCalculatorController::class, 'index'])->name('tools.percentile-calculator');
-Route::match(['get', 'post'], '/api/tools/percentile-calculator/calculate', [\App\Http\Controllers\PercentileCalculatorController::class, 'calculateApi'])->name('tools.percentile-calculator.api');
+Route::match(['get', 'post'], '/api/tools/percentile-calculator/calculate', [\App\Http\Controllers\PercentileCalculatorController::class, 'calculateApi'])->middleware('throttle:60,1')->name('tools.percentile-calculator.api');
 
 // Accurate College Predictor
 Route::get('/tools/college-predictor', [\App\Http\Controllers\CollegePredictorController::class, 'index'])->name('tools.college-predictor');
-Route::get('/api/tools/college-predictor/predict', [\App\Http\Controllers\CollegePredictorController::class, 'predictApi'])->name('tools.college-predictor.api');
+Route::get('/api/tools/college-predictor/predict', [\App\Http\Controllers\CollegePredictorController::class, 'predictApi'])->middleware('throttle:60,1')->name('tools.college-predictor.api');
 Route::get('/tools/college-predictor/export', [\App\Http\Controllers\CollegePredictorController::class, 'exportPreferenceList'])->name('tools.college-predictor.export');
 
 Route::get('/guidance/mht-cet', function () { return view('guidance.mht-cet'); })->name('guidance.mht-cet');
-
-// Single-click Live Server Setup Route (Migrate & Seed on production server)
-Route::get('/run-cutoff-setup-migration-2025', function () {
-    try {
-        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
-        \Illuminate\Support\Facades\Schema::dropIfExists('mht_cet_cutoffs');
-        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
-        
-        \Illuminate\Support\Facades\DB::table('migrations')->where('migration', 'like', '%create_mht_cet_cutoffs_table%')->delete();
-        
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'MhtCetCutoffSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdsenseBlogSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-        return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! Database migrated, cutoffs & 4 new AdSense-ready articles seeded!<br><br><a href="/">Go to Homepage</a></h1>';
-    } catch (\Throwable $e) {
-        return '<h1 style="color: red; font-family: sans-serif; text-align: center; margin-top: 50px;">Setup Error: ' . $e->getMessage() . '</h1>';
-    }
-});
-
-Route::get('/seed-adsense-articles', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdsenseBlogSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-        return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! 4 Comprehensive, Long-Form AdSense Articles Seeded Successfully!<br><br><a href="/blog">View Blog</a></h1>';
-    } catch (\Throwable $e) {
-        return '<h1 style="color: red; font-family: sans-serif; text-align: center; margin-top: 50px;">Error: ' . $e->getMessage() . '</h1>';
-    }
-});
 Route::get('/guidance/jee-neet', function () { return view('guidance.jee-neet'); })->name('guidance.jee-neet');
 Route::get('/guidance/upsc', function () { return view('guidance.upsc'); })->name('guidance.upsc');
 
-Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
-Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
-Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');
+// Admin Panel & Maintenance System (Strictly Protected by AdminAuthMiddleware)
+Route::middleware('admin.auth')->group(function () {
+    Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/suggestions', [SuggestionController::class, 'index'])->name('admin.suggestions');
+    Route::get('/admin/users', [AdminAuthController::class, 'users'])->name('admin.users');
 
-// Admin Chatbot Tracking & Analytics
-Route::get('/admin/chatbot-queries', [\App\Http\Controllers\AdminChatbotController::class, 'index'])->name('admin.chatbot.index');
-Route::get('/admin/chatbot-queries/export', [\App\Http\Controllers\AdminChatbotController::class, 'exportCsv'])->name('admin.chatbot.export');
-Route::get('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'show'])->name('admin.chatbot.show');
-Route::delete('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'destroy'])->name('admin.chatbot.destroy');
-Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotController::class, 'clearLogs'])->name('admin.chatbot.clear');
+    // Admin Referral & Rewards Management
+    Route::get('/admin/referrals', [AdminReferralController::class, 'index'])->name('admin.referrals.index');
+    Route::get('/admin/referrals/tree', [AdminReferralController::class, 'tree'])->name('admin.referrals.tree');
+    Route::get('/admin/referrals/user-rewards', [AdminReferralController::class, 'userRewards'])->name('admin.referrals.user-rewards');
+    Route::get('/admin/referrals/user/{id}', [AdminReferralController::class, 'userDetailsJson'])->name('admin.referrals.user-details');
+    Route::post('/admin/referrals/adjust-points', [AdminReferralController::class, 'adjustPoints'])->name('admin.referrals.adjust-points');
+    Route::get('/admin/referrals/export-csv', [AdminReferralController::class, 'exportCsv'])->name('admin.referrals.export-csv');
+    Route::get('/admin/referrals/reports', [AdminReferralController::class, 'reports'])->name('admin.referrals.reports');
 
-// Admin Unified Test Results Hub
-Route::get('/admin/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'index'])->name('admin.test-results.index');
-Route::post('/admin/test-results/bulk-delete', [\App\Http\Controllers\AdminTestResultController::class, 'bulkDelete'])->name('admin.test-results.bulk-delete');
-Route::post('/admin/test-results/clear', [\App\Http\Controllers\AdminTestResultController::class, 'clearRecords'])->name('admin.test-results.clear');
-Route::get('/admin/test-results/aptitude/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showAptitude'])->name('admin.test-results.aptitude.show');
-Route::delete('/admin/test-results/aptitude/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyAptitude'])->name('admin.test-results.aptitude.destroy');
-Route::get('/admin/test-results/quick/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showQuick'])->name('admin.test-results.quick.show');
-Route::delete('/admin/test-results/quick/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyQuick'])->name('admin.test-results.quick.destroy');
-Route::get('/admin/users/{id}/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'userTestResults'])->name('admin.test-results.user');
+    // Admin Chatbot Tracking & Analytics
+    Route::get('/admin/chatbot-queries', [\App\Http\Controllers\AdminChatbotController::class, 'index'])->name('admin.chatbot.index');
+    Route::get('/admin/chatbot-queries/export', [\App\Http\Controllers\AdminChatbotController::class, 'exportCsv'])->name('admin.chatbot.export');
+    Route::get('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'show'])->name('admin.chatbot.show');
+    Route::delete('/admin/chatbot-queries/{id}', [\App\Http\Controllers\AdminChatbotController::class, 'destroy'])->name('admin.chatbot.destroy');
+    Route::post('/admin/chatbot-queries/clear', [\App\Http\Controllers\AdminChatbotController::class, 'clearLogs'])->name('admin.chatbot.clear');
 
-// Admin Student Analyses
-Route::get('/admin/student-analyses', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'index'])->name('admin.student-analyses.index');
-Route::get('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'show'])->name('admin.student-analyses.show');
-Route::delete('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'destroy'])->name('admin.student-analyses.destroy');
+    // Admin Unified Test Results Hub
+    Route::get('/admin/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'index'])->name('admin.test-results.index');
+    Route::post('/admin/test-results/bulk-delete', [\App\Http\Controllers\AdminTestResultController::class, 'bulkDelete'])->name('admin.test-results.bulk-delete');
+    Route::post('/admin/test-results/clear', [\App\Http\Controllers\AdminTestResultController::class, 'clearRecords'])->name('admin.test-results.clear');
+    Route::get('/admin/test-results/aptitude/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showAptitude'])->name('admin.test-results.aptitude.show');
+    Route::delete('/admin/test-results/aptitude/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyAptitude'])->name('admin.test-results.aptitude.destroy');
+    Route::get('/admin/test-results/quick/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showQuick'])->name('admin.test-results.quick.show');
+    Route::delete('/admin/test-results/quick/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyQuick'])->name('admin.test-results.quick.destroy');
+    Route::get('/admin/users/{id}/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'userTestResults'])->name('admin.test-results.user');
 
-// Admin Membership Management
-Route::get('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'index'])->name('admin.membership.index');
-Route::post('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'update'])->name('admin.membership.update');
-Route::post('/admin/membership/grant', [\App\Http\Controllers\AdminMembershipController::class, 'grant'])->name('admin.membership.grant');
-Route::post('/admin/membership/revoke/{userId}', [\App\Http\Controllers\AdminMembershipController::class, 'revoke'])->name('admin.membership.revoke');
+    // Admin Student Analyses
+    Route::get('/admin/student-analyses', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'index'])->name('admin.student-analyses.index');
+    Route::get('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'show'])->name('admin.student-analyses.show');
+    Route::delete('/admin/student-analyses/{id}', [\App\Http\Controllers\AdminStudentAnalysisController::class, 'destroy'])->name('admin.student-analyses.destroy');
 
+    // Admin Membership Management
+    Route::get('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'index'])->name('admin.membership.index');
+    Route::post('/admin/membership', [\App\Http\Controllers\AdminMembershipController::class, 'update'])->name('admin.membership.update');
+    Route::post('/admin/membership/grant', [\App\Http\Controllers\AdminMembershipController::class, 'grant'])->name('admin.membership.grant');
+    Route::post('/admin/membership/revoke/{userId}', [\App\Http\Controllers\AdminMembershipController::class, 'revoke'])->name('admin.membership.revoke');
 
-// Admin Blog CRUD
-Route::get('/admin/blogs', [\App\Http\Controllers\AdminBlogController::class, 'index'])->name('admin.blogs.index');
-Route::get('/admin/blogs/create', [\App\Http\Controllers\AdminBlogController::class, 'create'])->name('admin.blogs.create');
-Route::post('/admin/blogs', [\App\Http\Controllers\AdminBlogController::class, 'store'])->name('admin.blogs.store');
-Route::get('/admin/blogs/{id}/edit', [\App\Http\Controllers\AdminBlogController::class, 'edit'])->name('admin.blogs.edit');
-Route::put('/admin/blogs/{id}', [\App\Http\Controllers\AdminBlogController::class, 'update'])->name('admin.blogs.update');
-Route::delete('/admin/blogs/{id}', [\App\Http\Controllers\AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');
+    // Admin Blog CRUD
+    Route::get('/admin/blogs', [\App\Http\Controllers\AdminBlogController::class, 'index'])->name('admin.blogs.index');
+    Route::get('/admin/blogs/create', [\App\Http\Controllers\AdminBlogController::class, 'create'])->name('admin.blogs.create');
+    Route::post('/admin/blogs', [\App\Http\Controllers\AdminBlogController::class, 'store'])->name('admin.blogs.store');
+    Route::get('/admin/blogs/{id}/edit', [\App\Http\Controllers\AdminBlogController::class, 'edit'])->name('admin.blogs.edit');
+    Route::put('/admin/blogs/{id}', [\App\Http\Controllers\AdminBlogController::class, 'update'])->name('admin.blogs.update');
+    Route::delete('/admin/blogs/{id}', [\App\Http\Controllers\AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');
 
-// Admin Fields (Categories) CRUD
-Route::get('/admin/fields', [\App\Http\Controllers\AdminFieldController::class, 'index'])->name('admin.fields.index');
-Route::get('/admin/fields/create', [\App\Http\Controllers\AdminFieldController::class, 'create'])->name('admin.fields.create');
-Route::post('/admin/fields', [\App\Http\Controllers\AdminFieldController::class, 'store'])->name('admin.fields.store');
-Route::get('/admin/fields/{id}/edit', [\App\Http\Controllers\AdminFieldController::class, 'edit'])->name('admin.fields.edit');
-Route::put('/admin/fields/{id}', [\App\Http\Controllers\AdminFieldController::class, 'update'])->name('admin.fields.update');
-Route::delete('/admin/fields/{id}', [\App\Http\Controllers\AdminFieldController::class, 'destroy'])->name('admin.fields.destroy');
+    // Admin Fields (Categories) CRUD
+    Route::get('/admin/fields', [\App\Http\Controllers\AdminFieldController::class, 'index'])->name('admin.fields.index');
+    Route::get('/admin/fields/create', [\App\Http\Controllers\AdminFieldController::class, 'create'])->name('admin.fields.create');
+    Route::post('/admin/fields', [\App\Http\Controllers\AdminFieldController::class, 'store'])->name('admin.fields.store');
+    Route::get('/admin/fields/{id}/edit', [\App\Http\Controllers\AdminFieldController::class, 'edit'])->name('admin.fields.edit');
+    Route::put('/admin/fields/{id}', [\App\Http\Controllers\AdminFieldController::class, 'update'])->name('admin.fields.update');
+    Route::delete('/admin/fields/{id}', [\App\Http\Controllers\AdminFieldController::class, 'destroy'])->name('admin.fields.destroy');
 
-// Admin Colleges (Institutes) CRUD
-Route::get('/admin/colleges', [\App\Http\Controllers\AdminCollegeController::class, 'index'])->name('admin.colleges.index');
-Route::get('/admin/colleges/create', [\App\Http\Controllers\AdminCollegeController::class, 'create'])->name('admin.colleges.create');
-Route::post('/admin/colleges', [\App\Http\Controllers\AdminCollegeController::class, 'store'])->name('admin.colleges.store');
-Route::get('/admin/colleges/{id}/edit', [\App\Http\Controllers\AdminCollegeController::class, 'edit'])->name('admin.colleges.edit');
-Route::put('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeController::class, 'update'])->name('admin.colleges.update');
-Route::delete('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeController::class, 'destroy'])->name('admin.colleges.destroy');
+    // Admin Colleges (Institutes) CRUD
+    Route::get('/admin/colleges', [\App\Http\Controllers\AdminCollegeController::class, 'index'])->name('admin.colleges.index');
+    Route::get('/admin/colleges/create', [\App\Http\Controllers\AdminCollegeController::class, 'create'])->name('admin.colleges.create');
+    Route::post('/admin/colleges', [\App\Http\Controllers\AdminCollegeController::class, 'store'])->name('admin.colleges.store');
+    Route::get('/admin/colleges/{id}/edit', [\App\Http\Controllers\AdminCollegeController::class, 'edit'])->name('admin.colleges.edit');
+    Route::put('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeController::class, 'update'])->name('admin.colleges.update');
+    Route::delete('/admin/colleges/{id}', [\App\Http\Controllers\AdminCollegeController::class, 'destroy'])->name('admin.colleges.destroy');
 
-// Admin Indian Colleges (All India 90k+ Database) CRUD
-Route::get('/admin/indian-colleges', [\App\Http\Controllers\AdminIndianCollegeController::class, 'index'])->name('admin.indian-colleges.index');
-Route::get('/admin/indian-colleges/{id}/edit', [\App\Http\Controllers\AdminIndianCollegeController::class, 'edit'])->name('admin.indian-colleges.edit');
-Route::put('/admin/indian-colleges/{id}', [\App\Http\Controllers\AdminIndianCollegeController::class, 'update'])->name('admin.indian-colleges.update');
-Route::delete('/admin/indian-colleges/{id}', [\App\Http\Controllers\AdminIndianCollegeController::class, 'destroy'])->name('admin.indian-colleges.destroy');
+    // Admin Indian Colleges (All India 90k+ Database) CRUD
+    Route::get('/admin/indian-colleges', [\App\Http\Controllers\AdminIndianCollegeController::class, 'index'])->name('admin.indian-colleges.index');
+    Route::get('/admin/indian-colleges/{id}/edit', [\App\Http\Controllers\AdminIndianCollegeController::class, 'edit'])->name('admin.indian-colleges.edit');
+    Route::put('/admin/indian-colleges/{id}', [\App\Http\Controllers\AdminIndianCollegeController::class, 'update'])->name('admin.indian-colleges.update');
+    Route::delete('/admin/indian-colleges/{id}', [\App\Http\Controllers\AdminIndianCollegeController::class, 'destroy'])->name('admin.indian-colleges.destroy');
 
-// Admin Career Edit
-Route::get('/admin/careers', [\App\Http\Controllers\AdminCareerController::class, 'index'])->name('admin.careers.index');
-Route::get('/admin/careers/{id}/edit', [\App\Http\Controllers\AdminCareerController::class, 'edit'])->name('admin.careers.edit');
-Route::put('/admin/careers/{id}', [\App\Http\Controllers\AdminCareerController::class, 'update'])->name('admin.careers.update');
+    // Admin Career Edit
+    Route::get('/admin/careers', [\App\Http\Controllers\AdminCareerController::class, 'index'])->name('admin.careers.index');
+    Route::get('/admin/careers/{id}/edit', [\App\Http\Controllers\AdminCareerController::class, 'edit'])->name('admin.careers.edit');
+    Route::put('/admin/careers/{id}', [\App\Http\Controllers\AdminCareerController::class, 'update'])->name('admin.careers.update');
 
-// Admin Job Corner CRUD
-Route::get('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::class, 'index'])->name('admin.jobs.index');
-Route::get('/admin/jobs/create', [\App\Http\Controllers\AdminJobListingController::class, 'create'])->name('admin.jobs.create');
-Route::post('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::class, 'store'])->name('admin.jobs.store');
-Route::get('/admin/jobs/{id}/edit', [\App\Http\Controllers\AdminJobListingController::class, 'edit'])->name('admin.jobs.edit');
-Route::put('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'update'])->name('admin.jobs.update');
-Route::delete('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'destroy'])->name('admin.jobs.destroy');
+    // Admin Job Corner CRUD
+    Route::get('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::class, 'index'])->name('admin.jobs.index');
+    Route::get('/admin/jobs/create', [\App\Http\Controllers\AdminJobListingController::class, 'create'])->name('admin.jobs.create');
+    Route::post('/admin/jobs', [\App\Http\Controllers\AdminJobListingController::class, 'store'])->name('admin.jobs.store');
+    Route::get('/admin/jobs/{id}/edit', [\App\Http\Controllers\AdminJobListingController::class, 'edit'])->name('admin.jobs.edit');
+    Route::put('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'update'])->name('admin.jobs.update');
+    Route::delete('/admin/jobs/{id}', [\App\Http\Controllers\AdminJobListingController::class, 'destroy'])->name('admin.jobs.destroy');
 
-// Admin Business Corner CRUD
-Route::get('/admin/businesses', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'index'])->name('admin.businesses.index');
-Route::get('/admin/businesses/create', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'create'])->name('admin.businesses.create');
-Route::post('/admin/businesses', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'store'])->name('admin.businesses.store');
-Route::get('/admin/businesses/{id}/edit', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'edit'])->name('admin.businesses.edit');
-Route::put('/admin/businesses/{id}', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'update'])->name('admin.businesses.update');
-Route::delete('/admin/businesses/{id}', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'destroy'])->name('admin.businesses.destroy');
+    // Admin Business Corner CRUD
+    Route::get('/admin/businesses', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'index'])->name('admin.businesses.index');
+    Route::get('/admin/businesses/create', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'create'])->name('admin.businesses.create');
+    Route::post('/admin/businesses', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'store'])->name('admin.businesses.store');
+    Route::get('/admin/businesses/{id}/edit', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'edit'])->name('admin.businesses.edit');
+    Route::put('/admin/businesses/{id}', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'update'])->name('admin.businesses.update');
+    Route::delete('/admin/businesses/{id}', [\App\Http\Controllers\AdminBusinessIdeaController::class, 'destroy'])->name('admin.businesses.destroy');
 
+    // Admin Quiz Management
+    Route::get('/admin/quiz', [AdminQuizController::class, 'index'])->name('admin.quiz.index');
+    Route::get('/admin/quiz/create', [AdminQuizController::class, 'create'])->name('admin.quiz.create');
+    Route::post('/admin/quiz', [AdminQuizController::class, 'store'])->name('admin.quiz.store');
+    Route::get('/admin/quiz/scores', [AdminQuizController::class, 'scores'])->name('admin.quiz.scores');
+    Route::get('/admin/quiz/leaderboard', [AdminQuizController::class, 'leaderboard'])->name('admin.quiz.leaderboard');
+    Route::get('/admin/quiz/{id}/edit', [AdminQuizController::class, 'edit'])->name('admin.quiz.edit');
+    Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('admin.quiz.update');
+    Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
 
-// Admin Quiz Management
-Route::get('/admin/quiz', [AdminQuizController::class, 'index'])->name('admin.quiz.index');
-Route::get('/admin/quiz/create', [AdminQuizController::class, 'create'])->name('admin.quiz.create');
-Route::post('/admin/quiz', [AdminQuizController::class, 'store'])->name('admin.quiz.store');
-Route::get('/admin/quiz/scores', [AdminQuizController::class, 'scores'])->name('admin.quiz.scores');
-Route::get('/admin/quiz/leaderboard', [AdminQuizController::class, 'leaderboard'])->name('admin.quiz.leaderboard');
-Route::get('/admin/quiz/{id}/edit', [AdminQuizController::class, 'edit'])->name('admin.quiz.edit');
-Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('admin.quiz.update');
-Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
+    // Maintenance & Administrative Diagnostics
+    Route::get('/run-cutoff-setup-migration-2025', function () {
+        try {
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+            \Illuminate\Support\Facades\Schema::dropIfExists('mht_cet_cutoffs');
+            \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+            \Illuminate\Support\Facades\DB::table('migrations')->where('migration', 'like', '%create_mht_cet_cutoffs_table%')->delete();
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'MhtCetCutoffSeeder', '--force' => true]);
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdsenseBlogSeeder', '--force' => true]);
+            \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+            return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! Database migrated, cutoffs & 4 new AdSense-ready articles seeded!<br><br><a href="/">Go to Homepage</a></h1>';
+        } catch (\Throwable $e) {
+            return '<h1 style="color: red; font-family: sans-serif; text-align: center; margin-top: 50px;">Setup Error: ' . $e->getMessage() . '</h1>';
+        }
+    });
 
-Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
-Route::get('/debug-scrapper-test', [AiCareerChatController::class, 'debugScrapperTest'])->name('debug.scrapper');
+    Route::get('/seed-adsense-articles', function () {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdsenseBlogSeeder', '--force' => true]);
+            \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+            return '<h1 style="color: green; font-family: sans-serif; text-align: center; margin-top: 50px;">SUCCESS! 4 Comprehensive, Long-Form AdSense Articles Seeded Successfully!<br><br><a href="/blog">View Blog</a></h1>';
+        } catch (\Throwable $e) {
+            return '<h1 style="color: red; font-family: sans-serif; text-align: center; margin-top: 50px;">Error: ' . $e->getMessage() . '</h1>';
+        }
+    });
 
-Route::get('/clear-all-cache', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        \Illuminate\Support\Facades\Artisan::call('route:clear');
-        \Illuminate\Support\Facades\Artisan::call('view:clear');
-        return 'All Laravel caches cleared successfully!';
-    } catch (\Exception $e) {
-        return 'Error clearing cache: ' . $e->getMessage();
-    }
-});
+    Route::get('/test-mail', function (\Illuminate\Http\Request $request) {
+        $to = $request->query('email', 'ffczmy26@gmail.com');
+        try {
+            \Illuminate\Support\Facades\Mail::raw("Test email from careergyan.in web route. Target recipient: {$to}", function ($message) use ($to) {
+                $message->to($to)->subject('Web Route Test - CareerGyan');
+            });
+            return "Mail successfully sent from web to: {$to}";
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    });
 
-Route::get('/run-migrations', function () {
-    try {
-        ini_set('memory_limit', '512M');
-        set_time_limit(300);
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        return 'Migrations run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
-    } catch (\Exception $e) {
-        return 'Error migrating: ' . $e->getMessage();
-    }
-});
+    Route::get('/debug-aicredits-test', [AiCareerChatController::class, 'debugAicreditsTest']);
+    Route::get('/debug-scrapper-test', [AiCareerChatController::class, 'debugScrapperTest'])->name('debug.scrapper');
 
-Route::get('/run-seeds', function () {
-    try {
-        ini_set('memory_limit', '1024M');
-        set_time_limit(600); // 10 minutes max for massive database seeds
-        // Run main DatabaseSeeder to seed all data (colleges, quizzes, jobs, etc.)
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-        return 'Seeds run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
-    } catch (\Exception $e) {
-        return 'Error seeding: ' . $e->getMessage();
-    }
+    Route::get('/clear-all-cache', function () {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('config:clear');
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            \Illuminate\Support\Facades\Artisan::call('route:clear');
+            \Illuminate\Support\Facades\Artisan::call('view:clear');
+            return 'All Laravel caches cleared successfully!';
+        } catch (\Exception $e) {
+            return 'Error clearing cache: ' . $e->getMessage();
+        }
+    });
+
+    Route::get('/run-migrations', function () {
+        try {
+            ini_set('memory_limit', '512M');
+            set_time_limit(300);
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            return 'Migrations run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
+        } catch (\Exception $e) {
+            return 'Error migrating: ' . $e->getMessage();
+        }
+    });
+
+    Route::get('/run-seeds', function () {
+        try {
+            ini_set('memory_limit', '1024M');
+            set_time_limit(600);
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+            return 'Seeds run successfully! Output: ' . \Illuminate\Support\Facades\Artisan::output();
+        } catch (\Exception $e) {
+            return 'Error seeding: ' . $e->getMessage();
+        }
+    });
 });

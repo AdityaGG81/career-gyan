@@ -354,6 +354,22 @@
           </div>
         </div>
 
+        <div class="form-group" style="margin-top: 6px;">
+          <label class="form-label" for="referral_code" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Referral Code <span style="font-size: 11px; font-weight: normal; color: var(--text-3);">(Optional)</span></span>
+            <span style="font-size: 11px; font-weight: 700; color: #16a34a;"><i class="fa-solid fa-gift"></i> +100 Points</span>
+          </label>
+          <div class="input-icon-wrapper">
+            <input class="form-input" type="text" id="referral_code" name="referral_code" value="{{ old('referral_code', request('ref', session('referral_code'))) }}" placeholder="e.g. VEDANT2026" style="text-transform: uppercase;">
+            <i class="fa-solid fa-ticket"></i>
+          </div>
+          @if(request('ref') || session('referral_code'))
+            <div style="font-size: 12px; color: #16a34a; margin-top: 6px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-circle-check"></i> Referral applied! You and your friend both earn 100 points upon email verification.
+            </div>
+          @endif
+        </div>
+
         <button type="submit" class="auth-btn">Create Account</button>
       </form>
 

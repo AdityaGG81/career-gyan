@@ -54,8 +54,11 @@ class AuthController extends Controller
     /**
      * Show signup form
      */
-    public function showSignup()
+    public function showSignup(Request $request)
     {
+        if ($request->filled('ref')) {
+            session(['referral_code' => strtoupper(trim($request->ref))]);
+        }
         return view('auth.signup');
     }
 
@@ -70,6 +73,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:20'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'referral_code' => ['nullable', 'string', 'max:50'],
         ]);
 
         $user = User::create([
@@ -80,6 +84,18 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
+
+        // Generate unique referral code for the new user
+        $rewardService = app(\App\Services\RewardPointsService::class);
+        $userCode = $rewardService->generateUniqueReferralCode($user);
+        $user->update(['referral_code' => $userCode]);
+
+        // Capture referral if ref code was provided
+        $referralCodeInput = $request->input('referral_code', session('referral_code'));
+        if (!empty($referralCodeInput)) {
+            $rewardService->recordPendingReferral($user, $referralCodeInput);
+            session()->forget('referral_code');
+        }
 
         // OTP generate
      $otp = (string) random_int(100000, 999999);
@@ -200,10 +216,19 @@ $user->update([
         // Clear verification session
         session()->forget('verification_user_id');
 
+        // Complete referral reward if registered with a referral sponsor
+        $rewardService = app(\App\Services\RewardPointsService::class);
+        $rewardAwarded = $rewardService->completeReferralReward($user);
+
         // Log the user in
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Email verified successfully! Welcome to CareerGyan.');
+        $welcomeMessage = 'Email verified successfully! Welcome to CareerGyan.';
+        if ($rewardAwarded) {
+            $welcomeMessage = 'Email verified successfully! 🎉 You earned 100 Reward Points for joining through referral!';
+        }
+
+        return redirect()->route('home')->with('success', $welcomeMessage);
     }
 
     /**

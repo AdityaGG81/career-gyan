@@ -110,6 +110,15 @@ class StudentAnalysisController extends Controller
         }
         $analysis->save();
 
+        // Automatically award 10 reward points upon successful test completion (once per user)
+        if (Auth::check()) {
+            $rewardService = app(\App\Services\RewardPointsService::class);
+            $points = $rewardService->awardStudentAnalysisReward(Auth::user(), $analysis->id);
+            if ($points) {
+                session()->flash('reward_notification', 'Congratulations! You earned 10 reward points for completing your Student Analysis Test.');
+            }
+        }
+
         session(['last_analysis_uuid' => $analysis->uuid]);
 
         return redirect()->route('student-analysis.show', $analysis->uuid)

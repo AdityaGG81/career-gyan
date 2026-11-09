@@ -38,12 +38,15 @@ class AiCareerChatController extends Controller
         }
 
         $user = auth()->user();
-        $name = $user->name ?? $user->first_name ?? 'User';
-        $email = $user->email ?? '';
+        $userId = $user ? $user->id : null;
+        $name = $user ? ($user->name ?? $user->first_name ?? 'User') : 'Guest';
+        $email = $user ? ($user->email ?? '') : '';
         $sessionId = $request->input('session_id') ?: ($request->hasSession() ? $request->session()->getId() : (string) Str::uuid());
         
         $date = now()->format('Y-m-d');
-        $userCacheKey = "ai_chat_limit_user_{$user->id}_{$date}";
+        $userCacheKey = $userId 
+            ? "ai_chat_limit_user_{$userId}_{$date}" 
+            : "ai_chat_limit_guest_" . md5($request->ip() . '_' . $sessionId) . "_{$date}";
         
         $maxCount = Cache::get($userCacheKey, 0);
         $remaining = max(0, 5 - $maxCount);
@@ -306,24 +309,24 @@ class AiCareerChatController extends Controller
     }
 
     /**
-     * Get the remaining daily free question limit for the authenticated user.
+     * Get the remaining daily free question limit for the user or guest.
      */
-    public function getRemainingLimit()
+    public function getRemainingLimit(Request $request)
     {
         $user = auth()->user();
-        if (!$user) {
-            return response()->json(['remaining' => 0]);
-        }
-
-        $email = $user->email;
-        $isTestUser = ($email === 'test@gmail.com');
-
-        if ($isTestUser) {
-            return response()->json(['remaining' => 999]);
-        }
-
         $date = now()->format('Y-m-d');
-        $userCacheKey = "ai_chat_limit_user_{$user->id}_{$date}";
+
+        if ($user) {
+            $email = $user->email;
+            if ($email === 'test@gmail.com') {
+                return response()->json(['remaining' => 999]);
+            }
+            $userCacheKey = "ai_chat_limit_user_{$user->id}_{$date}";
+        } else {
+            $sessionId = $request->input('session_id') ?: ($request->hasSession() ? $request->session()->getId() : '');
+            $userCacheKey = "ai_chat_limit_guest_" . md5($request->ip() . '_' . $sessionId) . "_{$date}";
+        }
+
         $maxCount = Cache::get($userCacheKey, 0);
         $remaining = max(0, 5 - $maxCount);
 

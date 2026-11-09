@@ -70,7 +70,10 @@ class CollegePredictorService
      */
     public static function predictColleges(array $filters): array
     {
-        $percentile = (float) ($filters['percentile'] ?? 90.0);
+        $cacheKey = 'college_predictions_' . md5(json_encode($filters));
+
+        return Cache::remember($cacheKey, 3600, function () use ($filters) {
+            $percentile = (float) ($filters['percentile'] ?? 90.0);
         $category = strtoupper(trim($filters['category'] ?? 'GOPENS'));
         $district = trim($filters['district'] ?? '');
         $branchGroup = trim($filters['branch_group'] ?? '');
@@ -248,5 +251,6 @@ class CollegePredictorService
             'results_count' => count($results),
             'results' => $results,
         ];
+        });
     }
 }

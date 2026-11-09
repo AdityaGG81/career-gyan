@@ -317,6 +317,23 @@
 <div class="report-page">
   <div class="report-container">
 
+    @if(session('reward_notification'))
+      <div style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1.5px solid #6ee7b7; color: #065f46; padding: 16px 24px; border-radius: var(--radius-lg); margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);">
+          <div style="display: flex; align-items: center; gap: 14px;">
+              <div style="width: 44px; height: 44px; border-radius: 50%; background: #10b981; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+                  <i class="fa-solid fa-coins"></i>
+              </div>
+              <div>
+                  <div style="font-weight: 800; font-family: 'Sora', sans-serif; font-size: 16px; color: #047857;">Reward Points Unlocked!</div>
+                  <div style="font-size: 14px; font-weight: 500;">{{ session('reward_notification') }}</div>
+              </div>
+          </div>
+          <a href="{{ route('rewards.index') }}" style="background: #047857; color: #fff; padding: 8px 18px; border-radius: 99px; font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;">
+              My Rewards <i class="fa-solid fa-arrow-right"></i>
+          </a>
+      </div>
+    @endif
+
     <!-- Top Banner -->
     <div class="report-banner">
       <div>

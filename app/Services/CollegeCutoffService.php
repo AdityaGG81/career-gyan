@@ -87,47 +87,52 @@ class CollegeCutoffService
      */
     public static function getCutoffStats($college): array
     {
-        $cutoffs = self::getCutoffsForCollege($college, 200);
+        $collegeKey = is_string($college) ? $college : ($college->college_name ?? $college->name ?? $college->id ?? 'unknown');
+        $cacheKey = 'college_cutoff_stats_' . md5($collegeKey);
 
-        if ($cutoffs->isEmpty()) {
+        return Cache::remember($cacheKey, 86400, function () use ($college) {
+            $cutoffs = self::getCutoffsForCollege($college, 200);
+
+            if ($cutoffs->isEmpty()) {
+                return [
+                    'has_cutoffs' => false,
+                    'total_records' => 0,
+                    'total_branches' => 0,
+                    'highest_percentile' => null,
+                    'lowest_percentile' => null,
+                    'top_branch' => null,
+                    'top_gopens_percentile' => null,
+                    'college_code' => null,
+                    'official_college_name' => null,
+                    'cutoffs_url' => null,
+                ];
+            }
+
+            // Ensure cutoffs are strictly sorted by percentile descending
+            $cutoffs = $cutoffs->sortByDesc('percentile')->values();
+
+            $branches = $cutoffs->pluck('branch_name')->unique()->values();
+            $topCutoff = $cutoffs->first();
+            $gopensCutoffs = $cutoffs->filter(fn($c) => strtoupper($c->category) === 'GOPENS' || strtoupper($c->category) === 'GOPENH');
+            $topGopens = $gopensCutoffs->sortByDesc('percentile')->first();
+
+            $collegeCode = $topCutoff->college_code;
+            $officialName = $topCutoff->college_name;
+
             return [
-                'has_cutoffs' => false,
-                'total_records' => 0,
-                'total_branches' => 0,
-                'highest_percentile' => null,
-                'lowest_percentile' => null,
-                'top_branch' => null,
-                'top_gopens_percentile' => null,
-                'college_code' => null,
-                'official_college_name' => null,
-                'cutoffs_url' => null,
+                'has_cutoffs' => true,
+                'total_records' => $cutoffs->count(),
+                'total_branches' => $branches->count(),
+                'branches' => $branches->toArray(),
+                'highest_percentile' => number_format((float)$cutoffs->max('percentile'), 2) . '%',
+                'lowest_percentile' => number_format((float)$cutoffs->min('percentile'), 2) . '%',
+                'top_branch' => $topCutoff->branch_name,
+                'top_gopens_percentile' => $topGopens ? number_format((float)$topGopens->percentile, 2) . '%' : null,
+                'college_code' => $collegeCode,
+                'official_college_name' => $officialName,
+                'cutoffs_url' => url('/tools/maharashtra-colleges-cutoff?q=' . urlencode($officialName)),
             ];
-        }
-
-        // Ensure cutoffs are strictly sorted by percentile descending
-        $cutoffs = $cutoffs->sortByDesc('percentile')->values();
-
-        $branches = $cutoffs->pluck('branch_name')->unique()->values();
-        $topCutoff = $cutoffs->first();
-        $gopensCutoffs = $cutoffs->filter(fn($c) => strtoupper($c->category) === 'GOPENS' || strtoupper($c->category) === 'GOPENH');
-        $topGopens = $gopensCutoffs->sortByDesc('percentile')->first();
-
-        $collegeCode = $topCutoff->college_code;
-        $officialName = $topCutoff->college_name;
-
-        return [
-            'has_cutoffs' => true,
-            'total_records' => $cutoffs->count(),
-            'total_branches' => $branches->count(),
-            'branches' => $branches->toArray(),
-            'highest_percentile' => number_format((float)$cutoffs->max('percentile'), 2) . '%',
-            'lowest_percentile' => number_format((float)$cutoffs->min('percentile'), 2) . '%',
-            'top_branch' => $topCutoff->branch_name,
-            'top_gopens_percentile' => $topGopens ? number_format((float)$topGopens->percentile, 2) . '%' : null,
-            'college_code' => $collegeCode,
-            'official_college_name' => $officialName,
-            'cutoffs_url' => url('/tools/maharashtra-colleges-cutoff?q=' . urlencode($officialName)),
-        ];
+        });
     }
 
     /**
