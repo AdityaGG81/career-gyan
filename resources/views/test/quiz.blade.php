@@ -61,7 +61,7 @@
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 8px; font-family: 'Sora'; font-weight: 700; color: var(--text-1); background: white; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);">
                         <i class="fa-solid fa-clock" style="color: var(--brand);"></i>
-                        <span id="advanceTimer">60:00</span>
+                        <span id="advanceTimer">25:00</span>
                     </div>
                     <div class="quiz-progress"><span id="currentStepNum">1</span> / <span id="totalStepsNum">?</span></div>
                 </div>
@@ -258,8 +258,8 @@
     renderQuestions();
     updateView();
 
-    // 60-Minute Timer Logic
-    let timeLeft = 60 * 60; // 60 minutes in seconds
+    // 25-Minute Timer Logic for 20 Random Questions
+    let timeLeft = 25 * 60; // 25 minutes in seconds
     const timerDisplay = document.getElementById('advanceTimer');
 
     const countdown = setInterval(() => {

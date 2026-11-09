@@ -210,29 +210,39 @@
     </div>
 
     @if($isMember)
-      <!-- Pro Member Access State (Left empty as requested) -->
+      <!-- Pro Member Access State -->
       <div class="adv-card">
-        <div class="adv-empty-state-icon">
-          <i class="fa-solid fa-clipboard-check"></i>
+        <div class="adv-empty-state-icon" style="background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309;">
+          <i class="fa-solid fa-crown"></i>
         </div>
 
-        <h2 class="adv-empty-title">Advanced Assessment Modules</h2>
+        <h2 class="adv-empty-title">Advanced Cognitive Assessment</h2>
         
         <p class="adv-empty-desc">
-          Welcome, <strong>{{ $user->name ?? $user->first_name }}</strong>! Your Pro Membership access is verified. 
-          The advanced test questions and psychometric assessment modules will be populated here shortly.
+          Welcome, <strong>{{ $user->name ?? $user->first_name }}</strong>! Your Pro Membership access is fully active. 
+          Take the comprehensive 20-question randomized psychometric and aptitude assessment covering all 7 cognitive dimensions.
         </p>
 
         <div class="adv-status-pill">
-          <i class="fa-solid fa-circle-check"></i> Pro Access Active &bull; Ready for Configuration
+          <i class="fa-solid fa-circle-check"></i> 20 Randomized Questions &bull; 25 Minutes &bull; Immediate Cognitive Archetype
         </div>
 
         <div class="adv-actions">
-          <a href="{{ route('explore.index') }}#career-assessments" class="btn-adv-secondary">
-            <i class="fa-solid fa-arrow-left"></i> Back to Assessments
+          <a href="{{ route('advanced-test.quiz') }}" class="btn-adv-primary" style="font-size: 16px; padding: 14px 34px; background: linear-gradient(135deg, #2563eb, #1d4ed8);">
+            <i class="fa-solid fa-play"></i> Start Advanced Assessment &rarr;
           </a>
-          <a href="{{ route('student-analysis.create') }}" class="btn-adv-primary">
-            <i class="fa-solid fa-clipboard-user"></i> Take Student Analysis
+
+          @if(isset($latestAttempt) && $latestAttempt)
+            <a href="{{ route('advanced-test.results', $latestAttempt->uuid) }}" class="btn-adv-secondary">
+              <i class="fa-solid fa-chart-pie"></i> View Last Attempt Results
+            </a>
+            <a href="{{ route('advanced-test.certificate', $latestAttempt->uuid) }}" target="_blank" class="btn-adv-secondary" style="border-color: #10b981; color: #047857;">
+              <i class="fa-solid fa-award"></i> Certificate
+            </a>
+          @endif
+
+          <a href="{{ route('explore.index') }}#career-assessments" class="btn-adv-secondary">
+            <i class="fa-solid fa-arrow-left"></i> All Assessments
           </a>
         </div>
       </div>

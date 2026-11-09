@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             NonTraditionalCareerSeeder::class,
             PortableDataSeeder::class,
             QuestionsSeeder::class,
+            TamannaQuestionsExpansionSeeder::class,
             QuickTestQuestionSeeder::class,
             // New Explore Seeders
             EngineeringFieldsSeeder::class,

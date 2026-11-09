@@ -34,20 +34,20 @@ class TestController extends Controller
         }
 
         $dimensionLimits = [
-            'language-aptitude' => 5,
-            'verbal-reasoning' => 5,
-            'numerical-aptitude' => 5,
-            'perceptual-aptitude' => 10,
-            'abstract-reasoning' => 5,
-            'mechanical-reasoning' => 5,
-            'spatial-aptitude' => 5,
+            'language-aptitude' => 3,
+            'verbal-reasoning' => 3,
+            'numerical-aptitude' => 3,
+            'abstract-reasoning' => 3,
+            'mechanical-reasoning' => 3,
+            'spatial-aptitude' => 3,
+            'perceptual-aptitude' => 2,
         ];
 
         $dimensions = Dimension::all();
 
         $questions = [];
         foreach ($dimensions as $dim) {
-            $limit = $dimensionLimits[$dim->slug] ?? 5;
+            $limit = $dimensionLimits[$dim->slug] ?? 3;
 
             // Fetch random questions for this dimension based on the specified limit
             $dimQuestions = $dim->questions()->inRandomOrder()->take($limit)->get();
@@ -60,6 +60,11 @@ class TestController extends Controller
         
         shuffle($questions);
 
+        // Ensure exactly 20 random questions per test attempt
+        $questions = array_slice($questions, 0, 20);
+
+        session(['aptitude_quiz_questions' => collect($questions)->pluck('id')->toArray()]);
+
         return view('test.quiz', compact('questions'));
     }
 
@@ -68,29 +73,20 @@ class TestController extends Controller
         $answers = $request->input('answers', []);
         $profile = $request->input('profile', []);
 
-        $dimensionLimits = [
-            'language-aptitude' => 5,
-            'verbal-reasoning' => 5,
-            'numerical-aptitude' => 5,
-            'perceptual-aptitude' => 10,
-            'abstract-reasoning' => 5,
-            'mechanical-reasoning' => 5,
-            'spatial-aptitude' => 5,
-        ];
-
         $scores = [];
         $rawScores = [];
         $dimensions = Dimension::all();
         foreach ($dimensions as $dim) {
-            $limit = $dimensionLimits[$dim->slug] ?? 5;
-            $scores[$dim->slug] = ['correct' => 0, 'total' => $limit];
-            $rawScores[$dim->slug] = ['correct' => 0, 'total' => $limit];
+            $scores[$dim->slug] = ['correct' => 0, 'total' => 0];
+            $rawScores[$dim->slug] = ['correct' => 0, 'total' => 0];
         }
 
         foreach ($answers as $questionId => $userAnswer) {
             $q = Question::with('dimension')->find($questionId);
-            if ($q) {
+            if ($q && $q->dimension) {
                 $slug = $q->dimension->slug;
+                $scores[$slug]['total']++;
+                $rawScores[$slug]['total']++;
                 if (trim(strtolower($userAnswer)) === trim(strtolower($q->correct_answer))) {
                     $scores[$slug]['correct']++;
                     $rawScores[$slug]['correct']++;
@@ -104,7 +100,7 @@ class TestController extends Controller
                 // Score out of 10
                 $finalScores[$slug] = round(($data['correct'] / $data['total']) * 10, 2); 
             } else {
-                $finalScores[$slug] = 0;
+                $finalScores[$slug] = 5.0;
             }
         }
 
@@ -121,6 +117,7 @@ class TestController extends Controller
         $this->calculateRecommendations($session);
 
         session(['last_test_uuid' => $session->uuid]);
+        session()->forget('aptitude_quiz_questions');
 
         // Automatically award 50 reward points upon successful test completion (once per user)
         $rewardMessage = null;
@@ -162,7 +159,12 @@ class TestController extends Controller
                 });
         }
 
-        $questions = \App\Models\Question::with('dimension')->get();
+        $answeredIds = array_keys($session->user_inputs['answers'] ?? []);
+        if (!empty($answeredIds)) {
+            $questions = \App\Models\Question::with('dimension')->whereIn('id', $answeredIds)->get();
+        } else {
+            $questions = \App\Models\Question::with('dimension')->take(20)->get();
+        }
 
         return view('test.results', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields', 'questions'));
     }

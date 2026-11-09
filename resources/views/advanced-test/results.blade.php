@@ -224,6 +224,88 @@
             </div>
         </div>
 
+        {{-- Detailed Question & Answer Review Section --}}
+        @php
+            $userAnswers = $attempt->answers ?? [];
+            $answeredQuestions = $questions->filter(function($q) use ($userAnswers) {
+                return array_key_exists($q->id, $userAnswers);
+            });
+            if ($answeredQuestions->isEmpty()) {
+                $answeredQuestions = $questions->take(20);
+            }
+            $totalAnswered = $answeredQuestions->count();
+            $evalCorrect = 0;
+            foreach($answeredQuestions as $q) {
+                $uAns = $userAnswers[$q->id] ?? null;
+                if ($uAns && trim(strtolower($uAns)) === trim(strtolower($q->correct_answer))) {
+                    $evalCorrect++;
+                }
+            }
+        @endphp
+
+        <div class="card" style="margin-bottom: 45px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h3 style="margin-bottom: 6px; border: none; padding: 0;">Detailed Question & Answer Review</h3>
+                    <p style="color: var(--text-2); font-size: 14px; margin: 0;">
+                        Review all {{ $totalAnswered }} questions from your assessment and analyze your answers.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="background: #ecfdf5; color: #047857; font-weight: 800; padding: 6px 14px; border-radius: 999px; font-size: 13px; border: 1px solid #a7f3d0;">
+                        <i class="fa-solid fa-circle-check"></i> {{ $evalCorrect }} / {{ $totalAnswered }} Correct
+                    </span>
+                    <span style="background: #eff6ff; color: #1d4ed8; font-weight: 800; padding: 6px 14px; border-radius: 999px; font-size: 13px; border: 1px solid #bfdbfe;">
+                        {{ $totalAnswered > 0 ? round(($evalCorrect / $totalAnswered) * 100) : 0 }}% Accuracy
+                    </span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                @foreach($answeredQuestions->values() as $index => $q)
+                    @php
+                        $userAns = $userAnswers[$q->id] ?? null;
+                        $isCorrect = ($userAns !== null && trim(strtolower($userAns)) === trim(strtolower($q->correct_answer)));
+                    @endphp
+                    <div style="border: 1px solid {{ $isCorrect ? '#bbf7d0' : '#fecaca' }}; background: {{ $isCorrect ? '#f0fdf4' : '#fff5f5' }}; border-radius: 12px; padding: 20px; transition: all 0.2s;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-size: 11.5px; font-weight: 800; color: #2563eb; background: #eff6ff; padding: 3px 10px; border-radius: 999px; text-transform: uppercase;">
+                                Q{{ $index + 1 }} &bull; {{ $q->dimension->name ?? 'Aptitude' }}
+                            </span>
+                            @if($isCorrect)
+                                <span style="color: #15803d; font-weight: 800; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-solid fa-circle-check"></i> Correct (+1)
+                                </span>
+                            @else
+                                <span style="color: #b91c1c; font-weight: 800; font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px;">
+                                    <i class="fa-solid fa-circle-xmark"></i> Incorrect (0)
+                                </span>
+                            @endif
+                        </div>
+
+                        <div style="font-family: 'Sora', sans-serif; font-size: 15.5px; font-weight: 700; color: #0f172a; margin-bottom: 12px; line-height: 1.45;">
+                            {{ $q->question_text }}
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 13.5px; margin-top: 10px;">
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px;">
+                                <span style="color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: 700; display: block;">Your Answer:</span>
+                                <strong style="color: {{ $isCorrect ? '#15803d' : '#b91c1c' }};">
+                                    {{ $userAns ?: 'Not Answered' }}
+                                </strong>
+                            </div>
+                            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px;">
+                                <span style="color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: 700; display: block;">Correct Answer:</span>
+                                <strong style="color: #15803d;">
+                                    {{ $q->correct_answer }}
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         <div class="actions-bar">
             <a href="{{ route('advanced-test.certificate', $attempt->uuid) }}" target="_blank" class="btn-action btn-certificate">
                 <i class="fa-solid fa-award"></i> View Official Certificate

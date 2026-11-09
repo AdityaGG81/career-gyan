@@ -410,7 +410,7 @@
                 return array_key_exists($q->id, $userAnswers);
             });
             if ($answeredQuestions->isEmpty()) {
-                $answeredQuestions = $questions->take(35);
+                $answeredQuestions = $questions->take(20);
             }
 
             $totalAnswered = $answeredQuestions->count();

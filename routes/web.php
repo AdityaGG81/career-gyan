@@ -175,8 +175,13 @@ Route::post('/student-analysis', [\App\Http\Controllers\StudentAnalysisControlle
 Route::get('/student-analysis/report/{uuid}', [\App\Http\Controllers\StudentAnalysisController::class, 'show'])->name('student-analysis.show');
 Route::get('/student-analysis/my', [\App\Http\Controllers\StudentAnalysisController::class, 'myAnalyses'])->middleware('auth')->name('student-analysis.my');
 
-// Advanced Test (Exclusive for Members - empty for now)
+// Advanced Test (Exclusive for Members)
 Route::get('/advanced-test', [\App\Http\Controllers\AdvancedTestController::class, 'index'])->name('advanced-test.index');
+Route::get('/advanced-test/start', [\App\Http\Controllers\AdvancedTestController::class, 'start'])->name('advanced-test.start');
+Route::get('/advanced-test/quiz', [\App\Http\Controllers\AdvancedTestController::class, 'quiz'])->name('advanced-test.quiz');
+Route::post('/advanced-test/submit', [\App\Http\Controllers\AdvancedTestController::class, 'submit'])->middleware('throttle:15,1')->name('advanced-test.submit');
+Route::get('/advanced-test/results/{uuid}', [\App\Http\Controllers\AdvancedTestController::class, 'results'])->name('advanced-test.results');
+Route::get('/advanced-test/certificate/{uuid}', [\App\Http\Controllers\AdvancedTestController::class, 'certificate'])->name('advanced-test.certificate');
 
 // Career Test Hub shortcuts
 Route::get('/career-test', function () {
