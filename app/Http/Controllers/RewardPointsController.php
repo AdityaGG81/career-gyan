@@ -30,6 +30,15 @@ class RewardPointsController extends Controller
             $user->save();
         }
 
+        // If user has active premium membership, ensure welcome points (+2000) are credited
+        if ($user->hasActiveMembership()) {
+            try {
+                $this->rewardService->awardPremiumMembershipReward($user);
+            } catch (\Exception $e) {
+                // Ignore if already credited
+            }
+        }
+
         // Wallet and Referral Statistics
         $stats = $this->rewardService->getUserWalletStats($user);
 
@@ -52,6 +61,8 @@ class RewardPointsController extends Controller
             $query->where('transaction_type', 'aptitude_test');
         } elseif ($filter === 'student_analysis') {
             $query->where('transaction_type', 'student_analysis');
+        } elseif ($filter === 'membership') {
+            $query->where('transaction_type', 'premium_membership');
         } elseif ($filter === 'adjustment') {
             $query->where('transaction_type', 'admin_adjustment');
         }

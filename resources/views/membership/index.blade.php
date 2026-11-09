@@ -244,6 +244,15 @@
             <div class="features-card">
                 <h3><i class="{{ $plan->symbol ?: 'fa-solid fa-crown' }}" style="color: #fbbf24; margin-right: 10px;"></i> What's included in {{ $plan->name }}</h3>
                 
+                {{-- Instant Bonus Points Callout Feature --}}
+                <div class="feature-item" style="background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 12px 14px; margin-bottom: 20px;">
+                    <div class="feature-icon" style="background: #fbbf24; color: #78350f;"><i class="fa-solid fa-coins"></i></div>
+                    <div class="feature-text">
+                        <h4 style="color: #fbbf24; font-weight: 800;">+2,000 Reward Points Credited Instantly</h4>
+                        <p style="color: #e2e8f0; font-size: 13px;">Instantly receive 2,000 points in your centralized points wallet, unlocking Silver Scholar milestone badges & prestige status!</p>
+                    </div>
+                </div>
+
                 @if(is_array($plan->features) && count($plan->features) > 0)
                     @foreach($plan->features as $feat)
                         <div class="feature-item">
@@ -312,6 +321,16 @@
                 <p class="pricing-desc">
                     {{ $plan->description ?: 'Get full, unrestricted access to the entire CareerGyan ecosystem. No monthly fees, no hidden limits.' }}
                 </p>
+
+                <div style="background: rgba(251, 191, 36, 0.12); border: 1.5px dashed #fbbf24; border-radius: 12px; padding: 12px 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; text-align: left;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #fbbf24, #d97706); color: #78350f; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 13.5px; font-weight: 800; color: #fbbf24;">Instant VIP Welcome Bonus</div>
+                        <div style="font-size: 12.5px; color: #e2e8f0;">Get <strong>+2,000 Reward Points</strong> credited immediately to your wallet!</div>
+                    </div>
+                </div>
 
                 @if($isMember)
                     <a href="{{ route('membership.dashboard') }}" class="buy-btn" style="background: linear-gradient(90deg, #10b981 0%, #059669 100%); color: white; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);">

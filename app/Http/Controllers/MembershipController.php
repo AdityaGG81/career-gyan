@@ -109,6 +109,13 @@ class MembershipController extends Controller
             $user->membership_expires_at = $membership->expires_at;
             $user->save();
             
+            // Award 2,000 Points immediately to the new premium member
+            try {
+                app(\App\Services\RewardPointsService::class)->awardPremiumMembershipReward($user, $membership->id);
+            } catch (\Exception $e) {
+                Log::error('Failed awarding premium membership points: ' . $e->getMessage());
+            }
+
             return response()->json(['success' => true]);
         }
         
@@ -130,6 +137,13 @@ class MembershipController extends Controller
         $membership = $user->activeMembership;
         $plan = $membership ? $membership->plan : MembershipPlan::where('slug', 'pro-member')->first();
         
+        // Ensure active member has received their 2,000 welcome points
+        try {
+            app(\App\Services\RewardPointsService::class)->awardPremiumMembershipReward($user, $membership ? $membership->id : null);
+        } catch (\Exception $e) {
+            Log::error('Failed awarding premium membership points in dashboard: ' . $e->getMessage());
+        }
+
         return view('membership.dashboard', compact('user', 'membership', 'plan'));
     }
 

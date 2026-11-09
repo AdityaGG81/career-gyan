@@ -1008,6 +1008,29 @@
           @endif
         </div>
       </div>
+
+      <!-- 5. Join Premium Pro Membership -->
+      <div class="earn-rule-card" style="border-color: #fde68a; background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);">
+        <div>
+          <div class="earn-rule-top">
+            <div class="rule-icon-box" style="background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309;">
+              <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+            </div>
+            <span class="rule-pts-badge" style="background: #fef3c7; color: #92400e; border: 1px solid #fde68a;">+2,000 PTS</span>
+          </div>
+          <h3>5. Premium Pro Membership</h3>
+          <p>Upgrade to Pro to unlock unlimited career features, mentoring access, certificates, and receive 2,000 reward points instantly!</p>
+        </div>
+        <div class="earn-rule-action">
+          @if($stats['membership_claimed'])
+            <span style="color: #b45309; font-weight: 800;"><i class="fa-solid fa-circle-check" style="color: #f59e0b;"></i> Pro Member & Claimed (+2,000 PTS)</span>
+          @else
+            <a href="{{ route('membership.index') }}" style="color: #b45309; font-weight: 800;">
+              <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Upgrade to Pro <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          @endif
+        </div>
+      </div>
     </div>
 
     {{-- Activity & History Section --}}
@@ -1093,6 +1116,7 @@
             <a href="{{ route('rewards.index', ['filter' => 'referral']) }}" class="filter-pill {{ $filter === 'referral' ? 'active' : '' }}">Referrals</a>
             <a href="{{ route('rewards.index', ['filter' => 'aptitude']) }}" class="filter-pill {{ $filter === 'aptitude' ? 'active' : '' }}">Aptitude Test</a>
             <a href="{{ route('rewards.index', ['filter' => 'student_analysis']) }}" class="filter-pill {{ $filter === 'student_analysis' ? 'active' : '' }}">Student Analysis</a>
+            <a href="{{ route('rewards.index', ['filter' => 'membership']) }}" class="filter-pill {{ $filter === 'membership' ? 'active' : '' }}">VIP Pro Bonus</a>
           </div>
         </div>
 
@@ -1116,6 +1140,8 @@
                       <span style="color: #7c3aed;"><i class="fa-solid fa-brain"></i> Aptitude Test</span>
                     @elseif($tx->transaction_type === 'student_analysis')
                       <span style="color: #be185d;"><i class="fa-solid fa-chart-pie"></i> Student Analysis</span>
+                    @elseif($tx->transaction_type === 'premium_membership')
+                      <span style="color: #b45309; font-weight: 800;"><i class="fa-solid fa-crown" style="color: #f59e0b;"></i> Premium VIP Bonus</span>
                     @elseif($tx->transaction_type === 'admin_adjustment')
                       <span style="color: #d97706;"><i class="fa-solid fa-sliders"></i> Admin Adjustment</span>
                     @else

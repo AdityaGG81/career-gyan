@@ -148,7 +148,7 @@ class AdminMembershipController extends Controller
 
         // Create a transaction record in memberships table for auditing
         $note = $request->input('admin_note') ?: 'Granted manually via Admin Panel';
-        Membership::create([
+        $membership = Membership::create([
             'user_id' => $user->id,
             'plan_id' => $plan->id,
             'razorpay_order_id' => 'admin_grant_' . uniqid(),
@@ -161,10 +161,17 @@ class AdminMembershipController extends Controller
             'expires_at' => $expiresAt,
         ]);
 
+        // Award 2,000 points immediately to the granted member
+        try {
+            app(\App\Services\RewardPointsService::class)->awardPremiumMembershipReward($user, $membership->id);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed awarding premium membership points in admin grant: ' . $e->getMessage());
+        }
+
         $durationLabel = $isLifetime ? 'Lifetime Access' : "{$durationDays} days (until " . $expiresAt->format('d M, Y') . ")";
 
         return redirect()->back()
-            ->with('success', "👑 Premium Pro Membership successfully granted to {$user->email} for {$durationLabel}!");
+            ->with('success', "👑 Premium Pro Membership successfully granted to {$user->email} for {$durationLabel} (+2,000 Points Credited)!");
     }
 
     /**

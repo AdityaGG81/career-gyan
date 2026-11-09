@@ -294,6 +294,53 @@ class RewardPointsService
     }
 
     /**
+     * Award Premium Pro Membership bonus reward (+2000 points once).
+     * Instantly unlocks milestone badges for the member.
+     */
+    public function awardPremiumMembershipReward(User $user, $referenceId = null): ?int
+    {
+        return DB::transaction(function () use ($user, $referenceId) {
+            // Check if already awarded
+            $exists = RewardClaim::where('user_id', $user->id)
+                ->where('reward_type', 'premium_membership')
+                ->lockForUpdate()
+                ->exists();
+
+            if ($exists) {
+                return null;
+            }
+
+            try {
+                RewardClaim::create([
+                    'user_id' => $user->id,
+                    'reward_type' => 'premium_membership',
+                    'reference_id' => $referenceId,
+                    'points_awarded' => 2000,
+                ]);
+            } catch (\Exception $e) {
+                // Caught duplicate constraint
+                return null;
+            }
+
+            PointTransaction::create([
+                'user_id' => $user->id,
+                'transaction_type' => 'premium_membership',
+                'points' => 2000,
+                'description' => '👑 Premium Pro Membership Welcome Bonus',
+                'reference_type' => 'membership',
+                'reference_id' => $referenceId,
+            ]);
+
+            $user->increment('points_balance', 2000);
+
+            // Immediately synchronize milestone badges (unlocks Tier 1 and Tier 2 badges)
+            $this->syncUserMilestoneBadges($user);
+
+            return 2000;
+        });
+    }
+
+    /**
      * Admin manual point adjustments (+/- points with reason).
      */
     public function adjustUserPoints(User $user, int $points, string $reason, $adminId = null): PointTransaction
@@ -344,6 +391,7 @@ class RewardPointsService
         $aptitudeClaimed = RewardClaim::where('user_id', $user->id)->where('reward_type', 'aptitude_test')->exists();
         $analysisClaimed = RewardClaim::where('user_id', $user->id)->where('reward_type', 'student_analysis')->exists();
         $referralBonusClaimed = RewardClaim::where('user_id', $user->id)->where('reward_type', 'referred_signup')->exists();
+        $membershipClaimed = RewardClaim::where('user_id', $user->id)->where('reward_type', 'premium_membership')->exists();
 
         return [
             'available_points' => (int) $user->points_balance,
@@ -356,6 +404,7 @@ class RewardPointsService
             'aptitude_claimed' => $aptitudeClaimed,
             'analysis_claimed' => $analysisClaimed,
             'referral_bonus_claimed' => $referralBonusClaimed,
+            'membership_claimed' => $membershipClaimed,
         ];
     }
 

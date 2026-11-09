@@ -1626,6 +1626,110 @@
     color: var(--text-3);
     font-size: 13px;
   }
+
+  /* ═══════════════════════════════════════════
+     👑 PREMIUM PRO MEMBER VIP EXPERIENCE THEME
+     (Replaces standard blue highlights with royal gold & warm amber)
+     ═══════════════════════════════════════════ */
+  body.is-premium-member ::selection {
+    background: rgba(245, 158, 11, 0.28) !important;
+    color: #78350f !important;
+  }
+
+  /* Desktop Top Navbar Pill Ribbon */
+  body.is-premium-member .nav-links {
+    background: rgba(254, 243, 199, 0.45) !important;
+    border: 1.5px solid rgba(245, 158, 11, 0.38) !important;
+    box-shadow: 0 2px 12px rgba(245, 158, 11, 0.12), inset 0 1px 2px rgba(254, 243, 199, 0.6) !important;
+  }
+
+  body.is-premium-member .nav-links a:hover {
+    color: #b45309 !important;
+  }
+
+  body.is-premium-member .nav-links a.active {
+    color: #78350f !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fef3c7 50%, #fde68a 100%) !important;
+    border: 1px solid #fcd34d !important;
+    box-shadow: 0 3px 12px rgba(245, 158, 11, 0.32), 0 1px 4px rgba(217, 119, 6, 0.18) !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  /* Mobile Left Sidebar - Active Page Ribbon/Button */
+  body.is-premium-member .mobile-sidebar a.active,
+  body.is-premium-member .mobile-sidebar .sidebar-action-btn.active {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+    color: #92400e !important;
+    font-weight: 700 !important;
+  }
+
+  body.is-premium-member .mobile-sidebar a.active::before,
+  body.is-premium-member .mobile-sidebar .sidebar-action-btn.active::before {
+    background: linear-gradient(180deg, #f59e0b, #d97706) !important;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.7) !important;
+    width: 3.5px !important;
+  }
+
+  body.is-premium-member .mobile-sidebar a.active i,
+  body.is-premium-member .mobile-sidebar .sidebar-action-btn.active i {
+    color: #d97706 !important;
+    filter: drop-shadow(0 1px 3px rgba(245, 158, 11, 0.4));
+  }
+
+  /* Medium Screen Mobile Menu */
+  body.is-premium-member .nav-mobile-menu a.active {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+    color: #92400e !important;
+    border-left: 4px solid #f59e0b !important;
+    font-weight: 700 !important;
+  }
+  body.is-premium-member .nav-mobile-menu a.active i {
+    color: #d97706 !important;
+  }
+
+  /* Search Bar Input Focus in Navbar */
+  body.is-premium-member .nav-search-bar-input:focus {
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.22) !important;
+  }
+  body.is-premium-member .nav-search-bar-input:focus ~ .nav-search-bar-icon {
+    color: #d97706 !important;
+  }
+  body.is-premium-member .nav-search-btn:hover {
+    background: #fef3c7 !important;
+    color: #b45309 !important;
+  }
+
+  /* Crown button - special golden glow for active pro member */
+  body.is-premium-member .nav-crown-btn,
+  body.is-premium-member .nav-mobile-crown {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
+    border: 1.5px solid #fcd34d !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.45) !important;
+  }
+  body.is-premium-member .nav-crown-btn i,
+  body.is-premium-member .nav-mobile-crown i {
+    color: #ffffff !important;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  }
+
+  /* Avatar button for Pro Member */
+  body.is-premium-member .user-dropdown > button {
+    border: 2.5px solid #f59e0b !important;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25), 0 3px 10px rgba(245, 158, 11, 0.3) !important;
+  }
+
+  /* Filter pills & Category tabs across the website */
+  body.is-premium-member .filter-pill.active,
+  body.is-premium-member .cat-pill.active,
+  body.is-premium-member .tab-btn.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3) !important;
+    border-color: transparent !important;
+  }
 </style>
 
 @yield('styles')
@@ -1634,7 +1738,7 @@
      crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="{{ Auth::check() && Auth::user()->hasActiveMembership() ? 'is-premium-member' : '' }}">
 
 <!-- ALWAYS-VISIBLE MOBILE SIDEBAR (rendered on left side for mobile view) -->
 <aside class="mobile-sidebar" id="mobileSidebar" aria-label="Mobile Navigation">
@@ -1702,9 +1806,14 @@
     </button>
 
     @auth
-      <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}" title="Profile">
-        <i class="fa-solid fa-circle-user"></i>
-        <span>Profile</span>
+      <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}" title="{{ Auth::user()->hasActiveMembership() ? 'Pro VIP Profile' : 'Profile' }}">
+        @if(Auth::user()->hasActiveMembership())
+          <i class="fa-solid fa-crown" style="color: #f59e0b;"></i>
+          <span style="color: #b45309; font-weight: 800;">VIP Profile</span>
+        @else
+          <i class="fa-solid fa-circle-user"></i>
+          <span>Profile</span>
+        @endif
       </a>
     @else
       <a href="{{ route('login') }}" title="Sign In">
@@ -1838,6 +1947,11 @@
                 <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: #f8fafc;">
                   <div style="font-weight: 700; font-size: 14px; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">{{ Auth::user()->name }}</div>
                   <div style="font-size: 11px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">{{ Auth::user()->email }}</div>
+                  @if(Auth::user()->hasActiveMembership())
+                    <div style="margin-top: 6px; display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff; padding: 2px 9px; border-radius: 99px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; box-shadow: 0 2px 6px rgba(245, 158, 11, 0.35);">
+                      <i class="fa-solid fa-crown" style="font-size: 9.5px;"></i> PRO VIP MEMBER
+                    </div>
+                  @endif
                 </div>
                 <a href="{{ route('rewards.index') }}" style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; font-size: 14px; font-weight: 700; color: #92400e; background: #fffbeb; transition: 0.2s;" class="dropdown-item">
                   <i class="fa-solid fa-coins" style="color: #f59e0b;"></i> My Rewards ({{ number_format(Auth::user()->points_balance ?? 0) }} pts)
