@@ -1169,6 +1169,27 @@
       flex-shrink: 0;
     }
 
+    .mobile-sidebar .sidebar-refer-link {
+      color: #ea580c !important;
+      font-weight: 700;
+    }
+    .mobile-sidebar .sidebar-refer-link span {
+      font-size: 8px !important;
+      letter-spacing: -0.25px !important;
+      white-space: normal !important;
+      line-height: 1.05 !important;
+      max-width: 52px;
+      text-align: center;
+    }
+    .mobile-sidebar .sidebar-refer-link:hover,
+    .mobile-sidebar .sidebar-refer-link.active {
+      background: #fff7ed !important;
+      color: #c2410c !important;
+    }
+    .mobile-sidebar .sidebar-refer-link.active::before {
+      background: #ea580c !important;
+    }
+
     .mobile-sidebar .sidebar-bottom-section {
       flex-shrink: 0;
       width: 100%;
@@ -1627,6 +1648,10 @@
     <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}" title="Home">
       <i class="fa-solid fa-house"></i>
       <span>Home</span>
+    </a>
+    <a href="{{ route('rewards.index') }}" class="sidebar-refer-link {{ request()->is('rewards*') || request()->is('my-rewards*') ? 'active' : '' }}" title="Refer & Earn Rewards">
+      <i class="fa-solid fa-gift" style="color: #f97316;"></i>
+      <span>Refer & Earn</span>
     </a>
     <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}" title="Explore">
       <i class="fa-solid fa-compass"></i>
