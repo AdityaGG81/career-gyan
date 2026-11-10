@@ -662,6 +662,13 @@
               <div style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">
                 {{ $profile['persona'] }}
               </div>
+              @if(!empty($profile['is_verified_expert']))
+                <div style="margin-top: 4px;">
+                  <span style="display: inline-flex; align-items: center; gap: 4px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px;">
+                    <i class="fa-solid fa-certificate"></i> {{ $profile['expert_title'] ?: 'Verified Expert' }}
+                  </span>
+                </div>
+              @endif
             </div>
           </div>
 

@@ -43,6 +43,8 @@ class CommunityController extends Controller
                     'headline' => $dbProfile->headline ?: 'Member of CareerGyan',
                     'color' => $dbProfile->avatar_color ?: '#ff4500',
                     'points' => $dbProfile->reputation_points,
+                    'is_verified_expert' => (bool) $dbProfile->is_verified_expert,
+                    'expert_title' => $dbProfile->expert_title,
                     'is_logged_in' => true,
                 ];
             }
@@ -53,7 +55,24 @@ class CommunityController extends Controller
                 'headline' => 'CareerGyan Student',
                 'color' => '#2563eb',
                 'points' => 10,
+                'is_verified_expert' => false,
+                'expert_title' => null,
                 'is_logged_in' => true,
+            ];
+        }
+
+        // Guest profile: first check DB for existing session_id profile
+        $guestProfile = CommunityProfile::where('session_id', $sessionId)->first();
+        if ($guestProfile) {
+            return [
+                'name' => $guestProfile->display_name,
+                'persona' => $guestProfile->persona,
+                'headline' => $guestProfile->headline,
+                'color' => $guestProfile->avatar_color ?: '#ff4500',
+                'points' => $guestProfile->reputation_points,
+                'is_verified_expert' => (bool) $guestProfile->is_verified_expert,
+                'expert_title' => $guestProfile->expert_title,
+                'is_logged_in' => false,
             ];
         }
 
@@ -70,6 +89,8 @@ class CommunityController extends Controller
                 'headline' => $guestHeadline,
                 'color' => $guestColor,
                 'points' => 10,
+                'is_verified_expert' => false,
+                'expert_title' => null,
                 'is_logged_in' => false,
             ];
         }
@@ -80,6 +101,8 @@ class CommunityController extends Controller
             'headline' => '',
             'color' => '#ff4500',
             'points' => 10,
+            'is_verified_expert' => false,
+            'expert_title' => null,
             'is_logged_in' => false,
         ];
     }
@@ -274,7 +297,11 @@ class CommunityController extends Controller
             $authorName = $request->session()->get('community_guest_name', 'Community Contributor');
         }
 
-        $isExpert = in_array($authorPersona, ['Working Professional', 'Career Counselor', 'Alumnus / Mentor']);
+        $authorProfile = Auth::check()
+            ? CommunityProfile::where('user_id', Auth::id())->first()
+            : CommunityProfile::where('session_id', $request->session()->getId())->first();
+
+        $isExpert = ($authorProfile && $authorProfile->is_verified_expert) || in_array($authorPersona, ['Working Professional', 'Career Counselor', 'Alumnus / Mentor']);
 
         $answer = CommunityAnswer::create([
             'uuid' => (string) Str::uuid(),

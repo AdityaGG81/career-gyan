@@ -17,6 +17,7 @@ use App\Http\Controllers\MhtCetCutoffController;
 use App\Http\Controllers\RewardPointsController;
 use App\Http\Controllers\AdminReferralController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\AdminCommunityController;
 
 
 // Main pages
@@ -387,6 +388,22 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/quiz/{id}/edit', [AdminQuizController::class, 'edit'])->name('admin.quiz.edit');
     Route::put('/admin/quiz/{id}', [AdminQuizController::class, 'update'])->name('admin.quiz.update');
     Route::delete('/admin/quiz/{id}', [AdminQuizController::class, 'destroy'])->name('admin.quiz.destroy');
+
+    // Admin Community Forum Moderation & Verified Expert Provisioning
+    Route::get('/admin/community', [AdminCommunityController::class, 'index'])->name('admin.community.index');
+    Route::put('/admin/community/post/{id}', [AdminCommunityController::class, 'updatePost'])->name('admin.community.post.update');
+    Route::post('/admin/community/post/{id}/pin', [AdminCommunityController::class, 'togglePostPin'])->name('admin.community.post.pin');
+    Route::post('/admin/community/post/{id}/resolve', [AdminCommunityController::class, 'togglePostResolved'])->name('admin.community.post.resolve');
+    Route::delete('/admin/community/post/{id}', [AdminCommunityController::class, 'destroyPost'])->name('admin.community.post.destroy');
+
+    Route::put('/admin/community/answer/{id}', [AdminCommunityController::class, 'updateAnswer'])->name('admin.community.answer.update');
+    Route::post('/admin/community/answer/{id}/expert', [AdminCommunityController::class, 'toggleAnswerExpert'])->name('admin.community.answer.expert');
+    Route::post('/admin/community/answer/{id}/accepted', [AdminCommunityController::class, 'toggleAnswerAccepted'])->name('admin.community.answer.accepted');
+    Route::delete('/admin/community/answer/{id}', [AdminCommunityController::class, 'destroyAnswer'])->name('admin.community.answer.destroy');
+
+    Route::post('/admin/community/profile/{id}/expert', [AdminCommunityController::class, 'toggleProfileExpert'])->name('admin.community.profile.expert');
+    Route::put('/admin/community/profile/{id}', [AdminCommunityController::class, 'updateProfile'])->name('admin.community.profile.update');
+    Route::delete('/admin/community/profile/{id}', [AdminCommunityController::class, 'destroyProfile'])->name('admin.community.profile.destroy');
 
     // Maintenance & Administrative Diagnostics
     Route::get('/run-cutoff-setup-migration-2025', function () {

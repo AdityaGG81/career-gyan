@@ -19,6 +19,13 @@ class CommunityProfile extends Model
         'target_stream',
         'target_college',
         'reputation_points',
+        'is_verified_expert',
+        'expert_title',
+    ];
+
+    protected $casts = [
+        'is_verified_expert' => 'boolean',
+        'reputation_points' => 'integer',
     ];
 
     public function user()

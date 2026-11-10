@@ -506,6 +506,11 @@
           <i class="fa-solid fa-store" style="color: #10b981;"></i> Business Corner
         </a>
       </li>
+      <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.community') ? 'active' : '' }}">
+        <a href="{{ route('admin.community.index') }}">
+          <i class="fa-brands fa-reddit-alien" style="color: #ff4500;"></i> Community Forum
+        </a>
+      </li>
 
       <li class="menu-category">AI Intelligence</li>
       <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.chatbot') ? 'active' : '' }}">
