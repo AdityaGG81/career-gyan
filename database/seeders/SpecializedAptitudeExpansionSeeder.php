@@ -775,3 +775,4 @@ class SpecializedAptitudeExpansionSeeder extends Seeder
         }
     }
 }
+

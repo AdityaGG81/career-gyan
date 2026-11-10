@@ -550,11 +550,113 @@
     flex-shrink: 0;
   }
 
+  /* Extreme right docked Community tab (Outside the navbar ribbon) */
+  .floating-community-tab {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 9990;
+    background: linear-gradient(135deg, #ff4500 0%, #ff5722 100%);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 12px 14px 12px 16px;
+    border-radius: 24px 0 0 24px;
+    box-shadow: -4px 6px 20px rgba(255, 69, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 13.5px;
+    letter-spacing: 0.3px;
+    transition: all 0.25s cubic-bezier(.22,.68,0,1);
+  }
+  .floating-community-tab:hover {
+    transform: translateY(-50%) translateX(-5px);
+    box-shadow: -6px 10px 28px rgba(255, 69, 0, 0.55);
+    background: linear-gradient(135deg, #e03d00 0%, #ff4500 100%);
+    color: #ffffff !important;
+  }
+  .floating-community-tab i {
+    font-size: 19px;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+  }
+  .floating-community-tab .floating-tab-badge {
+    background: #ffffff;
+    color: #ff4500;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 1px 6px;
+    border-radius: 999px;
+    margin-left: 2px;
+  }
+  @media (max-width: 768px) {
+    .floating-community-tab {
+      top: auto;
+      bottom: 80px;
+      transform: none;
+      padding: 9px 12px 9px 14px;
+      font-size: 12px;
+      border-radius: 20px 0 0 20px;
+    }
+    .floating-community-tab:hover {
+      transform: translateX(-4px);
+    }
+    .floating-community-tab i {
+      font-size: 16px;
+    }
+  }
+
+  /* Desktop Navbar Community button inside .nav-actions */
+  .nav-community-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff0eb;
+    color: #ff4500 !important;
+    border: 1.5px solid #fed7aa;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .nav-community-pill:hover {
+    background: #ff4500;
+    color: #ffffff !important;
+    border-color: #ff4500;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
+  }
+  .nav-community-pill i {
+    font-size: 15px;
+  }
+
+  /* Mobile Navbar Community Button */
+  .nav-mobile-community {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #fff0eb;
+    border: 1.5px solid #fed7aa;
+    color: #ff4500;
+    font-size: 15px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
   @media (max-width: 991px) {
     .nav-crown-btn {
       display: none !important;
     }
     .nav-mobile-crown {
+      display: inline-flex !important;
+    }
+    .nav-mobile-community {
       display: inline-flex !important;
     }
   }
@@ -1972,8 +2074,17 @@
             <a href="{{ route('login') }}" class="nav-link-btn">Sign In</a>
             <a href="{{ route('signup') }}" class="nav-cta">Sign Up</a>
           @endauth
+
+          <div class="nav-divider"></div>
+          <a href="{{ route('community.index') }}" class="nav-community-pill" title="CareerGyan Student Community (Reddit-style Forum)" aria-label="Community">
+            <i class="fa-brands fa-reddit-alien"></i>
+            <span>Community</span>
+          </a>
         </div>
 
+        <a href="{{ route('community.index') }}" class="nav-mobile-community" aria-label="Community" title="Student Community">
+          <i class="fa-brands fa-reddit-alien"></i>
+        </a>
         <a href="{{ route('membership.index') }}" class="nav-mobile-crown" aria-label="Membership" title="CareerGyan Premium Membership">
           <i class="fa-solid fa-crown"></i>
         </a>
@@ -1994,6 +2105,9 @@
     </a>
     <a href="{{ route('rewards.index') }}" class="{{ request()->is('rewards*') ? 'active' : '' }}" style="color: #ea580c; font-weight: 700; background: #fff7ed;">
       <i class="fa-solid fa-gift" style="color: #f97316;"></i> Refer & Earn (Rewards)
+    </a>
+    <a href="{{ route('community.index') }}" class="{{ request()->is('community*') ? 'active' : '' }}" style="color: #ff4500; font-weight: 700; background: #fff5f0;">
+      <i class="fa-brands fa-reddit-alien" style="color: #ff4500;"></i> Student Community
     </a>
     <a href="{{ route('membership.index') }}" class="{{ request()->is('membership*') ? 'active' : '' }}" style="color: #b45309; font-weight: 700; background: #fffbeb;">
       <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> VIP Membership
@@ -3289,6 +3403,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- FLOATING COMMUNITY TAB (EXTREME RIGHT OF THE PAGE, OUT OF THE NAVBAR RIBBON) -->
+<a href="{{ route('community.index') }}" class="floating-community-tab" title="CareerGyan Student Community (Reddit-style Forum)" aria-label="Join CareerGyan Student Community">
+  <i class="fa-brands fa-reddit-alien"></i>
+  <span>Community</span>
+  <span class="floating-tab-badge">Q&A</span>
+</a>
+
 @yield('scripts')
 @stack('scripts')
 

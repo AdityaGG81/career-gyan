@@ -72,6 +72,7 @@ jobs:
             php artisan db:seed --class=BusinessCornerExpansionSeeder --force || true
             php artisan db:seed --class=TamannaQuestionsExpansionSeeder --force || true
             php artisan db:seed --class=SpecializedAptitudeSeeder --force || true
+            php artisan db:seed --class=CommunitySeeder --force || true
             php artisan optimize:clear || true
             php artisan view:clear || true
             php artisan config:clear || true

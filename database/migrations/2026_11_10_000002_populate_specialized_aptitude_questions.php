@@ -30,3 +30,4 @@ return new class extends Migration
         // Keep data intact
     }
 };
+

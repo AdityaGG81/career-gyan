@@ -16,6 +16,7 @@ use App\Http\Controllers\AdvancedTestController;
 use App\Http\Controllers\MhtCetCutoffController;
 use App\Http\Controllers\RewardPointsController;
 use App\Http\Controllers\AdminReferralController;
+use App\Http\Controllers\CommunityController;
 
 
 // Main pages
@@ -49,6 +50,17 @@ Route::get('/colleges/{id}', [IndianCollegeController::class, 'show'])->where('i
 // Job Corner public routes
 Route::get('/job-corner', [\App\Http\Controllers\JobListingController::class, 'index'])->name('jobs.index');
 Route::get('/job-corner/{id}', [\App\Http\Controllers\JobListingController::class, 'show'])->name('jobs.show');
+
+// Community Forum (Reddit-style open Q&A without signup requirement)
+Route::prefix('community')->name('community.')->group(function () {
+    Route::get('/', [CommunityController::class, 'index'])->name('index');
+    Route::get('/c/{channel}', [CommunityController::class, 'index'])->name('channel');
+    Route::get('/post/{slugOrUuid}', [CommunityController::class, 'show'])->name('show');
+    Route::post('/post', [CommunityController::class, 'storePost'])->name('post.store');
+    Route::post('/post/{postId}/answer', [CommunityController::class, 'storeAnswer'])->name('answer.store');
+    Route::post('/vote', [CommunityController::class, 'vote'])->name('vote');
+    Route::post('/profile/save', [CommunityController::class, 'saveProfile'])->name('profile.save');
+});
 
 
 // Explore
