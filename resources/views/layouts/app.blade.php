@@ -2130,6 +2130,8 @@
           <a href="{{ route('contact.show') }}">Contact Us</a>
           <a href="{{ route('quick-test.start') }}">Quick Test</a>
           <a href="{{ route('test.start') }}">Advance Test</a>
+          <a href="{{ route('specialized-aptitude.index') }}">Specialized Tests (Spiritual/Art/Sports/Business)</a>
+          <a href="{{ route('specialized-aptitude.courses') }}">Specialized Courses</a>
         </div>
 
         <div class="footer-col">

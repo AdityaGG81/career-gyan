@@ -1272,3 +1272,4 @@ class TamannaQuestionsExpansionSeeder extends Seeder
         $this->command->info("Seeded {$inserted} new TAMANNA test questions into the database!");
     }
 }
+

@@ -181,6 +181,14 @@ Route::get('/advanced-test/start', [\App\Http\Controllers\AdvancedTestController
 Route::get('/advanced-test/quiz', [\App\Http\Controllers\AdvancedTestController::class, 'quiz'])->name('advanced-test.quiz');
 Route::post('/advanced-test/submit', [\App\Http\Controllers\AdvancedTestController::class, 'submit'])->middleware('throttle:15,1')->name('advanced-test.submit');
 Route::get('/advanced-test/results/{uuid}', [\App\Http\Controllers\AdvancedTestController::class, 'results'])->name('advanced-test.results');
+
+// Specialized Aptitude Evaluations & Courses (Spiritual, Artistic, Sports, Business)
+Route::get('/specialized-aptitude', [\App\Http\Controllers\SpecializedAptitudeController::class, 'index'])->name('specialized-aptitude.index');
+Route::get('/specialized-aptitude/{category}', [\App\Http\Controllers\SpecializedAptitudeController::class, 'show'])->name('specialized-aptitude.show');
+Route::get('/specialized-test/{category}', [\App\Http\Controllers\SpecializedAptitudeController::class, 'quiz'])->name('specialized-aptitude.quiz');
+Route::post('/specialized-test/{category}/submit', [\App\Http\Controllers\SpecializedAptitudeController::class, 'submit'])->middleware('throttle:15,1')->name('specialized-aptitude.submit');
+Route::get('/specialized-test/results/{uuid}', [\App\Http\Controllers\SpecializedAptitudeController::class, 'results'])->name('specialized-aptitude.results');
+Route::get('/specialized-courses/{category?}', [\App\Http\Controllers\SpecializedAptitudeController::class, 'courses'])->name('specialized-aptitude.courses');
 Route::get('/advanced-test/certificate/{uuid}', [\App\Http\Controllers\AdvancedTestController::class, 'certificate'])->name('advanced-test.certificate');
 
 // Career Test Hub shortcuts
@@ -292,6 +300,8 @@ Route::middleware('admin.auth')->group(function () {
     Route::delete('/admin/test-results/aptitude/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyAptitude'])->name('admin.test-results.aptitude.destroy');
     Route::get('/admin/test-results/quick/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showQuick'])->name('admin.test-results.quick.show');
     Route::delete('/admin/test-results/quick/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroyQuick'])->name('admin.test-results.quick.destroy');
+    Route::get('/admin/test-results/specialized/{uuid}', [\App\Http\Controllers\AdminTestResultController::class, 'showSpecialized'])->name('admin.test-results.specialized.show');
+    Route::delete('/admin/test-results/specialized/{id}', [\App\Http\Controllers\AdminTestResultController::class, 'destroySpecialized'])->name('admin.test-results.specialized.destroy');
     Route::get('/admin/users/{id}/test-results', [\App\Http\Controllers\AdminTestResultController::class, 'userTestResults'])->name('admin.test-results.user');
 
     // Admin Student Analyses

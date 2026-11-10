@@ -1220,6 +1220,220 @@
   </div>
 </section>
 
+<!-- ========================================================================= -->
+<!-- Specialized Aptitude Streams: Spiritual, Artistic, Sports, Business Aptitude -->
+<!-- ========================================================================= -->
+<section id="specialized-aptitude-streams" class="explore-specialized-section" style="padding: 72px 0 84px; background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(139,92,246,0.1); color:#7c3aed; padding:6px 18px; border-radius:999px; font-weight:700; font-size:12.5px; text-transform:uppercase; margin-bottom:12px;">
+        <i class="fa-solid fa-shapes"></i> Specialized Aptitude Streams & Academic Paths
+      </div>
+      <h2 style="font-family:'Outfit','Sora',sans-serif; font-size:32px; font-weight:800; color:var(--text-1); margin-bottom:10px;">
+        Explore Specialized Aptitude & Accredited Courses
+      </h2>
+      <p style="color:var(--text-2); font-size:16px; max-width:720px; margin:0 auto; line-height: 1.6;">
+        Standard tests don't measure every calling. Evaluate your instinctive strengths with our <strong>20-question specialized tests</strong> and discover accredited bachelor's degrees, master's programs, and vocational diplomas in each field.
+      </p>
+    </div>
+
+    <!-- 4 Specialized Cards Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; margin-bottom: 40px;">
+
+      <!-- 1. Spiritual Aptitude -->
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: #8b5cf6;"></div>
+        <div>
+          <div style="width: 54px; height: 54px; border-radius: 14px; background: #f5f3ff; color: #8b5cf6; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 18px;">
+            <i class="fa-solid fa-om"></i>
+          </div>
+
+          <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #f5f3ff; color: #6d28d9; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+          </div>
+
+          <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+            Spiritual Aptitude
+          </h3>
+          <div style="font-size: 13px; font-weight: 700; color: #7c3aed; margin-bottom: 12px;">
+            Mindfulness, Ethics & Holistic Health
+          </div>
+
+          <p style="font-size: 13.5px; color: #475569; line-height: 1.55; margin-bottom: 18px;">
+            Evaluates conscience-driven decision making, equanimity under stress, empathy, mindfulness counseling, and ethical leadership.
+          </p>
+
+          <div style="background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #f1f5f9; margin-bottom: 20px; font-size: 12.5px;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px;">Featured Courses:</div>
+            <div style="color: #1e293b; font-weight: 600; line-height: 1.5;">
+              &bull; B.Sc in Yoga & Vedic Sciences<br>
+              &bull; M.A. in Philosophy & Applied Ethics<br>
+              &bull; Diploma in Mindfulness Counseling
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <a href="{{ route('specialized-aptitude.quiz', 'spiritual') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 18px; border-radius: 10px; background: #8b5cf6; color: #fff; font-weight: 700; font-size: 13.5px; text-decoration: none; transition: all 0.2s;">
+            <i class="fa-solid fa-pen-to-square"></i> Take 20-Q Assessment
+          </a>
+          <a href="{{ route('specialized-aptitude.show', 'spiritual') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 18px; border-radius: 10px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-weight: 600; font-size: 13px; text-decoration: none;">
+            <i class="fa-solid fa-graduation-cap"></i> View Domain & Courses
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Artistic Aptitude -->
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: #ec4899;"></div>
+        <div>
+          <div style="width: 54px; height: 54px; border-radius: 14px; background: #fdf2f8; color: #ec4899; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 18px;">
+            <i class="fa-solid fa-palette"></i>
+          </div>
+
+          <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #fdf2f8; color: #be185d; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+          </div>
+
+          <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+            Artistic Aptitude
+          </h3>
+          <div style="font-size: 13px; font-weight: 700; color: #db2777; margin-bottom: 12px;">
+            Visual Aesthetics & Creative Expression
+          </div>
+
+          <p style="font-size: 13.5px; color: #475569; line-height: 1.55; margin-bottom: 18px;">
+            Measures instinctive color theory, spatial balance, visual storytelling, design hierarchy, and multimedia creative problem solving.
+          </p>
+
+          <div style="background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #f1f5f9; margin-bottom: 20px; font-size: 12.5px;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px;">Featured Courses:</div>
+            <div style="color: #1e293b; font-weight: 600; line-height: 1.5;">
+              &bull; B.Des in Visual Communication<br>
+              &bull; Bachelor of Fine Arts (BFA)<br>
+              &bull; Diploma in 3D Animation & VFX
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <a href="{{ route('specialized-aptitude.quiz', 'artistic') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 18px; border-radius: 10px; background: #ec4899; color: #fff; font-weight: 700; font-size: 13.5px; text-decoration: none; transition: all 0.2s;">
+            <i class="fa-solid fa-pen-to-square"></i> Take 20-Q Assessment
+          </a>
+          <a href="{{ route('specialized-aptitude.show', 'artistic') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 18px; border-radius: 10px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-weight: 600; font-size: 13px; text-decoration: none;">
+            <i class="fa-solid fa-graduation-cap"></i> View Domain & Courses
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. Sports Aptitude -->
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: #10b981;"></div>
+        <div>
+          <div style="width: 54px; height: 54px; border-radius: 14px; background: #ecfdf5; color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 18px;">
+            <i class="fa-solid fa-medal"></i>
+          </div>
+
+          <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #ecfdf5; color: #047857; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+          </div>
+
+          <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+            Sports Aptitude
+          </h3>
+          <div style="font-size: 13px; font-weight: 700; color: #059669; margin-bottom: 12px;">
+            Athletic Intelligence, Kinesiology & Tactics
+          </div>
+
+          <p style="font-size: 13.5px; color: #475569; line-height: 1.55; margin-bottom: 18px;">
+            Evaluates kinetic chain biomechanics, tactical court anticipation, periodization, sports psychology, and coaching strategy.
+          </p>
+
+          <div style="background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #f1f5f9; margin-bottom: 20px; font-size: 12.5px;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px;">Featured Courses:</div>
+            <div style="color: #1e293b; font-weight: 600; line-height: 1.5;">
+              &bull; B.Sc in Sports & Exercise Science<br>
+              &bull; Bachelor of Physical Education (B.P.Ed)<br>
+              &bull; BBA / MBA in Sports Management
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <a href="{{ route('specialized-aptitude.quiz', 'sports') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 18px; border-radius: 10px; background: #10b981; color: #fff; font-weight: 700; font-size: 13.5px; text-decoration: none; transition: all 0.2s;">
+            <i class="fa-solid fa-pen-to-square"></i> Take 20-Q Assessment
+          </a>
+          <a href="{{ route('specialized-aptitude.show', 'sports') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 18px; border-radius: 10px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-weight: 600; font-size: 13px; text-decoration: none;">
+            <i class="fa-solid fa-graduation-cap"></i> View Domain & Courses
+          </a>
+        </div>
+      </div>
+
+      <!-- 4. Business Aptitude -->
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.04); position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+        <div style="position: absolute; top: 0; left: 0; right: 0; height: 5px; background: #f59e0b;"></div>
+        <div>
+          <div style="width: 54px; height: 54px; border-radius: 14px; background: #fffbeb; color: #f59e0b; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 18px;">
+            <i class="fa-solid fa-briefcase"></i>
+          </div>
+
+          <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #fffbeb; color: #b45309; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+          </div>
+
+          <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+            Business Aptitude
+          </h3>
+          <div style="font-size: 13px; font-weight: 700; color: #d97706; margin-bottom: 12px;">
+            Venture Strategy & Commercial Acumen
+          </div>
+
+          <p style="font-size: 13.5px; color: #475569; line-height: 1.55; margin-bottom: 18px;">
+            Tests entrepreneurial product-market instincts, unit economics, negotiation leverage, risk mitigation, and enterprise leadership.
+          </p>
+
+          <div style="background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #f1f5f9; margin-bottom: 20px; font-size: 12.5px;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px;">Featured Courses:</div>
+            <div style="color: #1e293b; font-weight: 600; line-height: 1.5;">
+              &bull; BBA in Entrepreneurship & Innovation<br>
+              &bull; Integrated Master of Business Administration<br>
+              &bull; Diploma in Digital Business & E-Commerce
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <a href="{{ route('specialized-aptitude.quiz', 'business') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 18px; border-radius: 10px; background: #f59e0b; color: #fff; font-weight: 700; font-size: 13.5px; text-decoration: none; transition: all 0.2s;">
+            <i class="fa-solid fa-pen-to-square"></i> Take 20-Q Assessment
+          </a>
+          <a href="{{ route('specialized-aptitude.show', 'business') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 18px; border-radius: 10px; background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-weight: 600; font-size: 13px; text-decoration: none;">
+            <i class="fa-solid fa-graduation-cap"></i> View Domain & Courses
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Hub Bar -->
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <div style="font-weight: 800; font-size: 16px; color: #0f172a;">Browse All 24 Verified Degree & Diploma Programs</div>
+          <div style="font-size: 13px; color: #64748b;">Compare durations, eligibility, annual fees, and top university cutoffs across India.</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <a href="{{ route('specialized-aptitude.courses') }}" style="padding: 10px 20px; border-radius: 10px; background: #0f172a; color: #ffffff; font-weight: 700; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+          <span>Explore All 24 Courses</span> <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Browse by Category Section -->
 <section class="section-container">
   <div class="container">

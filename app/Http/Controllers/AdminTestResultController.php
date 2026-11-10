@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TestSession;
 use App\Models\StudentAnalysis;
 use App\Models\QuickTestAttempt;
+use App\Models\SpecializedTestAttempt;
+use App\Models\SpecializedCourse;
 use App\Models\User;
 use App\Models\Career;
 use App\Models\Field;
@@ -38,7 +40,8 @@ class AdminTestResultController extends Controller
         $aptitudeCount = TestSession::count();
         $analysisCount = StudentAnalysis::count();
         $quickCount = QuickTestAttempt::count();
-        $totalTests = $aptitudeCount + $analysisCount + $quickCount;
+        $specializedCount = SpecializedTestAttempt::count();
+        $totalTests = $aptitudeCount + $analysisCount + $quickCount + $specializedCount;
 
         // 1. Aptitude Tests Query
         $aptitudeQuery = TestSession::with('user')->latest();
@@ -79,15 +82,33 @@ class AdminTestResultController extends Controller
         }
         $quickAttempts = $quickQuery->paginate(15, ['*'], 'quick_page');
 
+        // 4. Specialized Aptitude Tests Query (Spiritual, Artistic, Sports, Business)
+        $specializedQuery = SpecializedTestAttempt::with('user')->latest();
+        if ($search !== '') {
+            $specializedQuery->where(function ($q) use ($search) {
+                $q->where('student_name', 'like', "%{$search}%")
+                  ->orWhere('student_email', 'like', "%{$search}%")
+                  ->orWhere('student_phone', 'like', "%{$search}%")
+                  ->orWhere('uuid', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
+            });
+        }
+        if ($request->filled('specialized_category') && $request->specialized_category !== 'all') {
+            $specializedQuery->where('category', $request->specialized_category);
+        }
+        $specializedAttempts = $specializedQuery->paginate(15, ['*'], 'specialized_page');
+
         return view('admin.test-results.index', compact(
             'tab',
             'search',
             'aptitudeSessions',
             'studentAnalyses',
             'quickAttempts',
+            'specializedAttempts',
             'aptitudeCount',
             'analysisCount',
             'quickCount',
+            'specializedCount',
             'totalTests'
         ));
     }
@@ -186,6 +207,44 @@ class AdminTestResultController extends Controller
     }
 
     /**
+     * Detailed inspection of a Specialized Aptitude Test (Spiritual, Artistic, Sports, Business).
+     */
+    public function showSpecialized($uuidOrId)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $attempt = SpecializedTestAttempt::with('user')
+            ->where('uuid', $uuidOrId)
+            ->orWhere('id', $uuidOrId)
+            ->firstOrFail();
+
+        $recommendedCourses = SpecializedCourse::where('category', $attempt->category)->get();
+
+        return view('admin.test-results.specialized-show', compact('attempt', 'recommendedCourses'));
+    }
+
+    /**
+     * Delete a Specialized Aptitude Test attempt.
+     */
+    public function destroySpecialized(Request $request, $id)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $attempt = SpecializedTestAttempt::findOrFail($id);
+        $candidate = $attempt->student_name ?: ('Candidate #' . $attempt->id);
+        $catLabel = $attempt->category_label;
+        $attempt->delete();
+
+        if ($request->input('redirect_to') === 'index' || str_contains(url()->previous(), '/specialized/')) {
+            return redirect()->route('admin.test-results.index', ['tab' => 'specialized'])
+                ->with('success', "{$catLabel} record for '{$candidate}' deleted successfully.");
+        }
+
+        return redirect()->back()
+            ->with('success', "{$catLabel} record for '{$candidate}' deleted successfully.");
+    }
+
+    /**
      * Bulk delete selected test records across any tab.
      */
     public function bulkDelete(Request $request)
@@ -193,7 +252,7 @@ class AdminTestResultController extends Controller
         if ($redirect = $this->checkAdminAuth()) return $redirect;
 
         $request->validate([
-            'type' => 'required|in:aptitude,analysis,quick',
+            'type' => 'required|in:aptitude,analysis,quick,specialized',
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer',
         ]);
@@ -211,6 +270,9 @@ class AdminTestResultController extends Controller
         } elseif ($type === 'quick') {
             QuickTestAttempt::whereIn('id', $ids)->delete();
             $label = "{$count} Quick Test record(s)";
+        } elseif ($type === 'specialized') {
+            SpecializedTestAttempt::whereIn('id', $ids)->delete();
+            $label = "{$count} Specialized Aptitude Test record(s)";
         }
 
         return redirect()->back()->with('success', "Successfully deleted {$label}.");
@@ -224,7 +286,7 @@ class AdminTestResultController extends Controller
         if ($redirect = $this->checkAdminAuth()) return $redirect;
 
         $request->validate([
-            'category' => 'required|in:aptitude,analysis,quick,all',
+            'category' => 'required|in:aptitude,analysis,quick,specialized,all',
             'range' => 'required|in:all,older_30,older_60,older_90',
         ]);
 
@@ -258,6 +320,12 @@ class AdminTestResultController extends Controller
             $totalDeleted += $q->delete();
         }
 
+        if ($category === 'specialized' || $category === 'all') {
+            $q = SpecializedTestAttempt::query();
+            if ($cutoff) $q->where('created_at', '<', $cutoff);
+            $totalDeleted += $q->delete();
+        }
+
         $tab = $category === 'all' ? 'aptitude' : $category;
         $rangeLabel = $cutoff ? "older than " . str_replace('older_', '', $range) . " days" : "in total";
 
@@ -272,11 +340,15 @@ class AdminTestResultController extends Controller
     {
         if ($redirect = $this->checkAdminAuth()) return $redirect;
 
-        $user = User::with(['testSessions', 'studentAnalyses', 'aiChatLogs'])->findOrFail($userId);
+        $user = User::with(['testSessions', 'studentAnalyses', 'aiChatLogs', 'specializedTestAttempts'])->findOrFail($userId);
 
         $quickAttempts = QuickTestAttempt::where('student_email', $user->email)->latest()->get();
+        $specializedAttempts = SpecializedTestAttempt::where('user_id', $user->id)
+            ->orWhere('student_email', $user->email)
+            ->latest()
+            ->get();
 
-        return view('admin.test-results.user-profile', compact('user', 'quickAttempts'));
+        return view('admin.test-results.user-profile', compact('user', 'quickAttempts', 'specializedAttempts'));
     }
 }
 

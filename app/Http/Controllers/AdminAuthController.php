@@ -127,7 +127,8 @@ class AdminAuthController extends Controller
             $aptCount = class_exists(\App\Models\TestSession::class) ? \App\Models\TestSession::count() : 0;
             $saCount = class_exists(\App\Models\StudentAnalysis::class) ? \App\Models\StudentAnalysis::count() : 0;
             $qtCount = class_exists(\App\Models\QuickTestAttempt::class) ? \App\Models\QuickTestAttempt::count() : 0;
-            $totalTestResultCount = $aptCount + $saCount + $qtCount;
+            $spCount = class_exists(\App\Models\SpecializedTestAttempt::class) ? \App\Models\SpecializedTestAttempt::count() : 0;
+            $totalTestResultCount = $aptCount + $saCount + $qtCount + $spCount;
         } catch (\Exception $e) {}
 
         return view('admin.dashboard', compact(

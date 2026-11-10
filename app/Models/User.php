@@ -237,6 +237,11 @@ class User extends Authenticatable
         return $this->hasMany(QuickTestAttempt::class, 'student_email', 'email');
     }
 
+    public function specializedTestAttempts()
+    {
+        return $this->hasMany(SpecializedTestAttempt::class)->latest();
+    }
+
     public function hasAnyTestResults(): bool
     {
         return $this->testSessions()->exists()

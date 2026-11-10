@@ -145,6 +145,10 @@
   .pill-aptitude { background: #ecfdf5; color: #047857; }
   .pill-analysis { background: #eff6ff; color: #1d4ed8; }
   .pill-quick { background: #fdf4ff; color: #a21caf; }
+  .pill-spiritual { background: #f5f3ff; color: #7c3aed; }
+  .pill-artistic { background: #fdf2f8; color: #db2777; }
+  .pill-sports { background: #ecfdf5; color: #059669; }
+  .pill-business { background: #fffbeb; color: #d97706; }
 
   .action-btn-sm {
     padding: 6px 12px;
@@ -258,6 +262,16 @@
       <i class="fa-solid fa-bolt"></i>
     </div>
   </div>
+
+  <div class="res-stat-card">
+    <div>
+      <div class="res-stat-title">Specialized Tests</div>
+      <div class="res-stat-value" style="color: #8b5cf6;">{{ number_format($specializedCount) }}</div>
+    </div>
+    <div class="res-stat-icon" style="background: #f5f3ff; color: #8b5cf6;">
+      <i class="fa-solid fa-shapes"></i>
+    </div>
+  </div>
 </div>
 
 <!-- Tab Navigation -->
@@ -265,6 +279,10 @@
   <a href="{{ route('admin.test-results.index', ['tab' => 'aptitude']) }}" class="results-tab-btn {{ $tab === 'aptitude' ? 'active' : '' }}">
     <i class="fa-solid fa-brain"></i> Aptitude Test Sessions
     <span class="tab-badge">{{ $aptitudeCount }}</span>
+  </a>
+  <a href="{{ route('admin.test-results.index', ['tab' => 'specialized']) }}" class="results-tab-btn {{ $tab === 'specialized' ? 'active' : '' }}">
+    <i class="fa-solid fa-shapes" style="color: #8b5cf6;"></i> Specialized Aptitude Tests (Spiritual / Art / Sports / Business)
+    <span class="tab-badge" style="background:#ede9fe; color:#6d28d9;">{{ $specializedCount }}</span>
   </a>
   <a href="{{ route('admin.test-results.index', ['tab' => 'analysis']) }}" class="results-tab-btn {{ $tab === 'analysis' ? 'active' : '' }}">
     <i class="fa-solid fa-clipboard-user"></i> Student Analyses (47 Questions)
@@ -277,6 +295,29 @@
 </div>
 
 <!-- Toolbar -->
+@if($tab === 'specialized')
+  <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; background: #ffffff; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--admin-border);">
+    <span style="font-size: 12px; font-weight: 700; color: var(--admin-text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px;">
+      <i class="fa-solid fa-filter" style="color: #8b5cf6;"></i> Filter Domain:
+    </span>
+    <a href="{{ route('admin.test-results.index', ['tab' => 'specialized', 'search' => $search]) }}" class="pill-badge" style="{{ !request('specialized_category') || request('specialized_category') === 'all' ? 'background: #1e293b; color: #fff;' : 'background: #f1f5f9; color: #475569;' }}">
+      All Domains ({{ $specializedCount }})
+    </a>
+    <a href="{{ route('admin.test-results.index', ['tab' => 'specialized', 'specialized_category' => 'spiritual', 'search' => $search]) }}" class="pill-badge" style="{{ request('specialized_category') === 'spiritual' ? 'background: #7c3aed; color: #fff;' : 'background: #f5f3ff; color: #7c3aed;' }}">
+      <i class="fa-solid fa-om"></i> Spiritual
+    </a>
+    <a href="{{ route('admin.test-results.index', ['tab' => 'specialized', 'specialized_category' => 'artistic', 'search' => $search]) }}" class="pill-badge" style="{{ request('specialized_category') === 'artistic' ? 'background: #db2777; color: #fff;' : 'background: #fdf2f8; color: #db2777;' }}">
+      <i class="fa-solid fa-palette"></i> Artistic
+    </a>
+    <a href="{{ route('admin.test-results.index', ['tab' => 'specialized', 'specialized_category' => 'sports', 'search' => $search]) }}" class="pill-badge" style="{{ request('specialized_category') === 'sports' ? 'background: #059669; color: #fff;' : 'background: #ecfdf5; color: #059669;' }}">
+      <i class="fa-solid fa-medal"></i> Sports
+    </a>
+    <a href="{{ route('admin.test-results.index', ['tab' => 'specialized', 'specialized_category' => 'business', 'search' => $search]) }}" class="pill-badge" style="{{ request('specialized_category') === 'business' ? 'background: #d97706; color: #fff;' : 'background: #fffbeb; color: #d97706;' }}">
+      <i class="fa-solid fa-briefcase"></i> Business
+    </a>
+  </div>
+@endif
+
 <div class="table-toolbar">
   <form method="GET" action="{{ route('admin.test-results.index') }}" class="search-wrap">
     <input type="hidden" name="tab" value="{{ $tab }}">
@@ -403,6 +444,112 @@
       @if($aptitudeSessions->hasPages())
         <div style="padding: 16px 24px; border-top: 1px solid var(--admin-border);">
           {{ $aptitudeSessions->appends(['tab' => 'aptitude', 'search' => $search])->links() }}
+        </div>
+      @endif
+
+    @elseif($tab === 'specialized')
+      <!-- TAB: SPECIALIZED APTITUDE TESTS (Spiritual, Artistic, Sports, Business) -->
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="row-select-checkbox" title="Select all on this page"></th>
+            <th>Candidate</th>
+            <th>Email / Phone</th>
+            <th>Specialized Stream</th>
+            <th>Score & Accuracy</th>
+            <th>Aptitude Level</th>
+            <th>Date Taken</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @forelse($specializedAttempts as $attempt)
+            <tr>
+              <td style="text-align: center;">
+                <input type="checkbox" value="{{ $attempt->id }}" class="row-select-checkbox item-checkbox" onchange="updateSelectedCount()">
+              </td>
+              <td>
+                <div style="font-weight: 700; color: var(--admin-text-1);">
+                  @if($attempt->user_id)
+                    <a href="{{ route('admin.test-results.user', $attempt->user_id) }}" style="color: inherit; text-decoration: underline;">
+                      {{ $attempt->student_name }}
+                    </a>
+                  @else
+                    {{ $attempt->student_name }}
+                  @endif
+                </div>
+                <div style="font-size: 11.5px; color: var(--admin-text-3);">
+                  @if($attempt->user_id)
+                    <span class="pill-badge pill-{{ $attempt->category }}" style="padding: 1px 6px; font-size: 10.5px;">User #{{ $attempt->user_id }}</span>
+                  @else
+                    <span style="color: #94a3b8;">Guest Candidate</span>
+                  @endif
+                </div>
+              </td>
+              <td>
+                <div style="font-size: 13.5px; color: var(--admin-text-2);">{{ $attempt->student_email }}</div>
+                @if($attempt->student_phone)
+                  <div style="font-size: 12px; color: var(--admin-text-3); font-weight: 600;">{{ $attempt->student_phone }}</div>
+                @endif
+              </td>
+              <td>
+                @php
+                  $catMeta = [
+                    'spiritual' => ['name' => 'Spiritual Aptitude', 'icon' => 'fa-om', 'class' => 'pill-spiritual'],
+                    'artistic' => ['name' => 'Artistic Aptitude', 'icon' => 'fa-palette', 'class' => 'pill-artistic'],
+                    'sports' => ['name' => 'Sports Aptitude', 'icon' => 'fa-medal', 'class' => 'pill-sports'],
+                    'business' => ['name' => 'Business Aptitude', 'icon' => 'fa-briefcase', 'class' => 'pill-business'],
+                  ][$attempt->category] ?? ['name' => ucfirst($attempt->category) . ' Aptitude', 'icon' => 'fa-shapes', 'class' => 'pill-aptitude'];
+                @endphp
+                <span class="pill-badge {{ $catMeta['class'] }}" style="font-weight: 700;">
+                  <i class="fa-solid {{ $catMeta['icon'] }}"></i> {{ $catMeta['name'] }}
+                </span>
+              </td>
+              <td>
+                <div style="font-weight: 800; font-size: 14px; color: var(--admin-text-1);">
+                  {{ $attempt->correct_answers }} / {{ $attempt->total_questions }}
+                </div>
+                <div style="font-size: 11.5px; color: #10b981; font-weight: 700;">
+                  {{ $attempt->score_percentage }}% Accuracy
+                </div>
+              </td>
+              <td>
+                <span class="pill-badge" style="background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; font-size: 12px; font-weight: 700;">
+                  {{ $attempt->aptitude_level }}
+                </span>
+              </td>
+              <td>
+                <div style="font-size: 13px; color: var(--admin-text-1);">{{ $attempt->created_at->format('d M, Y') }}</div>
+                <div style="font-size: 11.5px; color: var(--admin-text-3);">{{ $attempt->created_at->format('h:i A') }}</div>
+              </td>
+              <td style="text-align: right;">
+                <div style="display: inline-flex; gap: 8px;">
+                  <a href="{{ route('admin.test-results.specialized.show', $attempt->uuid) }}" class="action-btn-sm btn-view-report" title="View Detailed Answersheet & Report">
+                    <i class="fa-solid fa-chart-pie"></i> View Report
+                  </a>
+                  <form action="{{ route('admin.test-results.specialized.destroy', $attempt->id) }}" method="POST" onsubmit="return confirm('Delete this specialized test record?');" style="margin: 0; display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="action-btn-sm btn-delete-report" title="Delete record">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
+                <i class="fa-solid fa-shapes" style="font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.5; color: #8b5cf6;"></i>
+                No specialized aptitude test attempts found.
+              </td>
+            </tr>
+          @endforelse
+        </tbody>
+      </table>
+      @if($specializedAttempts->hasPages())
+        <div style="padding: 16px 24px; border-top: 1px solid var(--admin-border);">
+          {{ $specializedAttempts->appends(['tab' => 'specialized', 'search' => $search, 'specialized_category' => request('specialized_category')])->links() }}
         </div>
       @endif
 
@@ -620,6 +767,7 @@
         <select name="category" class="form-control" style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px;">
           <option value="{{ $tab }}" selected>Current Tab Only ({{ ucfirst($tab) }})</option>
           <option value="aptitude">Aptitude Tests Only ({{ $aptitudeCount }} total)</option>
+          <option value="specialized">Specialized Tests Only ({{ $specializedCount }} total)</option>
           <option value="analysis">Student Analyses Only ({{ $analysisCount }} total)</option>
           <option value="quick">Quick Stream Tests Only ({{ $quickCount }} total)</option>
           <option value="all">All Test Categories Platform-wide ({{ $totalTests }} total)</option>

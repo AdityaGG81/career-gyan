@@ -228,7 +228,47 @@
   @endforelse
 </div>
 
-<!-- Section 3: Quick Tests -->
+<!-- Section 3: Specialized Aptitude Tests (Spiritual, Artistic, Sports, Business) -->
+<div class="card-block">
+  <div class="card-block-title">
+    <i class="fa-solid fa-shapes" style="color: #8b5cf6;"></i>
+    <span>Specialized Aptitude Tests ({{ $specializedAttempts->count() }})</span>
+  </div>
+
+  @forelse($specializedAttempts as $sp)
+    <div class="sub-test-item">
+      <div>
+        <div style="font-weight: 700; font-size: 15px; color: var(--admin-text-1); margin-bottom: 4px;">
+          {{ ucfirst($sp->category) }} Aptitude Assessment - {{ $sp->created_at->format('d M, Y \a\t h:i A') }}
+        </div>
+        <div style="font-size: 12.5px; color: var(--admin-text-2); margin-bottom: 6px;">
+          Score: <strong>{{ $sp->correct_answers }}/{{ $sp->total_questions }} ({{ $sp->score_percentage }}%)</strong> &bull;
+          Aptitude Level: <span style="font-weight: 700; color: #7c3aed;">{{ $sp->aptitude_level }}</span>
+        </div>
+        <div style="font-size: 11.5px; color: var(--admin-text-3);">
+          UUID: <code>{{ $sp->uuid }}</code>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <a href="{{ route('admin.test-results.specialized.show', $sp->uuid) }}" class="action-btn-sm" style="background: #8b5cf6; color: #ffffff;">
+          <i class="fa-solid fa-chart-pie"></i> Inspect Report & Answers
+        </a>
+        <form action="{{ route('admin.test-results.specialized.destroy', $sp->id) }}" method="POST" onsubmit="return confirm('Delete this specialized test record?');" style="margin: 0; display: inline;">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="action-btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; cursor: pointer; padding: 6px 10px; border-radius: 6px;" title="Delete Record">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  @empty
+    <p style="color: var(--admin-text-3); font-size: 14px; margin: 0;">This candidate has not attempted any of the 4 specialized aptitude tests yet.</p>
+  @endforelse
+</div>
+
+<!-- Section 4: Quick Tests -->
 @if($quickAttempts->isNotEmpty())
   <div class="card-block">
     <div class="card-block-title">
