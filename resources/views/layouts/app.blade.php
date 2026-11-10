@@ -607,56 +607,11 @@
     }
   }
 
-  /* Desktop Navbar Community button inside .nav-actions */
-  .nav-community-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #fff0eb;
-    color: #ff4500 !important;
-    border: 1.5px solid #fed7aa;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 800;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-  .nav-community-pill:hover {
-    background: #ff4500;
-    color: #ffffff !important;
-    border-color: #ff4500;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
-  }
-  .nav-community-pill i {
-    font-size: 15px;
-  }
-
-  /* Mobile Navbar Community Button */
-  .nav-mobile-community {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #fff0eb;
-    border: 1.5px solid #fed7aa;
-    color: #ff4500;
-    font-size: 15px;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-
   @media (max-width: 991px) {
     .nav-crown-btn {
       display: none !important;
     }
     .nav-mobile-crown {
-      display: inline-flex !important;
-    }
-    .nav-mobile-community {
       display: inline-flex !important;
     }
   }
@@ -2074,17 +2029,8 @@
             <a href="{{ route('login') }}" class="nav-link-btn">Sign In</a>
             <a href="{{ route('signup') }}" class="nav-cta">Sign Up</a>
           @endauth
-
-          <div class="nav-divider"></div>
-          <a href="{{ route('community.index') }}" class="nav-community-pill" title="CareerGyan Student Community (Reddit-style Forum)" aria-label="Community">
-            <i class="fa-brands fa-reddit-alien"></i>
-            <span>Community</span>
-          </a>
         </div>
 
-        <a href="{{ route('community.index') }}" class="nav-mobile-community" aria-label="Community" title="Student Community">
-          <i class="fa-brands fa-reddit-alien"></i>
-        </a>
         <a href="{{ route('membership.index') }}" class="nav-mobile-crown" aria-label="Membership" title="CareerGyan Premium Membership">
           <i class="fa-solid fa-crown"></i>
         </a>
