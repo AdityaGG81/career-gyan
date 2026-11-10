@@ -85,3 +85,4 @@ class CommunityProfile extends Model
         ];
     }
 }
+

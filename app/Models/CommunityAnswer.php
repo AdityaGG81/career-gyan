@@ -45,3 +45,4 @@ class CommunityAnswer extends Model
         return $this->hasMany(CommunityVote::class, 'votable_id')->where('votable_type', 'answer');
     }
 }
+

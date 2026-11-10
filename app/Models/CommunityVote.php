@@ -23,3 +23,4 @@ class CommunityVote extends Model
         return $this->belongsTo(User::class);
     }
 }
+

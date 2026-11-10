@@ -156,3 +156,4 @@ class CommunityPost extends Model
         ];
     }
 }
+

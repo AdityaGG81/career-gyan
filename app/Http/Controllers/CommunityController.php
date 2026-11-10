@@ -444,3 +444,4 @@ class CommunityController extends Controller
         if ($headline) cookie()->queue('community_guest_headline', $headline, 60 * 24 * 60);
     }
 }
+
