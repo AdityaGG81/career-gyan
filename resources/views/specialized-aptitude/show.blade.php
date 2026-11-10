@@ -389,7 +389,7 @@
 
             <ul style="list-style: none; padding: 0; margin: 0 0 20px; font-size: 13.5px; color: #475569; display: flex; flex-direction: column; gap: 10px;">
               <li style="display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>20 Questions</strong> (Multiple Choice)
+                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>20 Questions</strong> (Randomized from {{ $questionsCount }} Question Pool)
               </li>
               <li style="display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>15-Minute</strong> Recommended Time
@@ -432,3 +432,4 @@
   </div>
 </section>
 @endsection
+

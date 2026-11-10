@@ -102,3 +102,4 @@ class SpecializedTestAttempt extends Model
         };
     }
 }
+

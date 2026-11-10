@@ -33,6 +33,12 @@ class TestController extends Controller
             }
         }
 
+        if (Question::count() < 100 && class_exists(\Database\Seeders\TamannaQuestionsExpansionSeeder::class)) {
+            try {
+                (new \Database\Seeders\TamannaQuestionsExpansionSeeder())->run();
+            } catch (\Exception $e) {}
+        }
+
         $dimensionLimits = [
             'language-aptitude' => 3,
             'verbal-reasoning' => 3,

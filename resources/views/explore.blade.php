@@ -1249,7 +1249,7 @@
           </div>
 
           <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #f5f3ff; color: #6d28d9; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
-            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test (40 Questions Bank) &bull; 6 Courses
           </div>
 
           <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
@@ -1292,7 +1292,7 @@
           </div>
 
           <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #fdf2f8; color: #be185d; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
-            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test (40 Questions Bank) &bull; 6 Courses
           </div>
 
           <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
@@ -1335,7 +1335,7 @@
           </div>
 
           <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #ecfdf5; color: #047857; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
-            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test (40 Questions Bank) &bull; 6 Courses
           </div>
 
           <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
@@ -1378,7 +1378,7 @@
           </div>
 
           <div style="display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; background: #fffbeb; color: #b45309; font-size: 11px; font-weight: 700; margin-bottom: 10px;">
-            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test &bull; 6 Courses
+            <i class="fa-solid fa-clipboard-check"></i> 20-Q Test (40 Questions Bank) &bull; 6 Courses
           </div>
 
           <h3 style="font-family:'Outfit',sans-serif; font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">

@@ -67,10 +67,25 @@ class SpecializedAptitudeController extends Controller
     ];
 
     /**
+     * Ensure questions and courses are auto-seeded if missing.
+     */
+    private function ensureDataSeeded(): void
+    {
+        if (SpecializedAptitudeQuestion::count() < 160 || SpecializedCourse::count() < 24) {
+            try {
+                (new \Database\Seeders\SpecializedAptitudeSeeder())->run();
+            } catch (\Exception $e) {
+                // Silently continue if duplicate keys exist
+            }
+        }
+    }
+
+    /**
      * Landing hub for all 4 Specialized Aptitude Evaluations.
      */
     public function index()
     {
+        $this->ensureDataSeeded();
         $categories = $this->categories;
         $courses = SpecializedCourse::where('is_featured', true)->get()->groupBy('category');
 
@@ -87,6 +102,7 @@ class SpecializedAptitudeController extends Controller
      */
     public function show($category)
     {
+        $this->ensureDataSeeded();
         $category = strtolower(trim($category));
         if (!isset($this->categories[$category])) {
             return redirect()->route('specialized-aptitude.index');
@@ -112,6 +128,7 @@ class SpecializedAptitudeController extends Controller
      */
     public function quiz($category)
     {
+        $this->ensureDataSeeded();
         $category = strtolower(trim($category));
         if (!isset($this->categories[$category])) {
             return redirect()->route('specialized-aptitude.index');
@@ -137,6 +154,7 @@ class SpecializedAptitudeController extends Controller
      */
     public function submit(Request $request, $category)
     {
+        $this->ensureDataSeeded();
         $category = strtolower(trim($category));
         if (!isset($this->categories[$category])) {
             return response()->json(['success' => false, 'message' => 'Invalid category.'], 400);
@@ -276,6 +294,7 @@ class SpecializedAptitudeController extends Controller
      */
     public function courses(Request $request, $category = null)
     {
+        $this->ensureDataSeeded();
         $selectedCategory = $category ? strtolower(trim($category)) : 'all';
         $query = SpecializedCourse::query();
 
@@ -302,3 +321,4 @@ class SpecializedAptitudeController extends Controller
         return view('specialized-aptitude.courses', compact('courses', 'categories', 'selectedCategory'));
     }
 }
+

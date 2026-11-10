@@ -50,6 +50,12 @@ class AdvancedTestController extends Controller
             return redirect()->route('membership.index')->with('info', 'The Advanced Career Assessment is exclusive to CareerGyan Pro members.');
         }
 
+        if (Question::count() < 100 && class_exists(\Database\Seeders\TamannaQuestionsExpansionSeeder::class)) {
+            try {
+                (new \Database\Seeders\TamannaQuestionsExpansionSeeder())->run();
+            } catch (\Exception $e) {}
+        }
+
         // 20 questions distributed across the 7 dimensions:
         $dimensionLimits = [
             'language-aptitude' => 3,

@@ -16,6 +16,7 @@ class SpecializedAptitudeSeeder extends Seeder
     {
         $this->seedQuestions();
         $this->seedCourses();
+        (new SpecializedAptitudeExpansionSeeder())->run();
     }
 
     private function seedQuestions(): void
@@ -1166,3 +1167,4 @@ class SpecializedAptitudeSeeder extends Seeder
         }
     }
 }
+

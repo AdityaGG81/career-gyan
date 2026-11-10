@@ -84,6 +84,7 @@ class DatabaseSeeder extends Seeder
             DailyQuizExpansionSeeder::class,
             BusinessCornerSeeder::class,
             BusinessCornerExpansionSeeder::class,
+            SpecializedAptitudeSeeder::class,
         ]);
     }
 }

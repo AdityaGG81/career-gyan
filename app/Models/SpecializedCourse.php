@@ -39,3 +39,4 @@ class SpecializedCourse extends Model
         return $query->where('category', strtolower(trim($category)));
     }
 }
+
