@@ -41,6 +41,15 @@ Route::get('/disclaimer', function () {
     return view('disclaimer');
 })->name('disclaimer');
 
+// Google AdSense ads.txt verification route
+Route::get('/ads.txt', function () {
+    $path = public_path('ads.txt');
+    if (file_exists($path)) {
+        return response(file_get_contents($path), 200, ['Content-Type' => 'text/plain']);
+    }
+    return response("google.com, pub-5044851395641771, DIRECT, f08c47fec0942fa0\n", 200, ['Content-Type' => 'text/plain']);
+});
+
 // Indian Colleges (All-India + Maharashtra dataset)
 Route::get('/colleges', [IndianCollegeController::class, 'index'])->name('indian-colleges.index');
 Route::get('/colleges/districts', [IndianCollegeController::class, 'districts'])->name('indian-colleges.districts');

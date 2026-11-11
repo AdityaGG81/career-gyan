@@ -1791,8 +1791,6 @@
 
 @yield('styles')
 @stack('styles')
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5044851395641771"
-     crossorigin="anonymous"></script>
 </head>
 
 <body class="{{ Auth::check() && Auth::user()->hasActiveMembership() ? 'is-premium-member' : '' }}">

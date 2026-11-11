@@ -359,3 +359,4 @@ class AdminCommunityController extends Controller
         return redirect()->back()->with('success', "Community profile for '{$name}' deleted.");
     }
 }
+
