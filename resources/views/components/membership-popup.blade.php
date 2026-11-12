@@ -25,10 +25,10 @@
       </div>
 
       <h3 class="member-banner-heading">
-        Upgrade to Pro VIP & Unlock 2,000 Instant Points
+        Accelerate Your Career with CareerGyan Pro VIP
       </h3>
       <p class="member-banner-sub">
-        Get priority 1-on-1 career guidance, cutoffs, unlimited tests, and exclusive gold status.
+        Get priority 1-on-1 mentorship, full college cutoffs, predictor tools, and unlimited tests.
       </p>
     </div>
 
@@ -39,11 +39,11 @@
       <div class="member-perks-list">
         <div class="member-perk-item">
           <div class="member-perk-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
-            <i class="fa-solid fa-coins"></i>
+            <i class="fa-solid fa-chart-pie"></i>
           </div>
           <div>
-            <h5 class="member-perk-title">Instant 2,000 Bonus Points</h5>
-            <p class="member-perk-desc">Directly credited to your points wallet upon joining to redeem exclusive rewards.</p>
+            <h5 class="member-perk-title">Accurate College Cutoffs & Predictor</h5>
+            <p class="member-perk-desc">Access category-wise closing ranks, quota insights, and round-by-round seat matrix data.</p>
           </div>
         </div>
 
@@ -68,12 +68,12 @@
         </div>
 
         <div class="member-perk-item">
-          <div class="member-perk-icon" style="background: rgba(236, 72, 153, 0.15); color: #ec4899;">
-            <i class="fa-solid fa-crown"></i>
+          <div class="member-perk-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+            <i class="fa-solid fa-certificate"></i>
           </div>
           <div>
-            <h5 class="member-perk-title">Golden VIP Ribbon & Pro Recognition</h5>
-            <p class="member-perk-desc">Distinguish your profile with royal golden accents and verified VIP status.</p>
+            <h5 class="member-perk-title">Digital Certificates of Completion</h5>
+            <p class="member-perk-desc">Earn verified credentials and official certificates to showcase on your resume and LinkedIn.</p>
           </div>
         </div>
       </div>
@@ -408,3 +408,4 @@
   })();
 </script>
 @endif
+
