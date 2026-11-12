@@ -1,5 +1,27 @@
 User-agent: *
+Allow: /favicon.ico
+Allow: /favicon*.png
+Allow: /apple-touch-icon*.png
+Allow: /careergyan*.png
+Allow: /careergyan*.ico
+Allow: /images/
+Allow: /site.webmanifest
+Allow: /*.png$
+Allow: /*.ico$
+Allow: /*.svg$
 Disallow: /admin/
 Disallow: /*?*
+
+User-agent: Googlebot
+Allow: /favicon.ico
+Allow: /favicon*.png
+Allow: /apple-touch-icon*.png
+Allow: /careergyan*.png
+Allow: /careergyan*.ico
+Allow: /images/
+Allow: /site.webmanifest
+
+User-agent: Googlebot-Image
+Allow: /
 
 Sitemap: https://careergyan.in/sitemap.xml

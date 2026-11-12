@@ -14,16 +14,84 @@
 <!-- Open Graph / Social Media -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:site_name" content="CareerGyan">
 <meta property="og:title" content="@yield('title', 'CareerGyan | Explore Careers & Colleges')">
 <meta property="og:description" content="@yield('meta_description', 'Discover your ideal career path with our advanced aptitude tests and comprehensive college database.')">
-<meta property="og:image" content="{{ asset('careergyan-tab-logo.png') }}">
+<meta property="og:image" content="{{ asset('images/logo.png') }}">
+<meta property="og:image:secure_url" content="{{ asset('images/logo.png') }}">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+<meta property="og:image:alt" content="CareerGyan Logo">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="{{ url()->current() }}">
 <meta property="twitter:title" content="@yield('title', 'CareerGyan | Explore Careers & Colleges')">
 <meta property="twitter:description" content="@yield('meta_description', 'Discover your ideal career path with our advanced aptitude tests and comprehensive college database.')">
-<meta property="twitter:image" content="{{ asset('careergyan-tab-logo.png') }}">
+<meta property="twitter:image" content="{{ asset('images/logo.png') }}">
+
+<!-- Google Site Identity & PWA Meta -->
+<meta name="application-name" content="CareerGyan">
+<meta name="apple-mobile-web-app-title" content="CareerGyan">
+<meta name="theme-color" content="#1a56db">
+
+<!-- Google Favicon & Touch Icons (Multiples of 48px square per Google Search specification) -->
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="{{ asset('favicon-48x48.png') }}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon-96x96.png') }}">
+<link rel="icon" type="image/png" sizes="144x144" href="{{ asset('favicon-144x144.png') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicon-192x192.png') }}">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon-512x512.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+<link rel="manifest" href="{{ asset('site.webmanifest') }}">
+
+<!-- Google Organization & WebSite Structured Data (Logo & Brand Identity for Google Search) -->
+<script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@graph": [
+    {
+      "@@type": "EducationalOrganization",
+      "@@id": "{{ url('/') }}#organization",
+      "name": "CareerGyan",
+      "alternateName": ["Career Gyan", "CareerGyan India", "CareerGyan.in"],
+      "url": "{{ url('/') }}",
+      "logo": {
+        "@@type": "ImageObject",
+        "@@id": "{{ url('/') }}#logo",
+        "url": "{{ asset('images/logo.png') }}",
+        "contentUrl": "{{ asset('images/logo.png') }}",
+        "caption": "CareerGyan Official Logo",
+        "inLanguage": "en",
+        "width": 600,
+        "height": 600
+      },
+      "image": "{{ asset('images/logo.png') }}",
+      "description": "CareerGyan helps students explore 5000+ career paths, take aptitude tests, check college cutoffs, and find top colleges in India."
+    },
+    {
+      "@@type": "WebSite",
+      "@@id": "{{ url('/') }}#website",
+      "url": "{{ url('/') }}",
+      "name": "CareerGyan",
+      "alternateName": ["Career Gyan", "CareerGyan.in"],
+      "publisher": {
+        "@@id": "{{ url('/') }}#organization"
+      },
+      "potentialAction": {
+        "@@type": "SearchAction",
+        "target": {
+          "@@type": "EntryPoint",
+          "urlTemplate": "{{ url('/search-redirect') }}?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
 
 @yield('meta')
 
@@ -31,9 +99,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="icon" type="image/png" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
-<link rel="shortcut icon" href="{{ asset('careergyan-tab-logo.ico') }}?v=10">
-<link rel="apple-touch-icon" href="{{ asset('careergyan-tab-logo.png') }}?v=10">
 
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5044851395641771"
