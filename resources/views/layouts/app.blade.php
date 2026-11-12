@@ -2919,7 +2919,7 @@
 </script>
 
 <x-ai-career-chat />
-<x-new-blog-popup :newly-uploaded-blog="$newlyUploadedBlog ?? null" />
+<x-internship-popup :internship="$latestInternship ?? null" />
 
 <!-- GLOBAL LANGUAGE SELECTOR MODAL (Mobile Bottom Sheet / Desktop Modal) -->
 <div id="languageSelectorModal" class="lang-modal-overlay" aria-hidden="true" style="display: none;">

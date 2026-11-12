@@ -86,6 +86,7 @@ class DatabaseSeeder extends Seeder
             BusinessCornerExpansionSeeder::class,
             SpecializedAptitudeSeeder::class,
             CommunitySeeder::class,
+            JobListingSeeder::class,
         ]);
     }
 }

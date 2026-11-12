@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Blog;
+use App\Models\JobListing;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,8 +27,29 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
 
-        View::composer(['layouts.app', 'components.new-blog-popup'], function ($view) {
+        View::composer(['layouts.app', 'components.internship-popup', 'components.new-blog-popup'], function ($view) {
             try {
+                if (Schema::hasTable('job_listings')) {
+                    $latestInternship = JobListing::where('status', 'active')
+                        ->where('last_date', '>=', now()->startOfDay())
+                        ->where(function ($q) {
+                            $q->where('job_title', 'like', '%intern%')
+                              ->orWhere('description', 'like', '%intern%')
+                              ->orWhere('category', 'like', '%intern%');
+                        })
+                        ->latest('id')
+                        ->first();
+
+                    if (!$latestInternship) {
+                        $latestInternship = JobListing::where('status', 'active')
+                            ->where('last_date', '>=', now()->startOfDay())
+                            ->latest('id')
+                            ->first();
+                    }
+
+                    $view->with('latestInternship', $latestInternship);
+                }
+
                 if (Schema::hasTable('blogs')) {
                     $latestBlog = Blog::published()
                         ->orderBy('published_at', 'desc')
