@@ -613,13 +613,30 @@
     white-space: nowrap;
     position: relative;
     width: 100%;
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   .marquee-inner {
     display: inline-flex;
-    gap: 24px;
-    animation: marqueeAnimation 35s linear infinite;
+    gap: 20px;
+    animation: marqueeAnimation 75s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-track-1 .marquee-inner {
+    animation-duration: 72s;
+  }
+
+  .marquee-track-2 .marquee-inner {
+    animation-duration: 80s;
+  }
+
+  .marquee-track-3 .marquee-inner {
+    animation-duration: 74s;
+  }
+
+  .marquee-inner.marquee-reverse {
+    animation-direction: reverse !important;
   }
 
   .marquee-container:hover .marquee-inner {
@@ -642,6 +659,8 @@
     box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
     white-space: normal;
+    cursor: pointer;
+    text-align: left;
   }
 
   .marquee-card:hover {
@@ -2527,22 +2546,25 @@
     <div class="section-label" style="background:#f1f5f9; color:var(--text-2);">
       <i class="fa-solid fa-fire"></i> Trending Now
     </div>
-    <h2 class="section-title" style="margin-bottom:10px;">Popular Career Pathways</h2>
-    <p style="color:var(--text-2); font-size:15px; margin-bottom:30px;">Hover over cards to pause scrolling</p>
+    <h2 class="section-title" style="margin-bottom:10px;">Popular Career Pathways (78+ Options)</h2>
+    <p style="color:var(--text-2); font-size:15px; margin-bottom:28px;">
+      Explore in-demand career pathways across Technology, Healthcare, Business, Finance, Law & Civil Services. Click or hover any card to view required skills, pathways & top recruiting companies.
+    </p>
   </div>
 
-  <div class="marquee-container">
+  <!-- Track: marquee-track-1 -->
+  <div class="marquee-container marquee-track-1">
     <div class="marquee-inner">
-      <!-- Card 1 -->
+      <!-- Card: Software Engineer -->
       <div class="marquee-card" 
            data-title="Software Engineer" 
            data-category="Technology" 
            data-icon="fa-solid fa-laptop-code" 
            data-color="linear-gradient(135deg, #3b82f6, #1d4ed8)" 
-           data-description="Designs, develops, tests, and maintains software systems, applications, and mobile apps."
-           data-skills="Java, Python, Javascript, SQL, Algorithms, Git, System Design"
-           data-pathway="BE/B.Tech in Computer Science, BCA, MCA, or certified coding bootcamps."
-           data-companies="Google, Microsoft, Amazon, Meta, TCS, Infosys, Tech Startups.">
+           data-description="Designs, develops, tests, and maintains scalable software applications, enterprise platforms, and cloud systems."
+           data-skills="Java, Python, C++, Go, Data Structures, System Design, Git, SQL"
+           data-pathway="B.Tech / BE in CSE / IT, BCA/MCA, or intensive Full-Stack Software Engineering bootcamps."
+           data-companies="Google, Microsoft, Amazon, Atlassian, Infosys, TCS, Oracle">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><i class="fa-solid fa-laptop-code"></i></div>
           <div>
@@ -2551,25 +2573,47 @@
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹6L - 25L</strong></span>
+          <span>Avg Salary: <strong>₹6L - 28L</strong></span>
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 2 -->
+      <!-- Card: AI & Machine Learning Engineer -->
       <div class="marquee-card" 
-           data-title="General Physician" 
-           data-category="Healthcare" 
-           data-icon="fa-solid fa-stethoscope" 
-           data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
-           data-description="Diagnoses, treats, and manages acute and chronic illnesses, providing primary care and healthcare education."
-           data-skills="Medical Diagnosis, Patient Care, Pharmacology, Empathy, Communication"
-           data-pathway="MBBS Degree (5.5 years) + Compulsory Internship + State Medical Council registration."
-           data-companies="Apollo Hospitals, Fortis Healthcare, Max Hospitals, Private Clinics, Gov Hospitals.">
+           data-title="AI & Machine Learning Engineer" 
+           data-category="Artificial Intelligence" 
+           data-icon="fa-solid fa-brain" 
+           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
+           data-description="Builds predictive algorithms, neural networks, LLMs, and intelligent autonomous systems powering modern AI products."
+           data-skills="Python, PyTorch, TensorFlow, Scikit-Learn, Deep Learning, MLOps, NLP"
+           data-pathway="B.Tech in AI/Data Science, M.Tech/MS in Computer Science/Machine Learning, specialized AI certifications."
+           data-companies="OpenAI, Google DeepMind, NVIDIA, Microsoft, Adobe, Meta, Ola Krutrim">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-stethoscope"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-brain"></i></div>
           <div>
-            <h4>General Physician</h4>
-            <span class="category-badge">Healthcare</span>
+            <h4>AI & Machine Learning Engineer</h4>
+            <span class="category-badge">Artificial Intelligence</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 40L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Data Scientist -->
+      <div class="marquee-card" 
+           data-title="Data Scientist" 
+           data-category="Data Science" 
+           data-icon="fa-solid fa-chart-pie" 
+           data-color="linear-gradient(135deg, #06b6d4, #0e7490)" 
+           data-description="Transforms massive raw datasets into actionable predictive insights, statistical models, and business intelligence."
+           data-skills="Python, R, SQL, Power BI, Statistics, Tableau, Feature Engineering"
+           data-pathway="B.Tech / B.Sc in Statistics, Mathematics, or Data Science, followed by M.Sc / PG Diploma in Big Data."
+           data-companies="Amazon, Walmart Global Tech, Mu Sigma, Fractal Analytics, Tiger Analytics">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #0e7490);"><i class="fa-solid fa-chart-pie"></i></div>
+          <div>
+            <h4>Data Scientist</h4>
+            <span class="category-badge">Data Science</span>
           </div>
         </div>
         <div class="marquee-card-meta">
@@ -2577,106 +2621,524 @@
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 3 -->
+      <!-- Card: Cybersecurity Specialist -->
       <div class="marquee-card" 
-           data-title="Financial Analyst" 
-           data-category="Finance" 
-           data-icon="fa-solid fa-chart-line" 
-           data-color="linear-gradient(135deg, #f59e0b, #d97706)" 
-           data-description="Analyzes financial data, evaluates investment opportunities, and assists businesses in strategic financial planning."
-           data-skills="Financial Modeling, Excel, Valuation, Market Research, Accounting, SQL"
-           data-pathway="B.Com, BBA (Finance), MBA (Finance), or professional certifications like CFA or CA."
-           data-companies="Goldman Sachs, JPMorgan Chase, HDFC Bank, Deloitte, EY, KPMG, PwC.">
+           data-title="Cybersecurity Specialist" 
+           data-category="Cybersecurity" 
+           data-icon="fa-solid fa-shield-halved" 
+           data-color="linear-gradient(135deg, #dc2626, #991b1b)" 
+           data-description="Protects corporate networks, servers, and sensitive digital assets from cyberattacks, breaches, and ransomware."
+           data-skills="Network Security, CEH, Penetration Testing, Kali Linux, SIEM, Cryptography, Wireshark"
+           data-pathway="B.Tech in IT / Cybersecurity, CEH / CompTIA Security+ / CISSP certifications."
+           data-companies="Cisco, Palo Alto Networks, CrowdStrike, KPMG Cyber, CERT-In, Banking Giants">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #dc2626, #991b1b);"><i class="fa-solid fa-shield-halved"></i></div>
           <div>
-            <h4>Financial Analyst</h4>
-            <span class="category-badge">Finance</span>
+            <h4>Cybersecurity Specialist</h4>
+            <span class="category-badge">Cybersecurity</span>
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹5L - 18L</strong></span>
-          <span style="color: #2563eb; font-weight: 700;">Medium Demand</span>
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="marquee-card" 
-           data-title="UX/UI Designer" 
-           data-category="Creative Arts" 
-           data-icon="fa-solid fa-bezier-curve" 
-           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
-           data-description="Creates user-centered interfaces and experiences for digital products like websites, software, and mobile apps."
-           data-skills="Figma, Wireframing, User Research, Prototyping, Visual Design, Usability Testing"
-           data-pathway="B.Des (Design), Graphic Design courses, or UX/UI Bootcamps with a strong portfolio."
-           data-companies="Adobe, Flipkart, Zomato, Razorpay, Tech Startups, Design Agencies.">
-        <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-bezier-curve"></i></div>
-          <div>
-            <h4>UX/UI Designer</h4>
-            <span class="category-badge">Creative Arts</span>
-          </div>
-        </div>
-        <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹4L - 15L</strong></span>
+          <span>Avg Salary: <strong>₹6L - 26L</strong></span>
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 5 -->
+      <!-- Card: Cloud Solutions Architect -->
       <div class="marquee-card" 
-           data-title="Corporate Lawyer" 
-           data-category="Legal" 
-           data-icon="fa-solid fa-scale-balanced" 
-           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
-           data-description="Ensures the legality of commercial transactions, advising corporations on their legal rights and duties."
-           data-skills="Corporate Law, Contract Drafting, Legal Writing, Negotiation, Analytical Thinking"
-           data-pathway="Integrated LLB (5 years) or LLB (3 years) after graduation + passing the Bar Council Exam (AIBE)."
-           data-companies="Shardul Amarchand Mangaldas, Khaitan & Co, AZB & Partners, In-house Legal Teams.">
+           data-title="Cloud Solutions Architect" 
+           data-category="Cloud & DevOps" 
+           data-icon="fa-solid fa-cloud" 
+           data-color="linear-gradient(135deg, #0284c7, #0369a1)" 
+           data-description="Architects robust, secure, and auto-scaling multi-cloud enterprise infrastructure and migration pipelines."
+           data-skills="AWS, Azure, GCP, Terraform, Kubernetes, Microservices, IAM"
+           data-pathway="B.Tech in CSE / IT + AWS Certified Solutions Architect / Azure Solutions Architect Expert."
+           data-companies="Amazon Web Services, Microsoft, Google Cloud, Wipro, Accenture, Cognizant">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0369a1);"><i class="fa-solid fa-cloud"></i></div>
           <div>
-            <h4>Corporate Lawyer</h4>
-            <span class="category-badge">Legal</span>
+            <h4>Cloud Solutions Architect</h4>
+            <span class="category-badge">Cloud & DevOps</span>
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹7L - 22L</strong></span>
-          <span style="color: #2563eb; font-weight: 700;">Medium Demand</span>
+          <span>Avg Salary: <strong>₹12L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 6 -->
+      <!-- Card: DevOps & Platform Engineer -->
       <div class="marquee-card" 
-           data-title="Digital Marketer" 
-           data-category="Business" 
-           data-icon="fa-solid fa-bullhorn" 
-           data-color="linear-gradient(135deg, #10b981, #059669)" 
-           data-description="Drives brand awareness and lead generation through digital channels like search engines, social media, and email."
-           data-skills="SEO, SEM, Content Strategy, Google Analytics, Social Media Management"
-           data-pathway="Any Bachelor's degree + Digital Marketing Certifications + Hands-on project portfolio."
-           data-companies="Dentsu, Ogilvy, GroupM, Nykaa, eCommerce Brands, Marketing Agencies.">
+           data-title="DevOps & Platform Engineer" 
+           data-category="Cloud & DevOps" 
+           data-icon="fa-solid fa-gears" 
+           data-color="linear-gradient(135deg, #f97316, #c2410c)" 
+           data-description="Automates deployment pipelines, ensures infrastructure reliability, and streamlines developer productivity."
+           data-skills="Docker, Kubernetes, Jenkins, GitLab CI/CD, Ansible, Linux, Prometheus"
+           data-pathway="Degree in CS/IT + hands-on DevOps tooling & cloud certifications."
+           data-companies="Red Hat, HashiCorp, Flipkart, PhonePe, Razorpay, Swiggy">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-bullhorn"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f97316, #c2410c);"><i class="fa-solid fa-gears"></i></div>
           <div>
-            <h4>Digital Marketer</h4>
-            <span class="category-badge">Business</span>
+            <h4>DevOps & Platform Engineer</h4>
+            <span class="category-badge">Cloud & DevOps</span>
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹3L - 12L</strong></span>
+          <span>Avg Salary: <strong>₹7L - 28L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Full Stack Web Developer -->
+      <div class="marquee-card" 
+           data-title="Full Stack Web Developer" 
+           data-category="Web Development" 
+           data-icon="fa-solid fa-code" 
+           data-color="linear-gradient(135deg, #10b981, #047857)" 
+           data-description="Engineers end-to-end responsive web applications from dynamic UI frontends to high-performance database backends."
+           data-skills="React.js, Next.js, Node.js, TypeScript, PostgreSQL, REST APIs, Tailwind CSS"
+           data-pathway="BCA / B.Tech or self-taught web dev portfolio with production projects."
+           data-companies="Zomato, CRED, Freshworks, Postman, Zoho, Global Tech Hubs">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fa-solid fa-code"></i></div>
+          <div>
+            <h4>Full Stack Web Developer</h4>
+            <span class="category-badge">Web Development</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Mobile App Developer -->
+      <div class="marquee-card" 
+           data-title="Mobile App Developer" 
+           data-category="App Development" 
+           data-icon="fa-solid fa-mobile-screen-button" 
+           data-color="linear-gradient(135deg, #6366f1, #4338ca)" 
+           data-description="Crafts high-performance, fluid iOS and Android mobile experiences enjoyed by millions of daily users."
+           data-skills="Flutter, React Native, Swift, Kotlin, Jetpack Compose, Firebase, App Store CI/CD"
+           data-pathway="B.Tech CSE, BCA, or specialized cross-platform mobile developer bootcamps."
+           data-companies="Paytm, Uber, Swiggy, Zepto, Spotify India, Dream11">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #6366f1, #4338ca);"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <div>
+            <h4>Mobile App Developer</h4>
+            <span class="category-badge">App Development</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 24L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Blockchain Developer -->
+      <div class="marquee-card" 
+           data-title="Blockchain Developer" 
+           data-category="Emerging Tech" 
+           data-icon="fa-solid fa-cubes" 
+           data-color="linear-gradient(135deg, #e11d48, #9f1239)" 
+           data-description="Architects decentralized smart contracts, DeFi protocols, and cryptographically secure distributed ledgers."
+           data-skills="Solidity, Ethereum, Rust, Web3.js, Smart Contract Auditing, Cryptography"
+           data-pathway="Degree in Computer Science + Web3 fellowship / decentralized app development projects."
+           data-companies="Polygon, Coinbase, CoinDCX, ConsenSys, Chainlink, Web3 Startups">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #e11d48, #9f1239);"><i class="fa-solid fa-cubes"></i></div>
+          <div>
+            <h4>Blockchain Developer</h4>
+            <span class="category-badge">Emerging Tech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 35L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: UI / UX Product Designer -->
+      <div class="marquee-card" 
+           data-title="UI / UX Product Designer" 
+           data-category="Design & Tech" 
+           data-icon="fa-solid fa-bezier-curve" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Researches user behaviors, crafts wireframes, and prototypes seamless digital product interfaces."
+           data-skills="Figma, User Research, Wireframing, Design Systems, Usability Testing, Micro-interactions"
+           data-pathway="B.Des (Interaction/Communication Design) from NID/IITs, or UX Design Bootcamp portfolio."
+           data-companies="Apple, Google, Adobe, Swiggy, Airbnb, CRED, Flipkart">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-bezier-curve"></i></div>
+          <div>
+            <h4>UI / UX Product Designer</h4>
+            <span class="category-badge">Design & Tech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 24L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Robotics & Automation Engineer -->
+      <div class="marquee-card" 
+           data-title="Robotics & Automation Engineer" 
+           data-category="Robotics" 
+           data-icon="fa-solid fa-robot" 
+           data-color="linear-gradient(135deg, #0ea5e9, #0284c7)" 
+           data-description="Designs autonomous robots, factory automation lines, and robotic vision hardware for smart industries."
+           data-skills="ROS (Robot OS), C++, Embedded Systems, Sensor Fusion, Kinematics, CAD"
+           data-pathway="B.Tech in Robotics / Mechatronics / Electrical Engineering + M.Tech in Robotics."
+           data-companies="Tesla, Boston Dynamics, GreyOrange, Fanuc, ABB Robotics, DRDO">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"><i class="fa-solid fa-robot"></i></div>
+          <div>
+            <h4>Robotics & Automation Engineer</h4>
+            <span class="category-badge">Robotics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 26L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Aerospace & Aeronautical Engineer -->
+      <div class="marquee-card" 
+           data-title="Aerospace & Aeronautical Engineer" 
+           data-category="Aerospace" 
+           data-icon="fa-solid fa-plane-up" 
+           data-color="linear-gradient(135deg, #2563eb, #1e40af)" 
+           data-description="Researches, designs, and tests aircraft, satellites, launch rockets, and defense propulsion systems."
+           data-skills="Aerodynamics, Propulsion, CFD, Flight Mechanics, ANSYS, CATIA"
+           data-pathway="B.Tech in Aerospace/Aeronautical Engineering (IITs/IIST) + GATE for ISRO/DRDO."
+           data-companies="ISRO, HAL, Boeing, Airbus, DRDO, Skyroot Aerospace, Agnikul Cosmos">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #2563eb, #1e40af);"><i class="fa-solid fa-plane-up"></i></div>
+          <div>
+            <h4>Aerospace & Aeronautical Engineer</h4>
+            <span class="category-badge">Aerospace</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 30L</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: VLSI & Chip Design Engineer -->
+      <div class="marquee-card" 
+           data-title="VLSI & Chip Design Engineer" 
+           data-category="Semiconductors" 
+           data-icon="fa-solid fa-microchip" 
+           data-color="linear-gradient(135deg, #84cc16, #4d7c0f)" 
+           data-description="Architects microprocessors, silicon chips, and integrated circuit layouts powering next-gen devices."
+           data-skills="Verilog, VHDL, SystemVerilog, FPGA, Synopsys EDA, CMOS, Static Timing Analysis"
+           data-pathway="B.Tech in ECE / Electrical Engineering + M.Tech in VLSI Design."
+           data-companies="Qualcomm, Intel, NVIDIA, Texas Instruments, AMD, MediaTek">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #84cc16, #4d7c0f);"><i class="fa-solid fa-microchip"></i></div>
+          <div>
+            <h4>VLSI & Chip Design Engineer</h4>
+            <span class="category-badge">Semiconductors</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 36L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Mechanical Design Engineer -->
+      <div class="marquee-card" 
+           data-title="Mechanical Design Engineer" 
+           data-category="Core Engineering" 
+           data-icon="fa-solid fa-cogs" 
+           data-color="linear-gradient(135deg, #64748b, #334155)" 
+           data-description="Conceptualizes, prototypes, and stress-tests mechanical machinery, turbines, and consumer hardware."
+           data-skills="SolidWorks, AutoCAD, FEA Analysis, Thermodynamics, GD&T, 3D Prototyping"
+           data-pathway="B.Tech in Mechanical Engineering + CAD/CAM industry certifications."
+           data-companies="Tata Motors, Larsen & Toubro, Mahindra & Mahindra, Bosch, Siemens">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #64748b, #334155);"><i class="fa-solid fa-cogs"></i></div>
+          <div>
+            <h4>Mechanical Design Engineer</h4>
+            <span class="category-badge">Core Engineering</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Civil & Structural Engineer -->
+      <div class="marquee-card" 
+           data-title="Civil & Structural Engineer" 
+           data-category="Core Engineering" 
+           data-icon="fa-solid fa-building" 
+           data-color="linear-gradient(135deg, #d97706, #b45309)" 
+           data-description="Plans, oversees, and validates mega infrastructure projects including highways, bridges, and skyscrapers."
+           data-skills="STAAD Pro, ETABS, Revit, Structural Analysis, Project Planning, Site Surveying"
+           data-pathway="B.Tech in Civil Engineering + M.Tech in Structural Engineering."
+           data-companies="L&T Construction, Shapoorji Pallonji, NHAI, DLF, Tata Projects">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #d97706, #b45309);"><i class="fa-solid fa-building"></i></div>
+          <div>
+            <h4>Civil & Structural Engineer</h4>
+            <span class="category-badge">Core Engineering</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 20L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Electrical & EV Systems Engineer -->
+      <div class="marquee-card" 
+           data-title="Electrical & EV Systems Engineer" 
+           data-category="EV & CleanTech" 
+           data-icon="fa-solid fa-bolt-lightning" 
+           data-color="linear-gradient(135deg, #eab308, #ca8a04)" 
+           data-description="Engineers electric vehicle battery packs, motor controllers, smart grids, and EV charging stations."
+           data-skills="Battery Management Systems (BMS), MATLAB/Simulink, Power Electronics, CAN Bus"
+           data-pathway="B.Tech in Electrical / Electronics Engineering + specialization in EV technologies."
+           data-companies="Ather Energy, Ola Electric, Tata Elxsi, Tesla, Mahindra Electric">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #eab308, #ca8a04);"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <div>
+            <h4>Electrical & EV Systems Engineer</h4>
+            <span class="category-badge">EV & CleanTech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 25L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Renewable Energy Engineer -->
+      <div class="marquee-card" 
+           data-title="Renewable Energy Engineer" 
+           data-category="CleanTech" 
+           data-icon="fa-solid fa-solar-panel" 
+           data-color="linear-gradient(135deg, #10b981, #059669)" 
+           data-description="Designs solar farms, wind power parks, and sustainable energy storage grids for clean power transition."
+           data-skills="PVsyst, Solar Photovoltaics, Grid Synchronization, Energy Auditing, AutoCAD"
+           data-pathway="B.Tech in Electrical / Energy / Mechanical Engineering + Green Energy certifications."
+           data-companies="Adani Green Energy, Tata Power Solar, ReNew Power, Suzlon, NTPC">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-solar-panel"></i></div>
+          <div>
+            <h4>Renewable Energy Engineer</h4>
+            <span class="category-badge">CleanTech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 20L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: Biomedical Engineer -->
+      <div class="marquee-card" 
+           data-title="Biomedical Engineer" 
+           data-category="Biomedical" 
+           data-icon="fa-solid fa-heart-pulse" 
+           data-color="linear-gradient(135deg, #f43f5e, #be123c)" 
+           data-description="Innovates robotic surgical tools, prosthetics, dialysis systems, and diagnostic medical imaging equipment."
+           data-skills="Medical Device Regulation, Biomechanics, Biomedical Instrumentation, MATLAB, Signal Processing"
+           data-pathway="B.Tech in Biomedical Engineering / Biotechnology + clinical tech internships."
+           data-companies="GE Healthcare, Siemens Healthineers, Philips Healthcare, Medtronic, Dräger">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f43f5e, #be123c);"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div>
+            <h4>Biomedical Engineer</h4>
+            <span class="category-badge">Biomedical</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5.5L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Game Developer -->
+      <div class="marquee-card" 
+           data-title="Game Developer" 
+           data-category="Gaming & XR" 
+           data-icon="fa-solid fa-gamepad" 
+           data-color="linear-gradient(135deg, #a855f7, #7e22ce)" 
+           data-description="Programs real-time physics engines, 3D graphics shaders, gameplay mechanics, and multiplayer architectures."
+           data-skills="Unreal Engine, Unity, C++, C#, HLSL Shaders, 3D Math, Multiplayer Networking"
+           data-pathway="B.Tech in Computer Science / Game Development or Game Programming diploma."
+           data-companies="Ubisoft, Rockstar Games, Electronic Arts, Krafton, Epic Games India">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #a855f7, #7e22ce);"><i class="fa-solid fa-gamepad"></i></div>
+          <div>
+            <h4>Game Developer</h4>
+            <span class="category-badge">Gaming & XR</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 25L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: AR / VR Specialist -->
+      <div class="marquee-card" 
+           data-title="AR / VR Specialist" 
+           data-category="Spatial Computing" 
+           data-icon="fa-solid fa-vr-cardboard" 
+           data-color="linear-gradient(135deg, #06b6d4, #0891b2)" 
+           data-description="Crafts immersive spatial computing experiences, virtual training simulators, and mixed-reality apps."
+           data-skills="OpenXR, Unity/Unreal, Spatial Audio, 3D Rigging, C#, Meta Quest SDK"
+           data-pathway="Degree in CS, Multimedia, or Animation with spatial computing portfolio."
+           data-companies="Meta Reality Labs, Apple Vision Pro Labs, HTC Vive, Infosys XR Studio">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #0891b2);"><i class="fa-solid fa-vr-cardboard"></i></div>
+          <div>
+            <h4>AR / VR Specialist</h4>
+            <span class="category-badge">Spatial Computing</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 28L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Big Data Engineer -->
+      <div class="marquee-card" 
+           data-title="Big Data Engineer" 
+           data-category="Data Infrastructure" 
+           data-icon="fa-solid fa-database" 
+           data-color="linear-gradient(135deg, #059669, #047857)" 
+           data-description="Manages petabyte-scale data lakes, distributed query engines, and transactional database clusters."
+           data-skills="PostgreSQL, MongoDB, Apache Spark, Kafka, Snowflake, Hadoop, Redis"
+           data-pathway="B.Tech in CSE / IT + Big Data & Cloud DB certifications."
+           data-companies="Snowflake, Oracle, Databricks, Morgan Stanley, Reliance Jio, TCS">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #059669, #047857);"><i class="fa-solid fa-database"></i></div>
+          <div>
+            <h4>Big Data Engineer</h4>
+            <span class="category-badge">Data Infrastructure</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6.5L - 26L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: QA Automation & SDET -->
+      <div class="marquee-card" 
+           data-title="QA Automation & SDET" 
+           data-category="Quality Assurance" 
+           data-icon="fa-solid fa-bug" 
+           data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
+           data-description="Architects robust automated test frameworks, regression suites, and load-testing pipelines for software."
+           data-skills="Selenium, Playwright, Cypress, Java, Python, JMeter, CI/CD Integration"
+           data-pathway="B.Tech in CSE/IT or BCA/MCA with SDET automation test suite experience."
+           data-companies="Cognizant, Infosys, Capgemini, Flipkart, American Express, IBM">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-bug"></i></div>
+          <div>
+            <h4>QA Automation & SDET</h4>
+            <span class="category-badge">Quality Assurance</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: NLP Engineer -->
+      <div class="marquee-card" 
+           data-title="NLP Engineer" 
+           data-category="Artificial Intelligence" 
+           data-icon="fa-solid fa-comments" 
+           data-color="linear-gradient(135deg, #7c3aed, #5b21b6)" 
+           data-description="Trains Transformer models, multilingual chatbots, generative AI agents, and speech recognition engines."
+           data-skills="Hugging Face, Transformers, LangChain, LlamaIndex, Vector DBs, PyTorch, Tokenization"
+           data-pathway="Master's or B.Tech in AI/ML, Computational Linguistics, or Computer Science."
+           data-companies="Cohere, Anthropic, Google, Sarvam AI, Jio Haptik, Microsoft">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);"><i class="fa-solid fa-comments"></i></div>
+          <div>
+            <h4>NLP Engineer</h4>
+            <span class="category-badge">Artificial Intelligence</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 38L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Automobile Engineer -->
+      <div class="marquee-card" 
+           data-title="Automobile Engineer" 
+           data-category="Automotive" 
+           data-icon="fa-solid fa-car" 
+           data-color="linear-gradient(135deg, #b45309, #78350f)" 
+           data-description="Designs internal chassis, hybrid transmissions, aerodynamic car bodies, and telemetry sensors."
+           data-skills="IC Engines, Chassis Dynamics, MATLAB, CATIA, Aerodynamics, Crash Testing"
+           data-pathway="B.Tech in Automobile / Mechanical Engineering + SAE BAJA / Formula Student participation."
+           data-companies="Maruti Suzuki, Hyundai India, Mahindra, Bajaj Auto, TVS Motors">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #b45309, #78350f);"><i class="fa-solid fa-car"></i></div>
+          <div>
+            <h4>Automobile Engineer</h4>
+            <span class="category-badge">Automotive</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.8L - 19L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Chemical Engineer -->
+      <div class="marquee-card" 
+           data-title="Chemical Engineer" 
+           data-category="Chemical & Process" 
+           data-icon="fa-solid fa-flask-vial" 
+           data-color="linear-gradient(135deg, #0284c7, #075985)" 
+           data-description="Optimizes large-scale chemical reactors, petrochemical distillation towers, and polymer synthesis lines."
+           data-skills="Aspen Plus, Mass Transfer, Chemical Kinetics, Process Safety, Piping & Instrumentation"
+           data-pathway="B.Tech in Chemical Engineering + GATE for PSU careers (IOCL, ONGC, BPCL)."
+           data-companies="Reliance Industries, ONGC, BPCL, BASF, Asian Paints, UPL">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #075985);"><i class="fa-solid fa-flask-vial"></i></div>
+          <div>
+            <h4>Chemical Engineer</h4>
+            <span class="category-badge">Chemical & Process</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5.5L - 22L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Technical Product Manager -->
+      <div class="marquee-card" 
+           data-title="Technical Product Manager" 
+           data-category="Product Management" 
+           data-icon="fa-solid fa-diagram-project" 
+           data-color="linear-gradient(135deg, #4f46e5, #3730a3)" 
+           data-description="Bridges engineering, business goals, and UX to launch industry-defining technology platforms."
+           data-skills="Product Strategy, Agile/Scrum, User Stories, System Architecture, Metrics Tracking, Roadmapping"
+           data-pathway="B.Tech in Engineering + MBA from top B-Schools (IIM/ISB) or strong tech PM experience."
+           data-companies="Google, Microsoft, Atlassian, Razorpay, Uber, MakeMyTrip">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #4f46e5, #3730a3);"><i class="fa-solid fa-diagram-project"></i></div>
+          <div>
+            <h4>Technical Product Manager</h4>
+            <span class="category-badge">Product Management</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹14L - 45L</strong></span>
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
 
       <!-- Duplicated for seamless marquee loop -->
-      <!-- Card 1 -->
+      <!-- Card: Software Engineer -->
       <div class="marquee-card" 
            data-title="Software Engineer" 
            data-category="Technology" 
            data-icon="fa-solid fa-laptop-code" 
            data-color="linear-gradient(135deg, #3b82f6, #1d4ed8)" 
-           data-description="Designs, develops, tests, and maintains software systems, applications, and mobile apps."
-           data-skills="Java, Python, Javascript, SQL, Algorithms, Git, System Design"
-           data-pathway="BE/B.Tech in Computer Science, BCA, MCA, or certified coding bootcamps."
-           data-companies="Google, Microsoft, Amazon, Meta, TCS, Infosys, Tech Startups.">
+           data-description="Designs, develops, tests, and maintains scalable software applications, enterprise platforms, and cloud systems."
+           data-skills="Java, Python, C++, Go, Data Structures, System Design, Git, SQL"
+           data-pathway="B.Tech / BE in CSE / IT, BCA/MCA, or intensive Full-Stack Software Engineering bootcamps."
+           data-companies="Google, Microsoft, Amazon, Atlassian, Infosys, TCS, Oracle">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><i class="fa-solid fa-laptop-code"></i></div>
           <div>
@@ -2685,24 +3147,580 @@
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹6L - 25L</strong></span>
+          <span>Avg Salary: <strong>₹6L - 28L</strong></span>
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 2 -->
+      <!-- Card: AI & Machine Learning Engineer -->
       <div class="marquee-card" 
-           data-title="General Physician" 
+           data-title="AI & Machine Learning Engineer" 
+           data-category="Artificial Intelligence" 
+           data-icon="fa-solid fa-brain" 
+           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
+           data-description="Builds predictive algorithms, neural networks, LLMs, and intelligent autonomous systems powering modern AI products."
+           data-skills="Python, PyTorch, TensorFlow, Scikit-Learn, Deep Learning, MLOps, NLP"
+           data-pathway="B.Tech in AI/Data Science, M.Tech/MS in Computer Science/Machine Learning, specialized AI certifications."
+           data-companies="OpenAI, Google DeepMind, NVIDIA, Microsoft, Adobe, Meta, Ola Krutrim">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <h4>AI & Machine Learning Engineer</h4>
+            <span class="category-badge">Artificial Intelligence</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 40L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Data Scientist -->
+      <div class="marquee-card" 
+           data-title="Data Scientist" 
+           data-category="Data Science" 
+           data-icon="fa-solid fa-chart-pie" 
+           data-color="linear-gradient(135deg, #06b6d4, #0e7490)" 
+           data-description="Transforms massive raw datasets into actionable predictive insights, statistical models, and business intelligence."
+           data-skills="Python, R, SQL, Power BI, Statistics, Tableau, Feature Engineering"
+           data-pathway="B.Tech / B.Sc in Statistics, Mathematics, or Data Science, followed by M.Sc / PG Diploma in Big Data."
+           data-companies="Amazon, Walmart Global Tech, Mu Sigma, Fractal Analytics, Tiger Analytics">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #0e7490);"><i class="fa-solid fa-chart-pie"></i></div>
+          <div>
+            <h4>Data Scientist</h4>
+            <span class="category-badge">Data Science</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 30L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Cybersecurity Specialist -->
+      <div class="marquee-card" 
+           data-title="Cybersecurity Specialist" 
+           data-category="Cybersecurity" 
+           data-icon="fa-solid fa-shield-halved" 
+           data-color="linear-gradient(135deg, #dc2626, #991b1b)" 
+           data-description="Protects corporate networks, servers, and sensitive digital assets from cyberattacks, breaches, and ransomware."
+           data-skills="Network Security, CEH, Penetration Testing, Kali Linux, SIEM, Cryptography, Wireshark"
+           data-pathway="B.Tech in IT / Cybersecurity, CEH / CompTIA Security+ / CISSP certifications."
+           data-companies="Cisco, Palo Alto Networks, CrowdStrike, KPMG Cyber, CERT-In, Banking Giants">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #dc2626, #991b1b);"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <h4>Cybersecurity Specialist</h4>
+            <span class="category-badge">Cybersecurity</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 26L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Cloud Solutions Architect -->
+      <div class="marquee-card" 
+           data-title="Cloud Solutions Architect" 
+           data-category="Cloud & DevOps" 
+           data-icon="fa-solid fa-cloud" 
+           data-color="linear-gradient(135deg, #0284c7, #0369a1)" 
+           data-description="Architects robust, secure, and auto-scaling multi-cloud enterprise infrastructure and migration pipelines."
+           data-skills="AWS, Azure, GCP, Terraform, Kubernetes, Microservices, IAM"
+           data-pathway="B.Tech in CSE / IT + AWS Certified Solutions Architect / Azure Solutions Architect Expert."
+           data-companies="Amazon Web Services, Microsoft, Google Cloud, Wipro, Accenture, Cognizant">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0369a1);"><i class="fa-solid fa-cloud"></i></div>
+          <div>
+            <h4>Cloud Solutions Architect</h4>
+            <span class="category-badge">Cloud & DevOps</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: DevOps & Platform Engineer -->
+      <div class="marquee-card" 
+           data-title="DevOps & Platform Engineer" 
+           data-category="Cloud & DevOps" 
+           data-icon="fa-solid fa-gears" 
+           data-color="linear-gradient(135deg, #f97316, #c2410c)" 
+           data-description="Automates deployment pipelines, ensures infrastructure reliability, and streamlines developer productivity."
+           data-skills="Docker, Kubernetes, Jenkins, GitLab CI/CD, Ansible, Linux, Prometheus"
+           data-pathway="Degree in CS/IT + hands-on DevOps tooling & cloud certifications."
+           data-companies="Red Hat, HashiCorp, Flipkart, PhonePe, Razorpay, Swiggy">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f97316, #c2410c);"><i class="fa-solid fa-gears"></i></div>
+          <div>
+            <h4>DevOps & Platform Engineer</h4>
+            <span class="category-badge">Cloud & DevOps</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 28L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Full Stack Web Developer -->
+      <div class="marquee-card" 
+           data-title="Full Stack Web Developer" 
+           data-category="Web Development" 
+           data-icon="fa-solid fa-code" 
+           data-color="linear-gradient(135deg, #10b981, #047857)" 
+           data-description="Engineers end-to-end responsive web applications from dynamic UI frontends to high-performance database backends."
+           data-skills="React.js, Next.js, Node.js, TypeScript, PostgreSQL, REST APIs, Tailwind CSS"
+           data-pathway="BCA / B.Tech or self-taught web dev portfolio with production projects."
+           data-companies="Zomato, CRED, Freshworks, Postman, Zoho, Global Tech Hubs">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fa-solid fa-code"></i></div>
+          <div>
+            <h4>Full Stack Web Developer</h4>
+            <span class="category-badge">Web Development</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Mobile App Developer -->
+      <div class="marquee-card" 
+           data-title="Mobile App Developer" 
+           data-category="App Development" 
+           data-icon="fa-solid fa-mobile-screen-button" 
+           data-color="linear-gradient(135deg, #6366f1, #4338ca)" 
+           data-description="Crafts high-performance, fluid iOS and Android mobile experiences enjoyed by millions of daily users."
+           data-skills="Flutter, React Native, Swift, Kotlin, Jetpack Compose, Firebase, App Store CI/CD"
+           data-pathway="B.Tech CSE, BCA, or specialized cross-platform mobile developer bootcamps."
+           data-companies="Paytm, Uber, Swiggy, Zepto, Spotify India, Dream11">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #6366f1, #4338ca);"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <div>
+            <h4>Mobile App Developer</h4>
+            <span class="category-badge">App Development</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 24L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Blockchain Developer -->
+      <div class="marquee-card" 
+           data-title="Blockchain Developer" 
+           data-category="Emerging Tech" 
+           data-icon="fa-solid fa-cubes" 
+           data-color="linear-gradient(135deg, #e11d48, #9f1239)" 
+           data-description="Architects decentralized smart contracts, DeFi protocols, and cryptographically secure distributed ledgers."
+           data-skills="Solidity, Ethereum, Rust, Web3.js, Smart Contract Auditing, Cryptography"
+           data-pathway="Degree in Computer Science + Web3 fellowship / decentralized app development projects."
+           data-companies="Polygon, Coinbase, CoinDCX, ConsenSys, Chainlink, Web3 Startups">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #e11d48, #9f1239);"><i class="fa-solid fa-cubes"></i></div>
+          <div>
+            <h4>Blockchain Developer</h4>
+            <span class="category-badge">Emerging Tech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 35L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: UI / UX Product Designer -->
+      <div class="marquee-card" 
+           data-title="UI / UX Product Designer" 
+           data-category="Design & Tech" 
+           data-icon="fa-solid fa-bezier-curve" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Researches user behaviors, crafts wireframes, and prototypes seamless digital product interfaces."
+           data-skills="Figma, User Research, Wireframing, Design Systems, Usability Testing, Micro-interactions"
+           data-pathway="B.Des (Interaction/Communication Design) from NID/IITs, or UX Design Bootcamp portfolio."
+           data-companies="Apple, Google, Adobe, Swiggy, Airbnb, CRED, Flipkart">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-bezier-curve"></i></div>
+          <div>
+            <h4>UI / UX Product Designer</h4>
+            <span class="category-badge">Design & Tech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 24L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Robotics & Automation Engineer -->
+      <div class="marquee-card" 
+           data-title="Robotics & Automation Engineer" 
+           data-category="Robotics" 
+           data-icon="fa-solid fa-robot" 
+           data-color="linear-gradient(135deg, #0ea5e9, #0284c7)" 
+           data-description="Designs autonomous robots, factory automation lines, and robotic vision hardware for smart industries."
+           data-skills="ROS (Robot OS), C++, Embedded Systems, Sensor Fusion, Kinematics, CAD"
+           data-pathway="B.Tech in Robotics / Mechatronics / Electrical Engineering + M.Tech in Robotics."
+           data-companies="Tesla, Boston Dynamics, GreyOrange, Fanuc, ABB Robotics, DRDO">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"><i class="fa-solid fa-robot"></i></div>
+          <div>
+            <h4>Robotics & Automation Engineer</h4>
+            <span class="category-badge">Robotics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 26L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Aerospace & Aeronautical Engineer -->
+      <div class="marquee-card" 
+           data-title="Aerospace & Aeronautical Engineer" 
+           data-category="Aerospace" 
+           data-icon="fa-solid fa-plane-up" 
+           data-color="linear-gradient(135deg, #2563eb, #1e40af)" 
+           data-description="Researches, designs, and tests aircraft, satellites, launch rockets, and defense propulsion systems."
+           data-skills="Aerodynamics, Propulsion, CFD, Flight Mechanics, ANSYS, CATIA"
+           data-pathway="B.Tech in Aerospace/Aeronautical Engineering (IITs/IIST) + GATE for ISRO/DRDO."
+           data-companies="ISRO, HAL, Boeing, Airbus, DRDO, Skyroot Aerospace, Agnikul Cosmos">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #2563eb, #1e40af);"><i class="fa-solid fa-plane-up"></i></div>
+          <div>
+            <h4>Aerospace & Aeronautical Engineer</h4>
+            <span class="category-badge">Aerospace</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 30L</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: VLSI & Chip Design Engineer -->
+      <div class="marquee-card" 
+           data-title="VLSI & Chip Design Engineer" 
+           data-category="Semiconductors" 
+           data-icon="fa-solid fa-microchip" 
+           data-color="linear-gradient(135deg, #84cc16, #4d7c0f)" 
+           data-description="Architects microprocessors, silicon chips, and integrated circuit layouts powering next-gen devices."
+           data-skills="Verilog, VHDL, SystemVerilog, FPGA, Synopsys EDA, CMOS, Static Timing Analysis"
+           data-pathway="B.Tech in ECE / Electrical Engineering + M.Tech in VLSI Design."
+           data-companies="Qualcomm, Intel, NVIDIA, Texas Instruments, AMD, MediaTek">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #84cc16, #4d7c0f);"><i class="fa-solid fa-microchip"></i></div>
+          <div>
+            <h4>VLSI & Chip Design Engineer</h4>
+            <span class="category-badge">Semiconductors</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 36L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Mechanical Design Engineer -->
+      <div class="marquee-card" 
+           data-title="Mechanical Design Engineer" 
+           data-category="Core Engineering" 
+           data-icon="fa-solid fa-cogs" 
+           data-color="linear-gradient(135deg, #64748b, #334155)" 
+           data-description="Conceptualizes, prototypes, and stress-tests mechanical machinery, turbines, and consumer hardware."
+           data-skills="SolidWorks, AutoCAD, FEA Analysis, Thermodynamics, GD&T, 3D Prototyping"
+           data-pathway="B.Tech in Mechanical Engineering + CAD/CAM industry certifications."
+           data-companies="Tata Motors, Larsen & Toubro, Mahindra & Mahindra, Bosch, Siemens">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #64748b, #334155);"><i class="fa-solid fa-cogs"></i></div>
+          <div>
+            <h4>Mechanical Design Engineer</h4>
+            <span class="category-badge">Core Engineering</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Civil & Structural Engineer -->
+      <div class="marquee-card" 
+           data-title="Civil & Structural Engineer" 
+           data-category="Core Engineering" 
+           data-icon="fa-solid fa-building" 
+           data-color="linear-gradient(135deg, #d97706, #b45309)" 
+           data-description="Plans, oversees, and validates mega infrastructure projects including highways, bridges, and skyscrapers."
+           data-skills="STAAD Pro, ETABS, Revit, Structural Analysis, Project Planning, Site Surveying"
+           data-pathway="B.Tech in Civil Engineering + M.Tech in Structural Engineering."
+           data-companies="L&T Construction, Shapoorji Pallonji, NHAI, DLF, Tata Projects">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #d97706, #b45309);"><i class="fa-solid fa-building"></i></div>
+          <div>
+            <h4>Civil & Structural Engineer</h4>
+            <span class="category-badge">Core Engineering</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 20L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Electrical & EV Systems Engineer -->
+      <div class="marquee-card" 
+           data-title="Electrical & EV Systems Engineer" 
+           data-category="EV & CleanTech" 
+           data-icon="fa-solid fa-bolt-lightning" 
+           data-color="linear-gradient(135deg, #eab308, #ca8a04)" 
+           data-description="Engineers electric vehicle battery packs, motor controllers, smart grids, and EV charging stations."
+           data-skills="Battery Management Systems (BMS), MATLAB/Simulink, Power Electronics, CAN Bus"
+           data-pathway="B.Tech in Electrical / Electronics Engineering + specialization in EV technologies."
+           data-companies="Ather Energy, Ola Electric, Tata Elxsi, Tesla, Mahindra Electric">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #eab308, #ca8a04);"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <div>
+            <h4>Electrical & EV Systems Engineer</h4>
+            <span class="category-badge">EV & CleanTech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 25L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Renewable Energy Engineer -->
+      <div class="marquee-card" 
+           data-title="Renewable Energy Engineer" 
+           data-category="CleanTech" 
+           data-icon="fa-solid fa-solar-panel" 
+           data-color="linear-gradient(135deg, #10b981, #059669)" 
+           data-description="Designs solar farms, wind power parks, and sustainable energy storage grids for clean power transition."
+           data-skills="PVsyst, Solar Photovoltaics, Grid Synchronization, Energy Auditing, AutoCAD"
+           data-pathway="B.Tech in Electrical / Energy / Mechanical Engineering + Green Energy certifications."
+           data-companies="Adani Green Energy, Tata Power Solar, ReNew Power, Suzlon, NTPC">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-solar-panel"></i></div>
+          <div>
+            <h4>Renewable Energy Engineer</h4>
+            <span class="category-badge">CleanTech</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 20L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: Biomedical Engineer -->
+      <div class="marquee-card" 
+           data-title="Biomedical Engineer" 
+           data-category="Biomedical" 
+           data-icon="fa-solid fa-heart-pulse" 
+           data-color="linear-gradient(135deg, #f43f5e, #be123c)" 
+           data-description="Innovates robotic surgical tools, prosthetics, dialysis systems, and diagnostic medical imaging equipment."
+           data-skills="Medical Device Regulation, Biomechanics, Biomedical Instrumentation, MATLAB, Signal Processing"
+           data-pathway="B.Tech in Biomedical Engineering / Biotechnology + clinical tech internships."
+           data-companies="GE Healthcare, Siemens Healthineers, Philips Healthcare, Medtronic, Dräger">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f43f5e, #be123c);"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div>
+            <h4>Biomedical Engineer</h4>
+            <span class="category-badge">Biomedical</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5.5L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Game Developer -->
+      <div class="marquee-card" 
+           data-title="Game Developer" 
+           data-category="Gaming & XR" 
+           data-icon="fa-solid fa-gamepad" 
+           data-color="linear-gradient(135deg, #a855f7, #7e22ce)" 
+           data-description="Programs real-time physics engines, 3D graphics shaders, gameplay mechanics, and multiplayer architectures."
+           data-skills="Unreal Engine, Unity, C++, C#, HLSL Shaders, 3D Math, Multiplayer Networking"
+           data-pathway="B.Tech in Computer Science / Game Development or Game Programming diploma."
+           data-companies="Ubisoft, Rockstar Games, Electronic Arts, Krafton, Epic Games India">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #a855f7, #7e22ce);"><i class="fa-solid fa-gamepad"></i></div>
+          <div>
+            <h4>Game Developer</h4>
+            <span class="category-badge">Gaming & XR</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 25L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: AR / VR Specialist -->
+      <div class="marquee-card" 
+           data-title="AR / VR Specialist" 
+           data-category="Spatial Computing" 
+           data-icon="fa-solid fa-vr-cardboard" 
+           data-color="linear-gradient(135deg, #06b6d4, #0891b2)" 
+           data-description="Crafts immersive spatial computing experiences, virtual training simulators, and mixed-reality apps."
+           data-skills="OpenXR, Unity/Unreal, Spatial Audio, 3D Rigging, C#, Meta Quest SDK"
+           data-pathway="Degree in CS, Multimedia, or Animation with spatial computing portfolio."
+           data-companies="Meta Reality Labs, Apple Vision Pro Labs, HTC Vive, Infosys XR Studio">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #0891b2);"><i class="fa-solid fa-vr-cardboard"></i></div>
+          <div>
+            <h4>AR / VR Specialist</h4>
+            <span class="category-badge">Spatial Computing</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 28L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Big Data Engineer -->
+      <div class="marquee-card" 
+           data-title="Big Data Engineer" 
+           data-category="Data Infrastructure" 
+           data-icon="fa-solid fa-database" 
+           data-color="linear-gradient(135deg, #059669, #047857)" 
+           data-description="Manages petabyte-scale data lakes, distributed query engines, and transactional database clusters."
+           data-skills="PostgreSQL, MongoDB, Apache Spark, Kafka, Snowflake, Hadoop, Redis"
+           data-pathway="B.Tech in CSE / IT + Big Data & Cloud DB certifications."
+           data-companies="Snowflake, Oracle, Databricks, Morgan Stanley, Reliance Jio, TCS">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #059669, #047857);"><i class="fa-solid fa-database"></i></div>
+          <div>
+            <h4>Big Data Engineer</h4>
+            <span class="category-badge">Data Infrastructure</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6.5L - 26L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: QA Automation & SDET -->
+      <div class="marquee-card" 
+           data-title="QA Automation & SDET" 
+           data-category="Quality Assurance" 
+           data-icon="fa-solid fa-bug" 
+           data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
+           data-description="Architects robust automated test frameworks, regression suites, and load-testing pipelines for software."
+           data-skills="Selenium, Playwright, Cypress, Java, Python, JMeter, CI/CD Integration"
+           data-pathway="B.Tech in CSE/IT or BCA/MCA with SDET automation test suite experience."
+           data-companies="Cognizant, Infosys, Capgemini, Flipkart, American Express, IBM">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-bug"></i></div>
+          <div>
+            <h4>QA Automation & SDET</h4>
+            <span class="category-badge">Quality Assurance</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: NLP Engineer -->
+      <div class="marquee-card" 
+           data-title="NLP Engineer" 
+           data-category="Artificial Intelligence" 
+           data-icon="fa-solid fa-comments" 
+           data-color="linear-gradient(135deg, #7c3aed, #5b21b6)" 
+           data-description="Trains Transformer models, multilingual chatbots, generative AI agents, and speech recognition engines."
+           data-skills="Hugging Face, Transformers, LangChain, LlamaIndex, Vector DBs, PyTorch, Tokenization"
+           data-pathway="Master's or B.Tech in AI/ML, Computational Linguistics, or Computer Science."
+           data-companies="Cohere, Anthropic, Google, Sarvam AI, Jio Haptik, Microsoft">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);"><i class="fa-solid fa-comments"></i></div>
+          <div>
+            <h4>NLP Engineer</h4>
+            <span class="category-badge">Artificial Intelligence</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 38L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Automobile Engineer -->
+      <div class="marquee-card" 
+           data-title="Automobile Engineer" 
+           data-category="Automotive" 
+           data-icon="fa-solid fa-car" 
+           data-color="linear-gradient(135deg, #b45309, #78350f)" 
+           data-description="Designs internal chassis, hybrid transmissions, aerodynamic car bodies, and telemetry sensors."
+           data-skills="IC Engines, Chassis Dynamics, MATLAB, CATIA, Aerodynamics, Crash Testing"
+           data-pathway="B.Tech in Automobile / Mechanical Engineering + SAE BAJA / Formula Student participation."
+           data-companies="Maruti Suzuki, Hyundai India, Mahindra, Bajaj Auto, TVS Motors">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #b45309, #78350f);"><i class="fa-solid fa-car"></i></div>
+          <div>
+            <h4>Automobile Engineer</h4>
+            <span class="category-badge">Automotive</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.8L - 19L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Chemical Engineer -->
+      <div class="marquee-card" 
+           data-title="Chemical Engineer" 
+           data-category="Chemical & Process" 
+           data-icon="fa-solid fa-flask-vial" 
+           data-color="linear-gradient(135deg, #0284c7, #075985)" 
+           data-description="Optimizes large-scale chemical reactors, petrochemical distillation towers, and polymer synthesis lines."
+           data-skills="Aspen Plus, Mass Transfer, Chemical Kinetics, Process Safety, Piping & Instrumentation"
+           data-pathway="B.Tech in Chemical Engineering + GATE for PSU careers (IOCL, ONGC, BPCL)."
+           data-companies="Reliance Industries, ONGC, BPCL, BASF, Asian Paints, UPL">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #075985);"><i class="fa-solid fa-flask-vial"></i></div>
+          <div>
+            <h4>Chemical Engineer</h4>
+            <span class="category-badge">Chemical & Process</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5.5L - 22L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Technical Product Manager -->
+      <div class="marquee-card" 
+           data-title="Technical Product Manager" 
+           data-category="Product Management" 
+           data-icon="fa-solid fa-diagram-project" 
+           data-color="linear-gradient(135deg, #4f46e5, #3730a3)" 
+           data-description="Bridges engineering, business goals, and UX to launch industry-defining technology platforms."
+           data-skills="Product Strategy, Agile/Scrum, User Stories, System Architecture, Metrics Tracking, Roadmapping"
+           data-pathway="B.Tech in Engineering + MBA from top B-Schools (IIM/ISB) or strong tech PM experience."
+           data-companies="Google, Microsoft, Atlassian, Razorpay, Uber, MakeMyTrip">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #4f46e5, #3730a3);"><i class="fa-solid fa-diagram-project"></i></div>
+          <div>
+            <h4>Technical Product Manager</h4>
+            <span class="category-badge">Product Management</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹14L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track: marquee-track-2 -->
+  <div class="marquee-container marquee-track-2">
+    <div class="marquee-inner marquee-reverse">
+      <!-- Card: MBBS General Physician -->
+      <div class="marquee-card" 
+           data-title="MBBS General Physician" 
            data-category="Healthcare" 
            data-icon="fa-solid fa-stethoscope" 
            data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
-           data-description="Diagnoses, treats, and manages acute and chronic illnesses, providing primary care and healthcare education."
-           data-skills="Medical Diagnosis, Patient Care, Pharmacology, Empathy, Communication"
-           data-pathway="MBBS Degree (5.5 years) + Compulsory Internship + State Medical Council registration."
-           data-companies="Apollo Hospitals, Fortis Healthcare, Max Hospitals, Private Clinics, Gov Hospitals.">
+           data-description="Diagnoses acute and chronic medical conditions, administers preventative primary care, and manages clinical wellness."
+           data-skills="Clinical Diagnosis, Pharmacotherapy, Patient Assessment, Emergency Care, Medical Ethics"
+           data-pathway="5.5-Year MBBS (NEET-UG qualified) + 1-year compulsory rotating hospital internship."
+           data-companies="AIIMS, Apollo Hospitals, Fortis, Max Healthcare, Private Practice, Armed Forces Medical Services">
         <div class="marquee-card-header">
           <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-stethoscope"></i></div>
           <div>
-            <h4>General Physician</h4>
+            <h4>MBBS General Physician</h4>
             <span class="category-badge">Healthcare</span>
           </div>
         </div>
@@ -2711,91 +3729,2279 @@
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 3 -->
+      <!-- Card: Interventional Cardiologist -->
       <div class="marquee-card" 
-           data-title="Financial Analyst" 
-           data-category="Finance" 
-           data-icon="fa-solid fa-chart-line" 
-           data-color="linear-gradient(135deg, #f59e0b, #d97706)" 
-           data-description="Analyzes financial data, evaluates investment opportunities, and assists businesses in strategic financial planning."
-           data-skills="Financial Modeling, Excel, Valuation, Market Research, Accounting, SQL"
-           data-pathway="B.Com, BBA (Finance), MBA (Finance), or professional certifications like CFA or CA."
-           data-companies="Goldman Sachs, JPMorgan Chase, HDFC Bank, Deloitte, EY, KPMG, PwC.">
+           data-title="Interventional Cardiologist" 
+           data-category="Medical Super-Specialty" 
+           data-icon="fa-solid fa-heart" 
+           data-color="linear-gradient(135deg, #dc2626, #7f1d1d)" 
+           data-description="Specializes in diagnosing and treating cardiovascular diseases, performing angioplasties, and managing heart failure."
+           data-skills="Cardiac Angiography, Stent Placement, Echocardiography, Catheterization, Intensive Cardiac Care"
+           data-pathway="MBBS + MD (General Medicine) + DM in Cardiology (NEET-SS qualified)."
+           data-companies="Narayana Health, Medanta The Medicity, Fortis Escorts, Apollo Heart Centre">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #dc2626, #7f1d1d);"><i class="fa-solid fa-heart"></i></div>
           <div>
-            <h4>Financial Analyst</h4>
-            <span class="category-badge">Finance</span>
+            <h4>Interventional Cardiologist</h4>
+            <span class="category-badge">Medical Super-Specialty</span>
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹5L - 18L</strong></span>
-          <span style="color: #2563eb; font-weight: 700;">Medium Demand</span>
+          <span>Avg Salary: <strong>₹20L - 75L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
         </div>
       </div>
-      <!-- Card 4 -->
+      <!-- Card: Orthopedic Surgeon -->
       <div class="marquee-card" 
-           data-title="UX/UI Designer" 
-           data-category="Creative Arts" 
-           data-icon="fa-solid fa-bezier-curve" 
-           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
-           data-description="Creates user-centered interfaces and experiences for digital products like websites, software, and mobile apps."
-           data-skills="Figma, Wireframing, User Research, Prototyping, Visual Design, Usability Testing"
-           data-pathway="B.Des (Design), Graphic Design courses, or UX/UI Bootcamps with a strong portfolio."
-           data-companies="Adobe, Flipkart, Zomato, Razorpay, Tech Startups, Design Agencies.">
+           data-title="Orthopedic Surgeon" 
+           data-category="Surgical Specialty" 
+           data-icon="fa-solid fa-bone" 
+           data-color="linear-gradient(135deg, #ea580c, #9a3412)" 
+           data-description="Performs joint replacement surgeries, corrects spine trauma, reconstructs ligaments, and restores musculoskeletal mobility."
+           data-skills="Arthroscopy, Knee/Hip Arthroplasty, Fracture Fixation, Trauma Surgery, Bone Biomechanics"
+           data-pathway="MBBS + MS in Orthopedics + M.Ch or specialized arthroplasty fellowship."
+           data-companies="Ganga Hospital Coimbatore, Max Healthcare, Apollo Orthopedics, Manipal Hospitals">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-bezier-curve"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ea580c, #9a3412);"><i class="fa-solid fa-bone"></i></div>
           <div>
-            <h4>UX/UI Designer</h4>
-            <span class="category-badge">Creative Arts</span>
+            <h4>Orthopedic Surgeon</h4>
+            <span class="category-badge">Surgical Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹15L - 60L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Pediatrician & Neonatologist -->
+      <div class="marquee-card" 
+           data-title="Pediatrician & Neonatologist" 
+           data-category="Healthcare" 
+           data-icon="fa-solid fa-baby" 
+           data-color="linear-gradient(135deg, #ec4899, #9d174d)" 
+           data-description="Cares for newborn infants, children, and adolescents, treating developmental disorders and childhood diseases."
+           data-skills="Pediatric Resuscitation, NICU/PICU Care, Child Immunization, Growth Monitoring"
+           data-pathway="MBBS + MD in Pediatrics / DNB Pediatrics + Fellowship in Neonatology."
+           data-companies="Rainbow Children's Hospital, Cloudnine, Surya Hospitals, AIIMS">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #9d174d);"><i class="fa-solid fa-baby"></i></div>
+          <div>
+            <h4>Pediatrician & Neonatologist</h4>
+            <span class="category-badge">Healthcare</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 35L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Dermatologist & Cosmetologist -->
+      <div class="marquee-card" 
+           data-title="Dermatologist & Cosmetologist" 
+           data-category="Medical Specialty" 
+           data-icon="fa-solid fa-hand-holding-medical" 
+           data-color="linear-gradient(135deg, #db2777, #831843)" 
+           data-description="Treats skin, hair, and nail pathology alongside cosmetic laser procedures, aesthetic therapies, and derma-surgery."
+           data-skills="Dermatosurgery, Laser Therapies, Trichology, Chemical Peels, Clinical Dermatology"
+           data-pathway="MBBS + MD in Dermatology, Venereology & Leprosy (DVD/DNB)."
+           data-companies="Kaya Skin Clinic, Oliva Skin & Hair, Max Healthcare, Private Aesthetics Clinics">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #db2777, #831843);"><i class="fa-solid fa-hand-holding-medical"></i></div>
+          <div>
+            <h4>Dermatologist & Cosmetologist</h4>
+            <span class="category-badge">Medical Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Radiologist & Imaging Expert -->
+      <div class="marquee-card" 
+           data-title="Radiologist & Imaging Expert" 
+           data-category="Diagnostic Medicine" 
+           data-icon="fa-solid fa-x-ray" 
+           data-color="linear-gradient(135deg, #0284c7, #0c4a6e)" 
+           data-description="Diagnoses complex conditions by interpreting MRI scans, CT scans, ultrasounds, and mammograms."
+           data-skills="MRI/CT Interpretation, Ultrasound, PET-CT, Interventional Radiology, Teleradiology"
+           data-pathway="MBBS + MD/DNB in Radio-diagnosis (NEET-PG top ranks)."
+           data-companies="Vijaya Diagnostic, Dr. Lal PathLabs, Mahajan Imaging, Apollo Hospitals, Medanta">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0c4a6e);"><i class="fa-solid fa-x-ray"></i></div>
+          <div>
+            <h4>Radiologist & Imaging Expert</h4>
+            <span class="category-badge">Diagnostic Medicine</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹15L - 55L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: General & Laparoscopic Surgeon -->
+      <div class="marquee-card" 
+           data-title="General & Laparoscopic Surgeon" 
+           data-category="Surgical Specialty" 
+           data-icon="fa-solid fa-scissors" 
+           data-color="linear-gradient(135deg, #e11d48, #881337)" 
+           data-description="Performs minimally invasive abdominal surgeries, trauma interventions, and surgical oncology procedures."
+           data-skills="Laparoscopic Surgery, Appendectomy, Hernia Repair, Surgical Asepsis, Trauma Management"
+           data-pathway="MBBS + MS in General Surgery + fellowship in Minimal Access Surgery (FMAS)."
+           data-companies="Max Healthcare, Fortis Hospitals, Sir Ganga Ram Hospital, Army Medical Corps">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #e11d48, #881337);"><i class="fa-solid fa-scissors"></i></div>
+          <div>
+            <h4>General & Laparoscopic Surgeon</h4>
+            <span class="category-badge">Surgical Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹14L - 50L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Anesthesiologist & ICU Doctor -->
+      <div class="marquee-card" 
+           data-title="Anesthesiologist & ICU Doctor" 
+           data-category="Critical Care" 
+           data-icon="fa-solid fa-syringe" 
+           data-color="linear-gradient(135deg, #7c3aed, #4c1d95)" 
+           data-description="Administers general and regional anesthesia during surgeries and monitors vital organ functions in intensive care units."
+           data-skills="Endotracheal Intubation, Epidural Anesthesia, Hemodynamic Monitoring, ICU Ventilator Management"
+           data-pathway="MBBS + MD in Anesthesiology / DNB + IDCCM (Critical Care Fellowship)."
+           data-companies="Multi-specialty Surgical Hospitals, Cardiac Centers, Trauma Institutes">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #7c3aed, #4c1d95);"><i class="fa-solid fa-syringe"></i></div>
+          <div>
+            <h4>Anesthesiologist & ICU Doctor</h4>
+            <span class="category-badge">Critical Care</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 38L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Psychiatrist & Neuropsychiatrist -->
+      <div class="marquee-card" 
+           data-title="Psychiatrist & Neuropsychiatrist" 
+           data-category="Mental Health" 
+           data-icon="fa-solid fa-head-side-virus" 
+           data-color="linear-gradient(135deg, #9333ea, #581c87)" 
+           data-description="Diagnoses and treats complex mental health disorders, psychoses, depression, and chemical dependencies through pharmacotherapy."
+           data-skills="Psychopharmacology, Psychiatric Evaluation, Cognitive Assessments, Psychotherapy Integration"
+           data-pathway="MBBS + MD in Psychiatry / DNB Psychiatry."
+           data-companies="NIMHANS Bengaluru, CIP Ranchi, Apollo Behavioral Health, Private Clinics">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #9333ea, #581c87);"><i class="fa-solid fa-head-side-virus"></i></div>
+          <div>
+            <h4>Psychiatrist & Neuropsychiatrist</h4>
+            <span class="category-badge">Mental Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: BAMS Ayurvedic Doctor -->
+      <div class="marquee-card" 
+           data-title="BAMS Ayurvedic Doctor" 
+           data-category="AYUSH & Wellness" 
+           data-icon="fa-solid fa-leaf" 
+           data-color="linear-gradient(135deg, #16a34a, #14532d)" 
+           data-description="Practices holistic healthcare through herbal pharmacology, Nadi Pariksha, Panchakarma detox, and lifestyle balance."
+           data-skills="Nadi Pariksha, Ayurvedic Formulations, Panchakarma Therapy, Dietetics & Dinacharya"
+           data-pathway="5.5-Year BAMS (Bachelor of Ayurvedic Medicine and Surgery) + MD (Ayurveda)."
+           data-companies="Patanjali, Kottakkal Arya Vaidya Sala, Dabur Clinics, Kerala Ayurveda Resorts">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #16a34a, #14532d);"><i class="fa-solid fa-leaf"></i></div>
+          <div>
+            <h4>BAMS Ayurvedic Doctor</h4>
+            <span class="category-badge">AYUSH & Wellness</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: BDS Dental Surgeon -->
+      <div class="marquee-card" 
+           data-title="BDS Dental Surgeon" 
+           data-category="Dental Medicine" 
+           data-icon="fa-solid fa-tooth" 
+           data-color="linear-gradient(135deg, #0ea5e9, #0369a1)" 
+           data-description="Diagnoses and treats oral diseases, performs root canals, teeth extractions, and cosmetic smiles restorations."
+           data-skills="Root Canal Treatment (RCT), Prosthodontics, Dental Implants, Oral Radiography, Cosmetic Dentistry"
+           data-pathway="5-Year BDS (Bachelor of Dental Surgery) + MDS (Orthodontics / Endodontics)."
+           data-companies="Clove Dental, Apollo White Dental, Private Dental Clinics, Govt Dental Colleges">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0ea5e9, #0369a1);"><i class="fa-solid fa-tooth"></i></div>
+          <div>
+            <h4>BDS Dental Surgeon</h4>
+            <span class="category-badge">Dental Medicine</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 22L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: BHMS Homeopathic Doctor -->
+      <div class="marquee-card" 
+           data-title="BHMS Homeopathic Doctor" 
+           data-category="AYUSH & Wellness" 
+           data-icon="fa-solid fa-seedling" 
+           data-color="linear-gradient(135deg, #65a30d, #365314)" 
+           data-description="Treats chronic ailments using the law of similars, constitutional remedies, and individualized natural medicine."
+           data-skills="Homeopathic Case Taking, Materia Medica, Repertorization, Chronic Disease Management"
+           data-pathway="5.5-Year BHMS (Bachelor of Homeopathic Medicine and Surgery) + MD (Homeopathy)."
+           data-companies="Dr. Batra's Healthcare, Bakson's, SBL Clinics, Private Holistic Practices">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #65a30d, #365314);"><i class="fa-solid fa-seedling"></i></div>
+          <div>
+            <h4>BHMS Homeopathic Doctor</h4>
+            <span class="category-badge">AYUSH & Wellness</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.5L - 15L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Clinical Pharmacist -->
+      <div class="marquee-card" 
+           data-title="Clinical Pharmacist" 
+           data-category="Pharmaceuticals" 
+           data-icon="fa-solid fa-pills" 
+           data-color="linear-gradient(135deg, #f59e0b, #b45309)" 
+           data-description="Formulates lifesaving drug compositions, evaluates drug interactions, and conducts quality assurance in pharma plants."
+           data-skills="Drug Formulations, HPLC, GMP Regulations, Pharmacovigilance, Dosage Optimization"
+           data-pathway="B.Pharm / Pharm.D + M.Pharm in Pharmaceutics or Clinical Pharmacology."
+           data-companies="Sun Pharma, Dr. Reddy's Laboratories, Cipla, Lupin, Pfizer India">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #b45309);"><i class="fa-solid fa-pills"></i></div>
+          <div>
+            <h4>Clinical Pharmacist</h4>
+            <span class="category-badge">Pharmaceuticals</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 18L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Physiotherapist & Sports Rehab -->
+      <div class="marquee-card" 
+           data-title="Physiotherapist & Sports Rehab" 
+           data-category="Physical Therapy" 
+           data-icon="fa-solid fa-person-walking" 
+           data-color="linear-gradient(135deg, #10b981, #065f46)" 
+           data-description="Restores physical mobility, relieves chronic pain, and rehabilitates professional athletes following sports injuries."
+           data-skills="Manual Therapy, Electrotherapy, Kinesiology, Sports Injury Rehabilitation, Ergonomics"
+           data-pathway="4.5-Year BPT (Bachelor of Physiotherapy) + MPT in Sports / Orthopedics / Neurology."
+           data-companies="Sports Authority of India (SAI), IPL Teams, Apollo Rehab, QI Spine Clinic">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #065f46);"><i class="fa-solid fa-person-walking"></i></div>
+          <div>
+            <h4>Physiotherapist & Sports Rehab</h4>
+            <span class="category-badge">Physical Therapy</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 16L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Clinical Psychologist -->
+      <div class="marquee-card" 
+           data-title="Clinical Psychologist" 
+           data-category="Mental Health" 
+           data-icon="fa-solid fa-brain" 
+           data-color="linear-gradient(135deg, #a855f7, #6b21a8)" 
+           data-description="Evaluates mental conditions using psychometric testing and provides evidence-based therapies (CBT, DBT, psychoanalysis)."
+           data-skills="Cognitive Behavioral Therapy (CBT), Psychometric Assessments, Crisis Intervention, Counseling"
+           data-pathway="B.A./B.Sc in Psychology + M.Sc / M.A. + M.Phil in Clinical Psychology (RCI recognized)."
+           data-companies="NIMHANS, Fortis Mental Health, Vandrevala Foundation, Mindler, Private Counseling">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <h4>Clinical Psychologist</h4>
+            <span class="category-badge">Mental Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Nursing Officer & Specialist -->
+      <div class="marquee-card" 
+           data-title="Nursing Officer & Specialist" 
+           data-category="Healthcare Nursing" 
+           data-icon="fa-solid fa-user-nurse" 
+           data-color="linear-gradient(135deg, #06b6d4, #155e75)" 
+           data-description="Delivers compassionate bedside care, administers medication, coordinates patient recovery, and supports surgical teams."
+           data-skills="Patient Triage, IV Administration, Vital Signs Monitoring, Infection Control, ICU Nursing"
+           data-pathway="B.Sc Nursing (4 years) + State Nursing Council Registration / Post Basic B.Sc."
+           data-companies="AIIMS (NORCET exam), NHS UK, Apollo Hospitals, Medanta, Gulf Healthcare">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #155e75);"><i class="fa-solid fa-user-nurse"></i></div>
+          <div>
+            <h4>Nursing Officer & Specialist</h4>
+            <span class="category-badge">Healthcare Nursing</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 16L (India) / ₹25L+ (Abroad)</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Medical Lab Technologist -->
+      <div class="marquee-card" 
+           data-title="Medical Lab Technologist" 
+           data-category="Diagnostics" 
+           data-icon="fa-solid fa-microscope" 
+           data-color="linear-gradient(135deg, #3b82f6, #1e3a8a)" 
+           data-description="Analyzes blood samples, cultures, biopsies, and bodily fluids using automated hematology and biochemical analyzers."
+           data-skills="Hematology, Clinical Biochemistry, Histopathology, ELISA, Quality Control"
+           data-pathway="B.Sc in Medical Laboratory Technology (BMLT) + M.Sc MLT."
+           data-companies="Lal PathLabs, SRL Diagnostics, Metropolis Healthcare, Thyrocare">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #3b82f6, #1e3a8a);"><i class="fa-solid fa-microscope"></i></div>
+          <div>
+            <h4>Medical Lab Technologist</h4>
+            <span class="category-badge">Diagnostics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.2L - 10L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Optometrist & Vision Scientist -->
+      <div class="marquee-card" 
+           data-title="Optometrist & Vision Scientist" 
+           data-category="Allied Health" 
+           data-icon="fa-solid fa-eye" 
+           data-color="linear-gradient(135deg, #14b8a6, #0f766e)" 
+           data-description="Examines visual acuity, detects ocular pathologies, prescribes corrective lenses, and fits therapeutic contact lenses."
+           data-skills="Refraction, Retinoscopy, Contact Lens Fitting, Glaucoma Screening, Low Vision Aids"
+           data-pathway="4-Year Bachelor of Optometry (B.Optom) + Master of Optometry."
+           data-companies="Lenskart, Titan Eyeplus, Sankara Nethralaya, L V Prasad Eye Institute">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #14b8a6, #0f766e);"><i class="fa-solid fa-eye"></i></div>
+          <div>
+            <h4>Optometrist & Vision Scientist</h4>
+            <span class="category-badge">Allied Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.5L - 12L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Occupational Therapist -->
+      <div class="marquee-card" 
+           data-title="Occupational Therapist" 
+           data-category="Rehabilitation" 
+           data-icon="fa-solid fa-hands-holding" 
+           data-color="linear-gradient(135deg, #f97316, #9a3412)" 
+           data-description="Helps individuals recover everyday functional motor and sensory skills impaired by injuries or neurological conditions."
+           data-skills="Sensory Integration, ADL Training, Pediatric Motor Skills, Splinting, Ergonomics"
+           data-pathway="4.5-Year Bachelor of Occupational Therapy (BOT) + MOT."
+           data-companies="Specialized Rehabilitation Centers, Child Development Clinics, AIIMS">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f97316, #9a3412);"><i class="fa-solid fa-hands-holding"></i></div>
+          <div>
+            <h4>Occupational Therapist</h4>
+            <span class="category-badge">Rehabilitation</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 14L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Demand</span>
+        </div>
+      </div>
+      <!-- Card: Speech-Language Pathologist -->
+      <div class="marquee-card" 
+           data-title="Speech-Language Pathologist" 
+           data-category="Allied Health" 
+           data-icon="fa-solid fa-ear-listen" 
+           data-color="linear-gradient(135deg, #8b5cf6, #581c87)" 
+           data-description="Diagnoses and treats speech fluency, voice disorders, swallowing difficulties, and hearing impairments."
+           data-skills="Pure Tone Audiometry, Hearing Aid Programming, Speech Therapy, Dysphagia Care"
+           data-pathway="4-Year BASLP (Bachelor in Audiology and Speech-Language Pathology) + MASLP."
+           data-companies="AIISH Mysuru, Hear.com, Cochlear India, ENT Clinics, Special Education Schools">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #581c87);"><i class="fa-solid fa-ear-listen"></i></div>
+          <div>
+            <h4>Speech-Language Pathologist</h4>
+            <span class="category-badge">Allied Health</span>
           </div>
         </div>
         <div class="marquee-card-meta">
           <span>Avg Salary: <strong>₹4L - 15L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Demand</span>
+        </div>
+      </div>
+      <!-- Card: Biotechnologist & Geneticist -->
+      <div class="marquee-card" 
+           data-title="Biotechnologist & Geneticist" 
+           data-category="Biotechnology" 
+           data-icon="fa-solid fa-dna" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Conducts gene editing, recombinant DNA research, stem cell engineering, and develops biological vaccines."
+           data-skills="CRISPR-Cas9, PCR, DNA Sequencing, Gel Electrophoresis, Cell Culture, Bioinformatics"
+           data-pathway="B.Tech / B.Sc in Biotechnology + M.Sc / M.Tech / Ph.D in Genetics or Molecular Biology."
+           data-companies="Biocon, Bharat Biotech, Serum Institute of India, Syngene, Novozymes">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-dna"></i></div>
+          <div>
+            <h4>Biotechnologist & Geneticist</h4>
+            <span class="category-badge">Biotechnology</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 22L</strong></span>
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 5 -->
+      <!-- Card: Clinical Research Associate -->
       <div class="marquee-card" 
-           data-title="Corporate Lawyer" 
-           data-category="Legal" 
-           data-icon="fa-solid fa-scale-balanced" 
-           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
-           data-description="Ensures the legality of commercial transactions, advising corporations on their legal rights and duties."
-           data-skills="Corporate Law, Contract Drafting, Legal Writing, Negotiation, Analytical Thinking"
-           data-pathway="Integrated LLB (5 years) or LLB (3 years) after graduation + passing the Bar Council Exam (AIBE)."
-           data-companies="Shardul Amarchand Mangaldas, Khaitan & Co, AZB & Partners, In-house Legal Teams.">
+           data-title="Clinical Research Associate" 
+           data-category="Clinical Research" 
+           data-icon="fa-solid fa-clipboard-check" 
+           data-color="linear-gradient(135deg, #0284c7, #075985)" 
+           data-description="Monitors clinical drug trials across hospitals, ensuring strict adherence to GCP, safety protocols, and FDA guidelines."
+           data-skills="Good Clinical Practice (GCP), Protocol Compliance, Trial Monitoring, Regulatory Reporting"
+           data-pathway="B.Pharm / M.Pharm / M.Sc Life Sciences + Post Graduate Diploma in Clinical Research (PGDCR)."
+           data-companies="IQVIA, ICON plc, Parexel, Syneos Health, Novartis, AstraZeneca">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #075985);"><i class="fa-solid fa-clipboard-check"></i></div>
           <div>
-            <h4>Corporate Lawyer</h4>
-            <span class="category-badge">Legal</span>
+            <h4>Clinical Research Associate</h4>
+            <span class="category-badge">Clinical Research</span>
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹7L - 22L</strong></span>
-          <span style="color: #2563eb; font-weight: 700;">Medium Demand</span>
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
-      <!-- Card 6 -->
+      <!-- Card: Registered Clinical Dietitian -->
       <div class="marquee-card" 
-           data-title="Digital Marketer" 
-           data-category="Business" 
-           data-icon="fa-solid fa-bullhorn" 
-           data-color="linear-gradient(135deg, #10b981, #059669)" 
-           data-description="Drives brand awareness and lead generation through digital channels like search engines, social media, and email."
-           data-skills="SEO, SEM, Content Strategy, Google Analytics, Social Media Management"
-           data-pathway="Any Bachelor's degree + Digital Marketing Certifications + Hands-on project portfolio."
-           data-companies="Dentsu, Ogilvy, GroupM, Nykaa, eCommerce Brands, Marketing Agencies.">
+           data-title="Registered Clinical Dietitian" 
+           data-category="Nutrition & Dietetics" 
+           data-icon="fa-solid fa-apple-whole" 
+           data-color="linear-gradient(135deg, #84cc16, #3f6212)" 
+           data-description="Formulates specialized medical nutritional therapies for diabetes, cardiovascular disease, weight loss, and athletic performance."
+           data-skills="Nutritional Assessment, Medical Dietetics, Macro Planning, BMR Calculation, Patient Counseling"
+           data-pathway="B.Sc in Food & Nutrition / Dietetics + M.Sc + Registered Dietitian (RD) exam."
+           data-companies="HealthifyMe, Apollo Hospitals, VLCC, Cult.fit, Sports Academies">
         <div class="marquee-card-header">
-          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fa-solid fa-bullhorn"></i></div>
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #84cc16, #3f6212);"><i class="fa-solid fa-apple-whole"></i></div>
           <div>
-            <h4>Digital Marketer</h4>
-            <span class="category-badge">Business</span>
+            <h4>Registered Clinical Dietitian</h4>
+            <span class="category-badge">Nutrition & Dietetics</span>
           </div>
         </div>
         <div class="marquee-card-meta">
-          <span>Avg Salary: <strong>₹3L - 12L</strong></span>
+          <span>Avg Salary: <strong>₹3.5L - 14L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Veterinary Doctor -->
+      <div class="marquee-card" 
+           data-title="Veterinary Doctor" 
+           data-category="Veterinary Sciences" 
+           data-icon="fa-solid fa-paw" 
+           data-color="linear-gradient(135deg, #10b981, #047857)" 
+           data-description="Diagnoses and surgically treats domestic companion animals, exotic wildlife, and farm livestock."
+           data-skills="Veterinary Surgery, Animal Diagnostics, Zoonotic Disease Control, Pharmacology"
+           data-pathway="5.5-Year B.V.Sc & A.H. (NEET-UG qualified) + State Veterinary Council Registration."
+           data-companies="Max Vets, DCC Animal Hospital, Government Veterinary Polyclinics, Zoos, Wildlife Trusts">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fa-solid fa-paw"></i></div>
+          <div>
+            <h4>Veterinary Doctor</h4>
+            <span class="category-badge">Veterinary Sciences</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Demand</span>
+        </div>
+      </div>
+      <!-- Card: Forensic Pathologist -->
+      <div class="marquee-card" 
+           data-title="Forensic Pathologist" 
+           data-category="Forensic Medicine" 
+           data-icon="fa-solid fa-fingerprint" 
+           data-color="linear-gradient(135deg, #475569, #1e293b)" 
+           data-description="Conducts autopsies, investigates unnatural deaths, and provides conclusive medical evidence for criminal courts."
+           data-skills="Medico-Legal Autopsy, Forensic Toxicology, Injury Pattern Analysis, Expert Court Testimony"
+           data-pathway="MBBS + MD in Forensic Medicine & Toxicology."
+           data-companies="State Forensic Science Laboratories (FSL), Central FSL, Govt Medical Colleges, CBI">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #475569, #1e293b);"><i class="fa-solid fa-fingerprint"></i></div>
+          <div>
+            <h4>Forensic Pathologist</h4>
+            <span class="category-badge">Forensic Medicine</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 25L</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Industrial Microbiologist -->
+      <div class="marquee-card" 
+           data-title="Industrial Microbiologist" 
+           data-category="Microbiology" 
+           data-icon="fa-solid fa-virus-covid" 
+           data-color="linear-gradient(135deg, #059669, #064e3b)" 
+           data-description="Harnesses microorganisms for industrial fermentation, vaccine production, bioplastics, and food preservation."
+           data-skills="Microbial Culture, Fermentation Technology, Sterility Testing, Aseptic Techniques, QC"
+           data-pathway="B.Sc in Microbiology + M.Sc / Ph.D in Industrial Microbiology or Applied Microbiology."
+           data-companies="Amul, Carlsberg, United Breweries, Biocon, Mother Dairy, Food Testing Labs">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #059669, #064e3b);"><i class="fa-solid fa-virus-covid"></i></div>
+          <div>
+            <h4>Industrial Microbiologist</h4>
+            <span class="category-badge">Microbiology</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 16L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+
+      <!-- Duplicated for seamless marquee loop -->
+      <!-- Card: MBBS General Physician -->
+      <div class="marquee-card" 
+           data-title="MBBS General Physician" 
+           data-category="Healthcare" 
+           data-icon="fa-solid fa-stethoscope" 
+           data-color="linear-gradient(135deg, #ef4444, #b91c1c)" 
+           data-description="Diagnoses acute and chronic medical conditions, administers preventative primary care, and manages clinical wellness."
+           data-skills="Clinical Diagnosis, Pharmacotherapy, Patient Assessment, Emergency Care, Medical Ethics"
+           data-pathway="5.5-Year MBBS (NEET-UG qualified) + 1-year compulsory rotating hospital internship."
+           data-companies="AIIMS, Apollo Hospitals, Fortis, Max Healthcare, Private Practice, Armed Forces Medical Services">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"><i class="fa-solid fa-stethoscope"></i></div>
+          <div>
+            <h4>MBBS General Physician</h4>
+            <span class="category-badge">Healthcare</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 30L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Interventional Cardiologist -->
+      <div class="marquee-card" 
+           data-title="Interventional Cardiologist" 
+           data-category="Medical Super-Specialty" 
+           data-icon="fa-solid fa-heart" 
+           data-color="linear-gradient(135deg, #dc2626, #7f1d1d)" 
+           data-description="Specializes in diagnosing and treating cardiovascular diseases, performing angioplasties, and managing heart failure."
+           data-skills="Cardiac Angiography, Stent Placement, Echocardiography, Catheterization, Intensive Cardiac Care"
+           data-pathway="MBBS + MD (General Medicine) + DM in Cardiology (NEET-SS qualified)."
+           data-companies="Narayana Health, Medanta The Medicity, Fortis Escorts, Apollo Heart Centre">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #dc2626, #7f1d1d);"><i class="fa-solid fa-heart"></i></div>
+          <div>
+            <h4>Interventional Cardiologist</h4>
+            <span class="category-badge">Medical Super-Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹20L - 75L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Orthopedic Surgeon -->
+      <div class="marquee-card" 
+           data-title="Orthopedic Surgeon" 
+           data-category="Surgical Specialty" 
+           data-icon="fa-solid fa-bone" 
+           data-color="linear-gradient(135deg, #ea580c, #9a3412)" 
+           data-description="Performs joint replacement surgeries, corrects spine trauma, reconstructs ligaments, and restores musculoskeletal mobility."
+           data-skills="Arthroscopy, Knee/Hip Arthroplasty, Fracture Fixation, Trauma Surgery, Bone Biomechanics"
+           data-pathway="MBBS + MS in Orthopedics + M.Ch or specialized arthroplasty fellowship."
+           data-companies="Ganga Hospital Coimbatore, Max Healthcare, Apollo Orthopedics, Manipal Hospitals">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ea580c, #9a3412);"><i class="fa-solid fa-bone"></i></div>
+          <div>
+            <h4>Orthopedic Surgeon</h4>
+            <span class="category-badge">Surgical Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹15L - 60L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Pediatrician & Neonatologist -->
+      <div class="marquee-card" 
+           data-title="Pediatrician & Neonatologist" 
+           data-category="Healthcare" 
+           data-icon="fa-solid fa-baby" 
+           data-color="linear-gradient(135deg, #ec4899, #9d174d)" 
+           data-description="Cares for newborn infants, children, and adolescents, treating developmental disorders and childhood diseases."
+           data-skills="Pediatric Resuscitation, NICU/PICU Care, Child Immunization, Growth Monitoring"
+           data-pathway="MBBS + MD in Pediatrics / DNB Pediatrics + Fellowship in Neonatology."
+           data-companies="Rainbow Children's Hospital, Cloudnine, Surya Hospitals, AIIMS">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #9d174d);"><i class="fa-solid fa-baby"></i></div>
+          <div>
+            <h4>Pediatrician & Neonatologist</h4>
+            <span class="category-badge">Healthcare</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 35L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Dermatologist & Cosmetologist -->
+      <div class="marquee-card" 
+           data-title="Dermatologist & Cosmetologist" 
+           data-category="Medical Specialty" 
+           data-icon="fa-solid fa-hand-holding-medical" 
+           data-color="linear-gradient(135deg, #db2777, #831843)" 
+           data-description="Treats skin, hair, and nail pathology alongside cosmetic laser procedures, aesthetic therapies, and derma-surgery."
+           data-skills="Dermatosurgery, Laser Therapies, Trichology, Chemical Peels, Clinical Dermatology"
+           data-pathway="MBBS + MD in Dermatology, Venereology & Leprosy (DVD/DNB)."
+           data-companies="Kaya Skin Clinic, Oliva Skin & Hair, Max Healthcare, Private Aesthetics Clinics">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #db2777, #831843);"><i class="fa-solid fa-hand-holding-medical"></i></div>
+          <div>
+            <h4>Dermatologist & Cosmetologist</h4>
+            <span class="category-badge">Medical Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Radiologist & Imaging Expert -->
+      <div class="marquee-card" 
+           data-title="Radiologist & Imaging Expert" 
+           data-category="Diagnostic Medicine" 
+           data-icon="fa-solid fa-x-ray" 
+           data-color="linear-gradient(135deg, #0284c7, #0c4a6e)" 
+           data-description="Diagnoses complex conditions by interpreting MRI scans, CT scans, ultrasounds, and mammograms."
+           data-skills="MRI/CT Interpretation, Ultrasound, PET-CT, Interventional Radiology, Teleradiology"
+           data-pathway="MBBS + MD/DNB in Radio-diagnosis (NEET-PG top ranks)."
+           data-companies="Vijaya Diagnostic, Dr. Lal PathLabs, Mahajan Imaging, Apollo Hospitals, Medanta">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0c4a6e);"><i class="fa-solid fa-x-ray"></i></div>
+          <div>
+            <h4>Radiologist & Imaging Expert</h4>
+            <span class="category-badge">Diagnostic Medicine</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹15L - 55L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: General & Laparoscopic Surgeon -->
+      <div class="marquee-card" 
+           data-title="General & Laparoscopic Surgeon" 
+           data-category="Surgical Specialty" 
+           data-icon="fa-solid fa-scissors" 
+           data-color="linear-gradient(135deg, #e11d48, #881337)" 
+           data-description="Performs minimally invasive abdominal surgeries, trauma interventions, and surgical oncology procedures."
+           data-skills="Laparoscopic Surgery, Appendectomy, Hernia Repair, Surgical Asepsis, Trauma Management"
+           data-pathway="MBBS + MS in General Surgery + fellowship in Minimal Access Surgery (FMAS)."
+           data-companies="Max Healthcare, Fortis Hospitals, Sir Ganga Ram Hospital, Army Medical Corps">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #e11d48, #881337);"><i class="fa-solid fa-scissors"></i></div>
+          <div>
+            <h4>General & Laparoscopic Surgeon</h4>
+            <span class="category-badge">Surgical Specialty</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹14L - 50L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Anesthesiologist & ICU Doctor -->
+      <div class="marquee-card" 
+           data-title="Anesthesiologist & ICU Doctor" 
+           data-category="Critical Care" 
+           data-icon="fa-solid fa-syringe" 
+           data-color="linear-gradient(135deg, #7c3aed, #4c1d95)" 
+           data-description="Administers general and regional anesthesia during surgeries and monitors vital organ functions in intensive care units."
+           data-skills="Endotracheal Intubation, Epidural Anesthesia, Hemodynamic Monitoring, ICU Ventilator Management"
+           data-pathway="MBBS + MD in Anesthesiology / DNB + IDCCM (Critical Care Fellowship)."
+           data-companies="Multi-specialty Surgical Hospitals, Cardiac Centers, Trauma Institutes">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #7c3aed, #4c1d95);"><i class="fa-solid fa-syringe"></i></div>
+          <div>
+            <h4>Anesthesiologist & ICU Doctor</h4>
+            <span class="category-badge">Critical Care</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 38L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Psychiatrist & Neuropsychiatrist -->
+      <div class="marquee-card" 
+           data-title="Psychiatrist & Neuropsychiatrist" 
+           data-category="Mental Health" 
+           data-icon="fa-solid fa-head-side-virus" 
+           data-color="linear-gradient(135deg, #9333ea, #581c87)" 
+           data-description="Diagnoses and treats complex mental health disorders, psychoses, depression, and chemical dependencies through pharmacotherapy."
+           data-skills="Psychopharmacology, Psychiatric Evaluation, Cognitive Assessments, Psychotherapy Integration"
+           data-pathway="MBBS + MD in Psychiatry / DNB Psychiatry."
+           data-companies="NIMHANS Bengaluru, CIP Ranchi, Apollo Behavioral Health, Private Clinics">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #9333ea, #581c87);"><i class="fa-solid fa-head-side-virus"></i></div>
+          <div>
+            <h4>Psychiatrist & Neuropsychiatrist</h4>
+            <span class="category-badge">Mental Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: BAMS Ayurvedic Doctor -->
+      <div class="marquee-card" 
+           data-title="BAMS Ayurvedic Doctor" 
+           data-category="AYUSH & Wellness" 
+           data-icon="fa-solid fa-leaf" 
+           data-color="linear-gradient(135deg, #16a34a, #14532d)" 
+           data-description="Practices holistic healthcare through herbal pharmacology, Nadi Pariksha, Panchakarma detox, and lifestyle balance."
+           data-skills="Nadi Pariksha, Ayurvedic Formulations, Panchakarma Therapy, Dietetics & Dinacharya"
+           data-pathway="5.5-Year BAMS (Bachelor of Ayurvedic Medicine and Surgery) + MD (Ayurveda)."
+           data-companies="Patanjali, Kottakkal Arya Vaidya Sala, Dabur Clinics, Kerala Ayurveda Resorts">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #16a34a, #14532d);"><i class="fa-solid fa-leaf"></i></div>
+          <div>
+            <h4>BAMS Ayurvedic Doctor</h4>
+            <span class="category-badge">AYUSH & Wellness</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: BDS Dental Surgeon -->
+      <div class="marquee-card" 
+           data-title="BDS Dental Surgeon" 
+           data-category="Dental Medicine" 
+           data-icon="fa-solid fa-tooth" 
+           data-color="linear-gradient(135deg, #0ea5e9, #0369a1)" 
+           data-description="Diagnoses and treats oral diseases, performs root canals, teeth extractions, and cosmetic smiles restorations."
+           data-skills="Root Canal Treatment (RCT), Prosthodontics, Dental Implants, Oral Radiography, Cosmetic Dentistry"
+           data-pathway="5-Year BDS (Bachelor of Dental Surgery) + MDS (Orthodontics / Endodontics)."
+           data-companies="Clove Dental, Apollo White Dental, Private Dental Clinics, Govt Dental Colleges">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0ea5e9, #0369a1);"><i class="fa-solid fa-tooth"></i></div>
+          <div>
+            <h4>BDS Dental Surgeon</h4>
+            <span class="category-badge">Dental Medicine</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 22L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: BHMS Homeopathic Doctor -->
+      <div class="marquee-card" 
+           data-title="BHMS Homeopathic Doctor" 
+           data-category="AYUSH & Wellness" 
+           data-icon="fa-solid fa-seedling" 
+           data-color="linear-gradient(135deg, #65a30d, #365314)" 
+           data-description="Treats chronic ailments using the law of similars, constitutional remedies, and individualized natural medicine."
+           data-skills="Homeopathic Case Taking, Materia Medica, Repertorization, Chronic Disease Management"
+           data-pathway="5.5-Year BHMS (Bachelor of Homeopathic Medicine and Surgery) + MD (Homeopathy)."
+           data-companies="Dr. Batra's Healthcare, Bakson's, SBL Clinics, Private Holistic Practices">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #65a30d, #365314);"><i class="fa-solid fa-seedling"></i></div>
+          <div>
+            <h4>BHMS Homeopathic Doctor</h4>
+            <span class="category-badge">AYUSH & Wellness</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.5L - 15L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Clinical Pharmacist -->
+      <div class="marquee-card" 
+           data-title="Clinical Pharmacist" 
+           data-category="Pharmaceuticals" 
+           data-icon="fa-solid fa-pills" 
+           data-color="linear-gradient(135deg, #f59e0b, #b45309)" 
+           data-description="Formulates lifesaving drug compositions, evaluates drug interactions, and conducts quality assurance in pharma plants."
+           data-skills="Drug Formulations, HPLC, GMP Regulations, Pharmacovigilance, Dosage Optimization"
+           data-pathway="B.Pharm / Pharm.D + M.Pharm in Pharmaceutics or Clinical Pharmacology."
+           data-companies="Sun Pharma, Dr. Reddy's Laboratories, Cipla, Lupin, Pfizer India">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #b45309);"><i class="fa-solid fa-pills"></i></div>
+          <div>
+            <h4>Clinical Pharmacist</h4>
+            <span class="category-badge">Pharmaceuticals</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 18L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Physiotherapist & Sports Rehab -->
+      <div class="marquee-card" 
+           data-title="Physiotherapist & Sports Rehab" 
+           data-category="Physical Therapy" 
+           data-icon="fa-solid fa-person-walking" 
+           data-color="linear-gradient(135deg, #10b981, #065f46)" 
+           data-description="Restores physical mobility, relieves chronic pain, and rehabilitates professional athletes following sports injuries."
+           data-skills="Manual Therapy, Electrotherapy, Kinesiology, Sports Injury Rehabilitation, Ergonomics"
+           data-pathway="4.5-Year BPT (Bachelor of Physiotherapy) + MPT in Sports / Orthopedics / Neurology."
+           data-companies="Sports Authority of India (SAI), IPL Teams, Apollo Rehab, QI Spine Clinic">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #065f46);"><i class="fa-solid fa-person-walking"></i></div>
+          <div>
+            <h4>Physiotherapist & Sports Rehab</h4>
+            <span class="category-badge">Physical Therapy</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 16L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Clinical Psychologist -->
+      <div class="marquee-card" 
+           data-title="Clinical Psychologist" 
+           data-category="Mental Health" 
+           data-icon="fa-solid fa-brain" 
+           data-color="linear-gradient(135deg, #a855f7, #6b21a8)" 
+           data-description="Evaluates mental conditions using psychometric testing and provides evidence-based therapies (CBT, DBT, psychoanalysis)."
+           data-skills="Cognitive Behavioral Therapy (CBT), Psychometric Assessments, Crisis Intervention, Counseling"
+           data-pathway="B.A./B.Sc in Psychology + M.Sc / M.A. + M.Phil in Clinical Psychology (RCI recognized)."
+           data-companies="NIMHANS, Fortis Mental Health, Vandrevala Foundation, Mindler, Private Counseling">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <h4>Clinical Psychologist</h4>
+            <span class="category-badge">Mental Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Nursing Officer & Specialist -->
+      <div class="marquee-card" 
+           data-title="Nursing Officer & Specialist" 
+           data-category="Healthcare Nursing" 
+           data-icon="fa-solid fa-user-nurse" 
+           data-color="linear-gradient(135deg, #06b6d4, #155e75)" 
+           data-description="Delivers compassionate bedside care, administers medication, coordinates patient recovery, and supports surgical teams."
+           data-skills="Patient Triage, IV Administration, Vital Signs Monitoring, Infection Control, ICU Nursing"
+           data-pathway="B.Sc Nursing (4 years) + State Nursing Council Registration / Post Basic B.Sc."
+           data-companies="AIIMS (NORCET exam), NHS UK, Apollo Hospitals, Medanta, Gulf Healthcare">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #155e75);"><i class="fa-solid fa-user-nurse"></i></div>
+          <div>
+            <h4>Nursing Officer & Specialist</h4>
+            <span class="category-badge">Healthcare Nursing</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 16L (India) / ₹25L+ (Abroad)</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Medical Lab Technologist -->
+      <div class="marquee-card" 
+           data-title="Medical Lab Technologist" 
+           data-category="Diagnostics" 
+           data-icon="fa-solid fa-microscope" 
+           data-color="linear-gradient(135deg, #3b82f6, #1e3a8a)" 
+           data-description="Analyzes blood samples, cultures, biopsies, and bodily fluids using automated hematology and biochemical analyzers."
+           data-skills="Hematology, Clinical Biochemistry, Histopathology, ELISA, Quality Control"
+           data-pathway="B.Sc in Medical Laboratory Technology (BMLT) + M.Sc MLT."
+           data-companies="Lal PathLabs, SRL Diagnostics, Metropolis Healthcare, Thyrocare">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #3b82f6, #1e3a8a);"><i class="fa-solid fa-microscope"></i></div>
+          <div>
+            <h4>Medical Lab Technologist</h4>
+            <span class="category-badge">Diagnostics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.2L - 10L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Optometrist & Vision Scientist -->
+      <div class="marquee-card" 
+           data-title="Optometrist & Vision Scientist" 
+           data-category="Allied Health" 
+           data-icon="fa-solid fa-eye" 
+           data-color="linear-gradient(135deg, #14b8a6, #0f766e)" 
+           data-description="Examines visual acuity, detects ocular pathologies, prescribes corrective lenses, and fits therapeutic contact lenses."
+           data-skills="Refraction, Retinoscopy, Contact Lens Fitting, Glaucoma Screening, Low Vision Aids"
+           data-pathway="4-Year Bachelor of Optometry (B.Optom) + Master of Optometry."
+           data-companies="Lenskart, Titan Eyeplus, Sankara Nethralaya, L V Prasad Eye Institute">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #14b8a6, #0f766e);"><i class="fa-solid fa-eye"></i></div>
+          <div>
+            <h4>Optometrist & Vision Scientist</h4>
+            <span class="category-badge">Allied Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.5L - 12L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Occupational Therapist -->
+      <div class="marquee-card" 
+           data-title="Occupational Therapist" 
+           data-category="Rehabilitation" 
+           data-icon="fa-solid fa-hands-holding" 
+           data-color="linear-gradient(135deg, #f97316, #9a3412)" 
+           data-description="Helps individuals recover everyday functional motor and sensory skills impaired by injuries or neurological conditions."
+           data-skills="Sensory Integration, ADL Training, Pediatric Motor Skills, Splinting, Ergonomics"
+           data-pathway="4.5-Year Bachelor of Occupational Therapy (BOT) + MOT."
+           data-companies="Specialized Rehabilitation Centers, Child Development Clinics, AIIMS">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f97316, #9a3412);"><i class="fa-solid fa-hands-holding"></i></div>
+          <div>
+            <h4>Occupational Therapist</h4>
+            <span class="category-badge">Rehabilitation</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 14L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Demand</span>
+        </div>
+      </div>
+      <!-- Card: Speech-Language Pathologist -->
+      <div class="marquee-card" 
+           data-title="Speech-Language Pathologist" 
+           data-category="Allied Health" 
+           data-icon="fa-solid fa-ear-listen" 
+           data-color="linear-gradient(135deg, #8b5cf6, #581c87)" 
+           data-description="Diagnoses and treats speech fluency, voice disorders, swallowing difficulties, and hearing impairments."
+           data-skills="Pure Tone Audiometry, Hearing Aid Programming, Speech Therapy, Dysphagia Care"
+           data-pathway="4-Year BASLP (Bachelor in Audiology and Speech-Language Pathology) + MASLP."
+           data-companies="AIISH Mysuru, Hear.com, Cochlear India, ENT Clinics, Special Education Schools">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #581c87);"><i class="fa-solid fa-ear-listen"></i></div>
+          <div>
+            <h4>Speech-Language Pathologist</h4>
+            <span class="category-badge">Allied Health</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 15L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Demand</span>
+        </div>
+      </div>
+      <!-- Card: Biotechnologist & Geneticist -->
+      <div class="marquee-card" 
+           data-title="Biotechnologist & Geneticist" 
+           data-category="Biotechnology" 
+           data-icon="fa-solid fa-dna" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Conducts gene editing, recombinant DNA research, stem cell engineering, and develops biological vaccines."
+           data-skills="CRISPR-Cas9, PCR, DNA Sequencing, Gel Electrophoresis, Cell Culture, Bioinformatics"
+           data-pathway="B.Tech / B.Sc in Biotechnology + M.Sc / M.Tech / Ph.D in Genetics or Molecular Biology."
+           data-companies="Biocon, Bharat Biotech, Serum Institute of India, Syngene, Novozymes">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-dna"></i></div>
+          <div>
+            <h4>Biotechnologist & Geneticist</h4>
+            <span class="category-badge">Biotechnology</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Clinical Research Associate -->
+      <div class="marquee-card" 
+           data-title="Clinical Research Associate" 
+           data-category="Clinical Research" 
+           data-icon="fa-solid fa-clipboard-check" 
+           data-color="linear-gradient(135deg, #0284c7, #075985)" 
+           data-description="Monitors clinical drug trials across hospitals, ensuring strict adherence to GCP, safety protocols, and FDA guidelines."
+           data-skills="Good Clinical Practice (GCP), Protocol Compliance, Trial Monitoring, Regulatory Reporting"
+           data-pathway="B.Pharm / M.Pharm / M.Sc Life Sciences + Post Graduate Diploma in Clinical Research (PGDCR)."
+           data-companies="IQVIA, ICON plc, Parexel, Syneos Health, Novartis, AstraZeneca">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #075985);"><i class="fa-solid fa-clipboard-check"></i></div>
+          <div>
+            <h4>Clinical Research Associate</h4>
+            <span class="category-badge">Clinical Research</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Registered Clinical Dietitian -->
+      <div class="marquee-card" 
+           data-title="Registered Clinical Dietitian" 
+           data-category="Nutrition & Dietetics" 
+           data-icon="fa-solid fa-apple-whole" 
+           data-color="linear-gradient(135deg, #84cc16, #3f6212)" 
+           data-description="Formulates specialized medical nutritional therapies for diabetes, cardiovascular disease, weight loss, and athletic performance."
+           data-skills="Nutritional Assessment, Medical Dietetics, Macro Planning, BMR Calculation, Patient Counseling"
+           data-pathway="B.Sc in Food & Nutrition / Dietetics + M.Sc + Registered Dietitian (RD) exam."
+           data-companies="HealthifyMe, Apollo Hospitals, VLCC, Cult.fit, Sports Academies">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #84cc16, #3f6212);"><i class="fa-solid fa-apple-whole"></i></div>
+          <div>
+            <h4>Registered Clinical Dietitian</h4>
+            <span class="category-badge">Nutrition & Dietetics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹3.5L - 14L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Veterinary Doctor -->
+      <div class="marquee-card" 
+           data-title="Veterinary Doctor" 
+           data-category="Veterinary Sciences" 
+           data-icon="fa-solid fa-paw" 
+           data-color="linear-gradient(135deg, #10b981, #047857)" 
+           data-description="Diagnoses and surgically treats domestic companion animals, exotic wildlife, and farm livestock."
+           data-skills="Veterinary Surgery, Animal Diagnostics, Zoonotic Disease Control, Pharmacology"
+           data-pathway="5.5-Year B.V.Sc & A.H. (NEET-UG qualified) + State Veterinary Council Registration."
+           data-companies="Max Vets, DCC Animal Hospital, Government Veterinary Polyclinics, Zoos, Wildlife Trusts">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fa-solid fa-paw"></i></div>
+          <div>
+            <h4>Veterinary Doctor</h4>
+            <span class="category-badge">Veterinary Sciences</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 18L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Demand</span>
+        </div>
+      </div>
+      <!-- Card: Forensic Pathologist -->
+      <div class="marquee-card" 
+           data-title="Forensic Pathologist" 
+           data-category="Forensic Medicine" 
+           data-icon="fa-solid fa-fingerprint" 
+           data-color="linear-gradient(135deg, #475569, #1e293b)" 
+           data-description="Conducts autopsies, investigates unnatural deaths, and provides conclusive medical evidence for criminal courts."
+           data-skills="Medico-Legal Autopsy, Forensic Toxicology, Injury Pattern Analysis, Expert Court Testimony"
+           data-pathway="MBBS + MD in Forensic Medicine & Toxicology."
+           data-companies="State Forensic Science Laboratories (FSL), Central FSL, Govt Medical Colleges, CBI">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #475569, #1e293b);"><i class="fa-solid fa-fingerprint"></i></div>
+          <div>
+            <h4>Forensic Pathologist</h4>
+            <span class="category-badge">Forensic Medicine</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 25L</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Industrial Microbiologist -->
+      <div class="marquee-card" 
+           data-title="Industrial Microbiologist" 
+           data-category="Microbiology" 
+           data-icon="fa-solid fa-virus-covid" 
+           data-color="linear-gradient(135deg, #059669, #064e3b)" 
+           data-description="Harnesses microorganisms for industrial fermentation, vaccine production, bioplastics, and food preservation."
+           data-skills="Microbial Culture, Fermentation Technology, Sterility Testing, Aseptic Techniques, QC"
+           data-pathway="B.Sc in Microbiology + M.Sc / Ph.D in Industrial Microbiology or Applied Microbiology."
+           data-companies="Amul, Carlsberg, United Breweries, Biocon, Mother Dairy, Food Testing Labs">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #059669, #064e3b);"><i class="fa-solid fa-virus-covid"></i></div>
+          <div>
+            <h4>Industrial Microbiologist</h4>
+            <span class="category-badge">Microbiology</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 16L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Track: marquee-track-3 -->
+  <div class="marquee-container marquee-track-3">
+    <div class="marquee-inner">
+      <!-- Card: Chartered Accountant (CA) -->
+      <div class="marquee-card" 
+           data-title="Chartered Accountant (CA)" 
+           data-category="Finance & Audit" 
+           data-icon="fa-solid fa-calculator" 
+           data-color="linear-gradient(135deg, #f59e0b, #b45309)" 
+           data-description="Manages financial auditing, corporate taxation, statutory compliance, and strategic financial management."
+           data-skills="Financial Auditing, Direct & Indirect Tax (GST), Ind AS/IFRS, Financial Reporting, Forensic Audit"
+           data-pathway="ICAI Foundation + Intermediate + 2-3 Years Mandatory Articleship + CA Final."
+           data-companies="Big 4 (Deloitte, PwC, EY, KPMG), BDO, Reliance, Tata Sons, Private CA Practice">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #b45309);"><i class="fa-solid fa-calculator"></i></div>
+          <div>
+            <h4>Chartered Accountant (CA)</h4>
+            <span class="category-badge">Finance & Audit</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Investment Banker -->
+      <div class="marquee-card" 
+           data-title="Investment Banker" 
+           data-category="Investment Banking" 
+           data-icon="fa-solid fa-hand-holding-dollar" 
+           data-color="linear-gradient(135deg, #10b981, #047857)" 
+           data-description="Structures high-stakes mergers and acquisitions (M&A), initial public offerings (IPOs), and corporate debt restructuring."
+           data-skills="Financial Modeling, DCF Valuation, Pitch Decks, M&A Diligence, Capital Markets"
+           data-pathway="Top B-School MBA (IIM A/B/C) or CFA Charterholder + B.Com/B.Tech background."
+           data-companies="Goldman Sachs, JPMorgan Chase, Morgan Stanley, Avendus Capital, Kotak Investment Banking">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <div>
+            <h4>Investment Banker</h4>
+            <span class="category-badge">Investment Banking</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹16L - 55L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Portfolio Manager (CFA) -->
+      <div class="marquee-card" 
+           data-title="Portfolio Manager (CFA)" 
+           data-category="Wealth Management" 
+           data-icon="fa-solid fa-chart-line" 
+           data-color="linear-gradient(135deg, #2563eb, #1e40af)" 
+           data-description="Manages multi-asset investment portfolios, evaluates mutual funds, equities, and alternative asset classes."
+           data-skills="Equity Research, Fixed Income, Portfolio Optimization, Derivatives, Risk Management"
+           data-pathway="Clear CFA Level I, II, and III exams (CFA Institute, USA) + 36 months of relevant work experience."
+           data-companies="BlackRock, Fidelity Investments, ICICI Prudential AMC, HDFC Mutual Fund, Nomura">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #2563eb, #1e40af);"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <h4>Portfolio Manager (CFA)</h4>
+            <span class="category-badge">Wealth Management</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 40L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Management Consultant -->
+      <div class="marquee-card" 
+           data-title="Management Consultant" 
+           data-category="Strategy Consulting" 
+           data-icon="fa-solid fa-briefcase" 
+           data-color="linear-gradient(135deg, #6366f1, #3730a3)" 
+           data-description="Solves complex operational, strategic, and cost-efficiency challenges for Fortune 500 leadership."
+           data-skills="Problem Structuring, MECE Framework, Case Analysis, Financial Feasibility, Executive Presentations"
+           data-pathway="MBA from premier institutions (IIM, ISB, Harvard, INSEAD) or top-tier undergraduate engineering."
+           data-companies="McKinsey & Company, Boston Consulting Group (BCG), Bain & Company, Oliver Wyman">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #6366f1, #3730a3);"><i class="fa-solid fa-briefcase"></i></div>
+          <div>
+            <h4>Management Consultant</h4>
+            <span class="category-badge">Strategy Consulting</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹18L - 50L</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Corporate Lawyer -->
+      <div class="marquee-card" 
+           data-title="Corporate Lawyer" 
+           data-category="Corporate Law" 
+           data-icon="fa-solid fa-scale-balanced" 
+           data-color="linear-gradient(135deg, #8b5cf6, #581c87)" 
+           data-description="Drafts high-value contracts, guides corporate governance, and oversees regulatory compliance during business acquisitions."
+           data-skills="Contract Drafting, Due Diligence, Companies Act, Arbitration, Commercial Negotiation"
+           data-pathway="5-Year Integrated BA/BBA LLB from NLUs (CLAT exam) + Bar Council of India (AIBE) license."
+           data-companies="Cyril Amarchand Mangaldas, Shardul Amarchand, Khaitan & Co, Trilegal, In-House MNC Legal">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #581c87);"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div>
+            <h4>Corporate Lawyer</h4>
+            <span class="category-badge">Corporate Law</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 38L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: IAS Officer (Civil Services) -->
+      <div class="marquee-card" 
+           data-title="IAS Officer (Civil Services)" 
+           data-category="Civil Services" 
+           data-icon="fa-solid fa-landmark-dome" 
+           data-color="linear-gradient(135deg, #d97706, #92400e)" 
+           data-description="Leads district administration, implements national public policy, and heads government ministries and departments."
+           data-skills="Public Administration, Crisis Leadership, Policy Formulation, Governance, Law & Order"
+           data-pathway="Any Bachelor's Degree + cracking the UPSC Civil Services Examination (Prelims, Mains, Interview)."
+           data-companies="Government of India, State Governments, Cabinet Secretariat, NITI Aayog">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #d97706, #92400e);"><i class="fa-solid fa-landmark-dome"></i></div>
+          <div>
+            <h4>IAS Officer (Civil Services)</h4>
+            <span class="category-badge">Civil Services</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 25L + Perks</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Prestige</span>
+        </div>
+      </div>
+      <!-- Card: IPS Officer (Police) -->
+      <div class="marquee-card" 
+           data-title="IPS Officer (Police)" 
+           data-category="Law Enforcement" 
+           data-icon="fa-solid fa-shield" 
+           data-color="linear-gradient(135deg, #dc2626, #7f1d1d)" 
+           data-description="Commands police forces, maintains public order, investigates serious crimes, and directs national internal security."
+           data-skills="Crime Investigation, Intelligence Gathering, Tactical Operations, Public Order Management"
+           data-pathway="Any Bachelor's Degree + UPSC Civil Services Examination (Top Police Service rank)."
+           data-companies="Indian Police Service, Intelligence Bureau (IB), RAW, CBI, NIA, State Police">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #dc2626, #7f1d1d);"><i class="fa-solid fa-shield"></i></div>
+          <div>
+            <h4>IPS Officer (Police)</h4>
+            <span class="category-badge">Law Enforcement</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 24L + Perks</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Commercial Airline Pilot -->
+      <div class="marquee-card" 
+           data-title="Commercial Airline Pilot" 
+           data-category="Aviation" 
+           data-icon="fa-solid fa-plane-departure" 
+           data-color="linear-gradient(135deg, #0284c7, #075985)" 
+           data-description="Navigates commercial jetliners across domestic and international skies adhering to stringent flight safety standards."
+           data-skills="Flight Instrumentation, Cockpit Resource Management, Meteorology, Emergency Protocols"
+           data-pathway="10+2 with Physics & Math + Commercial Pilot License (CPL) training (200 flying hours) + Type Rating."
+           data-companies="IndiGo, Air India, Emirates, Singapore Airlines, Qatar Airways">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #075985);"><i class="fa-solid fa-plane-departure"></i></div>
+          <div>
+            <h4>Commercial Airline Pilot</h4>
+            <span class="category-badge">Aviation</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹18L - 75L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Actuary & Risk Scientist -->
+      <div class="marquee-card" 
+           data-title="Actuary & Risk Scientist" 
+           data-category="Actuarial Science" 
+           data-icon="fa-solid fa-chart-line-down" 
+           data-color="linear-gradient(135deg, #059669, #064e3b)" 
+           data-description="Calculates statistical probabilities of future events to price insurance policies and safeguard pension funds."
+           data-skills="Actuarial Mathematics, Stochastic Modeling, Probability, Life Insurance Pricing, R/Python"
+           data-pathway="Passing Actuarial examinations conducted by IAI (India) or IFoA (UK)."
+           data-companies="LIC of India, Swiss Re, Munich Re, HDFC Life, Max Life, Aon Hewitt">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #059669, #064e3b);"><i class="fa-solid fa-chart-line-down"></i></div>
+          <div>
+            <h4>Actuary & Risk Scientist</h4>
+            <span class="category-badge">Actuarial Science</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Armed Forces Officer -->
+      <div class="marquee-card" 
+           data-title="Armed Forces Officer" 
+           data-category="National Defence" 
+           data-icon="fa-solid fa-medal" 
+           data-color="linear-gradient(135deg, #65a30d, #365314)" 
+           data-description="Commands combat units, safeguards territorial sovereignty, and leads tactical strategic defense operations."
+           data-skills="Military Tactics, Combat Leadership, Weaponry Systems, Strategic Decision Making"
+           data-pathway="NDA (after 12th) or CDS / AFCAT exam (after graduation) + 5-day SSB interview."
+           data-companies="Indian Army, Indian Navy, Indian Air Force">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #65a30d, #365314);"><i class="fa-solid fa-medal"></i></div>
+          <div>
+            <h4>Armed Forces Officer</h4>
+            <span class="category-badge">National Defence</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 28L + Honors</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Honor</span>
+        </div>
+      </div>
+      <!-- Card: Judicial Magistrate & Judge -->
+      <div class="marquee-card" 
+           data-title="Judicial Magistrate & Judge" 
+           data-category="Judiciary" 
+           data-icon="fa-solid fa-gavel" 
+           data-color="linear-gradient(135deg, #78350f, #451a03)" 
+           data-description="Presides over courtroom trials, evaluates legal evidence, and delivers binding judgments in civil and criminal law."
+           data-skills="Jurisprudence, Statutory Interpretation, Court Procedure, Legal Analysis, Impartiality"
+           data-pathway="LLB Degree + cracking State Judicial Services Examination (PCS-J)."
+           data-companies="District & Sessions Courts, High Courts of India, Supreme Court">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #78350f, #451a03);"><i class="fa-solid fa-gavel"></i></div>
+          <div>
+            <h4>Judicial Magistrate & Judge</h4>
+            <span class="category-badge">Judiciary</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 26L + Judicial Perks</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Chief HR Officer (CHRO) -->
+      <div class="marquee-card" 
+           data-title="Chief HR Officer (CHRO)" 
+           data-category="Human Resources" 
+           data-icon="fa-solid fa-users-gear" 
+           data-color="linear-gradient(135deg, #ec4899, #9d174d)" 
+           data-description="Directs talent acquisition, employee retention frameworks, executive compensation, and enterprise company culture."
+           data-skills="Talent Management, Organizational Development, Labor Laws, Compensation & Benefits, HR Analytics"
+           data-pathway="MBA in Human Resources (XLRI, TISS, IIMs) or equivalent Masters in HR."
+           data-companies="Google, Unilever, Reliance Industries, Tata Consultancy Services, HDFC Bank">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #9d174d);"><i class="fa-solid fa-users-gear"></i></div>
+          <div>
+            <h4>Chief HR Officer (CHRO)</h4>
+            <span class="category-badge">Human Resources</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Digital Marketing Director -->
+      <div class="marquee-card" 
+           data-title="Digital Marketing Director" 
+           data-category="Marketing" 
+           data-icon="fa-solid fa-bullhorn" 
+           data-color="linear-gradient(135deg, #f97316, #c2410c)" 
+           data-description="Scales customer acquisition channels, optimizes conversion funnels, and leads viral multi-channel marketing campaigns."
+           data-skills="Performance Marketing, SEO/SEM, Google Analytics 4, Meta Ads, Growth Hacking, Retention"
+           data-pathway="Bachelor's degree + proven growth portfolio or MBA in Marketing."
+           data-companies="Nykaa, Mamaearth, Swiggy, Flipkart, Dentsu, GroupM">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f97316, #c2410c);"><i class="fa-solid fa-bullhorn"></i></div>
+          <div>
+            <h4>Digital Marketing Director</h4>
+            <span class="category-badge">Marketing</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Brand Strategist & Director -->
+      <div class="marquee-card" 
+           data-title="Brand Strategist & Director" 
+           data-category="Advertising" 
+           data-icon="fa-solid fa-wand-magic-sparkles" 
+           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
+           data-description="Crafts compelling brand identities, storytelling narratives, and high-impact advertising campaigns for global consumer brands."
+           data-skills="Brand Positioning, Creative Copywriting, Consumer Psychology, Campaign Direction"
+           data-pathway="Degree in Mass Communication / Advertising / MBA in Marketing + creative portfolio."
+           data-companies="Ogilvy & Mather, McCann Worldgroup, Leo Burnett, DDB Mudra, ITC Brands">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div>
+            <h4>Brand Strategist & Director</h4>
+            <span class="category-badge">Advertising</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 30L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Supply Chain Director -->
+      <div class="marquee-card" 
+           data-title="Supply Chain Director" 
+           data-category="Supply Chain" 
+           data-icon="fa-solid fa-truck-fast" 
+           data-color="linear-gradient(135deg, #0284c7, #0369a1)" 
+           data-description="Optimizes end-to-end global freight movements, warehouse automation, procurement, and inventory replenishment."
+           data-skills="ERP (SAP/Oracle), Demand Forecasting, Inventory Optimization, Logistics Analytics, Vendor Management"
+           data-pathway="B.Tech / BBA + MBA in Operations / Supply Chain Management (NITIE / IIMs)."
+           data-companies="Amazon, DHL, Maersk, Delhivery, Procter & Gamble, Hindustan Unilever">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0369a1);"><i class="fa-solid fa-truck-fast"></i></div>
+          <div>
+            <h4>Supply Chain Director</h4>
+            <span class="category-badge">Supply Chain</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 36L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Film Director & Screenwriter -->
+      <div class="marquee-card" 
+           data-title="Film Director & Screenwriter" 
+           data-category="Media & Entertainment" 
+           data-icon="fa-solid fa-clapperboard" 
+           data-color="linear-gradient(135deg, #e11d48, #9f1239)" 
+           data-description="Directs cinematic vision, guides actors' performances, shapes screenplays, and oversees film production."
+           data-skills="Visual Storytelling, Cinematography, Screenwriting, Film Editing, Production Direction"
+           data-pathway="Degree / Diploma from FTII Pune, SRFTI Kolkata, Whistling Woods, or filmmaking apprenticeship."
+           data-companies="Dharma Productions, Yash Raj Films, Netflix India, Amazon Prime Video, Excel Entertainment">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #e11d48, #9f1239);"><i class="fa-solid fa-clapperboard"></i></div>
+          <div>
+            <h4>Film Director & Screenwriter</h4>
+            <span class="category-badge">Media & Entertainment</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 50L+</strong></span>
+          <span style="color: #a855f7; font-weight: 700;">High Passion</span>
+        </div>
+      </div>
+      <!-- Card: Fashion Designer & Couturier -->
+      <div class="marquee-card" 
+           data-title="Fashion Designer & Couturier" 
+           data-category="Fashion Design" 
+           data-icon="fa-solid fa-shirt" 
+           data-color="linear-gradient(135deg, #d946ef, #a21caf)" 
+           data-description="Designs haute couture collections, selects luxury textiles, illustrates fashion lines, and directs runway presentations."
+           data-skills="Fashion Illustration, Textile Selection, Garment Construction, Draping, Trend Forecasting"
+           data-pathway="4-Year B.Des in Fashion Design from NIFT (National Institute of Fashion Technology) or Pearl Academy."
+           data-companies="Sabyasachi, Manish Malhotra, Anita Dongre, Zara, Aditya Birla Fashion & Retail">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #d946ef, #a21caf);"><i class="fa-solid fa-shirt"></i></div>
+          <div>
+            <h4>Fashion Designer & Couturier</h4>
+            <span class="category-badge">Fashion Design</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 25L+</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Interior Architect & Designer -->
+      <div class="marquee-card" 
+           data-title="Interior Architect & Designer" 
+           data-category="Interior Design" 
+           data-icon="fa-solid fa-couch" 
+           data-color="linear-gradient(135deg, #ca8a04, #854d0e)" 
+           data-description="Transforms residential luxury estates and commercial workspaces with functional, aesthetic spatial architecture."
+           data-skills="3D AutoCAD, SketchUp, 3ds Max, Lighting Design, Material Sourcing, Space Planning"
+           data-pathway="B.Des (Interior Design) or B.Arch with specialized interior architecture portfolio."
+           data-companies="Livspace, HomeLane, Architect Hafeez Contractor, Urban Ladder, Studio Lotus">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ca8a04, #854d0e);"><i class="fa-solid fa-couch"></i></div>
+          <div>
+            <h4>Interior Architect & Designer</h4>
+            <span class="category-badge">Interior Design</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 20L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: 3D Animator & VFX Artist -->
+      <div class="marquee-card" 
+           data-title="3D Animator & VFX Artist" 
+           data-category="Animation & VFX" 
+           data-icon="fa-solid fa-dragon" 
+           data-color="linear-gradient(135deg, #7c3aed, #4c1d95)" 
+           data-description="Creates photorealistic computer-generated imagery (CGI), character animations, and visual effects for blockbusters."
+           data-skills="Maya, Blender, Houdini, Nuke, ZBrush, Character Rigging, Compositing"
+           data-pathway="Degree / Diploma in Animation & VFX from institutions like MAAC, Arena, or self-taught demo reel."
+           data-companies="MPC, DNEG, Redchillies VFX, Framestore, Sony Pictures Imageworks">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #7c3aed, #4c1d95);"><i class="fa-solid fa-dragon"></i></div>
+          <div>
+            <h4>3D Animator & VFX Artist</h4>
+            <span class="category-badge">Animation & VFX</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Sports Coach & Performance Director -->
+      <div class="marquee-card" 
+           data-title="Sports Coach & Performance Director" 
+           data-category="Sports & Athletics" 
+           data-icon="fa-solid fa-trophy" 
+           data-color="linear-gradient(135deg, #eab308, #a16207)" 
+           data-description="Trains elite athletes in physical conditioning, tactical play, mental resilience, and sports tournament strategy."
+           data-skills="Athletic Conditioning, Biomechanics, Performance Analytics, Tactical Drills, Sports Psychology"
+           data-pathway="B.P.Ed / M.P.Ed from NIS Patiala + National federation / AFC / ICC coaching licenses."
+           data-companies="Sports Authority of India, BCCI, Indian Super League, Gopichand Badminton Academy">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #eab308, #a16207);"><i class="fa-solid fa-trophy"></i></div>
+          <div>
+            <h4>Sports Coach & Performance Director</h4>
+            <span class="category-badge">Sports & Athletics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 28L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: Event & Experiential Director -->
+      <div class="marquee-card" 
+           data-title="Event & Experiential Director" 
+           data-category="Event Management" 
+           data-icon="fa-solid fa-champagne-glasses" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Orchestrates grand luxury weddings, international music festivals, sports leagues, and global corporate summits."
+           data-skills="Event Logistics, Vendor Coordination, Budgeting, Stage Production, Crisis Protocol"
+           data-pathway="Degree / Diploma in Event Management (NAEMD) or Mass Communication."
+           data-companies="Wizcraft, Percept, DNA Networks, Wedding Design Company, Fountainhead MKTG">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-champagne-glasses"></i></div>
+          <div>
+            <h4>Event & Experiential Director</h4>
+            <span class="category-badge">Event Management</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Investigative Journalist -->
+      <div class="marquee-card" 
+           data-title="Investigative Journalist" 
+           data-category="Journalism & Media" 
+           data-icon="fa-solid fa-newspaper" 
+           data-color="linear-gradient(135deg, #475569, #0f172a)" 
+           data-description="Uncovers public interest stories, investigates corruption, conducts hard-hitting interviews, and crafts editorial features."
+           data-skills="Investigative Reporting, Media Ethics, Fact-Checking, Video Journalism, Editorial Writing"
+           data-pathway="Bachelor's / Master's in Journalism & Mass Communication (IIMC Delhi, ACJ Chennai)."
+           data-companies="The Hindu, Indian Express, BBC News India, NDTV, Reuters, Scroll.in">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #475569, #0f172a);"><i class="fa-solid fa-newspaper"></i></div>
+          <div>
+            <h4>Investigative Journalist</h4>
+            <span class="category-badge">Journalism & Media</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 20L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Public Relations (PR) Director -->
+      <div class="marquee-card" 
+           data-title="Public Relations (PR) Director" 
+           data-category="Public Relations" 
+           data-icon="fa-solid fa-comments-dollar" 
+           data-color="linear-gradient(135deg, #2563eb, #1d4ed8)" 
+           data-description="Builds high-profile media relationships, manages corporate crisis communication, and steers executive public image."
+           data-skills="Crisis Communication, Press Releases, Media Relations, Strategic Messaging, Media Pitching"
+           data-pathway="Degree in Public Relations / Mass Communication / MBA in Marketing."
+           data-companies="Edelman, Weber Shandwick, Genesis BCW, Adfactors PR, MSL India">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);"><i class="fa-solid fa-comments-dollar"></i></div>
+          <div>
+            <h4>Public Relations (PR) Director</h4>
+            <span class="category-badge">Public Relations</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5.5L - 24L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: General Manager (Hospitality) -->
+      <div class="marquee-card" 
+           data-title="General Manager (Hospitality)" 
+           data-category="Hospitality" 
+           data-icon="fa-solid fa-hotel" 
+           data-color="linear-gradient(135deg, #b45309, #78350f)" 
+           data-description="Manages luxury 5-star hotel properties, oversees VIP guest experiences, F&B operations, and resort profitability."
+           data-skills="Hospitality Operations, Revenue Management, Guest Relations, Food & Beverage Standards"
+           data-pathway="3-Year B.Sc in Hospitality & Hotel Administration (NCHMCT JEE qualified) + IHM graduation."
+           data-companies="The Taj Mahal Palace, Oberoi Hotels & Resorts, ITC Hotels, Marriott International, Hyatt">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #b45309, #78350f);"><i class="fa-solid fa-hotel"></i></div>
+          <div>
+            <h4>General Manager (Hospitality)</h4>
+            <span class="category-badge">Hospitality</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Diplomat & Foreign Service (IFS) -->
+      <div class="marquee-card" 
+           data-title="Diplomat & Foreign Service (IFS)" 
+           data-category="Diplomacy" 
+           data-icon="fa-solid fa-earth-americas" 
+           data-color="linear-gradient(135deg, #1e40af, #172554)" 
+           data-description="Represents the country at embassies worldwide, conducts bilateral trade negotiations, and shapes geopolitical foreign policy."
+           data-skills="International Relations, Bilateral Negotiation, Diplomatic Protocol, Foreign Languages"
+           data-pathway="Any Bachelor's Degree + UPSC Civil Services Examination (IFS ranking)."
+           data-companies="Ministry of External Affairs (MEA), Indian Embassies Worldwide, United Nations (UN)">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #1e40af, #172554);"><i class="fa-solid fa-earth-americas"></i></div>
+          <div>
+            <h4>Diplomat & Foreign Service (IFS)</h4>
+            <span class="category-badge">Diplomacy</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 35L + Foreign Allowance</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Economist & Policy Researcher -->
+      <div class="marquee-card" 
+           data-title="Economist & Policy Researcher" 
+           data-category="Economics & Policy" 
+           data-icon="fa-solid fa-chart-column" 
+           data-color="linear-gradient(135deg, #0d9488, #115e59)" 
+           data-description="Analyzes macroeconomic trends, inflation forecasting, fiscal policy models, and advises central banks and think tanks."
+           data-skills="Econometrics, Stata, Macroeconomic Modeling, Policy Analysis, Game Theory"
+           data-pathway="B.A./B.Sc in Economics + Master's (DSE, ISI Kolkata, JNU) or Ph.D in Economics."
+           data-companies="Reserve Bank of India (RBI), World Bank, IMF, NITI Aayog, ICRIER, CRISIL">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0d9488, #115e59);"><i class="fa-solid fa-chart-column"></i></div>
+          <div>
+            <h4>Economist & Policy Researcher</h4>
+            <span class="category-badge">Economics & Policy</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 35L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+
+      <!-- Duplicated for seamless marquee loop -->
+      <!-- Card: Chartered Accountant (CA) -->
+      <div class="marquee-card" 
+           data-title="Chartered Accountant (CA)" 
+           data-category="Finance & Audit" 
+           data-icon="fa-solid fa-calculator" 
+           data-color="linear-gradient(135deg, #f59e0b, #b45309)" 
+           data-description="Manages financial auditing, corporate taxation, statutory compliance, and strategic financial management."
+           data-skills="Financial Auditing, Direct & Indirect Tax (GST), Ind AS/IFRS, Financial Reporting, Forensic Audit"
+           data-pathway="ICAI Foundation + Intermediate + 2-3 Years Mandatory Articleship + CA Final."
+           data-companies="Big 4 (Deloitte, PwC, EY, KPMG), BDO, Reliance, Tata Sons, Private CA Practice">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #b45309);"><i class="fa-solid fa-calculator"></i></div>
+          <div>
+            <h4>Chartered Accountant (CA)</h4>
+            <span class="category-badge">Finance & Audit</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">Very High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Investment Banker -->
+      <div class="marquee-card" 
+           data-title="Investment Banker" 
+           data-category="Investment Banking" 
+           data-icon="fa-solid fa-hand-holding-dollar" 
+           data-color="linear-gradient(135deg, #10b981, #047857)" 
+           data-description="Structures high-stakes mergers and acquisitions (M&A), initial public offerings (IPOs), and corporate debt restructuring."
+           data-skills="Financial Modeling, DCF Valuation, Pitch Decks, M&A Diligence, Capital Markets"
+           data-pathway="Top B-School MBA (IIM A/B/C) or CFA Charterholder + B.Com/B.Tech background."
+           data-companies="Goldman Sachs, JPMorgan Chase, Morgan Stanley, Avendus Capital, Kotak Investment Banking">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #10b981, #047857);"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <div>
+            <h4>Investment Banker</h4>
+            <span class="category-badge">Investment Banking</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹16L - 55L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Portfolio Manager (CFA) -->
+      <div class="marquee-card" 
+           data-title="Portfolio Manager (CFA)" 
+           data-category="Wealth Management" 
+           data-icon="fa-solid fa-chart-line" 
+           data-color="linear-gradient(135deg, #2563eb, #1e40af)" 
+           data-description="Manages multi-asset investment portfolios, evaluates mutual funds, equities, and alternative asset classes."
+           data-skills="Equity Research, Fixed Income, Portfolio Optimization, Derivatives, Risk Management"
+           data-pathway="Clear CFA Level I, II, and III exams (CFA Institute, USA) + 36 months of relevant work experience."
+           data-companies="BlackRock, Fidelity Investments, ICICI Prudential AMC, HDFC Mutual Fund, Nomura">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #2563eb, #1e40af);"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <h4>Portfolio Manager (CFA)</h4>
+            <span class="category-badge">Wealth Management</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 40L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Management Consultant -->
+      <div class="marquee-card" 
+           data-title="Management Consultant" 
+           data-category="Strategy Consulting" 
+           data-icon="fa-solid fa-briefcase" 
+           data-color="linear-gradient(135deg, #6366f1, #3730a3)" 
+           data-description="Solves complex operational, strategic, and cost-efficiency challenges for Fortune 500 leadership."
+           data-skills="Problem Structuring, MECE Framework, Case Analysis, Financial Feasibility, Executive Presentations"
+           data-pathway="MBA from premier institutions (IIM, ISB, Harvard, INSEAD) or top-tier undergraduate engineering."
+           data-companies="McKinsey & Company, Boston Consulting Group (BCG), Bain & Company, Oliver Wyman">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #6366f1, #3730a3);"><i class="fa-solid fa-briefcase"></i></div>
+          <div>
+            <h4>Management Consultant</h4>
+            <span class="category-badge">Strategy Consulting</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹18L - 50L</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Corporate Lawyer -->
+      <div class="marquee-card" 
+           data-title="Corporate Lawyer" 
+           data-category="Corporate Law" 
+           data-icon="fa-solid fa-scale-balanced" 
+           data-color="linear-gradient(135deg, #8b5cf6, #581c87)" 
+           data-description="Drafts high-value contracts, guides corporate governance, and oversees regulatory compliance during business acquisitions."
+           data-skills="Contract Drafting, Due Diligence, Companies Act, Arbitration, Commercial Negotiation"
+           data-pathway="5-Year Integrated BA/BBA LLB from NLUs (CLAT exam) + Bar Council of India (AIBE) license."
+           data-companies="Cyril Amarchand Mangaldas, Shardul Amarchand, Khaitan & Co, Trilegal, In-House MNC Legal">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #581c87);"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div>
+            <h4>Corporate Lawyer</h4>
+            <span class="category-badge">Corporate Law</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 38L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: IAS Officer (Civil Services) -->
+      <div class="marquee-card" 
+           data-title="IAS Officer (Civil Services)" 
+           data-category="Civil Services" 
+           data-icon="fa-solid fa-landmark-dome" 
+           data-color="linear-gradient(135deg, #d97706, #92400e)" 
+           data-description="Leads district administration, implements national public policy, and heads government ministries and departments."
+           data-skills="Public Administration, Crisis Leadership, Policy Formulation, Governance, Law & Order"
+           data-pathway="Any Bachelor's Degree + cracking the UPSC Civil Services Examination (Prelims, Mains, Interview)."
+           data-companies="Government of India, State Governments, Cabinet Secretariat, NITI Aayog">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #d97706, #92400e);"><i class="fa-solid fa-landmark-dome"></i></div>
+          <div>
+            <h4>IAS Officer (Civil Services)</h4>
+            <span class="category-badge">Civil Services</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 25L + Perks</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Prestige</span>
+        </div>
+      </div>
+      <!-- Card: IPS Officer (Police) -->
+      <div class="marquee-card" 
+           data-title="IPS Officer (Police)" 
+           data-category="Law Enforcement" 
+           data-icon="fa-solid fa-shield" 
+           data-color="linear-gradient(135deg, #dc2626, #7f1d1d)" 
+           data-description="Commands police forces, maintains public order, investigates serious crimes, and directs national internal security."
+           data-skills="Crime Investigation, Intelligence Gathering, Tactical Operations, Public Order Management"
+           data-pathway="Any Bachelor's Degree + UPSC Civil Services Examination (Top Police Service rank)."
+           data-companies="Indian Police Service, Intelligence Bureau (IB), RAW, CBI, NIA, State Police">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #dc2626, #7f1d1d);"><i class="fa-solid fa-shield"></i></div>
+          <div>
+            <h4>IPS Officer (Police)</h4>
+            <span class="category-badge">Law Enforcement</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 24L + Perks</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Commercial Airline Pilot -->
+      <div class="marquee-card" 
+           data-title="Commercial Airline Pilot" 
+           data-category="Aviation" 
+           data-icon="fa-solid fa-plane-departure" 
+           data-color="linear-gradient(135deg, #0284c7, #075985)" 
+           data-description="Navigates commercial jetliners across domestic and international skies adhering to stringent flight safety standards."
+           data-skills="Flight Instrumentation, Cockpit Resource Management, Meteorology, Emergency Protocols"
+           data-pathway="10+2 with Physics & Math + Commercial Pilot License (CPL) training (200 flying hours) + Type Rating."
+           data-companies="IndiGo, Air India, Emirates, Singapore Airlines, Qatar Airways">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #075985);"><i class="fa-solid fa-plane-departure"></i></div>
+          <div>
+            <h4>Commercial Airline Pilot</h4>
+            <span class="category-badge">Aviation</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹18L - 75L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Actuary & Risk Scientist -->
+      <div class="marquee-card" 
+           data-title="Actuary & Risk Scientist" 
+           data-category="Actuarial Science" 
+           data-icon="fa-solid fa-chart-line-down" 
+           data-color="linear-gradient(135deg, #059669, #064e3b)" 
+           data-description="Calculates statistical probabilities of future events to price insurance policies and safeguard pension funds."
+           data-skills="Actuarial Mathematics, Stochastic Modeling, Probability, Life Insurance Pricing, R/Python"
+           data-pathway="Passing Actuarial examinations conducted by IAI (India) or IFoA (UK)."
+           data-companies="LIC of India, Swiss Re, Munich Re, HDFC Life, Max Life, Aon Hewitt">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #059669, #064e3b);"><i class="fa-solid fa-chart-line-down"></i></div>
+          <div>
+            <h4>Actuary & Risk Scientist</h4>
+            <span class="category-badge">Actuarial Science</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Armed Forces Officer -->
+      <div class="marquee-card" 
+           data-title="Armed Forces Officer" 
+           data-category="National Defence" 
+           data-icon="fa-solid fa-medal" 
+           data-color="linear-gradient(135deg, #65a30d, #365314)" 
+           data-description="Commands combat units, safeguards territorial sovereignty, and leads tactical strategic defense operations."
+           data-skills="Military Tactics, Combat Leadership, Weaponry Systems, Strategic Decision Making"
+           data-pathway="NDA (after 12th) or CDS / AFCAT exam (after graduation) + 5-day SSB interview."
+           data-companies="Indian Army, Indian Navy, Indian Air Force">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #65a30d, #365314);"><i class="fa-solid fa-medal"></i></div>
+          <div>
+            <h4>Armed Forces Officer</h4>
+            <span class="category-badge">National Defence</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 28L + Honors</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Honor</span>
+        </div>
+      </div>
+      <!-- Card: Judicial Magistrate & Judge -->
+      <div class="marquee-card" 
+           data-title="Judicial Magistrate & Judge" 
+           data-category="Judiciary" 
+           data-icon="fa-solid fa-gavel" 
+           data-color="linear-gradient(135deg, #78350f, #451a03)" 
+           data-description="Presides over courtroom trials, evaluates legal evidence, and delivers binding judgments in civil and criminal law."
+           data-skills="Jurisprudence, Statutory Interpretation, Court Procedure, Legal Analysis, Impartiality"
+           data-pathway="LLB Degree + cracking State Judicial Services Examination (PCS-J)."
+           data-companies="District & Sessions Courts, High Courts of India, Supreme Court">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #78350f, #451a03);"><i class="fa-solid fa-gavel"></i></div>
+          <div>
+            <h4>Judicial Magistrate & Judge</h4>
+            <span class="category-badge">Judiciary</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 26L + Judicial Perks</strong></span>
+          <span style="color: #d97706; font-weight: 700;">High Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Chief HR Officer (CHRO) -->
+      <div class="marquee-card" 
+           data-title="Chief HR Officer (CHRO)" 
+           data-category="Human Resources" 
+           data-icon="fa-solid fa-users-gear" 
+           data-color="linear-gradient(135deg, #ec4899, #9d174d)" 
+           data-description="Directs talent acquisition, employee retention frameworks, executive compensation, and enterprise company culture."
+           data-skills="Talent Management, Organizational Development, Labor Laws, Compensation & Benefits, HR Analytics"
+           data-pathway="MBA in Human Resources (XLRI, TISS, IIMs) or equivalent Masters in HR."
+           data-companies="Google, Unilever, Reliance Industries, Tata Consultancy Services, HDFC Bank">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #9d174d);"><i class="fa-solid fa-users-gear"></i></div>
+          <div>
+            <h4>Chief HR Officer (CHRO)</h4>
+            <span class="category-badge">Human Resources</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 45L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Digital Marketing Director -->
+      <div class="marquee-card" 
+           data-title="Digital Marketing Director" 
+           data-category="Marketing" 
+           data-icon="fa-solid fa-bullhorn" 
+           data-color="linear-gradient(135deg, #f97316, #c2410c)" 
+           data-description="Scales customer acquisition channels, optimizes conversion funnels, and leads viral multi-channel marketing campaigns."
+           data-skills="Performance Marketing, SEO/SEM, Google Analytics 4, Meta Ads, Growth Hacking, Retention"
+           data-pathway="Bachelor's degree + proven growth portfolio or MBA in Marketing."
+           data-companies="Nykaa, Mamaearth, Swiggy, Flipkart, Dentsu, GroupM">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #f97316, #c2410c);"><i class="fa-solid fa-bullhorn"></i></div>
+          <div>
+            <h4>Digital Marketing Director</h4>
+            <span class="category-badge">Marketing</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Brand Strategist & Director -->
+      <div class="marquee-card" 
+           data-title="Brand Strategist & Director" 
+           data-category="Advertising" 
+           data-icon="fa-solid fa-wand-magic-sparkles" 
+           data-color="linear-gradient(135deg, #8b5cf6, #6d28d9)" 
+           data-description="Crafts compelling brand identities, storytelling narratives, and high-impact advertising campaigns for global consumer brands."
+           data-skills="Brand Positioning, Creative Copywriting, Consumer Psychology, Campaign Direction"
+           data-pathway="Degree in Mass Communication / Advertising / MBA in Marketing + creative portfolio."
+           data-companies="Ogilvy & Mather, McCann Worldgroup, Leo Burnett, DDB Mudra, ITC Brands">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div>
+            <h4>Brand Strategist & Director</h4>
+            <span class="category-badge">Advertising</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹7L - 30L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Supply Chain Director -->
+      <div class="marquee-card" 
+           data-title="Supply Chain Director" 
+           data-category="Supply Chain" 
+           data-icon="fa-solid fa-truck-fast" 
+           data-color="linear-gradient(135deg, #0284c7, #0369a1)" 
+           data-description="Optimizes end-to-end global freight movements, warehouse automation, procurement, and inventory replenishment."
+           data-skills="ERP (SAP/Oracle), Demand Forecasting, Inventory Optimization, Logistics Analytics, Vendor Management"
+           data-pathway="B.Tech / BBA + MBA in Operations / Supply Chain Management (NITIE / IIMs)."
+           data-companies="Amazon, DHL, Maersk, Delhivery, Procter & Gamble, Hindustan Unilever">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0369a1);"><i class="fa-solid fa-truck-fast"></i></div>
+          <div>
+            <h4>Supply Chain Director</h4>
+            <span class="category-badge">Supply Chain</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹10L - 36L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Film Director & Screenwriter -->
+      <div class="marquee-card" 
+           data-title="Film Director & Screenwriter" 
+           data-category="Media & Entertainment" 
+           data-icon="fa-solid fa-clapperboard" 
+           data-color="linear-gradient(135deg, #e11d48, #9f1239)" 
+           data-description="Directs cinematic vision, guides actors' performances, shapes screenplays, and oversees film production."
+           data-skills="Visual Storytelling, Cinematography, Screenwriting, Film Editing, Production Direction"
+           data-pathway="Degree / Diploma from FTII Pune, SRFTI Kolkata, Whistling Woods, or filmmaking apprenticeship."
+           data-companies="Dharma Productions, Yash Raj Films, Netflix India, Amazon Prime Video, Excel Entertainment">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #e11d48, #9f1239);"><i class="fa-solid fa-clapperboard"></i></div>
+          <div>
+            <h4>Film Director & Screenwriter</h4>
+            <span class="category-badge">Media & Entertainment</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹6L - 50L+</strong></span>
+          <span style="color: #a855f7; font-weight: 700;">High Passion</span>
+        </div>
+      </div>
+      <!-- Card: Fashion Designer & Couturier -->
+      <div class="marquee-card" 
+           data-title="Fashion Designer & Couturier" 
+           data-category="Fashion Design" 
+           data-icon="fa-solid fa-shirt" 
+           data-color="linear-gradient(135deg, #d946ef, #a21caf)" 
+           data-description="Designs haute couture collections, selects luxury textiles, illustrates fashion lines, and directs runway presentations."
+           data-skills="Fashion Illustration, Textile Selection, Garment Construction, Draping, Trend Forecasting"
+           data-pathway="4-Year B.Des in Fashion Design from NIFT (National Institute of Fashion Technology) or Pearl Academy."
+           data-companies="Sabyasachi, Manish Malhotra, Anita Dongre, Zara, Aditya Birla Fashion & Retail">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #d946ef, #a21caf);"><i class="fa-solid fa-shirt"></i></div>
+          <div>
+            <h4>Fashion Designer & Couturier</h4>
+            <span class="category-badge">Fashion Design</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 25L+</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Interior Architect & Designer -->
+      <div class="marquee-card" 
+           data-title="Interior Architect & Designer" 
+           data-category="Interior Design" 
+           data-icon="fa-solid fa-couch" 
+           data-color="linear-gradient(135deg, #ca8a04, #854d0e)" 
+           data-description="Transforms residential luxury estates and commercial workspaces with functional, aesthetic spatial architecture."
+           data-skills="3D AutoCAD, SketchUp, 3ds Max, Lighting Design, Material Sourcing, Space Planning"
+           data-pathway="B.Des (Interior Design) or B.Arch with specialized interior architecture portfolio."
+           data-companies="Livspace, HomeLane, Architect Hafeez Contractor, Urban Ladder, Studio Lotus">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ca8a04, #854d0e);"><i class="fa-solid fa-couch"></i></div>
+          <div>
+            <h4>Interior Architect & Designer</h4>
+            <span class="category-badge">Interior Design</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 20L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: 3D Animator & VFX Artist -->
+      <div class="marquee-card" 
+           data-title="3D Animator & VFX Artist" 
+           data-category="Animation & VFX" 
+           data-icon="fa-solid fa-dragon" 
+           data-color="linear-gradient(135deg, #7c3aed, #4c1d95)" 
+           data-description="Creates photorealistic computer-generated imagery (CGI), character animations, and visual effects for blockbusters."
+           data-skills="Maya, Blender, Houdini, Nuke, ZBrush, Character Rigging, Compositing"
+           data-pathway="Degree / Diploma in Animation & VFX from institutions like MAAC, Arena, or self-taught demo reel."
+           data-companies="MPC, DNEG, Redchillies VFX, Framestore, Sony Pictures Imageworks">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #7c3aed, #4c1d95);"><i class="fa-solid fa-dragon"></i></div>
+          <div>
+            <h4>3D Animator & VFX Artist</h4>
+            <span class="category-badge">Animation & VFX</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Sports Coach & Performance Director -->
+      <div class="marquee-card" 
+           data-title="Sports Coach & Performance Director" 
+           data-category="Sports & Athletics" 
+           data-icon="fa-solid fa-trophy" 
+           data-color="linear-gradient(135deg, #eab308, #a16207)" 
+           data-description="Trains elite athletes in physical conditioning, tactical play, mental resilience, and sports tournament strategy."
+           data-skills="Athletic Conditioning, Biomechanics, Performance Analytics, Tactical Drills, Sports Psychology"
+           data-pathway="B.P.Ed / M.P.Ed from NIS Patiala + National federation / AFC / ICC coaching licenses."
+           data-companies="Sports Authority of India, BCCI, Indian Super League, Gopichand Badminton Academy">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #eab308, #a16207);"><i class="fa-solid fa-trophy"></i></div>
+          <div>
+            <h4>Sports Coach & Performance Director</h4>
+            <span class="category-badge">Sports & Athletics</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5L - 28L</strong></span>
+          <span style="color: #0ea5e9; font-weight: 700;">Growing Fast</span>
+        </div>
+      </div>
+      <!-- Card: Event & Experiential Director -->
+      <div class="marquee-card" 
+           data-title="Event & Experiential Director" 
+           data-category="Event Management" 
+           data-icon="fa-solid fa-champagne-glasses" 
+           data-color="linear-gradient(135deg, #ec4899, #be185d)" 
+           data-description="Orchestrates grand luxury weddings, international music festivals, sports leagues, and global corporate summits."
+           data-skills="Event Logistics, Vendor Coordination, Budgeting, Stage Production, Crisis Protocol"
+           data-pathway="Degree / Diploma in Event Management (NAEMD) or Mass Communication."
+           data-companies="Wizcraft, Percept, DNA Networks, Wedding Design Company, Fountainhead MKTG">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #be185d);"><i class="fa-solid fa-champagne-glasses"></i></div>
+          <div>
+            <h4>Event & Experiential Director</h4>
+            <span class="category-badge">Event Management</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4L - 22L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Investigative Journalist -->
+      <div class="marquee-card" 
+           data-title="Investigative Journalist" 
+           data-category="Journalism & Media" 
+           data-icon="fa-solid fa-newspaper" 
+           data-color="linear-gradient(135deg, #475569, #0f172a)" 
+           data-description="Uncovers public interest stories, investigates corruption, conducts hard-hitting interviews, and crafts editorial features."
+           data-skills="Investigative Reporting, Media Ethics, Fact-Checking, Video Journalism, Editorial Writing"
+           data-pathway="Bachelor's / Master's in Journalism & Mass Communication (IIMC Delhi, ACJ Chennai)."
+           data-companies="The Hindu, Indian Express, BBC News India, NDTV, Reuters, Scroll.in">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #475569, #0f172a);"><i class="fa-solid fa-newspaper"></i></div>
+          <div>
+            <h4>Investigative Journalist</h4>
+            <span class="category-badge">Journalism & Media</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹4.5L - 20L</strong></span>
+          <span style="color: #2563eb; font-weight: 700;">Steady Demand</span>
+        </div>
+      </div>
+      <!-- Card: Public Relations (PR) Director -->
+      <div class="marquee-card" 
+           data-title="Public Relations (PR) Director" 
+           data-category="Public Relations" 
+           data-icon="fa-solid fa-comments-dollar" 
+           data-color="linear-gradient(135deg, #2563eb, #1d4ed8)" 
+           data-description="Builds high-profile media relationships, manages corporate crisis communication, and steers executive public image."
+           data-skills="Crisis Communication, Press Releases, Media Relations, Strategic Messaging, Media Pitching"
+           data-pathway="Degree in Public Relations / Mass Communication / MBA in Marketing."
+           data-companies="Edelman, Weber Shandwick, Genesis BCW, Adfactors PR, MSL India">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);"><i class="fa-solid fa-comments-dollar"></i></div>
+          <div>
+            <h4>Public Relations (PR) Director</h4>
+            <span class="category-badge">Public Relations</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹5.5L - 24L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: General Manager (Hospitality) -->
+      <div class="marquee-card" 
+           data-title="General Manager (Hospitality)" 
+           data-category="Hospitality" 
+           data-icon="fa-solid fa-hotel" 
+           data-color="linear-gradient(135deg, #b45309, #78350f)" 
+           data-description="Manages luxury 5-star hotel properties, oversees VIP guest experiences, F&B operations, and resort profitability."
+           data-skills="Hospitality Operations, Revenue Management, Guest Relations, Food & Beverage Standards"
+           data-pathway="3-Year B.Sc in Hospitality & Hotel Administration (NCHMCT JEE qualified) + IHM graduation."
+           data-companies="The Taj Mahal Palace, Oberoi Hotels & Resorts, ITC Hotels, Marriott International, Hyatt">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #b45309, #78350f);"><i class="fa-solid fa-hotel"></i></div>
+          <div>
+            <h4>General Manager (Hospitality)</h4>
+            <span class="category-badge">Hospitality</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹8L - 32L</strong></span>
+          <span style="color: #16a34a; font-weight: 700;">High Demand</span>
+        </div>
+      </div>
+      <!-- Card: Diplomat & Foreign Service (IFS) -->
+      <div class="marquee-card" 
+           data-title="Diplomat & Foreign Service (IFS)" 
+           data-category="Diplomacy" 
+           data-icon="fa-solid fa-earth-americas" 
+           data-color="linear-gradient(135deg, #1e40af, #172554)" 
+           data-description="Represents the country at embassies worldwide, conducts bilateral trade negotiations, and shapes geopolitical foreign policy."
+           data-skills="International Relations, Bilateral Negotiation, Diplomatic Protocol, Foreign Languages"
+           data-pathway="Any Bachelor's Degree + UPSC Civil Services Examination (IFS ranking)."
+           data-companies="Ministry of External Affairs (MEA), Indian Embassies Worldwide, United Nations (UN)">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #1e40af, #172554);"><i class="fa-solid fa-earth-americas"></i></div>
+          <div>
+            <h4>Diplomat & Foreign Service (IFS)</h4>
+            <span class="category-badge">Diplomacy</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹12L - 35L + Foreign Allowance</strong></span>
+          <span style="color: #d97706; font-weight: 700;">Highest Prestige</span>
+        </div>
+      </div>
+      <!-- Card: Economist & Policy Researcher -->
+      <div class="marquee-card" 
+           data-title="Economist & Policy Researcher" 
+           data-category="Economics & Policy" 
+           data-icon="fa-solid fa-chart-column" 
+           data-color="linear-gradient(135deg, #0d9488, #115e59)" 
+           data-description="Analyzes macroeconomic trends, inflation forecasting, fiscal policy models, and advises central banks and think tanks."
+           data-skills="Econometrics, Stata, Macroeconomic Modeling, Policy Analysis, Game Theory"
+           data-pathway="B.A./B.Sc in Economics + Master's (DSE, ISI Kolkata, JNU) or Ph.D in Economics."
+           data-companies="Reserve Bank of India (RBI), World Bank, IMF, NITI Aayog, ICRIER, CRISIL">
+        <div class="marquee-card-header">
+          <div class="marquee-icon-wrap" style="background: linear-gradient(135deg, #0d9488, #115e59);"><i class="fa-solid fa-chart-column"></i></div>
+          <div>
+            <h4>Economist & Policy Researcher</h4>
+            <span class="category-badge">Economics & Policy</span>
+          </div>
+        </div>
+        <div class="marquee-card-meta">
+          <span>Avg Salary: <strong>₹9L - 35L</strong></span>
           <span style="color: #16a34a; font-weight: 700;">High Demand</span>
         </div>
       </div>
