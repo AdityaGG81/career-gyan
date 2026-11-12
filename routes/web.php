@@ -279,6 +279,18 @@ Route::get('/sitemap.xml', function () {
     return response($xml, 200)->header('Content-Type', 'text/xml');
 });
 
+// Favicon Fallback Route (Guarantees Googlebot always gets 200 OK for /favicon.ico)
+Route::get('/favicon.ico', function () {
+    $path = public_path('favicon.ico');
+    if (file_exists($path)) {
+        return response(file_get_contents($path), 200, [
+            'Content-Type' => 'image/x-icon',
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
+    }
+    abort(404);
+});
+
 // Percentile & Rank Calculator
 Route::get('/tools/percentile-calculator', [\App\Http\Controllers\PercentileCalculatorController::class, 'index'])->name('tools.percentile-calculator');
 Route::match(['get', 'post'], '/api/tools/percentile-calculator/calculate', [\App\Http\Controllers\PercentileCalculatorController::class, 'calculateApi'])->middleware('throttle:60,1')->name('tools.percentile-calculator.api');
