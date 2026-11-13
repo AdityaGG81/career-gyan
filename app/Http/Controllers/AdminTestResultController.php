@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Career;
 use App\Models\Field;
 use App\Models\Question;
+use App\Services\AptitudeAiAnalysisService;
 use Illuminate\Http\Request;
 
 class AdminTestResultController extends Controller
@@ -146,8 +147,9 @@ class AdminTestResultController extends Controller
         }
 
         $questions = Question::with('dimension')->get()->keyBy('id');
+        $aiAnalysis = app(AptitudeAiAnalysisService::class)->analyze($session);
 
-        return view('admin.test-results.aptitude-show', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields', 'questions'));
+        return view('admin.test-results.aptitude-show', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields', 'questions', 'aiAnalysis'));
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Models\Dimension;
 use App\Models\Question;
 use App\Models\Career;
 use App\Models\Field;
+use App\Services\AptitudeAiAnalysisService;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -122,6 +123,13 @@ class TestController extends Controller
 
         $this->calculateRecommendations($session);
 
+        // Precompute AI Cognitive & Performance Analysis
+        try {
+            app(AptitudeAiAnalysisService::class)->analyze($session);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('AI Analysis precompute warning: ' . $e->getMessage());
+        }
+
         session(['last_test_uuid' => $session->uuid]);
         session()->forget('aptitude_quiz_questions');
 
@@ -172,7 +180,9 @@ class TestController extends Controller
             $questions = \App\Models\Question::with('dimension')->take(20)->get();
         }
 
-        return view('test.results', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields', 'questions'));
+        $aiAnalysis = app(AptitudeAiAnalysisService::class)->analyze($session);
+
+        return view('test.results', compact('session', 'careers', 'recommendedIds', 'fields', 'recommendedFields', 'questions', 'aiAnalysis'));
     }
 
     private function calculateRecommendations(TestSession $session)

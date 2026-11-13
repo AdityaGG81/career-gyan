@@ -262,6 +262,9 @@
     @media (max-width: 650px) {
         .review-answer-comparison { grid-template-columns: 1fr; }
     }
+    @media (max-width: 850px) {
+        .ai-results-2col { grid-template-columns: 1fr !important; }
+    }
 
     .review-ans-box {
         border-radius: 10px;
@@ -371,6 +374,204 @@
                 </div>
             </div>
         </div>
+
+        @if(isset($aiAnalysis))
+            <!-- AI Cognitive & Performance Analysis -->
+            <div class="ai-results-card fade-up" style="background: linear-gradient(135deg, #0b132b 0%, #1c2541 60%, #1e1b4b 100%); color: #ffffff; border-radius: var(--radius-xl); padding: 40px; margin-top: 40px; box-shadow: 0 20px 40px -15px rgba(11, 19, 43, 0.4); border: 1px solid rgba(255, 255, 255, 0.12); position: relative; overflow: hidden;">
+                
+                <!-- Glowing Ambient Accent -->
+                <div style="position: absolute; top: -100px; right: -100px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin-bottom: 24px; position: relative; z-index: 2;">
+                    <div>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(37, 99, 235, 0.25); border: 1px solid rgba(96, 165, 250, 0.4); color: #93c5fd; padding: 6px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 14px;">
+                            <i class="{{ $aiAnalysis['archetype_icon'] ?? 'fa-solid fa-brain-circuit' }}"></i>
+                            {{ $aiAnalysis['archetype_badge'] ?? 'Cognitive Talent Profile' }}
+                        </div>
+                        <h2 style="font-family: 'Sora', sans-serif; font-size: 32px; font-weight: 800; color: #ffffff; margin: 0 0 8px 0; letter-spacing: -0.5px;">
+                            {{ $aiAnalysis['archetype_title'] }}
+                        </h2>
+                        <p style="font-size: 16px; color: #cbd5e1; margin: 0; font-weight: 500;">
+                            {{ $aiAnalysis['archetype_subtitle'] }}
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: var(--radius-lg); padding: 16px 24px; text-align: center; backdrop-filter: blur(10px);">
+                        <span style="font-size: 11px; text-transform: uppercase; font-weight: 800; color: #94a3b8; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">
+                            Readiness Grade
+                        </span>
+                        <span style="font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 800; color: #38bdf8;">
+                            {{ $aiAnalysis['readiness_grade'] ?? 'A (Proficient)' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 4 Performance Metric Pillars -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 28px; position: relative; z-index: 2;">
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px 20px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; display: block; margin-bottom: 4px;">Cognitive Index</span>
+                        <span style="font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: #60a5fa;">{{ $aiAnalysis['overall_score'] ?? '0' }}/10</span>
+                        <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">Across 7 core faculties</div>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px 20px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; display: block; margin-bottom: 4px;">Test Accuracy</span>
+                        <span style="font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: #34d399;">{{ $aiAnalysis['accuracy_percentage'] ?? '0' }}%</span>
+                        <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">{{ $aiAnalysis['correct_count'] ?? 0 }} of {{ $aiAnalysis['total_questions'] ?? 0 }} questions verified</div>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px 20px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; display: block; margin-bottom: 4px;">Stream Alignment</span>
+                        <span style="font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 800; color: #facc15;">{{ $aiAnalysis['stream_fit']['fit_percentage'] ?? 90 }}%</span>
+                        <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">Prime match probability</div>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px 20px;">
+                        <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; display: block; margin-bottom: 4px;">Analysis Engine</span>
+                        <span style="font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 800; color: #c084fc; display: block; margin-top: 4px;">AI Cognitive Evaluator</span>
+                        <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">Heuristic synthesis active</div>
+                    </div>
+                </div>
+
+                <!-- Executive Synthesis -->
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; padding: 24px; line-height: 1.75; font-size: 15px; color: #e2e8f0; margin-bottom: 28px; position: relative; z-index: 2;">
+                    <div style="font-weight: 800; color: #93c5fd; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> AI Performance & Cognitive Evaluation:
+                    </div>
+                    {{ $aiAnalysis['executive_summary'] }}
+                </div>
+
+                <!-- 2-Column: Strengths & Growth Drills -->
+                <div class="ai-results-2col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; position: relative; z-index: 2;">
+                    <!-- Strengths -->
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 22px;">
+                        <h4 style="font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 800; color: #34d399; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-circle-check"></i> Standout Cognitive Strengths
+                        </h4>
+                        @foreach($aiAnalysis['strengths'] ?? [] as $st)
+                            <div style="margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed rgba(255, 255, 255, 0.12);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-weight: 700; font-size: 15px; color: #ffffff;">
+                                        <i class="{{ $st['icon'] ?? 'fa-solid fa-check' }}" style="color: {{ $st['color'] ?? '#34d399' }}; margin-right: 6px;"></i>
+                                        {{ $st['label'] }}: {{ $st['headline'] }}
+                                    </span>
+                                    <span style="background: rgba(52, 211, 153, 0.2); border: 1px solid rgba(52, 211, 153, 0.4); color: #6ee7b7; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
+                                        {{ $st['score'] }}/10
+                                    </span>
+                                </div>
+                                <p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.55; margin: 0 0 6px 0;">{{ $st['description'] }}</p>
+                                <div style="font-size: 12px; color: #93c5fd;">
+                                    <i class="fa-solid fa-briefcase"></i> <strong>Workplace Advantage:</strong> {{ $st['real_world'] }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Growth Drills -->
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 22px;">
+                        <h4 style="font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 800; color: #f59e0b; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-arrow-trend-up"></i> Priority Growth Areas & Drills
+                        </h4>
+                        @foreach($aiAnalysis['growth_areas'] ?? [] as $ga)
+                            <div style="margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px dashed rgba(255, 255, 255, 0.12);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-weight: 700; font-size: 15px; color: #ffffff;">
+                                        <i class="fa-solid fa-crosshairs" style="color: #f59e0b; margin-right: 6px;"></i>
+                                        {{ $ga['label'] }}
+                                    </span>
+                                    <span style="background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #fcd34d; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
+                                        {{ $ga['score'] }}/10
+                                    </span>
+                                </div>
+                                <p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.55; margin: 0 0 6px 0;">{{ $ga['observation'] }}</p>
+                                <div style="font-size: 12.5px; color: #fed7aa; margin-bottom: 6px;">
+                                    <i class="fa-solid fa-dumbbell"></i> <strong>Recommended Practice:</strong> {{ $ga['coaching'] }}
+                                </div>
+                                @if(!empty($ga['drills']))
+                                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                        @foreach($ga['drills'] as $drill)
+                                            <span style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: #fef3c7; font-size: 11px; padding: 2px 8px; border-radius: 4px;">
+                                                {{ $drill }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Academic Stream Alignment & Target Entrance Exams -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 28px; position: relative; z-index: 2;">
+                    <!-- Stream Fit -->
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 22px;">
+                        <h4 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #60a5fa; margin: 0 0 14px 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-graduation-cap"></i> Recommended Academic Stream Alignment
+                        </h4>
+                        @if(!empty($aiAnalysis['stream_fit']))
+                            @php $sf = $aiAnalysis['stream_fit']; @endphp
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="font-weight: 700; font-size: 15px; color: #ffffff;">{{ $sf['primary'] ?? 'Recommended Stream' }}</span>
+                                <span style="background: rgba(59, 130, 246, 0.25); border: 1px solid rgba(59, 130, 246, 0.5); color: #93c5fd; padding: 3px 10px; border-radius: 6px; font-weight: 800; font-size: 13px;">
+                                    {{ $sf['fit_percentage'] ?? 90 }}% Fit
+                                </span>
+                            </div>
+                            <p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.6; margin: 0 0 10px 0;">{{ $sf['rationale'] ?? '' }}</p>
+                            @if(!empty($sf['secondary']))
+                                <div style="font-size: 12.5px; color: #93c5fd;">
+                                    <strong>Secondary Pathway:</strong> {{ $sf['secondary'] }}
+                                </div>
+                            @endif
+                        @endif
+                    </div>
+
+                    <!-- Target Exams -->
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 22px;">
+                        <h4 style="font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 800; color: #c084fc; margin: 0 0 14px 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-bullseye"></i> High-Affinity Competitive Exams
+                        </h4>
+                        @foreach($aiAnalysis['target_exams'] ?? [] as $te)
+                            <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgba(255, 255, 255, 0.12);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <span style="font-weight: 700; font-size: 14.5px; color: #ffffff;">{{ $te['name'] ?? '' }}</span>
+                                    <span style="background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.4); color: #e9d5ff; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">
+                                        {{ $te['badge'] ?? 'Match' }}
+                                    </span>
+                                </div>
+                                <div style="font-size: 12.5px; color: #cbd5e1; line-height: 1.5;">{{ $te['desc'] ?? '' }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- 90-Day Action Roadmap -->
+                @if(!empty($aiAnalysis['roadmap_90_days']))
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 24px; position: relative; z-index: 2;">
+                        <h4 style="font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 800; color: #38bdf8; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-route"></i> Your Personalized 90-Day Trajectory
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                            @foreach($aiAnalysis['roadmap_90_days'] as $phase)
+                                <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 16px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <span style="font-size: 11px; text-transform: uppercase; font-weight: 800; color: #38bdf8; letter-spacing: 0.5px;">{{ $phase['period'] ?? '' }}</span>
+                                        <span style="background: rgba(56, 189, 248, 0.2); color: #7dd3fc; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px;">{{ $phase['badge'] ?? '' }}</span>
+                                    </div>
+                                    <div style="font-weight: 700; font-size: 14px; color: #ffffff; margin-bottom: 10px;">
+                                        <i class="{{ $phase['icon'] ?? 'fa-solid fa-flag' }}" style="margin-right: 6px; color: #38bdf8;"></i> {{ $phase['title'] ?? '' }}
+                                    </div>
+                                    <ul style="margin: 0; padding-left: 18px; font-size: 12.5px; color: #cbd5e1; line-height: 1.55;">
+                                        @foreach($phase['action_items'] ?? [] as $ai)
+                                            <li style="margin-bottom: 6px;">{{ $ai }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endif
 
         <!-- Careers Full Width Section -->
         <div class="recommendations-card fade-up fade-up-3" style="margin-top: 40px;">
@@ -547,9 +748,17 @@
                                     @php
                                         $isThisSelected = (trim(strtolower((string)$userAns)) === trim(strtolower((string)$optVal)) || trim(strtolower((string)$userAns)) === trim(strtolower((string)$optKey)));
                                         $isThisCorrect = (trim(strtolower((string)$q->correct_answer)) === trim(strtolower((string)$optVal)) || trim(strtolower((string)$q->correct_answer)) === trim(strtolower((string)$optKey)));
+                                        $isImgOpt = ($q->options_type === 'image') || preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', (string)$optVal) || str_starts_with((string)$optVal, 'abstract/') || str_starts_with((string)$optVal, 'spatial/');
                                     @endphp
                                     <div style="padding: 9px 12px; border-radius: 8px; font-size: 13px; border: 1.5px solid {{ $isThisCorrect ? '#10b981' : ($isThisSelected ? '#ef4444' : '#e2e8f0') }}; background: {{ $isThisCorrect ? '#ecfdf5' : ($isThisSelected ? '#fef2f2' : '#ffffff') }}; color: {{ $isThisCorrect ? '#065f46' : ($isThisSelected ? '#991b1b' : 'var(--text-1)') }}; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                                        <span><strong>{{ is_string($optKey) && strlen($optKey) <= 2 ? $optKey . '. ' : '' }}</strong>{{ $optVal }}</span>
+                                        @if($isImgOpt)
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <strong>{{ is_string($optKey) && strlen($optKey) <= 2 ? $optKey . '. ' : '' }}</strong>
+                                                <img src="{{ asset($optVal) }}" alt="Option" style="max-height: 70px; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; padding: 2px;">
+                                            </div>
+                                        @else
+                                            <span><strong>{{ is_string($optKey) && strlen($optKey) <= 2 ? $optKey . '. ' : '' }}</strong>{{ $optVal }}</span>
+                                        @endif
                                         @if($isThisCorrect)
                                             <span style="font-size: 10px; background: #10b981; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800;">CORRECT</span>
                                         @elseif($isThisSelected)
@@ -565,17 +774,31 @@
                                 <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: {{ $isCorrect ? '#15803d' : '#991b1b' }};">
                                     Your Submitted Choice:
                                 </span>
-                                <span style="font-size: 14.5px; font-weight: 700; color: {{ $isCorrect ? '#15803d' : '#991b1b' }};">
-                                    {{ $userAns !== 'N/A' ? $userAns : 'Not Answered / Skipped' }}
-                                </span>
+                                @php
+                                    $isUserAnsImg = preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', (string)$userAns) || str_starts_with((string)$userAns, 'abstract/') || str_starts_with((string)$userAns, 'spatial/');
+                                @endphp
+                                @if($isUserAnsImg)
+                                    <img src="{{ asset($userAns) }}" alt="Your choice visual" style="max-height: 70px; border-radius: 4px; border: 1.5px solid {{ $isCorrect ? '#86efac' : '#fca5a5' }}; background: #fff; padding: 3px; display: inline-block; margin-top: 4px;">
+                                @else
+                                    <span style="font-size: 14.5px; font-weight: 700; color: {{ $isCorrect ? '#15803d' : '#991b1b' }};">
+                                        {{ $userAns !== 'N/A' ? $userAns : 'Not Answered / Skipped' }}
+                                    </span>
+                                @endif
                             </div>
                             <div class="review-ans-box official-correct">
                                 <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #166534;">
                                     <i class="fa-solid fa-circle-check"></i> Official Correct Answer:
                                 </span>
-                                <span style="font-size: 14.5px; font-weight: 700; color: #166534;">
-                                    {{ $q->correct_answer }}
-                                </span>
+                                @php
+                                    $isCorrAnsImg = preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', (string)$q->correct_answer) || str_starts_with((string)$q->correct_answer, 'abstract/') || str_starts_with((string)$q->correct_answer, 'spatial/');
+                                @endphp
+                                @if($isCorrAnsImg)
+                                    <img src="{{ asset($q->correct_answer) }}" alt="Official correct visual" style="max-height: 70px; border-radius: 4px; border: 1.5px solid #86efac; background: #fff; padding: 3px; display: inline-block; margin-top: 4px;">
+                                @else
+                                    <span style="font-size: 14.5px; font-weight: 700; color: #166534;">
+                                        {{ $q->correct_answer }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>

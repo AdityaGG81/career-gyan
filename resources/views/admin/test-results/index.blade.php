@@ -353,6 +353,7 @@
             <th style="width: 40px; text-align: center;"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="row-select-checkbox" title="Select all on this page"></th>
             <th>Candidate</th>
             <th>Email / Phone</th>
+            <th>Answers & Score</th>
             <th>Aptitude Scores Breakdown</th>
             <th>Top Matched Careers</th>
             <th>Date Taken</th>
@@ -366,6 +367,21 @@
               $candidateEmail = $sess->candidate_email;
               $scores = $sess->aptitude_scores ?? [];
               $recommended = $sess->recommended_careers ?? [];
+              $userAnswers = $sess->user_inputs['answers'] ?? [];
+              $rawScores = $sess->user_inputs['raw_scores'] ?? [];
+              $totalAns = count($userAnswers);
+              $totalCorrect = 0;
+              $totalQs = 0;
+              if (!empty($rawScores)) {
+                  foreach ($rawScores as $r) {
+                      $totalCorrect += (int)($r['correct'] ?? 0);
+                      $totalQs += (int)($r['total'] ?? 0);
+                  }
+              }
+              if ($totalQs === 0 && $totalAns > 0) {
+                  $totalQs = $totalAns;
+              }
+              $accuracyRate = $totalQs > 0 ? round(($totalCorrect / $totalQs) * 100) : null;
             @endphp
             <tr>
               <td style="text-align: center;">
@@ -393,6 +409,25 @@
                 <div style="font-size: 13.5px; color: var(--admin-text-2);">{{ $candidateEmail }}</div>
               </td>
               <td>
+                @if($totalAns > 0 || $totalQs > 0)
+                  <div style="font-size: 13px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-list-check" style="color: #2563eb;"></i>
+                    <span>{{ $totalAns ?: $totalQs }} Answers Logged</span>
+                  </div>
+                  <div style="margin-top: 4px;">
+                    @if($accuracyRate !== null)
+                      <span class="pill-badge {{ $accuracyRate >= 75 ? 'pill-aptitude' : ($accuracyRate >= 50 ? 'pill-business' : 'pill-artistic') }}" style="font-size: 11px; padding: 2px 8px;">
+                        <i class="fa-solid fa-circle-check"></i> {{ $accuracyRate }}% Accuracy ({{ $totalCorrect }}/{{ $totalQs }})
+                      </span>
+                    @else
+                      <span class="pill-badge pill-aptitude" style="font-size: 11px; padding: 2px 8px;">Completed</span>
+                    @endif
+                  </div>
+                @else
+                  <span style="font-size: 12px; color: #94a3b8;"><i class="fa-solid fa-circle-info"></i> Raw Dimensions Only</span>
+                @endif
+              </td>
+              <td>
                 <div class="dimension-preview-pills">
                   @foreach(array_slice($scores, 0, 4, true) as $dim => $sc)
                     <span class="dim-chip {{ (float)$sc >= 7.0 ? 'high' : '' }}" title="{{ ucwords(str_replace('-', ' ', $dim)) }}: {{ $sc }}/10">
@@ -417,9 +452,12 @@
                 <div style="font-size: 11.5px; color: var(--admin-text-3);">{{ $sess->created_at->format('h:i A') }}</div>
               </td>
               <td style="text-align: right;">
-                <div style="display: inline-flex; gap: 8px;">
+                <div style="display: inline-flex; gap: 6px; align-items: center;">
+                  <a href="{{ route('admin.test-results.aptitude.show', $sess->uuid) }}#answersheetSection" class="action-btn-sm" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-weight: 700;" title="Inspect Question-by-Question Answers">
+                    <i class="fa-solid fa-list-check"></i> Inspect Answers
+                  </a>
                   <a href="{{ route('admin.test-results.aptitude.show', $sess->uuid) }}" class="action-btn-sm btn-view-report" title="View Detailed Breakdown">
-                    <i class="fa-solid fa-chart-pie"></i> View Report
+                    <i class="fa-solid fa-chart-pie"></i> Report
                   </a>
                   <form action="{{ route('admin.test-results.aptitude.destroy', $sess->id) }}" method="POST" onsubmit="return confirm('Delete this aptitude test record?');" style="margin: 0; display: inline;">
                     @csrf
@@ -433,7 +471,7 @@
             </tr>
           @empty
             <tr>
-              <td colspan="7" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
+              <td colspan="8" style="text-align: center; padding: 48px; color: var(--admin-text-3);">
                 <i class="fa-solid fa-brain" style="font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.5;"></i>
                 No aptitude test sessions found.
               </td>
