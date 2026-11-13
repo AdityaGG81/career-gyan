@@ -554,3 +554,4 @@ class AptitudeAiAnalysisService
         return null;
     }
 }
+

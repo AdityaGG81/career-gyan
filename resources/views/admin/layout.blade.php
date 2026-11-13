@@ -512,6 +512,38 @@
         </a>
       </li>
 
+      <li class="menu-category">CareerGuru Program</li>
+      <li class="admin-menu-item {{ $currentRoute == 'admin.careergurus.index' || $currentRoute == 'admin.careergurus.show' || $currentRoute == 'admin.careergurus.edit' ? 'active' : '' }}">
+        <a href="{{ route('admin.careergurus.index') }}">
+          <i class="fa-solid fa-user-tie" style="color: #818cf8;"></i> All CareerGurus
+        </a>
+      </li>
+      <li class="admin-menu-item {{ $currentRoute == 'admin.careergurus.create' ? 'active' : '' }}">
+        <a href="{{ route('admin.careergurus.create') }}">
+          <i class="fa-solid fa-user-plus" style="color: #34d399;"></i> Create Guru Account
+        </a>
+      </li>
+      <li class="admin-menu-item {{ $currentRoute == 'admin.careergurus.leads' || $currentRoute == 'admin.careergurus.lead-details' ? 'active' : '' }}">
+        <a href="{{ route('admin.careergurus.leads') }}">
+          <i class="fa-solid fa-address-book" style="color: #38bdf8;"></i> All Student Leads
+        </a>
+      </li>
+      <li class="admin-menu-item {{ $currentRoute == 'admin.careergurus.commissions' ? 'active' : '' }}">
+        <a href="{{ route('admin.careergurus.commissions') }}">
+          <i class="fa-solid fa-hand-holding-dollar" style="color: #fbbf24;"></i> Commission Payouts
+        </a>
+      </li>
+      <li class="admin-menu-item {{ $currentRoute == 'admin.careergurus.comparison' ? 'active' : '' }}">
+        <a href="{{ route('admin.careergurus.comparison') }}">
+          <i class="fa-solid fa-trophy" style="color: #f472b6;"></i> Guru Leaderboard
+        </a>
+      </li>
+      <li class="admin-menu-item {{ $currentRoute == 'admin.careergurus.settings' ? 'active' : '' }}">
+        <a href="{{ route('admin.careergurus.settings') }}">
+          <i class="fa-solid fa-sliders" style="color: #a78bfa;"></i> Partner Settings
+        </a>
+      </li>
+
       <li class="menu-category">AI Intelligence</li>
       <li class="admin-menu-item {{ str_starts_with($currentRoute, 'admin.chatbot') ? 'active' : '' }}">
         <a href="{{ route('admin.chatbot.index') }}">

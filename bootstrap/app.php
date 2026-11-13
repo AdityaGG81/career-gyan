@@ -13,6 +13,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin.auth' => \App\Http\Middleware\AdminAuthMiddleware::class,
+            'careerguru.auth' => \App\Http\Middleware\CareerGuruAuthMiddleware::class,
             'member' => \App\Http\Middleware\MemberOnly::class,
         ]);
     })

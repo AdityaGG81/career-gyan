@@ -42,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'careerguru' => [
+            'driver' => 'session',
+            'provider' => 'careergurus',
+        ],
     ],
 
     /*
@@ -65,6 +69,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
+        ],
+        'careergurus' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\CareerGuru::class,
         ],
 
         // 'users' => [
@@ -96,6 +104,12 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'careergurus' => [
+            'provider' => 'careergurus',
+            'table' => 'careerguru_password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],

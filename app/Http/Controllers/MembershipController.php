@@ -116,6 +116,13 @@ class MembershipController extends Controller
                 Log::error('Failed awarding premium membership points: ' . $e->getMessage());
             }
 
+            // Calculate and record CareerGuru commission if user is referred
+            try {
+                app(\App\Services\CareerGuruService::class)->handlePremiumPurchase($membership);
+            } catch (\Exception $e) {
+                Log::error('Failed processing CareerGuru commission: ' . $e->getMessage());
+            }
+
             return response()->json(['success' => true]);
         }
         

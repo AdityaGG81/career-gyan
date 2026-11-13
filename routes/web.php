@@ -319,6 +319,29 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/referrals/export-csv', [AdminReferralController::class, 'exportCsv'])->name('admin.referrals.export-csv');
     Route::get('/admin/referrals/reports', [AdminReferralController::class, 'reports'])->name('admin.referrals.reports');
 
+    // Admin CareerGuru Partner Program Management
+    Route::get('/admin/careergurus', [\App\Http\Controllers\AdminCareerGuruController::class, 'index'])->name('admin.careergurus.index');
+    Route::get('/admin/careergurus/create', [\App\Http\Controllers\AdminCareerGuruController::class, 'create'])->name('admin.careergurus.create');
+    Route::post('/admin/careergurus', [\App\Http\Controllers\AdminCareerGuruController::class, 'store'])->name('admin.careergurus.store');
+    Route::get('/admin/careergurus/leads', [\App\Http\Controllers\AdminCareerGuruController::class, 'allLeads'])->name('admin.careergurus.leads');
+    Route::get('/admin/careergurus/leads/{id}', [\App\Http\Controllers\AdminCareerGuruController::class, 'leadDetails'])->name('admin.careergurus.lead-details');
+    Route::get('/admin/careergurus/commissions', [\App\Http\Controllers\AdminCareerGuruController::class, 'commissions'])->name('admin.careergurus.commissions');
+    Route::post('/admin/careergurus/commissions/{id}/approve', [\App\Http\Controllers\AdminCareerGuruController::class, 'approveCommission'])->name('admin.careergurus.commissions.approve');
+    Route::post('/admin/careergurus/commissions/{id}/reject', [\App\Http\Controllers\AdminCareerGuruController::class, 'rejectCommission'])->name('admin.careergurus.commissions.reject');
+    Route::post('/admin/careergurus/commissions/{id}/mark-paid', [\App\Http\Controllers\AdminCareerGuruController::class, 'markCommissionPaid'])->name('admin.careergurus.commissions.mark-paid');
+    Route::get('/admin/careergurus/settings', [\App\Http\Controllers\AdminCareerGuruController::class, 'settings'])->name('admin.careergurus.settings');
+    Route::post('/admin/careergurus/settings', [\App\Http\Controllers\AdminCareerGuruController::class, 'updateSettings'])->name('admin.careergurus.settings.update');
+    Route::get('/admin/careergurus/comparison', [\App\Http\Controllers\AdminCareerGuruController::class, 'comparison'])->name('admin.careergurus.comparison');
+    Route::get('/admin/careergurus/export/gurus', [\App\Http\Controllers\AdminCareerGuruController::class, 'exportGurus'])->name('admin.careergurus.export.gurus');
+    Route::get('/admin/careergurus/export/leads', [\App\Http\Controllers\AdminCareerGuruController::class, 'exportLeads'])->name('admin.careergurus.export.leads');
+    Route::get('/admin/careergurus/export/commissions', [\App\Http\Controllers\AdminCareerGuruController::class, 'exportCommissions'])->name('admin.careergurus.export.commissions');
+    Route::get('/admin/careergurus/{id}', [\App\Http\Controllers\AdminCareerGuruController::class, 'show'])->name('admin.careergurus.show');
+    Route::get('/admin/careergurus/{id}/edit', [\App\Http\Controllers\AdminCareerGuruController::class, 'edit'])->name('admin.careergurus.edit');
+    Route::put('/admin/careergurus/{id}', [\App\Http\Controllers\AdminCareerGuruController::class, 'update'])->name('admin.careergurus.update');
+    Route::post('/admin/careergurus/{id}/reset-password', [\App\Http\Controllers\AdminCareerGuruController::class, 'resetPassword'])->name('admin.careergurus.reset-password');
+    Route::post('/admin/careergurus/{id}/toggle-status', [\App\Http\Controllers\AdminCareerGuruController::class, 'toggleStatus'])->name('admin.careergurus.toggle-status');
+    Route::post('/admin/careergurus/{id}/revoke', [\App\Http\Controllers\AdminCareerGuruController::class, 'revokeAccess'])->name('admin.careergurus.revoke');
+
     // Admin Chatbot Tracking & Analytics
     Route::get('/admin/chatbot-queries', [\App\Http\Controllers\AdminChatbotController::class, 'index'])->name('admin.chatbot.index');
     Route::get('/admin/chatbot-queries/export', [\App\Http\Controllers\AdminChatbotController::class, 'exportCsv'])->name('admin.chatbot.export');
@@ -501,4 +524,57 @@ Route::middleware('admin.auth')->group(function () {
             return 'Error seeding: ' . $e->getMessage();
         }
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| CareerGuru Partner Program Routes
+|--------------------------------------------------------------------------
+*/
+
+// Public referral redirect
+Route::get('/careerguru/ref/{code}', [\App\Http\Controllers\CareerGuru\ReferralController::class, 'handleRedirect'])->name('careerguru.ref');
+
+// Root helper redirect
+Route::get('/careerguru', function () {
+    if (auth('careerguru')->check()) {
+        return redirect()->route('careerguru.dashboard');
+    }
+    return redirect()->route('careerguru.login');
+})->name('careerguru.root');
+
+// Guest CareerGuru Auth Routes
+Route::prefix('careerguru')->name('careerguru.')->group(function () {
+    Route::get('/login', [\App\Http\Controllers\CareerGuru\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [\App\Http\Controllers\CareerGuru\AuthController::class, 'login'])->name('login.submit');
+    Route::get('/forgot-password', [\App\Http\Controllers\CareerGuru\AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [\App\Http\Controllers\CareerGuru\AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [\App\Http\Controllers\CareerGuru\AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('/reset-password', [\App\Http\Controllers\CareerGuru\AuthController::class, 'resetPassword'])->name('password.update');
+});
+
+// Protected CareerGuru Routes
+Route::prefix('careerguru')->name('careerguru.')->middleware('careerguru.auth')->group(function () {
+    Route::post('/logout', [\App\Http\Controllers\CareerGuru\AuthController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [\App\Http\Controllers\CareerGuru\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [\App\Http\Controllers\CareerGuru\DashboardController::class, 'profile'])->name('profile');
+    Route::post('/profile', [\App\Http\Controllers\CareerGuru\DashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/change-password', [\App\Http\Controllers\CareerGuru\DashboardController::class, 'changePassword'])->name('password.change');
+    Route::get('/referral-link', [\App\Http\Controllers\CareerGuru\DashboardController::class, 'referralLink'])->name('referral-link');
+    Route::post('/send-invite', [\App\Http\Controllers\CareerGuru\DashboardController::class, 'sendInvite'])->name('send-invite');
+
+    // Student Leads Management
+    Route::get('/students', [\App\Http\Controllers\CareerGuru\LeadController::class, 'index'])->name('students.index');
+    Route::get('/students/create', [\App\Http\Controllers\CareerGuru\LeadController::class, 'create'])->name('students.create');
+    Route::post('/students', [\App\Http\Controllers\CareerGuru\LeadController::class, 'store'])->name('students.store');
+    Route::get('/students/registered', [\App\Http\Controllers\CareerGuru\LeadController::class, 'registeredStudents'])->name('students.registered');
+    Route::get('/students/premium', [\App\Http\Controllers\CareerGuru\LeadController::class, 'premiumStudents'])->name('students.premium');
+    Route::get('/students/{id}', [\App\Http\Controllers\CareerGuru\LeadController::class, 'show'])->name('students.show');
+    Route::get('/students/{id}/edit', [\App\Http\Controllers\CareerGuru\LeadController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{id}', [\App\Http\Controllers\CareerGuru\LeadController::class, 'update'])->name('students.update');
+    Route::post('/students/{id}/status', [\App\Http\Controllers\CareerGuru\LeadController::class, 'updateStatus'])->name('students.status');
+    Route::post('/students/{id}/note', [\App\Http\Controllers\CareerGuru\LeadController::class, 'addNote'])->name('students.note');
+
+    // Commission History
+    Route::get('/commissions', [\App\Http\Controllers\CareerGuru\LeadController::class, 'commissions'])->name('commissions.index');
 });

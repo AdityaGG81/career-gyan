@@ -2255,6 +2255,7 @@
           <a href="{{ route('test.start') }}">Advance Test</a>
           <a href="{{ route('specialized-aptitude.index') }}">Specialized Tests (Spiritual/Art/Sports/Business)</a>
           <a href="{{ route('specialized-aptitude.courses') }}">Specialized Courses</a>
+          <a href="{{ route('careerguru.login') }}" style="color: #93c5fd; font-weight: 600;"><i class="fa-solid fa-handshake" style="margin-right:4px;"></i> CareerGuru Partner Portal</a>
         </div>
 
         <div class="footer-col">

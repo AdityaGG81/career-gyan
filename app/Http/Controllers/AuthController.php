@@ -56,8 +56,15 @@ class AuthController extends Controller
      */
     public function showSignup(Request $request)
     {
-        if ($request->filled('ref')) {
-            session(['referral_code' => strtoupper(trim($request->ref))]);
+        if ($request->filled('guru')) {
+            session(['careerguru_ref' => strtoupper(trim($request->guru))]);
+        } elseif ($request->filled('ref')) {
+            $ref = strtoupper(trim($request->ref));
+            if (\App\Models\CareerGuru::where('referral_code', $ref)->exists()) {
+                session(['careerguru_ref' => $ref]);
+            } else {
+                session(['referral_code' => $ref]);
+            }
         }
         return view('auth.signup');
     }
@@ -95,6 +102,15 @@ class AuthController extends Controller
         if (!empty($referralCodeInput)) {
             $rewardService->recordPendingReferral($user, $referralCodeInput);
             session()->forget('referral_code');
+        }
+
+        // Associate with CareerGuru if referred
+        try {
+            $careerGuruService = app(\App\Services\CareerGuruService::class);
+            $guruRef = $request->input('guru_code', session('careerguru_ref') ?? $request->input('referral_code'));
+            $careerGuruService->handleStudentRegistration($user, $guruRef);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('CareerGuru signup attribution error: ' . $e->getMessage());
         }
 
         // OTP generate

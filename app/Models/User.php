@@ -43,6 +43,8 @@ class User extends Authenticatable
         'referral_code',
         'referred_by',
         'points_balance',
+        'careerguru_id',
+        'careerguru_registered_at',
     ];
 
     /**
@@ -76,6 +78,21 @@ class User extends Authenticatable
     public function referrer()
     {
         return $this->belongsTo(User::class, 'referred_by');
+    }
+
+    public function careerguru()
+    {
+        return $this->belongsTo(CareerGuru::class, 'careerguru_id');
+    }
+
+    public function careerguruLead()
+    {
+        return $this->hasOne(CareerGuruLead::class, 'registered_user_id');
+    }
+
+    public function careerguruCommissions()
+    {
+        return $this->hasMany(CareerGuruCommission::class, 'student_user_id');
     }
 
     public function referrals()
