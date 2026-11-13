@@ -42,3 +42,4 @@ class CareerGuruLeadActivity extends Model
         };
     }
 }
+

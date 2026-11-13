@@ -27,3 +27,4 @@ class CareerGuruSetting extends Model
         static::updateOrCreate(['key' => $key], ['value' => $value]);
     }
 }
+

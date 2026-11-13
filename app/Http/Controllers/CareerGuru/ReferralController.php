@@ -28,3 +28,4 @@ class ReferralController extends Controller
             ->with('warning', 'Referral link was invalid or no longer active. You can still register directly.');
     }
 }
+

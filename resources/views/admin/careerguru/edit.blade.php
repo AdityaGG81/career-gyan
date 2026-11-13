@@ -92,6 +92,24 @@
         </div>
       </form>
     </div>
+
+    <!-- Danger Zone: Permanent Deletion -->
+    <div style="background:#ffffff; border:1px solid #fecaca; border-radius:var(--admin-radius-lg); padding:24px; margin-top:24px; box-shadow:var(--admin-shadow);">
+      <div style="font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#dc2626; margin-bottom:8px;">
+        <i class="fa-solid fa-triangle-exclamation"></i> Danger Zone
+      </div>
+      <p style="font-size:13px; color:var(--admin-text-2); margin-bottom:16px;">
+        Permanently delete this CareerGuru partner account and remove all their associated student leads, activity logs, and commission records. This action cannot be reversed.
+      </p>
+      <form method="POST" action="{{ route('admin.careergurus.destroy', $guru->id) }}" onsubmit="return confirm('PERMANENTLY DELETE CareerGuru {{ $guru->name }} ({{ $guru->guru_id }}) and all associated data? This CANNOT be undone!');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn" style="background:#ef4444; color:#fff; padding:9px 18px; font-weight:700;">
+          <i class="fa-solid fa-trash-can"></i> Delete CareerGuru Account & All Data
+        </button>
+      </form>
+    </div>
   </div>
 
 @endsection
+

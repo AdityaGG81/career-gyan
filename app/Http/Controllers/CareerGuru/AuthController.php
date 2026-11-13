@@ -16,6 +16,11 @@ class AuthController extends Controller
     /**
      * Show CareerGuru Login page.
      */
+    public function showLoginForm()
+    {
+        return $this->showLogin();
+    }
+
     public function showLogin()
     {
         if (Auth::guard('careerguru')->check()) {
@@ -93,6 +98,11 @@ class AuthController extends Controller
     /**
      * Show Forgot Password Form.
      */
+    public function showForgotPasswordForm()
+    {
+        return $this->showForgotPassword();
+    }
+
     public function showForgotPassword()
     {
         return view('careerguru.auth.forgot-password');
@@ -189,3 +199,4 @@ class AuthController extends Controller
             ->with('success', 'Your password has been reset successfully. Please log in with your new credentials.');
     }
 }
+

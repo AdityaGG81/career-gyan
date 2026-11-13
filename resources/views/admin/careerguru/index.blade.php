@@ -349,6 +349,13 @@
                       </button>
                     </form>
                   @endif
+                  <form method="POST" action="{{ route('admin.careergurus.destroy', $g->id) }}" style="display:inline;" onsubmit="return confirm('PERMANENTLY DELETE CareerGuru {{ $g->name }} ({{ $g->guru_id }}) and all their leads, commissions, and data? This action CANNOT be undone!');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="guru-action-btn" title="Delete CareerGuru and All Data" style="color:#ef4444; border-color:#fecaca;">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>
@@ -444,3 +451,4 @@
   }
 </script>
 @endsection
+

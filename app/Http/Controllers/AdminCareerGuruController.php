@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CareerGuru;
 use App\Models\CareerGuruLead;
+use App\Models\CareerGuruLeadActivity;
 use App\Models\CareerGuruCommission;
 use App\Models\CareerGuruSetting;
 use App\Models\User;
@@ -724,5 +725,43 @@ class AdminCareerGuruController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Delete CareerGuru and purge all associated partner data.
+     */
+    public function destroy($id)
+    {
+        if ($redirect = $this->checkAdminAuth()) return $redirect;
+
+        $guru = CareerGuru::findOrFail($id);
+        $name = $guru->name;
+        $guruId = $guru->guru_id;
+
+        DB::transaction(function () use ($guru) {
+            // 1. Remove attribution from registered users (preserve student user accounts)
+            User::where('careerguru_id', $guru->id)->update([
+                'careerguru_id' => null,
+                'careerguru_registered_at' => null,
+            ]);
+
+            // 2. Delete all lead activities
+            CareerGuruLeadActivity::where('careerguru_id', $guru->id)->delete();
+
+            // 3. Delete all student leads
+            CareerGuruLead::where('careerguru_id', $guru->id)->delete();
+
+            // 4. Delete commissions
+            CareerGuruCommission::where('careerguru_id', $guru->id)->delete();
+
+            // 5. Delete password reset tokens
+            DB::table('careerguru_password_resets')->where('email', $guru->email)->delete();
+
+            // 6. Delete CareerGuru partner account
+            $guru->delete();
+        });
+
+        return redirect()->route('admin.careergurus.index')
+            ->with('success', "CareerGuru partner '{$name}' ({$guruId}) and all associated partner data have been permanently deleted.");
     }
 }

@@ -112,3 +112,4 @@ class CareerGuruLead extends Model
         };
     }
 }
+

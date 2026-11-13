@@ -39,3 +39,4 @@ class CareerGuruAuthMiddleware
         return $next($request);
     }
 }
+

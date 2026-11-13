@@ -341,6 +341,8 @@ Route::middleware('admin.auth')->group(function () {
     Route::post('/admin/careergurus/{id}/reset-password', [\App\Http\Controllers\AdminCareerGuruController::class, 'resetPassword'])->name('admin.careergurus.reset-password');
     Route::post('/admin/careergurus/{id}/toggle-status', [\App\Http\Controllers\AdminCareerGuruController::class, 'toggleStatus'])->name('admin.careergurus.toggle-status');
     Route::post('/admin/careergurus/{id}/revoke', [\App\Http\Controllers\AdminCareerGuruController::class, 'revokeAccess'])->name('admin.careergurus.revoke');
+    Route::delete('/admin/careergurus/{id}', [\App\Http\Controllers\AdminCareerGuruController::class, 'destroy'])->name('admin.careergurus.destroy');
+    Route::post('/admin/careergurus/{id}/delete', [\App\Http\Controllers\AdminCareerGuruController::class, 'destroy']);
 
     // Admin Chatbot Tracking & Analytics
     Route::get('/admin/chatbot-queries', [\App\Http\Controllers\AdminChatbotController::class, 'index'])->name('admin.chatbot.index');
