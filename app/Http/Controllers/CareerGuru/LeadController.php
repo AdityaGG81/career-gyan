@@ -25,53 +25,75 @@ class LeadController extends Controller
     {
         $guru = $this->guru();
 
+        $search = trim($request->query('search', ''));
+        $standard = $request->query('standard', '');
+        $status = $request->query('status', '');
+        $registrationStatus = $request->query('registration_status', $request->query('reg_status', ''));
+        $premiumStatus = $request->query('premium_status', '');
+        $dateFilter = $request->query('date_filter', '');
+
         $query = $guru->leads()->with(['registeredUser'])->latest();
 
         // Search
-        if ($request->filled('search')) {
-            $s = trim($request->search);
-            $query->where(function ($q) use ($s) {
-                $q->where('student_name', 'like', "%{$s}%")
-                  ->orWhere('email', 'like', "%{$s}%")
-                  ->orWhere('phone', 'like', "%{$s}%")
-                  ->orWhere('city', 'like', "%{$s}%")
-                  ->orWhere('school_college', 'like', "%{$s}%");
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('student_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('city', 'like', "%{$search}%")
+                  ->orWhere('school_college', 'like', "%{$search}%");
             });
         }
 
         // Filter by standard
-        if ($request->filled('standard') && $request->standard !== 'all') {
-            $query->where('standard', $request->standard);
+        if ($standard !== '' && $standard !== 'all') {
+            $query->where('standard', $standard);
         }
 
         // Filter by lead status
-        if ($request->filled('status') && $request->status !== 'all') {
-            $query->where('lead_status', $request->status);
+        if ($status !== '' && $status !== 'all') {
+            $query->where('lead_status', $status);
         }
 
         // Filter by registration status
-        if ($request->filled('reg_status') && $request->reg_status !== 'all') {
-            if ($request->reg_status === 'registered') {
-                $query->whereNotNull('registered_user_id');
-            } elseif ($request->reg_status === 'not_registered') {
-                $query->whereNull('registered_user_id');
+        if ($registrationStatus !== '' && $registrationStatus !== 'all') {
+            if ($registrationStatus === 'registered') {
+                $query->where(function ($q) {
+                    $q->whereNotNull('registered_user_id')
+                      ->orWhere('lead_status', 'Registered on CareerGyan')
+                      ->orWhere('lead_status', 'Premium Purchased');
+                });
+            } elseif ($registrationStatus === 'not_registered') {
+                $query->whereNull('registered_user_id')
+                      ->where('lead_status', '!=', 'Registered on CareerGyan')
+                      ->where('lead_status', '!=', 'Premium Purchased');
             }
         }
 
         // Filter by premium status
-        if ($request->filled('premium_status') && $request->premium_status !== 'all') {
-            if ($request->premium_status === 'premium') {
+        if ($premiumStatus !== '' && $premiumStatus !== 'all') {
+            if ($premiumStatus === 'premium') {
                 $query->where(function ($q) {
                     $q->where('lead_status', 'Premium Purchased')
                       ->orWhereNotNull('premium_purchased_at');
                 });
-            } elseif ($request->premium_status === 'free') {
+            } elseif ($premiumStatus === 'free') {
                 $query->where('lead_status', '!=', 'Premium Purchased')
                       ->whereNull('premium_purchased_at');
             }
         }
 
         // Filter by date added
+        if ($dateFilter === 'today') {
+            $query->whereDate('created_at', now()->toDateString());
+        } elseif ($dateFilter === 'this_week') {
+            $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+        } elseif ($dateFilter === 'this_month') {
+            $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]);
+        } elseif ($dateFilter === 'last_month') {
+            $query->whereBetween('created_at', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()]);
+        }
+
         if ($request->filled('date_from')) {
             $query->whereDate('created_at', '>=', $request->date_from);
         }
@@ -84,7 +106,18 @@ class LeadController extends Controller
         $standards = CareerGuruLead::STANDARDS;
         $statuses = CareerGuruLead::STATUSES;
 
-        return view('careerguru.students.index', compact('guru', 'leads', 'standards', 'statuses'));
+        return view('careerguru.students.index', compact(
+            'guru',
+            'leads',
+            'standards',
+            'statuses',
+            'search',
+            'standard',
+            'status',
+            'registrationStatus',
+            'premiumStatus',
+            'dateFilter'
+        ));
     }
 
     /**

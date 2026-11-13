@@ -53,7 +53,7 @@
     <form method="GET" action="{{ route('careerguru.students.index') }}" class="filters-grid">
       <div class="form-group" style="margin-bottom:0;">
         <label class="form-label"><i class="fa-solid fa-magnifying-glass"></i> Search</label>
-        <input type="text" name="search" class="form-control" placeholder="Name, Email, or Phone..." value="{{ $search }}">
+        <input type="text" name="search" class="form-control" placeholder="Name, Email, or Phone..." value="{{ $search ?? request('search', '') }}">
       </div>
 
       <div class="form-group" style="margin-bottom:0;">
@@ -61,7 +61,7 @@
         <select name="standard" class="form-control">
           <option value="">All Standards</option>
           @foreach($standards as $std)
-            <option value="{{ $std }}" {{ $standard == $std ? 'selected' : '' }}>{{ $std }}</option>
+            <option value="{{ $std }}" {{ ($standard ?? request('standard')) == $std ? 'selected' : '' }}>{{ $std }}</option>
           @endforeach
         </select>
       </div>
@@ -71,7 +71,7 @@
         <select name="status" class="form-control">
           <option value="">All Statuses</option>
           @foreach($statuses as $lbl)
-            <option value="{{ $lbl }}" {{ $status == $lbl ? 'selected' : '' }}>{{ $lbl }}</option>
+            <option value="{{ $lbl }}" {{ ($status ?? request('status')) == $lbl ? 'selected' : '' }}>{{ $lbl }}</option>
           @endforeach
         </select>
       </div>
@@ -80,8 +80,8 @@
         <label class="form-label">Registration</label>
         <select name="registration_status" class="form-control">
           <option value="">All</option>
-          <option value="registered" {{ $registrationStatus == 'registered' ? 'selected' : '' }}>Registered</option>
-          <option value="not_registered" {{ $registrationStatus == 'not_registered' ? 'selected' : '' }}>Not Registered</option>
+          <option value="registered" {{ ($registrationStatus ?? request('registration_status')) == 'registered' ? 'selected' : '' }}>Registered</option>
+          <option value="not_registered" {{ ($registrationStatus ?? request('registration_status')) == 'not_registered' ? 'selected' : '' }}>Not Registered</option>
         </select>
       </div>
 
@@ -89,8 +89,8 @@
         <label class="form-label">Premium Status</label>
         <select name="premium_status" class="form-control">
           <option value="">All</option>
-          <option value="premium" {{ $premiumStatus == 'premium' ? 'selected' : '' }}>Premium / VIP</option>
-          <option value="free" {{ $premiumStatus == 'free' ? 'selected' : '' }}>Free / Regular</option>
+          <option value="premium" {{ ($premiumStatus ?? request('premium_status')) == 'premium' ? 'selected' : '' }}>Premium / VIP</option>
+          <option value="free" {{ ($premiumStatus ?? request('premium_status')) == 'free' ? 'selected' : '' }}>Free / Regular</option>
         </select>
       </div>
 
@@ -98,10 +98,10 @@
         <label class="form-label">Date Added</label>
         <select name="date_filter" class="form-control">
           <option value="">Any Time</option>
-          <option value="today" {{ $dateFilter == 'today' ? 'selected' : '' }}>Today</option>
-          <option value="this_week" {{ $dateFilter == 'this_week' ? 'selected' : '' }}>This Week</option>
-          <option value="this_month" {{ $dateFilter == 'this_month' ? 'selected' : '' }}>This Month</option>
-          <option value="last_month" {{ $dateFilter == 'last_month' ? 'selected' : '' }}>Last Month</option>
+          <option value="today" {{ ($dateFilter ?? request('date_filter')) == 'today' ? 'selected' : '' }}>Today</option>
+          <option value="this_week" {{ ($dateFilter ?? request('date_filter')) == 'this_week' ? 'selected' : '' }}>This Week</option>
+          <option value="this_month" {{ ($dateFilter ?? request('date_filter')) == 'this_month' ? 'selected' : '' }}>This Month</option>
+          <option value="last_month" {{ ($dateFilter ?? request('date_filter')) == 'last_month' ? 'selected' : '' }}>Last Month</option>
         </select>
       </div>
 
@@ -109,7 +109,7 @@
         <button type="submit" class="btn btn-primary" style="height:41px;">
           <i class="fa-solid fa-filter"></i> Filter
         </button>
-        @if($search || $standard || $status || $registrationStatus || $premiumStatus || $dateFilter)
+        @if(request()->hasAny(['search', 'standard', 'status', 'registration_status', 'premium_status', 'date_filter']))
           <a href="{{ route('careerguru.students.index') }}" class="btn btn-outline" style="height:41px;" title="Reset Filters">
             <i class="fa-solid fa-rotate-left"></i>
           </a>
