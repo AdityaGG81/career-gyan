@@ -334,6 +334,44 @@ class AiCareerChatController extends Controller
     }
 
     /**
+     * Debug and diagnose the legacy AI credits API connection.
+     */
+    public function debugAicreditsTest()
+    {
+        $baseUrl = rtrim((string) config('services.aicredits.base_url', 'https://api.aicredits.com/v1'), '/');
+        $apiKey = (string) config('services.aicredits.api_key', '');
+        $model = (string) config('services.aicredits.model', 'gpt-3.5-turbo');
+
+        $statusData = null;
+        $statusError = null;
+
+        if (empty($apiKey)) {
+            $statusError = 'API key is not configured in services.aicredits.api_key';
+        } else {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => "Bearer {$apiKey}",
+                    'Content-Type' => 'application/json',
+                ])->timeout(10)->get("{$baseUrl}/models");
+                $statusData = $response->json() ?: $response->body();
+            } catch (\Exception $e) {
+                $statusError = $e->getMessage();
+            }
+        }
+
+        return response()->json([
+            'configured_url' => $baseUrl,
+            'model' => $model,
+            'has_api_key' => !empty($apiKey),
+            'status' => [
+                'success' => $statusError === null,
+                'data' => $statusData,
+                'error' => $statusError,
+            ],
+        ]);
+    }
+
+    /**
      * Debug and diagnose the CareerGyan Scrapper API connection.
      */
     public function debugScrapperTest()

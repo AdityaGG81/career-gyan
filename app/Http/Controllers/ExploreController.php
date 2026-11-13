@@ -1086,7 +1086,7 @@ class ExploreController extends Controller
 
     public function traditionalCareers()
     {
-        $field = Field::where('slug', 'traditional')->firstOrFail();
+        $field = Field::where('slug', 'traditional')->first() ?? Field::first();
         $careers = TraditionalCareer::all();
         $careerPaths = $careers->groupBy('category')->map(fn($items, $cat) => [
             'category' => $cat,
@@ -1118,11 +1118,11 @@ class ExploreController extends Controller
 
     public function governmentDefence()
     {
-        $field = Field::where('slug', 'government-defence')->firstOrFail();
-        $careers = Career::where('field_id', $field->id)
+        $field = Field::where('slug', 'government-defence')->first() ?? Field::first();
+        $careers = $field ? Career::where('field_id', $field->id)
                          ->orderBy('sub_domain')
                          ->orderBy('name')
-                         ->get();
+                         ->get() : collect();
         
         $categories = $careers->groupBy('sub_domain');
         
@@ -1131,14 +1131,14 @@ class ExploreController extends Controller
 
     public function teachingLaw()
     {
-        $field = Field::where('slug', 'teaching-law')->firstOrFail();
+        $field = Field::where('slug', 'teaching-law')->first() ?? Field::first();
         $careers = TraditionalCareer::where('category', 'Teaching & Law')->get();
         return view('colleges.traditional_detail', compact('field', 'careers'));
     }
 
     public function modernTech()
     {
-        $field = Field::where('slug', 'modern-tech')->firstOrFail();
+        $field = Field::where('slug', 'modern-tech')->first() ?? Field::first();
         $careers = NonTraditionalCareer::where('category', 'Tech & Digital Careers')->get();
         return view('colleges.non_traditional_detail', compact('field', 'careers'));
     }

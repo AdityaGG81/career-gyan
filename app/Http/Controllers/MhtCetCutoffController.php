@@ -224,6 +224,10 @@ class MhtCetCutoffController extends Controller
             abort(404, 'File not found.');
         }
         
-        return response()->download($filePath, 'Maharashtra_MHT_CET_Engineering_Cutoffs_2025.csv');
+        $filename = 'Maharashtra_MHT_CET_Engineering_Cutoffs_2025.csv';
+        return response(file_get_contents($filePath), 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
 }

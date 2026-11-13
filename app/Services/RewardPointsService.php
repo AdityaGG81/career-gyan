@@ -441,8 +441,8 @@ class RewardPointsService
 
         // Fallback: if all users have a sponsor or none, pick users with the most referrals
         if ($rootUserIds->isEmpty()) {
-            $rootUserIds = User::withCount('directReferredUsers')
-                ->having('direct_referred_users_count', '>', 0)
+            $rootUserIds = User::has('directReferredUsers')
+                ->withCount('directReferredUsers')
                 ->orderByDesc('direct_referred_users_count')
                 ->take(10)
                 ->pluck('id');

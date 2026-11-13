@@ -175,7 +175,7 @@ class PackageManifest
      */
     protected function write(array $manifest)
     {
-        if (! is_writable($dirname = dirname($this->manifestPath))) {
+        if (! is_writable($dirname = dirname($this->manifestPath)) && ! is_dir($dirname)) {
             throw new Exception("The {$dirname} directory must be present and writable.");
         }
 

@@ -296,8 +296,8 @@ class AdminReferralController extends Controller
     public function reports()
     {
         // 1. Top Referrers Leaderboard
-        $topReferrers = User::withCount(['successfulReferrals'])
-            ->having('successful_referrals_count', '>', 0)
+        $topReferrers = User::has('successfulReferrals')
+            ->withCount(['successfulReferrals'])
             ->orderByDesc('successful_referrals_count')
             ->take(10)
             ->get();
