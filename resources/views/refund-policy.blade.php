@@ -277,7 +277,7 @@
                     <div class="step-num">1</div>
                     <div class="step-text">
                         <h4>Send an Email to our Official Support Desk</h4>
-                        <p>Write an email to <a href="mailto:admin@careergyan.in" style="font-weight: 700; color: var(--brand);">admin@careergyan.in</a> with the subject line:<br>
+                        <p>Write an email to <a href="mailto:admin.careergyan@gmail.com" style="font-weight: 700; color: var(--brand);">admin.careergyan@gmail.com</a> with the subject line:<br>
                         <code style="background: #e2e8f0; padding: 3px 8px; border-radius: 6px; font-size: 13px; color: #0f172a;">Payment Error & Refund Request - [Your Full Name] - [Registered Email]</code></p>
                     </div>
                 </div>
@@ -322,7 +322,7 @@
 
             <div class="contact-highlight">
                 <h4><i class="fa-solid fa-building-columns"></i> Indian Institute of Career Management (CareerGyan)</h4>
-                <p style="margin-bottom: 6px;"><strong>Email:</strong> <a href="mailto:admin@careergyan.in">admin@careergyan.in</a></p>
+                <p style="margin-bottom: 6px;"><strong>Email:</strong> <a href="mailto:admin.careergyan@gmail.com">admin.careergyan@gmail.com</a></p>
                 <p style="margin-bottom: 6px;"><strong>Phone / WhatsApp:</strong> <a href="tel:+919373912370">+91 93739 12370</a></p>
                 <p style="margin-bottom: 6px;"><strong>Address:</strong> Nashik, Maharashtra, India</p>
                 <p style="margin-bottom: 0;"><strong>Support Hours:</strong> Monday – Saturday, 8:00 AM to 6:00 PM IST</p>

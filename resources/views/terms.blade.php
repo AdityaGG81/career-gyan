@@ -109,7 +109,7 @@
             <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. What constitutes a material change will be determined at our sole discretion.</p>
 
             <h2>9. Contact Us</h2>
-            <p>If you have any questions about these Terms, please contact us at admin@careergyan.in.</p>
+            <p>If you have any questions about these Terms, please contact us at admin.careergyan@gmail.com.</p>
             <p><em>Last Updated: {{ date('F d, Y') }}</em></p>
         </div>
     </div>

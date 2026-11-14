@@ -2271,7 +2271,7 @@
 
         <div class="footer-col">
           <h4>Get In Touch</h4>
-          <a href="mailto:admin@careergyan.in"><i class="fa-solid fa-envelope" style="margin-right:6px;"></i>admin@careergyan.in</a>
+          <a href="mailto:admin.careergyan@gmail.com"><i class="fa-solid fa-envelope" style="margin-right:6px;"></i>admin.careergyan@gmail.com</a>
           <a href="tel:+919373912370"><i class="fa-solid fa-phone" style="margin-right:6px;"></i>+91 93739 12370</a>
           <span style="display:block; color:rgba(255,255,255,.7); margin-bottom:12px;"><i class="fa-solid fa-location-dot" style="margin-right:6px;"></i>Nashik, Maharashtra, India</span>
           <span style="display:block; color:rgba(255,255,255,.7); margin-bottom:12px;"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Mon-Sat: 8AM - 6PM</span>

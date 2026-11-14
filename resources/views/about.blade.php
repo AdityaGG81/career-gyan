@@ -931,7 +931,7 @@
                     <div class="faq-toggle"><i class="fa-solid fa-chevron-down"></i></div>
                 </div>
                 <div class="faq-answer">
-                    <div class="faq-answer-inner">Email us at admin@careergyan.in or use the suggestion form on our homepage. Our team typically responds within 24-48 hours.</div>
+                    <div class="faq-answer-inner">Email us at admin.careergyan@gmail.com or use the suggestion form on our homepage. Our team typically responds within 24-48 hours.</div>
                 </div>
             </div>
         </div>
@@ -951,7 +951,7 @@
                 <p style="color:var(--text-2); margin-bottom:32px; line-height:1.7;">Have questions about the CareerGyan platform, need career counseling, or looking for partnerships? We are here to help!</p>
                 <div class="ct-block">
                     <h3><i class="fa-solid fa-envelope"></i> Email</h3>
-                    <p><a href="mailto:admin@careergyan.in">admin@careergyan.in</a></p>
+                    <p><a href="mailto:admin.careergyan@gmail.com">admin.careergyan@gmail.com</a></p>
                 </div>
             </div>
             <div class="ct-right">
