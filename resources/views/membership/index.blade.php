@@ -345,6 +345,9 @@
                 <div class="pricing-guarantee">
                     <i class="fa-solid fa-shield-halved"></i> 100% Secure Checkout via Razorpay
                 </div>
+                <div style="text-align: center; margin-top: 10px; font-size: 11.5px; color: #94a3b8;">
+                    Subject to our <a href="{{ route('refund.policy') }}" style="color: #cbd5e1; text-decoration: underline;">Return & Refund Policy</a>
+                </div>
             </div>
         </div>
 

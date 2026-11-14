@@ -41,6 +41,18 @@ Route::get('/disclaimer', function () {
     return view('disclaimer');
 })->name('disclaimer');
 
+Route::get('/refund-policy', function () {
+    return view('refund-policy');
+})->name('refund.policy');
+
+Route::get('/return-policy', function () {
+    return redirect()->route('refund.policy');
+});
+
+Route::get('/return-and-refund-policy', function () {
+    return redirect()->route('refund.policy');
+});
+
 // Google AdSense ads.txt verification route
 Route::get('/ads.txt', function () {
     $path = public_path('ads.txt');

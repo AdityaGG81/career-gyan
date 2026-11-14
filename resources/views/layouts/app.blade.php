@@ -2284,6 +2284,7 @@
           <a href="{{ route('about') }}">About & Contact</a>
           <a href="{{ route('privacy') }}">Privacy Policy</a>
           <a href="{{ route('terms') }}">Terms of Use</a>
+          <a href="{{ route('refund.policy') }}">Return & Refund Policy</a>
           <a href="{{ route('disclaimer') }}">Disclaimer</a>
         </div>
       </div>

@@ -212,6 +212,10 @@
         <div style="text-align: center; margin-top: 30px; font-size: 12px; color: var(--text-3);">
             <i class="fa-solid fa-lock" style="margin-right: 4px;"></i> Secure SSL connection • Powered by Razorpay
         </div>
+
+        <div style="text-align: center; margin-top: 8px; font-size: 12px; color: var(--text-3);">
+            By completing this payment, you agree to our <a href="{{ route('terms') }}" target="_blank" style="color: var(--brand); text-decoration: underline;">Terms of Use</a> and <a href="{{ route('refund.policy') }}" target="_blank" style="color: var(--brand); text-decoration: underline;">Return & Refund Policy</a>.
+        </div>
     </div>
 </div>
 @endsection
