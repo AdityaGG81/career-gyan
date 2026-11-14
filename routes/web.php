@@ -139,6 +139,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', function (\Illuminate\Http\Request $request) {
         return redirect()->route('signup', $request->query());
     })->name('register');
+
+    // Google OAuth
+    Route::get('/auth/google', [\App\Http\Controllers\GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [\App\Http\Controllers\GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 });
 
 Route::middleware('auth')->group(function () {
@@ -549,6 +553,7 @@ Route::get('/careerguru', function () {
 Route::prefix('careerguru')->name('careerguru.')->group(function () {
     Route::get('/login', [\App\Http\Controllers\CareerGuru\AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [\App\Http\Controllers\CareerGuru\AuthController::class, 'login'])->name('login.submit');
+    Route::get('/auth/google', [\App\Http\Controllers\GoogleAuthController::class, 'redirectToGoogleGuru'])->name('auth.google');
     Route::get('/forgot-password', [\App\Http\Controllers\CareerGuru\AuthController::class, 'showForgotPasswordForm'])->name('password.request');
     Route::post('/forgot-password', [\App\Http\Controllers\CareerGuru\AuthController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::get('/reset-password/{token}', [\App\Http\Controllers\CareerGuru\AuthController::class, 'showResetPasswordForm'])->name('password.reset');
