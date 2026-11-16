@@ -101,14 +101,14 @@ class CareerGuruLead extends Model
     public function getStatusBadgeClassAttribute(): string
     {
         return match($this->lead_status) {
-            'New Lead' => 'badge-blue',
-            'Contacted' => 'badge-indigo',
-            'Interested' => 'badge-emerald',
-            'Follow-up Required' => 'badge-amber',
-            'Registered on CareerGyan' => 'badge-purple',
-            'Premium Purchased' => 'badge-gold',
-            'Not Interested' => 'badge-zinc',
-            default => 'badge-slate'
+            'New Lead' => 'pill-blue',
+            'Contacted' => 'pill-purple',
+            'Interested' => 'pill-green',
+            'Follow-up Required' => 'pill-yellow',
+            'Registered on CareerGyan' => 'pill-green',
+            'Premium Purchased' => 'pill-yellow',
+            'Not Interested' => 'pill-red',
+            default => 'pill-gray'
         };
     }
 }

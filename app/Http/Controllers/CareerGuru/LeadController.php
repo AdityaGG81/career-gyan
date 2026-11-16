@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\CareerGuruService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class LeadController extends Controller
 {
@@ -296,6 +297,7 @@ class LeadController extends Controller
             'city' => ['nullable', 'string', 'max:100'],
             'school_college' => ['nullable', 'string', 'max:255'],
             'interested_course' => ['nullable', 'string', 'max:255'],
+            'lead_status' => ['nullable', 'string'],
             'additional_notes' => ['nullable', 'string', 'max:5000'],
             'next_followup_at' => ['nullable', 'date'],
         ]);

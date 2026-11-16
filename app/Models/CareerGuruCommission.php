@@ -78,6 +78,22 @@ class CareerGuruCommission extends Model
         return $this->status === 'rejected';
     }
 
+    public function getPlanNameAttribute(): string
+    {
+        return $this->membership_plan ?? ($this->membership?->plan?->name ?? 'Pro Membership');
+    }
+
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return match($this->status) {
+            'pending' => 'pill-yellow',
+            'approved' => 'pill-blue',
+            'paid' => 'pill-green',
+            'rejected' => 'pill-red',
+            default => 'pill-gray'
+        };
+    }
+
     public function getStatusBadgeAttribute(): array
     {
         return match($this->status) {

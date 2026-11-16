@@ -41,5 +41,18 @@ class CareerGuruLeadActivity extends Model
             default => 'fa-solid fa-circle-info text-slate-400'
         };
     }
+
+    public function getActivityIconAttribute(): string
+    {
+        return match($this->activity_type) {
+            'lead_created' => 'fa-user-plus',
+            'status_change' => 'fa-arrows-rotate',
+            'note_added' => 'fa-comment-dots',
+            'student_registered' => 'fa-id-card',
+            'premium_purchased' => 'fa-crown',
+            'followup_scheduled' => 'fa-calendar-check',
+            default => 'fa-circle-info'
+        };
+    }
 }
 
