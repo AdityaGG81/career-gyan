@@ -254,13 +254,22 @@
         <span>Scorecard</span>
       </div>
 
-      <div style="display: flex; gap: 10px;">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <button type="button" onclick="window.print()" style="padding: 8px 16px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; color: #1e293b; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
           <i class="fa-solid fa-print"></i> Print / Save PDF
         </button>
-        <a href="{{ route('specialized-aptitude.quiz', $meta['key']) }}" style="padding: 8px 16px; border-radius: 8px; background: {{ $meta['color'] }}; color: #fff; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-          <i class="fa-solid fa-rotate-right"></i> Retake Test
-        </a>
+        @if($attempt->category === 'sports' && !empty($attempt->sport))
+          <a href="{{ route('specialized-aptitude.quiz', ['category' => 'sports', 'sport' => $attempt->sport]) }}" style="padding: 8px 16px; border-radius: 8px; background: {{ $sportMeta['color'] ?? $meta['color'] }}; color: #fff; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-rotate-right"></i> Retake {{ $sportMeta['name'] ?? 'Sport' }} Test
+          </a>
+          <a href="{{ route('specialized-aptitude.quiz', 'sports') }}" style="padding: 8px 16px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; color: #334155; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-trophy"></i> Try Another Sport
+          </a>
+        @else
+          <a href="{{ route('specialized-aptitude.quiz', $meta['key']) }}" style="padding: 8px 16px; border-radius: 8px; background: {{ $meta['color'] }}; color: #fff; font-weight: 700; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-rotate-right"></i> Retake Test
+          </a>
+        @endif
       </div>
     </div>
 
@@ -268,9 +277,15 @@
     <div class="spec-scorecard-card">
       <div class="scorecard-header-flex">
         <div class="scorecard-candidate">
-          <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: {{ $meta['bg_light'] }}; color: {{ $meta['color_dark'] }}; font-size: 12px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase;">
-            <i class="{{ $meta['icon'] }}"></i> {{ $meta['name'] }} Report
-          </div>
+          @if(!empty($sportMeta))
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 999px; background: {{ $sportMeta['bg_light'] }}; color: {{ $sportMeta['color_dark'] }}; font-size: 12px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase;">
+              <i class="{{ $sportMeta['icon'] }}"></i> {{ $sportMeta['name'] }} Specialization Report
+            </div>
+          @else
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: {{ $meta['bg_light'] }}; color: {{ $meta['color_dark'] }}; font-size: 12px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase;">
+              <i class="{{ $meta['icon'] }}"></i> {{ $meta['name'] }} Report
+            </div>
+          @endif
           <h1>{{ $attempt->student_name }}</h1>
           <div class="scorecard-candidate-meta">
             <span><i class="fa-regular fa-envelope"></i> {{ $attempt->student_email }}</span>
@@ -279,6 +294,9 @@
             @endif
             <span><i class="fa-regular fa-calendar"></i> {{ $attempt->created_at->format('d M, Y &bull; h:i A') }}</span>
             <span><i class="fa-solid fa-hashtag"></i> ID: #{{ substr($attempt->uuid, 0, 8) }}</span>
+            @if(!empty($sportMeta))
+              <span><i class="{{ $sportMeta['icon'] }}"></i> Sport: <strong>{{ $sportMeta['name'] }}</strong></span>
+            @endif
           </div>
         </div>
 
@@ -292,6 +310,66 @@
           </div>
         </div>
       </div>
+
+      @php
+        $details = $attempt->question_details ?? [];
+        $genTotal = 0;
+        $genCorrect = 0;
+        $sportTotal = 0;
+        $sportCorrect = 0;
+
+        foreach($details as $item) {
+          $isSport = !empty($item['is_sport_specific']) || (isset($item['sport']) && $item['sport'] !== 'general' && !empty($attempt->sport));
+          if ($isSport) {
+            $sportTotal++;
+            if (!empty($item['is_correct'])) $sportCorrect++;
+          } else {
+            $genTotal++;
+            if (!empty($item['is_correct'])) $genCorrect++;
+          }
+        }
+      @endphp
+
+      @if($attempt->category === 'sports' && !empty($sportMeta))
+        <!-- 2-Part Section Breakdown for Sports Specialization -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 28px; padding-top: 22px; border-top: 1px solid #e2e8f0;">
+          <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 14px; padding: 18px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 12px; font-weight: 800; color: #0369a1; text-transform: uppercase;">
+                <i class="fa-solid fa-person-running"></i> Section 1: General Foundations
+              </span>
+              <span style="font-size: 11.5px; font-weight: 700; color: #0284c7; background: #e0f2fe; padding: 2px 8px; border-radius: 999px;">
+                10 Questions
+              </span>
+            </div>
+            <div style="font-size: 28px; font-weight: 900; color: #0369a1; line-height: 1.2;">
+              {{ $genCorrect }}<span style="font-size: 18px; color: #64748b; font-weight: 600;">/{{ $genTotal > 0 ? $genTotal : 10 }}</span>
+              <span style="font-size: 15px; font-weight: 700; color: #0284c7; margin-left: 6px;">({{ $genTotal > 0 ? round(($genCorrect / $genTotal) * 100) : 0 }}%)</span>
+            </div>
+            <div style="font-size: 12.5px; color: #475569; margin-top: 6px;">
+              Biomechanics, recovery, kinesiology, athletic nutrition & psychology
+            </div>
+          </div>
+
+          <div style="background: {{ $sportMeta['bg_light'] }}; border: 1px solid {{ $sportMeta['color'] }}55; border-radius: 14px; padding: 18px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 12px; font-weight: 800; color: {{ $sportMeta['color_dark'] }}; text-transform: uppercase;">
+                <i class="{{ $sportMeta['icon'] }}"></i> Section 2: {{ $sportMeta['name'] }} Specialization
+              </span>
+              <span style="font-size: 11.5px; font-weight: 700; color: {{ $sportMeta['color_dark'] }}; background: #ffffff; padding: 2px 8px; border-radius: 999px;">
+                10 Questions
+              </span>
+            </div>
+            <div style="font-size: 28px; font-weight: 900; color: {{ $sportMeta['color_dark'] }}; line-height: 1.2;">
+              {{ $sportCorrect }}<span style="font-size: 18px; color: #64748b; font-weight: 600;">/{{ $sportTotal > 0 ? $sportTotal : 10 }}</span>
+              <span style="font-size: 15px; font-weight: 700; color: {{ $sportMeta['color_dark'] }}; margin-left: 6px;">({{ $sportTotal > 0 ? round(($sportCorrect / $sportTotal) * 100) : 0 }}%)</span>
+            </div>
+            <div style="font-size: 12.5px; color: #475569; margin-top: 6px;">
+              Tactics, match strategy, tournament rules & technical sport execution
+            </div>
+          </div>
+        </div>
+      @endif
 
       @if(session('reward_notification'))
         <div class="reward-pill-banner">
@@ -407,6 +485,15 @@
           <div class="qa-header">
             <div class="qa-qtext">
               <span style="color: #94a3b8; margin-right: 6px;">Q{{ $idx + 1 }}.</span>
+              @if(!empty($item['is_sport_specific']) || (isset($item['sport']) && $item['sport'] !== 'general' && !empty($attempt->sport)))
+                <span style="font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: {{ $sportMeta['bg_light'] ?? '#ecfdf5' }}; color: {{ $sportMeta['color_dark'] ?? '#047857' }}; margin-right: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="{{ $sportMeta['icon'] ?? 'fa-solid fa-medal' }}"></i> {{ $sportMeta['name'] ?? 'Sport' }} Specialization
+                </span>
+              @elseif($attempt->category === 'sports')
+                <span style="font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: #e0f2fe; color: #0369a1; margin-right: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-person-running"></i> General Athletic Foundation
+                </span>
+              @endif
               {{ $item['question_text'] ?? 'Question' }}
             </div>
             @if($isCorrect)

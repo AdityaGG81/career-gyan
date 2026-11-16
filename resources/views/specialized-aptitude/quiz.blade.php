@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Take ' . $meta['name'] . ' - 20 Questions | CareerGyan')
-@section('meta_description', 'Complete the 20-question randomized ' . $meta['name'] . ' test to evaluate your instincts and discover accredited degree pathways.')
+@section('title', (!empty($sportMeta) ? ($sportMeta['name'] . ' Sports Specialization') : $meta['name']) . ' - 20 Questions | CareerGyan')
+@section('meta_description', 'Complete the 20-question ' . (!empty($sportMeta) ? $sportMeta['name'] : $meta['name']) . ' assessment to evaluate athletic & tactical instincts and discover degree pathways.')
 
 @section('content')
 <style>
@@ -321,20 +321,73 @@
   }
 </style>
 
+@if($needsSportSelection)
+<div class="quiz-page-container">
+  <div class="quiz-wrap" style="max-width: 1060px;">
+    <!-- Step 1: Sport Selection Hero -->
+    <div style="text-align: center; margin-bottom: 36px; padding: 10px 0;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; border-radius: 999px; background: {{ $meta['bg_light'] }}; color: {{ $meta['color_dark'] }}; font-size: 13px; font-weight: 800; margin-bottom: 14px;">
+        <i class="{{ $meta['icon'] }}"></i> {{ $meta['name'] }} Assessment
+      </div>
+      <h1 style="font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">
+        Step 1: Choose Your Sport Specialization
+      </h1>
+      <p style="font-size: 16px; color: #64748b; max-width: 720px; margin: 0 auto; line-height: 1.6;">
+        Your 20-question evaluation features <strong>10 General Athletic Foundations</strong> questions (biomechanics, recovery, nutrition, psychology) plus <strong>10 Specialization questions</strong> in your chosen sport. Select your sport below to start:
+      </p>
+    </div>
+
+    <!-- Sports Selection Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 36px;">
+      @foreach($sportsList as $sSlug => $sItem)
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid {{ $sItem['color'] }}; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(0,0,0,0.03); transition: all 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.08)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 18px rgba(0,0,0,0.03)'">
+          <div>
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: {{ $sItem['bg_light'] }}; color: {{ $sItem['color'] }}; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px;">
+              <i class="{{ $sItem['icon'] }}"></i>
+            </div>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">{{ $sItem['name'] }}</h3>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 18px;">{{ $sItem['tagline'] }}</p>
+          </div>
+          <div>
+            <div style="font-size: 11.5px; font-weight: 700; color: #059669; margin-bottom: 10px;">
+              <i class="fa-solid fa-list-check"></i> 10 General + 10 {{ $sItem['name'] }} Qs
+            </div>
+            <a href="{{ route('specialized-aptitude.quiz', ['category' => 'sports', 'sport' => $sSlug]) }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-radius: 10px; background: {{ $sItem['color'] }}; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 13.5px; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+              <span>Begin {{ $sItem['name'] }} Test</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+      <a href="{{ route('specialized-aptitude.show', 'sports') }}" style="color: #64748b; font-size: 13.5px; font-weight: 600; text-decoration: none;">
+        &larr; Back to Sports Aptitude Overview
+      </a>
+    </div>
+  </div>
+</div>
+@else
 <div class="quiz-page-container">
   <div class="quiz-wrap">
 
     <!-- Sticky Header -->
     <div class="quiz-sticky-header">
       <div class="quiz-info-left">
-        <div class="quiz-domain-icon">
-          <i class="{{ $meta['icon'] }}"></i>
+        <div class="quiz-domain-icon" style="{{ !empty($sportMeta) ? 'background:' . $sportMeta['bg_light'] . '; color:' . $sportMeta['color'] . ';' : '' }}">
+          <i class="{{ !empty($sportMeta) ? $sportMeta['icon'] : $meta['icon'] }}"></i>
         </div>
         <div>
-          <h1 class="quiz-domain-title">{{ $meta['name'] }} Assessment</h1>
+          <h1 class="quiz-domain-title">
+            {{ !empty($sportMeta) ? ($sportMeta['name'] . ' Specialization') : ($meta['name'] . ' Assessment') }}
+          </h1>
           <div class="quiz-progress-text">
             Question <span id="currentQNum">1</span> of {{ $questions->count() }} &bull;
             <span id="answeredCountText">0</span> Answered
+            @if(!empty($sportMeta))
+              &bull; <a href="{{ route('specialized-aptitude.quiz', 'sports') }}" style="color: {{ $sportMeta['color'] }}; text-decoration: underline; font-weight: 700;">Change Sport</a>
+            @endif
           </div>
         </div>
       </div>
@@ -354,15 +407,45 @@
       </div>
     </div>
 
+    <!-- Section Indicator for Sports Specialization -->
+    @if(!empty($sportMeta))
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 999px; background: #e0f2fe; color: #0369a1;">
+            <i class="fa-solid fa-person-running"></i> Q1 - Q10: General Athletic Foundations
+          </span>
+          <span style="color: #cbd5e1;">&bull;</span>
+          <span style="font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 999px; background: {{ $sportMeta['bg_light'] }}; color: {{ $sportMeta['color_dark'] }};">
+            <i class="{{ $sportMeta['icon'] }}"></i> Q11 - Q20: {{ $sportMeta['name'] }} Specialization
+          </span>
+        </div>
+        <span style="font-size: 12px; color: #64748b; font-weight: 600;">
+          Selected Sport: <strong style="color: {{ $sportMeta['color_dark'] }};">{{ $sportMeta['name'] }}</strong>
+        </span>
+      </div>
+    @endif
+
     <!-- Question Cards Container -->
     <form id="quizForm" onsubmit="event.preventDefault(); confirmSubmit();">
       @csrf
 
       @foreach($questions as $index => $q)
         <div class="question-card {{ $index === 0 ? 'active' : '' }}" id="questionCard_{{ $index }}" data-qid="{{ $q->id }}">
-          <div class="q-badge">
-            <i class="fa-solid fa-circle-question"></i> Question {{ $index + 1 }} of {{ $questions->count() }}
-          </div>
+          @if(!empty($sportMeta))
+            @if($index < 10)
+              <div class="q-badge" style="background: #e0f2fe; color: #0369a1;">
+                <i class="fa-solid fa-person-running"></i> Section 1: General Athletic Foundations &bull; Q{{ $index + 1 }} of {{ $questions->count() }}
+              </div>
+            @else
+              <div class="q-badge" style="background: {{ $sportMeta['bg_light'] }}; color: {{ $sportMeta['color_dark'] }};">
+                <i class="{{ $sportMeta['icon'] }}"></i> Section 2: {{ $sportMeta['name'] }} Specialization &bull; Q{{ $index + 1 }} of {{ $questions->count() }}
+              </div>
+            @endif
+          @else
+            <div class="q-badge">
+              <i class="fa-solid fa-circle-question"></i> Question {{ $index + 1 }} of {{ $questions->count() }}
+            </div>
+          @endif
           <h2 class="q-text">
             {{ $q->question_text }}
           </h2>
@@ -397,7 +480,7 @@
 
       <!-- Palette and Question Nav -->
       <div class="palette-card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
           <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Question Palette:</span>
           <span style="font-size: 12px; color: #64748b;">
             <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981; margin-right:4px;"></span> Answered
@@ -405,6 +488,14 @@
             <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#e2e8f0; margin-right:4px;"></span> Unanswered
           </span>
         </div>
+
+        @if(!empty($sportMeta))
+          <div style="display: flex; gap: 16px; margin-top: 10px; font-size: 12px; font-weight: 700; flex-wrap: wrap;">
+            <span style="color: #0369a1;"><i class="fa-solid fa-circle-dot" style="font-size: 10px;"></i> Q1 - Q10: General Foundations</span>
+            <span style="color: {{ $sportMeta['color_dark'] }};"><i class="fa-solid fa-circle-dot" style="font-size: 10px;"></i> Q11 - Q20: {{ $sportMeta['name'] }} Specialization</span>
+          </div>
+        @endif
+
         <div class="palette-grid">
           @foreach($questions as $index => $q)
             <button type="button" class="palette-btn {{ $index === 0 ? 'current' : '' }}" id="paletteBtn_{{ $index }}" onclick="goToQuestion({{ $index }})">
@@ -468,8 +559,10 @@
     </div>
   </div>
 </div>
+@endif
 @endsection
 
+@if(!$needsSportSelection)
 @section('scripts')
 <script>
   const totalQuestions = {{ $questions->count() }};
@@ -478,6 +571,7 @@
   const isAuth = {{ Auth::check() ? 'true' : 'false' }};
   const submitUrl = "{{ route('specialized-aptitude.submit', $meta['key']) }}";
   const csrfToken = "{{ csrf_token() }}";
+  const sportSlug = "{{ $sport ?? '' }}";
 
   function selectOption(qIdx, optionKey, labelEl) {
     // Unselect other options in this question
@@ -594,6 +688,7 @@
         'Accept': 'application/json'
       },
       body: JSON.stringify({
+        sport: sportSlug,
         answers: answers,
         student_name: name,
         student_email: email,
@@ -646,4 +741,5 @@
   }, 1000);
 </script>
 @endsection
+@endif
 

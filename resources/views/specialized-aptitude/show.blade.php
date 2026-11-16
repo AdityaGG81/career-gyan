@@ -227,6 +227,67 @@
     margin-bottom: 24px;
     box-shadow: 0 4px 18px rgba(0,0,0,0.03);
   }
+
+  /* Sports Selection Grid */
+  .sports-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .sport-select-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 22px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+  .sport-select-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  }
+  .sport-icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  .sport-title-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+  .sport-tagline-text {
+    font-size: 12.5px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex-grow: 1;
+  }
+  .sport-card-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+  }
 </style>
 
 <!-- Hero Section -->
@@ -272,9 +333,15 @@
     @endif
 
     <div class="spec-hero-actions">
-      <a href="{{ route('specialized-aptitude.quiz', $meta['key']) }}" class="btn-start-hero" style="background: {{ $meta['color'] }};">
-        <i class="fa-solid fa-pen-to-square"></i> Take 20-Question Assessment
-      </a>
+      @if($meta['key'] === 'sports')
+        <a href="#sports-selection" class="btn-start-hero" style="background: {{ $meta['color'] }};">
+          <i class="fa-solid fa-trophy"></i> Choose Sport & Start 20-Q Test
+        </a>
+      @else
+        <a href="{{ route('specialized-aptitude.quiz', $meta['key']) }}" class="btn-start-hero" style="background: {{ $meta['color'] }};">
+          <i class="fa-solid fa-pen-to-square"></i> Take 20-Question Assessment
+        </a>
+      @endif
       <a href="#courses-section" class="btn-start-hero" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);">
         <i class="fa-solid fa-graduation-cap"></i> View {{ $courses->count() }} Degree & Diploma Courses
       </a>
@@ -288,6 +355,42 @@
     <div class="spec-body-grid">
       <!-- Main Column -->
       <div>
+        @if($meta['key'] === 'sports' && !empty($sportsList))
+          <!-- Choose Your Sport Specialization -->
+          <div id="sports-selection" class="spec-content-card" style="border: 2px solid {{ $meta['color'] }}; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+              <h2 class="spec-sec-title" style="margin: 0;">
+                <i class="fa-solid fa-trophy" style="color: {{ $meta['color'] }};"></i>
+                Choose Your Sport Specialization
+              </h2>
+              <span style="font-size: 12.5px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 4px 12px; border-radius: 999px;">
+                10 General + 10 Sport-Specific Questions
+              </span>
+            </div>
+            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin-bottom: 20px;">
+              Your 20-question evaluation consists of <strong>10 General Athletic Foundations</strong> questions (biomechanics, recovery, nutrition, psychology) plus <strong>10 Specialization Questions</strong> tailored strictly to your chosen sport:
+            </p>
+
+            <div class="sports-selection-grid">
+              @foreach($sportsList as $sSlug => $sItem)
+                <div class="sport-select-card" style="border-top: 4px solid {{ $sItem['color'] }};">
+                  <div>
+                    <div class="sport-icon-box" style="background: {{ $sItem['bg_light'] }}; color: {{ $sItem['color'] }};">
+                      <i class="{{ $sItem['icon'] }}"></i>
+                    </div>
+                    <h3 class="sport-title-text">{{ $sItem['name'] }}</h3>
+                    <p class="sport-tagline-text">{{ $sItem['tagline'] }}</p>
+                  </div>
+                  <a href="{{ route('specialized-aptitude.quiz', ['category' => 'sports', 'sport' => $sSlug]) }}" class="sport-card-btn" style="background: {{ $sItem['color'] }};">
+                    <span>Start Test</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </a>
+                </div>
+              @endforeach
+            </div>
+          </div>
+        @endif
+
         <!-- Evaluated Traits Card -->
         <div class="spec-content-card">
           <h2 class="spec-sec-title">
@@ -388,9 +491,18 @@
             </div>
 
             <ul style="list-style: none; padding: 0; margin: 0 0 20px; font-size: 13.5px; color: #475569; display: flex; flex-direction: column; gap: 10px;">
-              <li style="display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>20 Questions</strong> (Randomized from {{ $questionsCount }} Question Pool)
-              </li>
+              @if($meta['key'] === 'sports')
+                <li style="display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>20 Questions</strong> (10 General + 10 Sport Specific)
+                </li>
+                <li style="display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>15 Sports Covered</strong> (Cricket, Football, Badminton, etc.)
+                </li>
+              @else
+                <li style="display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>20 Questions</strong> (Randomized from {{ $questionsCount }} Question Pool)
+                </li>
+              @endif
               <li style="display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> <strong>15-Minute</strong> Recommended Time
               </li>
@@ -405,9 +517,15 @@
               </li>
             </ul>
 
-            <a href="{{ route('specialized-aptitude.quiz', $meta['key']) }}" class="btn-start-hero" style="background: {{ $meta['color'] }}; width: 100%; justify-content: center; padding: 13px 20px;">
-              <i class="fa-solid fa-play"></i> Start 20-Q Assessment
-            </a>
+            @if($meta['key'] === 'sports')
+              <a href="#sports-selection" class="btn-start-hero" style="background: {{ $meta['color'] }}; width: 100%; justify-content: center; padding: 13px 20px;">
+                <i class="fa-solid fa-trophy"></i> Choose Sport & Start
+              </a>
+            @else
+              <a href="{{ route('specialized-aptitude.quiz', $meta['key']) }}" class="btn-start-hero" style="background: {{ $meta['color'] }}; width: 100%; justify-content: center; padding: 13px 20px;">
+                <i class="fa-solid fa-play"></i> Start 20-Q Assessment
+              </a>
+            @endif
           </div>
 
           <!-- Other Streams Nav -->

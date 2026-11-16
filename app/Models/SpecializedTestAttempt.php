@@ -15,6 +15,7 @@ class SpecializedTestAttempt extends Model
         'uuid',
         'user_id',
         'category',
+        'sport',
         'student_name',
         'student_email',
         'student_phone',
@@ -51,13 +52,42 @@ class SpecializedTestAttempt extends Model
      */
     public function getCategoryLabelAttribute(): string
     {
-        return match (strtolower($this->category)) {
+        $label = match (strtolower($this->category)) {
             'spiritual' => 'Spiritual Aptitude',
             'artistic' => 'Artistic Aptitude',
             'sports' => 'Sports Aptitude',
             'business' => 'Business Aptitude',
             default => ucfirst($this->category) . ' Aptitude',
         };
+
+        if (strtolower($this->category) === 'sports' && $this->sport_name) {
+            $label .= ' (' . $this->sport_name . ')';
+        }
+
+        return $label;
+    }
+
+    public function getSportNameAttribute(): ?string
+    {
+        if (!$this->sport) return null;
+        $sports = [
+            'cricket' => 'Cricket',
+            'football' => 'Football (Soccer)',
+            'badminton' => 'Badminton',
+            'athletics' => 'Athletics (Track & Field)',
+            'kabaddi' => 'Kabaddi',
+            'basketball' => 'Basketball',
+            'tennis' => 'Tennis',
+            'volleyball' => 'Volleyball',
+            'table-tennis' => 'Table Tennis',
+            'hockey' => 'Field Hockey',
+            'boxing' => 'Boxing & Combat Sports',
+            'swimming' => 'Swimming & Aquatics',
+            'chess' => 'Chess (Mind Sports)',
+            'shooting' => 'Shooting & Archery',
+            'wrestling' => 'Wrestling (Kushti)',
+        ];
+        return $sports[strtolower($this->sport)] ?? ucfirst($this->sport);
     }
 
     /**

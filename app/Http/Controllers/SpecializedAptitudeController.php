@@ -13,6 +13,162 @@ use Illuminate\Support\Facades\Auth;
 class SpecializedAptitudeController extends Controller
 {
     /**
+     * Supported individual sports for Sports Aptitude specialization.
+     */
+    public static array $sportsList = [
+        'cricket' => [
+            'slug' => 'cricket',
+            'name' => 'Cricket',
+            'tagline' => 'Aerodynamics of Swing, Fielding Placements, Pitch Dynamics & Decision Making',
+            'icon' => 'fa-solid fa-baseball-bat-ball',
+            'color' => '#0284c7',
+            'color_dark' => '#0369a1',
+            'bg_light' => '#e0f2fe',
+            'description' => 'Evaluates batting biomechanics, swing & spin aerodynamics, field geometry, DRS decision-making, and tactical captaincy.',
+        ],
+        'football' => [
+            'slug' => 'football',
+            'name' => 'Football (Soccer)',
+            'tagline' => 'Spatial Formations, High-Press Gegenpressing, Offside Trap & Kinetic Agility',
+            'icon' => 'fa-solid fa-futbol',
+            'color' => '#16a34a',
+            'color_dark' => '#15803d',
+            'bg_light' => '#dcfce7',
+            'description' => 'Tests tactical shape anticipation, counter-pressing triggers, spatial half-space runs, set-piece execution, and player positioning.',
+        ],
+        'badminton' => [
+            'slug' => 'badminton',
+            'name' => 'Badminton',
+            'tagline' => 'Split-Step Footwork, Shuttle Aerodynamics, Deceptive Drops & Wrist Mechanics',
+            'icon' => 'fa-solid fa-feather',
+            'color' => '#d97706',
+            'color_dark' => '#b45309',
+            'bg_light' => '#fef3c7',
+            'description' => 'Assesses fast-twitch reaction time, pronation/supination smash mechanics, rally pacing, net control, and deceptive shot selection.',
+        ],
+        'athletics' => [
+            'slug' => 'athletics',
+            'name' => 'Athletics (Track & Field)',
+            'tagline' => 'Triple Extension, VO2 Max Energy Systems, Hurdle Rhythm & Periodization',
+            'icon' => 'fa-solid fa-person-running',
+            'color' => '#dc2626',
+            'color_dark' => '#b91c1c',
+            'bg_light' => '#fee2e2',
+            'description' => 'Measures track sprint drive phases, ground reaction force, lactic acid buffering, relay baton exchanges, and pacing economy.',
+        ],
+        'kabaddi' => [
+            'slug' => 'kabaddi',
+            'name' => 'Kabaddi',
+            'tagline' => 'Corner-In Ankle Holds, Bonus Line Dynamics, Cant Breath Control & Chain Tackling',
+            'icon' => 'fa-solid fa-hand-fist',
+            'color' => '#ea580c',
+            'color_dark' => '#c2410c',
+            'bg_light' => '#ffedd5',
+            'description' => 'Evaluates raider escape mechanics, corner chain coordination, super tackle positioning, do-or-die raid strategy, and cant control.',
+        ],
+        'basketball' => [
+            'slug' => 'basketball',
+            'name' => 'Basketball',
+            'tagline' => 'Pick-and-Roll Reads, Fast-Break Transition, Zone Defenses & Shooting Arc',
+            'icon' => 'fa-solid fa-basketball',
+            'color' => '#f97316',
+            'color_dark' => '#c2410c',
+            'bg_light' => '#ffedd5',
+            'description' => 'Assesses floor spacing, half-court pick-and-roll dissection, help-side rotation, shot contest biomechanics, and 24-second clock management.',
+        ],
+        'tennis' => [
+            'slug' => 'tennis',
+            'name' => 'Tennis',
+            'tagline' => 'Topspin Angular Momentum, Kinetic Forehand Loading, Serve Placement & Break Points',
+            'icon' => 'fa-solid fa-table-tennis-paddle-ball',
+            'color' => '#65a30d',
+            'color_dark' => '#4d7c0f',
+            'bg_light' => '#ecfccb',
+            'description' => 'Tests unit turn shoulder coils, Magnus topspin clearance, serve target variation, surface transition adaptations, and tie-break pressure play.',
+        ],
+        'volleyball' => [
+            'slug' => 'volleyball',
+            'name' => 'Volleyball',
+            'tagline' => 'Rotational Overlap, Approach Step Vertical Jump, Float Serve & Block Defense',
+            'icon' => 'fa-solid fa-volleyball',
+            'color' => '#0d9488',
+            'color_dark' => '#0f766e',
+            'bg_light' => '#ccfbf1',
+            'description' => 'Measures 3-step spike approach mechanics, float serve aerodynamic drift, double-block seam closure, libero coverage, and rotational rules.',
+        ],
+        'table-tennis' => [
+            'slug' => 'table-tennis',
+            'name' => 'Table Tennis',
+            'tagline' => 'Brush Contact RPM, High-Frequency Footwork, Reverse Pendulum & Banana Flick',
+            'icon' => 'fa-solid fa-table-tennis-paddle-ball',
+            'color' => '#0891b2',
+            'color_dark' => '#0e7490',
+            'bg_light' => '#cffafe',
+            'description' => 'Tests short-pip vs inverted rubber dynamics, banana flick over-the-table wrist snaps, heavy backspin push returns, and third-ball attack setups.',
+        ],
+        'hockey' => [
+            'slug' => 'hockey',
+            'name' => 'Field Hockey',
+            'tagline' => 'Penalty Corner Drag-Flick Velocity, Aerial Passing, Low-Slung Tackling & Self-Pass',
+            'icon' => 'fa-solid fa-hockey-puck',
+            'color' => '#2563eb',
+            'color_dark' => '#1d4ed8',
+            'bg_light' => '#dbeafe',
+            'description' => 'Assesses stick-face fulcrum drag-flick physics, circle entry angles, jab tackling without foot contact, aerial ball trapping, and self-pass exploitation.',
+        ],
+        'boxing' => [
+            'slug' => 'boxing',
+            'name' => 'Boxing & Combat Sports',
+            'tagline' => 'Kinetic Chain Punch Power, Slip & Pivot Angles, 10-Point Must Scoring & Gas Tank',
+            'icon' => 'fa-solid fa-hand-fist',
+            'color' => '#991b1b',
+            'color_dark' => '#7f1d1d',
+            'bg_light' => '#fee2e2',
+            'description' => 'Measures ground-up torque generation, bob-and-weave head movement angles, ring generalship, distance measuring jabs, and weight cut recovery.',
+        ],
+        'swimming' => [
+            'slug' => 'swimming',
+            'name' => 'Swimming & Aquatics',
+            'tagline' => 'Hydrodynamic Streamlining, Dolphin Kick Core Waves, Stroke DPS & Turn Transitions',
+            'icon' => 'fa-solid fa-person-swimming',
+            'color' => '#0284c7',
+            'color_dark' => '#0369a1',
+            'bg_light' => '#e0f2fe',
+            'description' => 'Tests frontal drag reduction, underwater 15m breakout regulation, stroke rate vs distance-per-stroke balance, bilateral breathing, and flip-turn propulsion.',
+        ],
+        'chess' => [
+            'slug' => 'chess',
+            'name' => 'Chess (Mind Sports)',
+            'tagline' => 'Calculation Depth, Pawn Structure Imbalances, Zugzwang & Time Management',
+            'icon' => 'fa-solid fa-chess-knight',
+            'color' => '#4f46e5',
+            'color_dark' => '#4338ca',
+            'bg_light' => '#e0e7ff',
+            'description' => 'Assesses multi-move tree calculation, prophylaxis against opponent plans, endgame lucena/philidor positions, pawn island analysis, and time-trouble composure.',
+        ],
+        'shooting' => [
+            'slug' => 'shooting',
+            'name' => 'Shooting & Archery',
+            'tagline' => 'Trigger Squeeze Disassociation, Heart-Rate Bradycardia, Wind Drift & Nock Alignment',
+            'icon' => 'fa-solid fa-bullseye',
+            'color' => '#7c3aed',
+            'color_dark' => '#6d28d9',
+            'bg_light' => '#ede9fe',
+            'description' => 'Evaluates respiratory pause trigger breaks, isometric skeletal stability, archer paradox compensation, wind flag mirage reading, and fine motor discipline.',
+        ],
+        'wrestling' => [
+            'slug' => 'wrestling',
+            'name' => 'Wrestling (Kushti)',
+            'tagline' => 'Center of Gravity Control, Underhook Tie-Ups, Par Terre Defense & Level Changes',
+            'icon' => 'fa-solid fa-shield-halved',
+            'color' => '#b45309',
+            'color_dark' => '#92400e',
+            'bg_light' => '#fef3c7',
+            'description' => 'Measures low penetration step mechanics, hip sprawl weight distribution, par terre gut-wrench defense, passivity shot clocks, and clay vs mat leverage.',
+        ],
+    ];
+
+    /**
      * Supported specialized aptitude categories.
      */
     protected array $categories = [
@@ -78,6 +234,14 @@ class SpecializedAptitudeController extends Controller
                 // Silently continue if duplicate keys exist
             }
         }
+
+        if (SpecializedAptitudeQuestion::where('category', 'sports')->whereNotNull('sport')->where('sport', '!=', 'general')->count() < 150) {
+            try {
+                (new \Database\Seeders\SportsSpecificAptitudeSeeder())->run();
+            } catch (\Exception $e) {
+                // Silently continue if duplicate keys exist
+            }
+        }
     }
 
     /**
@@ -111,6 +275,7 @@ class SpecializedAptitudeController extends Controller
         $meta = $this->categories[$category];
         $courses = SpecializedCourse::where('category', $category)->get();
         $questionsCount = SpecializedAptitudeQuestion::where('category', $category)->count();
+        $sportsList = ($category === 'sports') ? self::$sportsList : [];
 
         $userAttempt = null;
         if (Auth::check()) {
@@ -120,13 +285,14 @@ class SpecializedAptitudeController extends Controller
                 ->first();
         }
 
-        return view('specialized-aptitude.show', compact('meta', 'courses', 'questionsCount', 'userAttempt'));
+        return view('specialized-aptitude.show', compact('meta', 'courses', 'questionsCount', 'userAttempt', 'sportsList'));
     }
 
     /**
      * 20-Question Randomized Assessment Quiz.
+     * For Sports Aptitude: 10 General Sports questions + 10 Sport-Specific questions for the chosen sport.
      */
-    public function quiz($category)
+    public function quiz(Request $request, $category)
     {
         $this->ensureDataSeeded();
         $category = strtolower(trim($category));
@@ -135,18 +301,67 @@ class SpecializedAptitudeController extends Controller
         }
 
         $meta = $this->categories[$category];
+        $sportsList = self::$sportsList;
+        $sport = null;
+        $sportMeta = null;
 
-        // Fetch 20 randomized questions for this domain
-        $questions = SpecializedAptitudeQuestion::where('category', $category)
-            ->inRandomOrder()
-            ->take(20)
-            ->get();
+        if ($category === 'sports') {
+            $chosenSport = strtolower(trim($request->query('sport', '')));
+            if (!empty($chosenSport) && isset(self::$sportsList[$chosenSport])) {
+                $sport = $chosenSport;
+                $sportMeta = self::$sportsList[$sport];
 
-        if ($questions->isEmpty()) {
+                // 10 General athletic foundation questions
+                $generalQuestions = SpecializedAptitudeQuestion::where('category', 'sports')
+                    ->where(function ($q) {
+                        $q->where('sport', 'general')->orWhereNull('sport');
+                    })
+                    ->inRandomOrder()
+                    ->take(10)
+                    ->get();
+
+                // 10 Sport-specific questions
+                $sportQuestions = SpecializedAptitudeQuestion::where('category', 'sports')
+                    ->where('sport', $sport)
+                    ->inRandomOrder()
+                    ->take(10)
+                    ->get();
+
+                // Fallback if sport questions count is less than 10
+                if ($sportQuestions->count() < 10) {
+                    $needed = 10 - $sportQuestions->count();
+                    $extraGeneral = SpecializedAptitudeQuestion::where('category', 'sports')
+                        ->where(function ($q) {
+                            $q->where('sport', 'general')->orWhereNull('sport');
+                        })
+                        ->whereNotIn('id', $generalQuestions->pluck('id'))
+                        ->inRandomOrder()
+                        ->take($needed)
+                        ->get();
+                    $sportQuestions = $sportQuestions->concat($extraGeneral);
+                }
+
+                $questions = $generalQuestions->concat($sportQuestions);
+                $needsSportSelection = false;
+            } else {
+                // User hasn't selected a sport yet: prompt sport selection
+                $questions = collect();
+                $needsSportSelection = true;
+            }
+        } else {
+            // General 20 randomized questions for spiritual, artistic, business
+            $questions = SpecializedAptitudeQuestion::where('category', $category)
+                ->inRandomOrder()
+                ->take(20)
+                ->get();
+            $needsSportSelection = false;
+        }
+
+        if (!$needsSportSelection && $questions->isEmpty()) {
             return redirect()->route('specialized-aptitude.index')->with('error', 'Questions for this section are being prepared.');
         }
 
-        return view('specialized-aptitude.quiz', compact('meta', 'questions'));
+        return view('specialized-aptitude.quiz', compact('meta', 'questions', 'sportsList', 'sport', 'sportMeta', 'needsSportSelection'));
     }
 
     /**
@@ -158,6 +373,13 @@ class SpecializedAptitudeController extends Controller
         $category = strtolower(trim($category));
         if (!isset($this->categories[$category])) {
             return response()->json(['success' => false, 'message' => 'Invalid category.'], 400);
+        }
+
+        $sport = $request->input('sport');
+        if ($category === 'sports' && (!empty($sport) && isset(self::$sportsList[$sport]))) {
+            $sport = strtolower(trim($sport));
+        } else {
+            $sport = null;
         }
 
         $answers = $request->input('answers', []);
@@ -173,6 +395,10 @@ class SpecializedAptitudeController extends Controller
             ->keyBy('id');
 
         $correctCount = 0;
+        $generalCorrect = 0;
+        $generalTotal = 0;
+        $sportCorrect = 0;
+        $sportTotal = 0;
         $totalQuestions = count($questionIds) > 0 ? count($questionIds) : 20;
         $questionDetails = [];
 
@@ -184,9 +410,20 @@ class SpecializedAptitudeController extends Controller
                     $correctCount++;
                 }
 
+                $isSportSpecific = ($category === 'sports' && $question->sport && $question->sport !== 'general');
+                if ($isSportSpecific) {
+                    $sportTotal++;
+                    if ($isCorrect) $sportCorrect++;
+                } else {
+                    $generalTotal++;
+                    if ($isCorrect) $generalCorrect++;
+                }
+
                 $questionDetails[] = [
                     'question_id' => $question->id,
                     'question_text' => $question->question_text,
+                    'sport' => $question->sport ?? 'general',
+                    'is_sport_specific' => $isSportSpecific,
                     'option_a' => $question->option_a,
                     'option_b' => $question->option_b,
                     'option_c' => $question->option_c,
@@ -232,6 +469,7 @@ class SpecializedAptitudeController extends Controller
             'uuid' => (string) Str::uuid(),
             'user_id' => Auth::id(),
             'category' => $category,
+            'sport' => $sport,
             'student_name' => $studentName,
             'student_email' => $studentEmail,
             'student_phone' => $studentPhone,
@@ -283,10 +521,15 @@ class SpecializedAptitudeController extends Controller
             'badge_bg' => '#dbeafe',
         ];
 
+        $sportsList = self::$sportsList;
+        $sportMeta = ($attempt->sport && isset(self::$sportsList[$attempt->sport]))
+            ? self::$sportsList[$attempt->sport]
+            : null;
+
         // Fetch full course models for recommendation
         $courses = SpecializedCourse::where('category', $attempt->category)->get();
 
-        return view('specialized-aptitude.results', compact('attempt', 'meta', 'courses'));
+        return view('specialized-aptitude.results', compact('attempt', 'meta', 'courses', 'sportsList', 'sportMeta'));
     }
 
     /**

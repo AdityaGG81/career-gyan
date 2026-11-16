@@ -13,6 +13,7 @@ class SpecializedAptitudeQuestion extends Model
 
     protected $fillable = [
         'category',
+        'sport',
         'question_text',
         'option_a',
         'option_b',
