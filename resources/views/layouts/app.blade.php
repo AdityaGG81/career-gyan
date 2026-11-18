@@ -1877,9 +1877,13 @@
       <i class="fa-solid fa-gift" style="color: #f97316;"></i>
       <span>Refer & Earn</span>
     </a>
-    <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}" title="Explore">
+    <a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}" title="Explore">
       <i class="fa-solid fa-compass"></i>
       <span>Explore</span>
+    </a>
+    <a href="{{ route('indian-colleges.index') }}" class="{{ request()->is('colleges*') || request()->is('explore/*-colleges') ? 'active' : '' }}" title="Colleges" style="color: var(--brand); font-weight: 700;">
+      <i class="fa-solid fa-building-columns"></i>
+      <span>Colleges</span>
     </a>
     <a href="{{ route('tools.mh-cutoff') }}" class="{{ request()->is('tools/maharashtra*') ? 'active' : '' }}" title="2026 Cutoffs" style="color: var(--brand); font-weight: 700;">
       <i class="fa-solid fa-chart-line"></i>
@@ -1995,7 +1999,8 @@
         <div class="nav-links">
           <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
           <a href="{{ route('rewards.index') }}" class="{{ request()->is('rewards*') || request()->is('my-rewards*') ? 'active' : '' }}" style="color: #ea580c; font-weight: 700;"><i class="fa-solid fa-gift"></i> Refer & Earn</a>
-          <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">Explore</a>
+          <a href="{{ url('/explore') }}" class="{{ request()->is('explore') || request()->is('explore/field*') ? 'active' : '' }}">Explore</a>
+          <a href="{{ route('indian-colleges.index') }}" class="{{ request()->is('colleges*') || request()->is('explore/*-colleges') ? 'active' : '' }}" style="color: var(--brand); font-weight: 700;"><i class="fa-solid fa-building-columns"></i> Colleges</a>
           <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">Quiz</a>
           <a href="{{ url('/blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a>
           <a href="{{ route('jobs.index') }}" class="{{ request()->is('job-corner*') ? 'active' : '' }}">Jobs</a>
@@ -2121,8 +2126,11 @@
     <a href="{{ route('membership.index') }}" class="{{ request()->is('membership*') ? 'active' : '' }}" style="color: #b45309; font-weight: 700; background: #fffbeb;">
       <i class="fa-solid fa-crown" style="color: #f59e0b;"></i> VIP Membership
     </a>
-    <a href="{{ url('/explore') }}" class="{{ request()->is('explore*') ? 'active' : '' }}">
+    <a href="{{ url('/explore') }}" class="{{ request()->is('explore') ? 'active' : '' }}">
       <i class="fa-solid fa-compass"></i> Explore Careers
+    </a>
+    <a href="{{ route('indian-colleges.index') }}" class="{{ request()->is('colleges*') || request()->is('explore/*-colleges') ? 'active' : '' }}" style="color: var(--brand); font-weight: 700;">
+      <i class="fa-solid fa-building-columns"></i> Colleges Directory
     </a>
     <a href="{{ route('daily-quiz.index') }}" class="{{ request()->is('daily-quiz*') ? 'active' : '' }}">
       <i class="fa-solid fa-fire" style="color: #fbbf24;"></i> Daily Quiz
