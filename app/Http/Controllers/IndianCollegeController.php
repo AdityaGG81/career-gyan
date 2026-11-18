@@ -68,55 +68,58 @@ class IndianCollegeController extends Controller
             // Exclude the original query itself from expansions
             $expansions = array_filter($synonyms, fn($s) => strtolower($s) !== $qLower);
 
-            // Phase 1: High-precision search — match college_name only (no course/state/district)
+            // Phase 1: High-precision search across college name, university, city, district & state
             $testQuery = (clone $baseQuery)->where(function ($qb) use ($q, $expansions) {
                 $qLen = strlen($q);
 
-                // If synonyms exist in dictionary for this query (e.g. COEP, VJTI), match strictly on college_name
-                if (!empty($expansions)) {
+                $qb->where(function ($sub) use ($q, $qLen) {
                     if ($qLen <= 6) {
-                        $qb->where('college_name', 'like', "%({$q})%")
+                        $sub->where('college_name', 'like', "%({$q})%")
+                           ->orWhere('college_name', 'like', "%({$q} %")
+                           ->orWhere('college_name', 'like', "%({$q}-%")
+                           ->orWhere('college_name', 'like', "%({$q}/%")
                            ->orWhere('college_name', 'like', "{$q} %")
                            ->orWhere('college_name', 'like', "% {$q} %")
                            ->orWhere('college_name', 'like', "% {$q}")
-                           ->orWhere('college_name', '=', $q);
+                           ->orWhere('college_name', '=', $q)
+                           ->orWhere('college_name', 'like', "%{$q}%")
+                           ->orWhere('university_name', 'like', "%{$q}%")
+                           ->orWhere('city', 'like', "%{$q}%")
+                           ->orWhere('district', 'like', "%{$q}%")
+                           ->orWhere('state', 'like', "%{$q}%");
                     } else {
-                        $qb->where('college_name', 'like', "%{$q}%");
+                        $sub->where('college_name', 'like', "%{$q}%")
+                           ->orWhere('university_name', 'like', "%{$q}%")
+                           ->orWhere('city', 'like', "%{$q}%")
+                           ->orWhere('district', 'like', "%{$q}%")
+                           ->orWhere('state', 'like', "%{$q}%");
                     }
+                });
 
+                // If synonyms exist in dictionary for this query (e.g. IIT, NIT, COEP, VJTI)
+                if (!empty($expansions)) {
                     foreach ($expansions as $syn) {
                         $synLen = strlen($syn);
                         if ($synLen < 2) continue;
 
                         $synLower = strtolower(trim($syn));
                         if ($synLower === 'college of engineering, pune' || $synLower === 'college of engineering pune') {
-                            // Match exact name or starting name for COEP to avoid matching society prefixes (AISSMS, PVG, Modern, etc.)
                             $qb->orWhere('college_name', '=', 'College of Engineering, Pune')
                                ->orWhere('college_name', 'like', 'College of Engineering, Pune %')
                                ->orWhere('college_name', 'like', 'College of Engineering, Pune (%');
                         } elseif ($synLen <= 8) {
                             $qb->orWhere('college_name', 'like', "%({$syn})%")
+                               ->orWhere('college_name', 'like', "%({$syn} %")
                                ->orWhere('college_name', 'like', "{$syn} %")
                                ->orWhere('college_name', 'like', "% {$syn} %")
                                ->orWhere('college_name', 'like', "% {$syn}")
-                               ->orWhere('college_name', '=', $syn);
+                               ->orWhere('college_name', '=', $syn)
+                               ->orWhere('college_name', 'like', "%{$syn}%");
                         } else {
-                            $qb->orWhere('college_name', 'like', "%{$syn}%");
+                            $qb->orWhere('college_name', 'like', "%{$syn}%")
+                               ->orWhere('university_name', 'like', "%{$syn}%");
                         }
                     }
-                    return;
-                }
-
-                if ($qLen <= 6) {
-                    // Short query (likely an acronym): use word-boundary matching
-                    $qb->where('college_name', 'like', "%({$q})%")
-                       ->orWhere('college_name', 'like', "{$q} %")
-                       ->orWhere('college_name', 'like', "% {$q} %")
-                       ->orWhere('college_name', 'like', "% {$q}");
-                } else {
-                    // Long query: standard LIKE match
-                    $qb->where('college_name', 'like', "%{$q}%")
-                       ->orWhere('city', 'like', "%{$q}%");
                 }
             });
 
@@ -372,39 +375,67 @@ class IndianCollegeController extends Controller
         $qLower = strtolower($q);
         $expansions = array_filter($synonyms, fn($s) => strtolower($s) !== $qLower);
 
-        // Phase 1: High-precision exact + acronym search — only college_name
+        // Phase 1: High-precision exact + acronym search across college_name, university, city, district, state
         $results = IndianCollege::where(function ($qb) use ($q, $expansions) {
                 $qLen = strlen($q);
 
-                if ($qLen <= 6) {
-                    $qb->where('college_name', 'like', "%({$q})%")
-                       ->orWhere('college_name', 'like', "{$q} %")
-                       ->orWhere('college_name', 'like', "% {$q} %")
-                       ->orWhere('college_name', 'like', "% {$q}")
-                       ->orWhere('city', 'like', "%{$q}%");
-                } else {
-                    $qb->where('college_name', 'like', "%{$q}%")
-                       ->orWhere('city', 'like', "%{$q}%");
-                }
-
-                foreach ($expansions as $syn) {
-                    $synLen = strlen($syn);
-                    if ($synLen < 2) continue;
-
-                    if ($synLen <= 8) {
-                        $qb->orWhere('college_name', 'like', "%({$syn})%")
-                           ->orWhere('college_name', 'like', "{$syn} %")
-                           ->orWhere('college_name', 'like', "% {$syn} %")
-                           ->orWhere('college_name', 'like', "% {$syn}");
+                $qb->where(function ($sub) use ($q, $qLen) {
+                    if ($qLen <= 6) {
+                        $sub->where('college_name', 'like', "%({$q})%")
+                           ->orWhere('college_name', 'like', "%({$q} %")
+                           ->orWhere('college_name', 'like', "%({$q}-%")
+                           ->orWhere('college_name', 'like', "%({$q}/%")
+                           ->orWhere('college_name', 'like', "{$q} %")
+                           ->orWhere('college_name', 'like', "% {$q} %")
+                           ->orWhere('college_name', 'like', "% {$q}")
+                           ->orWhere('college_name', '=', $q)
+                           ->orWhere('college_name', 'like', "%{$q}%")
+                           ->orWhere('university_name', 'like', "%{$q}%")
+                           ->orWhere('city', 'like', "%{$q}%")
+                           ->orWhere('district', 'like', "%{$q}%")
+                           ->orWhere('state', 'like', "%{$q}%");
                     } else {
-                        $qb->orWhere('college_name', 'like', "%{$syn}%");
+                        $sub->where('college_name', 'like', "%{$q}%")
+                           ->orWhere('university_name', 'like', "%{$q}%")
+                           ->orWhere('city', 'like', "%{$q}%")
+                           ->orWhere('district', 'like', "%{$q}%")
+                           ->orWhere('state', 'like', "%{$q}%");
+                    }
+                });
+
+                if (!empty($expansions)) {
+                    foreach ($expansions as $syn) {
+                        $synLen = strlen($syn);
+                        if ($synLen < 2) continue;
+
+                        if ($synLen <= 8) {
+                            $qb->orWhere('college_name', 'like', "%({$syn})%")
+                               ->orWhere('college_name', 'like', "%({$syn} %")
+                               ->orWhere('college_name', 'like', "{$syn} %")
+                               ->orWhere('college_name', 'like', "% {$syn} %")
+                               ->orWhere('college_name', 'like', "% {$syn}")
+                               ->orWhere('college_name', 'like', "%{$syn}%");
+                        } else {
+                            $qb->orWhere('college_name', 'like', "%{$syn}%")
+                               ->orWhere('university_name', 'like', "%{$syn}%");
+                        }
                     }
                 }
             })
-            ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name')
-            ->limit(15)
+            ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name', 'course_name')
+            ->orderByRaw("
+                (CASE WHEN college_name NOT LIKE '%JR. COLLEGE%' AND college_name NOT LIKE '%SCHOOL%' THEN 1 ELSE 0 END) DESC,
+                (CASE WHEN college_type LIKE '%University%' OR college_type LIKE '%National Importance%' THEN 2 
+                      WHEN college_type LIKE '%College%' THEN 1 ELSE 0 END) DESC,
+                (CASE WHEN course_name IS NOT NULL AND course_name != '' THEN 1 ELSE 0 END) DESC,
+                (CASE WHEN college_name LIKE '%({$q})%' OR college_name LIKE '%({$q} %' THEN 3
+                      WHEN college_name LIKE '{$q} %' THEN 2
+                      ELSE 1 END) DESC
+            ")
+            ->limit(35)
             ->get()
             ->unique('college_name')
+            ->take(15)
             ->values();
 
         $didYouMean = null;

@@ -807,6 +807,15 @@ class ExploreController extends Controller
         ];
     }
 
+    private function getExploreStates()
+    {
+        return College::whereNotNull('state')
+            ->where('state', '!=', '')
+            ->distinct()
+            ->orderBy('state')
+            ->pluck('state');
+    }
+
     public function engineeringColleges(Request $request)
     {
         $field = Field::where('slug', 'technology-engineering')->firstOrFail();
@@ -821,7 +830,7 @@ class ExploreController extends Controller
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.index', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
@@ -839,7 +848,7 @@ class ExploreController extends Controller
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.medical', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
@@ -857,7 +866,7 @@ class ExploreController extends Controller
         }
         $locations = $colleges->pluck('location')->unique()->sort()->values();
         $tiers = ['Tier 1', 'Tier 2', 'Tier 3'];
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.hotel', compact('field', 'colleges', 'locations', 'tiers', 'states'));
     }
 
@@ -875,7 +884,7 @@ class ExploreController extends Controller
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.management', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
@@ -893,7 +902,7 @@ class ExploreController extends Controller
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
         $types = $colleges->pluck('type')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.pharmacy', compact('field', 'colleges', 'districts', 'types', 'states'));
     }
 
@@ -911,7 +920,7 @@ class ExploreController extends Controller
         }
         $courses = ['BAMS', 'BHMS', 'BUMS', 'BNYS', 'BPT', 'BDS'];
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.non_mbbs', compact('field', 'colleges', 'courses', 'districts', 'states'));
     }
 
@@ -928,7 +937,7 @@ class ExploreController extends Controller
             }
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.science', compact('field', 'colleges', 'districts', 'states'));
     }
 
@@ -945,7 +954,7 @@ class ExploreController extends Controller
             }
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.arts', compact('field', 'colleges', 'districts', 'states'));
     }
 
@@ -962,7 +971,7 @@ class ExploreController extends Controller
             }
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.commerce', compact('field', 'colleges', 'districts', 'states'));
     }
 
@@ -979,7 +988,7 @@ class ExploreController extends Controller
             }
         }
         $districts = $colleges->pluck('location')->unique()->sort()->values();
-        $states = $colleges->pluck('state')->unique()->sort()->values();
+        $states = $this->getExploreStates();
         return view('colleges.agriculture', compact('field', 'colleges', 'districts', 'states'));
     }
 
