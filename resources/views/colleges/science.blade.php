@@ -236,7 +236,7 @@
             <button class="modal-close" onclick="closeSciModal(event)">&times;</button>
             <span class="badge-type" id="mType">Government</span>
             <h2 id="mName" style="font-family:'Sora'; font-size:28px; color:#1e1e2e;">College Name</h2>
-            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-body">
             <div class="section-box">
@@ -311,13 +311,14 @@
 
     function filterSci() {
         let q = sciInp.value.toLowerCase();
+        let state = document.getElementById('sciState').value;
         let loc = sciLoc.value;
         let type = sciType.value;
 
         let totalVis = 0;
 
         // Hide research hub when searching
-        if(q !== '' || loc !== '' || type !== '') {
+        if(q !== '' || loc !== '' || type !== '' || state !== '') {
             researchBox.style.display = 'none';
         } else {
             researchBox.style.display = 'block';
@@ -330,13 +331,15 @@
 
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
+                let cardState = card.getAttribute('data-state');
                 let cardType = card.getAttribute('data-type');
 
                 let matchQ = name.includes(q);
+                let matchState = state === '' || cardState === state;
                 let matchLoc = loc === '' || secLoc === loc;
                 let matchType = type === '' || cardType === type;
 
-                if(matchQ && matchLoc && matchType) {
+                if(matchQ && matchLoc && matchType && matchState) {
                     card.style.display = 'flex';
                     visInSec++;
                     totalVis++;
@@ -351,6 +354,30 @@
         document.getElementById('noResults').style.display = totalVis === 0 && researchBox.style.display === 'none' ? 'block' : 'none';
     }
 
+    function populateSciLocations(selectedState) {
+        const currentLoc = sciLoc.value;
+        sciLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(sciColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            sciLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            sciLoc.value = currentLoc;
+        } else {
+            sciLoc.value = "";
+        }
+    }
+
+    document.getElementById('sciState').addEventListener('change', () => {
+        populateSciLocations(document.getElementById('sciState').value);
+        filterSci();
+    });
     sciInp.addEventListener('input', filterSci);
     sciLoc.addEventListener('change', filterSci);
     sciType.addEventListener('change', filterSci);

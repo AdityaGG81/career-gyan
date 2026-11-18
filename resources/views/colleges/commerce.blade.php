@@ -236,7 +236,7 @@
             <button class="modal-close" onclick="closeComModal(event)">&times;</button>
             <div id="mType" style="font-size:11px; font-weight:700; color:#059669; text-transform:uppercase; margin-bottom:10px;">TYPE</div>
             <h2 id="mName" style="font-family:'Sora'; font-size:26px; color:#1e293b;">College Name</h2>
-            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-body">
             <div class="section-box">
@@ -311,12 +311,13 @@
 
     function filterCom() {
         let q = cSearch.value.toLowerCase();
+        let state = document.getElementById('comState').value;
         let loc = cLoc.value;
         let type = cType.value;
 
         let totalVis = 0;
 
-        if(q !== '' || loc !== '' || type !== '') {
+        if(q !== '' || loc !== '' || type !== '' || state !== '') {
             hiArea.style.display = 'none';
         } else {
             hiArea.style.display = 'block';
@@ -329,13 +330,15 @@
 
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
+                let cardState = card.getAttribute('data-state');
                 let cardType = card.getAttribute('data-type');
 
                 let matchQ = name.includes(q);
+                let matchState = state === '' || cardState === state;
                 let matchLoc = loc === '' || secLoc === loc;
                 let matchType = type === '' || cardType === type;
 
-                if(matchQ && matchLoc && matchType) {
+                if(matchQ && matchLoc && matchType && matchState) {
                     card.style.display = 'flex';
                     visInSec++;
                     totalVis++;
@@ -350,6 +353,30 @@
         document.getElementById('noResults').style.display = totalVis === 0 && hiArea.style.display === 'none' ? 'block' : 'none';
     }
 
+    function populateComLocations(selectedState) {
+        const currentLoc = cLoc.value;
+        cLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(comColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            cLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            cLoc.value = currentLoc;
+        } else {
+            cLoc.value = "";
+        }
+    }
+
+    document.getElementById('comState').addEventListener('change', () => {
+        populateComLocations(document.getElementById('comState').value);
+        filterCom();
+    });
     cSearch.addEventListener('input', filterCom);
     cLoc.addEventListener('change', filterCom);
     cType.addEventListener('change', filterCom);

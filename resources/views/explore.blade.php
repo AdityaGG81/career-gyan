@@ -993,6 +993,305 @@
     font-weight: 800;
   }
   .btn-pro-unlocked:hover { background: #d97706; color: #ffffff; }
+
+  /* ─── Explore Colleges Showcase Section ─── */
+  .explore-colleges-section {
+    padding: 80px 0;
+    background: #f8fafc;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .colleges-tabs-nav {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 6px 4px 16px;
+    margin-bottom: 30px;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .colleges-tabs-nav::-webkit-scrollbar {
+    height: 6px;
+  }
+  .colleges-tabs-nav::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 99px;
+  }
+
+  .college-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: 99px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-2);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+
+  .college-tab-btn:hover {
+    background: #ffffff;
+    color: var(--brand);
+    border-color: var(--brand);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 86, 219, 0.08);
+  }
+
+  .college-tab-btn.active {
+    background: var(--brand);
+    color: #ffffff;
+    border-color: var(--brand);
+    box-shadow: 0 4px 14px rgba(26, 86, 219, 0.25);
+  }
+
+  .college-tab-btn .tab-count-badge {
+    background: #f1f5f9;
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 99px;
+  }
+
+  .college-tab-btn.active .tab-count-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+  }
+
+  .college-tab-pane {
+    display: none;
+    animation: fadeInTab 0.25s ease;
+  }
+
+  .college-tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .college-pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    background: #ffffff;
+    padding: 18px 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+  }
+
+  .college-pane-header h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-1);
+    margin: 0;
+  }
+
+  .college-pane-header p {
+    font-size: 13.5px;
+    color: var(--text-2);
+    margin: 4px 0 0;
+  }
+
+  .btn-hub-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--brand);
+    color: #ffffff;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(26, 86, 219, 0.2);
+  }
+
+  .btn-hub-link:hover {
+    background: #1e40af;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(26, 86, 219, 0.3);
+  }
+
+  .colleges-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .showcase-college-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.03);
+  }
+
+  .showcase-college-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+    border-color: rgba(26, 86, 219, 0.3);
+  }
+
+  .showcase-card-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .sc-badge-rank {
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  .sc-badge-nirf {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  .sc-badge-type {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .showcase-college-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-1);
+    margin: 0 0 8px;
+    line-height: 1.35;
+  }
+
+  .showcase-college-loc {
+    font-size: 13px;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .showcase-college-loc i {
+    color: #ef4444;
+  }
+
+  .showcase-college-meta {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    font-size: 12.5px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--text-2);
+  }
+
+  .showcase-meta-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  .showcase-meta-row i {
+    width: 14px;
+    color: var(--brand);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .showcase-card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--brand);
+    background: rgba(26, 86, 219, 0.08);
+    transition: all 0.2s;
+  }
+
+  .showcase-card-btn:hover {
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  .showcase-bottom-cta {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+    border-radius: 16px;
+    padding: 22px 28px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .showcase-bottom-cta h4 {
+    font-family: 'Sora', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #ffffff;
+  }
+
+  .showcase-bottom-cta p {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0;
+  }
+
+  .showcase-cta-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
 </style>
 @endsection
 
@@ -1070,6 +1369,9 @@
           <div class="feature-card-links">
             <a href="{{ route('indian-colleges.index') }}" class="btn-feature-link btn-feature-primary" style="background: var(--brand);">
               Find Colleges <i class="fa-solid fa-graduation-cap"></i>
+            </a>
+            <a href="#explore-colleges" class="btn-feature-link btn-feature-secondary">
+              View Top Colleges <i class="fa-solid fa-arrow-down"></i>
             </a>
           </div>
         </div>
@@ -1574,6 +1876,213 @@
   </div>
 </section>
 
+<!-- Explore Top Colleges Showcase Section -->
+<section class="explore-colleges-section" id="explore-colleges">
+  <div class="container">
+    <div style="text-align: center; max-width: 760px; margin: 0 auto 36px;">
+      <div class="section-label" style="background: #e0e7ff; color: #3730a3; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 700; margin-bottom: 12px;">
+        <i class="fa-solid fa-building-columns"></i> Premier Institutes
+      </div>
+      <h2 class="section-title" style="font-family: 'Sora', sans-serif; font-size: clamp(26px, 4vw, 36px); font-weight: 800; color: var(--text-1); margin-bottom: 12px;">
+        Explore Top Colleges & Universities in India
+      </h2>
+      <p class="section-subtitle" style="font-size: 16px; color: var(--text-2); line-height: 1.6;">
+        Discover verified top-ranked government and private institutions across 10 major academic streams and states including Delhi, Karnataka, Maharashtra, Uttar Pradesh, Tamil Nadu, and more.
+      </p>
+    </div>
+
+    @php
+      $showcaseCategories = [
+        'technology-engineering' => [
+          'title' => 'Engineering & Technology',
+          'short' => 'Engineering',
+          'icon' => 'fa-laptop-code',
+          'route' => 'explore.engineering-colleges',
+          'desc' => 'IITs, NITs, BITS, and premier engineering institutes for B.Tech/B.E programs.'
+        ],
+        'medical' => [
+          'title' => 'Medical & MBBS',
+          'short' => 'Medical',
+          'icon' => 'fa-user-doctor',
+          'route' => 'explore.medical-colleges',
+          'desc' => 'AIIMS, Government Medical Colleges, and top medical colleges with clinical exposure.'
+        ],
+        'business' => [
+          'title' => 'Management & MBA',
+          'short' => 'Management',
+          'icon' => 'fa-chart-line',
+          'route' => 'explore.management-colleges',
+          'desc' => 'IIMs, XLRI, and top B-schools offering MBA, PGDM, and executive management.'
+        ],
+        'pharmacy' => [
+          'title' => 'Pharmacy & Research',
+          'short' => 'Pharmacy',
+          'icon' => 'fa-prescription-bottle-medical',
+          'route' => 'explore.pharmacy-colleges',
+          'desc' => 'NIPER and premier institutes offering B.Pharm, M.Pharm, and Pharm.D degrees.'
+        ],
+        'science' => [
+          'title' => 'Science & Pure Sciences',
+          'short' => 'Science',
+          'icon' => 'fa-flask-vial',
+          'route' => 'explore.science-colleges',
+          'desc' => 'IISc, IISERs, and premier universities offering B.Sc, M.Sc, and research careers.'
+        ],
+        'hotel-management' => [
+          'title' => 'Hotel & Hospitality Management',
+          'short' => 'Hotel Mgmt',
+          'icon' => 'fa-hotel',
+          'route' => 'explore.hotel-management-colleges',
+          'desc' => 'Central IHMs, State IHMs, and top hospitality academies for BHM & Culinary Arts.'
+        ],
+        'arts-humanities' => [
+          'title' => 'Arts, Design & Humanities',
+          'short' => 'Arts & Humanities',
+          'icon' => 'fa-palette',
+          'route' => 'explore.arts-humanities-colleges',
+          'desc' => 'Top central universities, DU colleges, and institutes for BA, Psychology & Literature.'
+        ],
+        'commerce' => [
+          'title' => 'Commerce, Banking & Finance',
+          'short' => 'Commerce',
+          'icon' => 'fa-scale-balanced',
+          'route' => 'explore.commerce-colleges',
+          'desc' => 'Premier commerce institutions including SRCC, Loyola, and top B.Com/BBA hubs.'
+        ],
+        'agriculture' => [
+          'title' => 'Agriculture & Allied Sciences',
+          'short' => 'Agriculture',
+          'icon' => 'fa-seedling',
+          'route' => 'explore.agriculture-colleges',
+          'desc' => 'ICAR-accredited state agricultural universities offering B.Sc Agriculture & Forestry.'
+        ],
+        'ayush-allied' => [
+          'title' => 'AYUSH & Allied Health',
+          'short' => 'AYUSH & Allied',
+          'icon' => 'fa-heart-pulse',
+          'route' => 'explore.non-mbbs-colleges',
+          'desc' => 'Premier colleges for BAMS, BHMS, Physiotherapy, Nursing, and Allied Healthcare.'
+        ],
+      ];
+    @endphp
+
+    <!-- Category Tabs Navigation -->
+    <div class="colleges-tabs-nav" role="tablist">
+      @foreach($showcaseCategories as $catSlug => $catInfo)
+        @php
+          $catColleges = $featuredColleges[$catSlug] ?? collect();
+          $isActive = $loop->first;
+        @endphp
+        <button type="button" 
+                class="college-tab-btn {{ $isActive ? 'active' : '' }}" 
+                data-tab="{{ $catSlug }}" 
+                onclick="switchExploreCollegeTab('{{ $catSlug }}')"
+                role="tab"
+                aria-selected="{{ $isActive ? 'true' : 'false' }}">
+          <i class="fa-solid {{ $catInfo['icon'] }}"></i>
+          <span>{{ $catInfo['short'] }}</span>
+          <span class="tab-count-badge">{{ count($catColleges) }}</span>
+        </button>
+      @endforeach
+    </div>
+
+    <!-- Category Tab Content Panes -->
+    @foreach($showcaseCategories as $catSlug => $catInfo)
+      @php
+        $catColleges = $featuredColleges[$catSlug] ?? collect();
+        $displayList = $catColleges->take(8);
+        $isActive = $loop->first;
+      @endphp
+      <div class="college-tab-pane {{ $isActive ? 'active' : '' }}" id="college-tab-{{ $catSlug }}" role="tabpanel">
+        <div class="college-pane-header">
+          <div>
+            <h3>Top {{ $catInfo['title'] }} Colleges</h3>
+            <p>{{ $catInfo['desc'] }} ({{ count($catColleges) }}+ institutions across all 10 states)</p>
+          </div>
+          <a href="{{ route($catInfo['route']) }}" class="btn-hub-link">
+            Explore All {{ $catInfo['short'] }} Colleges <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="colleges-showcase-grid">
+          @forelse($displayList as $c)
+            <div class="showcase-college-card">
+              <div>
+                <div class="showcase-card-badges">
+                  @if($c->rank)
+                    <span class="sc-badge-rank" title="CareerGyan Rank"><i class="fa-solid fa-trophy"></i> Rank #{{ $c->rank }}</span>
+                  @endif
+                  @if($c->government_rank)
+                    <span class="sc-badge-nirf" title="NIRF Rank"><i class="fa-solid fa-award"></i> NIRF #{{ $c->government_rank }}</span>
+                  @endif
+                  @if($c->naac_grade)
+                    <span class="sc-badge-rank" style="background:#dcfce7; color:#14532d;" title="NAAC Grade">NAAC {{ $c->naac_grade }}</span>
+                  @endif
+                  <span class="sc-badge-type">{{ $c->type ?: 'Institution' }}</span>
+                </div>
+                <h4 class="showcase-college-name">{{ $c->name }}</h4>
+                <div class="showcase-college-loc">
+                  <i class="fa-solid fa-location-dot"></i> {{ $c->location }}{{ $c->state ? ', ' . $c->state : '' }}
+                </div>
+                <div class="showcase-college-meta">
+                  @if($c->popular_branches)
+                    <div class="showcase-meta-row">
+                      <i class="fa-solid fa-graduation-cap"></i>
+                      <div><strong>Courses:</strong> {{ \Illuminate\Support\Str::limit($c->popular_branches, 52) }}</div>
+                    </div>
+                  @endif
+                  @if($c->cutoff)
+                    <div class="showcase-meta-row">
+                      <i class="fa-solid fa-clipboard-check"></i>
+                      <div><strong>Cutoff:</strong> {{ \Illuminate\Support\Str::limit($c->cutoff, 42) }}</div>
+                    </div>
+                  @endif
+                  @if($c->average_package || $c->fees_range)
+                    <div class="showcase-meta-row">
+                      <i class="fa-solid fa-indian-rupee-sign"></i>
+                      <div>
+                        @if($c->average_package)
+                          <strong>Avg Pkg:</strong> {{ $c->average_package }}
+                        @elseif($c->fees_range)
+                          <strong>Fees:</strong> {{ $c->fees_range }}
+                        @endif
+                      </div>
+                    </div>
+                  @endif
+                </div>
+              </div>
+              <a href="{{ route($catInfo['route']) }}" class="showcase-card-btn">
+                View in {{ $catInfo['short'] }} Hub <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          @empty
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #ffffff; border-radius: 16px; border: 1px solid var(--border);">
+              <p style="color: var(--text-2); font-size: 15px;">Colleges are being updated for this category.</p>
+            </div>
+          @endforelse
+        </div>
+
+        <!-- Bottom CTA Bar -->
+        <div class="showcase-bottom-cta">
+          <div>
+            <h4>Looking for more {{ $catInfo['title'] }} Colleges?</h4>
+            <p>Access our complete database of {{ count($catColleges) }}+ top colleges with detailed state-by-state filters, cutoffs, and admissions.</p>
+          </div>
+          <div class="showcase-cta-buttons">
+            <a href="{{ route($catInfo['route']) }}" class="btn-hub-link" style="background: #ffffff; color: #0f172a;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open {{ $catInfo['short'] }} Hub
+            </a>
+            <a href="{{ route('indian-colleges.index') }}" class="btn-hub-link" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3);">
+              <i class="fa-solid fa-database"></i> Search 60,000+ Colleges
+            </a>
+          </div>
+        </div>
+      </div>
+    @endforeach
+
+  </div>
+</section>
+
 <!-- All Career Paths Section (With Filter Controls) -->
 <section class="all-careers-section">
   <div class="container">
@@ -1890,6 +2399,18 @@
       let q = document.getElementById('searchInput').value.trim();
       if (q.length < 2) return;
       window.location.href = `/search-redirect?q=${encodeURIComponent(q)}`;
+  }
+
+  // ── Explore Top Colleges Tab Switcher ──
+  function switchExploreCollegeTab(slug) {
+    document.querySelectorAll('.college-tab-btn').forEach(btn => {
+      const isMatch = btn.getAttribute('data-tab') === slug;
+      btn.classList.toggle('active', isMatch);
+      btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+    });
+    document.querySelectorAll('.college-tab-pane').forEach(pane => {
+      pane.classList.toggle('active', pane.getAttribute('id') === 'college-tab-' + slug);
+    });
   }
 
   // ── Client-Side Filter Script ──

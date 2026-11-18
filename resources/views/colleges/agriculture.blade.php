@@ -239,7 +239,7 @@
             <span class="close-mod" onclick="closeAgriModal(event)">&times;</span>
             <div id="mType" style="font-size:11px; font-weight:800; color:#16a34a; letter-spacing:1px; margin-bottom:10px;">TAG</div>
             <h2 id="mName" style="font-family:'Sora'; font-size:28px; color:#064e3b; line-height:1.2;">College Name</h2>
-            <div style="margin-top:12px; color:#4b5563;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:12px; color:#4b5563;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-data">
             <div class="data-section">
@@ -314,12 +314,13 @@
 
     function filterAgri() {
         let q = aSearch.value.toLowerCase();
+        let state = document.getElementById('agriState').value;
         let loc = aLoc.value;
         let type = aType.value;
 
         let total = 0;
 
-        if(q !== '' || loc !== '' || type !== '') {
+        if(q !== '' || loc !== '' || type !== '' || state !== '') {
             uniArea.style.display = 'none';
         } else {
             uniArea.style.display = 'block';
@@ -332,13 +333,15 @@
 
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
+                let cardState = card.getAttribute('data-state');
                 let cardType = card.getAttribute('data-type');
 
                 let mQ = name.includes(q);
+                let mState = state === '' || cardState === state;
                 let mLoc = loc === '' || secLoc === loc;
                 let mType = type === '' || cardType === type;
 
-                if(mQ && mLoc && mType) {
+                if(mQ && mLoc && mType && mState) {
                     card.style.display = 'flex';
                     visInSec++;
                     total++;
@@ -353,6 +356,30 @@
         document.getElementById('noAgriResults').style.display = total === 0 && uniArea.style.display === 'none' ? 'block' : 'none';
     }
 
+    function populateAgriLocations(selectedState) {
+        const currentLoc = aLoc.value;
+        aLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(agriColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            aLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            aLoc.value = currentLoc;
+        } else {
+            aLoc.value = "";
+        }
+    }
+
+    document.getElementById('agriState').addEventListener('change', () => {
+        populateAgriLocations(document.getElementById('agriState').value);
+        filterAgri();
+    });
     aSearch.addEventListener('input', filterAgri);
     aLoc.addEventListener('change', filterAgri);
     aType.addEventListener('change', filterAgri);

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Top Engineering Colleges in Maharashtra')
+@section('title', 'Top Engineering Colleges in India')
 
 @section('styles')
 <style>
@@ -99,7 +99,7 @@
 <section class="hero-colleges">
     <div class="container">
         <h1>Top Engineering Colleges</h1>
-        <p>Discover premier engineering institutes across Maharashtra. Filter by your preferred district, college type, and branches to find your perfect academic home.</p>
+        <p>Discover premier engineering institutes across India. Filter by your preferred state, location, college type, and branches to find your perfect academic home.</p>
     </div>
 </section>
 
@@ -149,7 +149,7 @@
             <div class="top10-card" onclick="openDetails({{ $topCol->id }})">
                 <div class="rank-badge">#{{ $topCol->rank }}</div>
                 <h3 style="font-family:'Sora'; font-size:16px; margin-top:12px; margin-bottom:8px;">{{ $topCol->name }}</h3>
-                <div style="color:var(--text-2); font-size:13px;"><i class="fa-solid fa-location-dot"></i> {{ $topCol->location }}</div>
+                <div style="color:var(--text-2); font-size:13px;"><i class="fa-solid fa-location-dot"></i> {{ $topCol->location }}{{ $topCol->state ? ', ' . $topCol->state : '' }}</div>
                 <div style="margin-top: auto; padding-top:16px; font-size:13px; color:var(--brand); font-weight:600;">View Details &rarr;</div>
             </div>
             @endforeach

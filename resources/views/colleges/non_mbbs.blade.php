@@ -188,7 +188,7 @@
                                 <span class="tag-course">{{ $cStr }}</span>
                                 <h3 class="card-title">{{ $c->name }}</h3>
                                 <div style="font-size:13px; color:#64748b; margin-bottom:15px; display:flex; align-items:center; gap:5px;">
-                                    <i class="fa-solid fa-location-dot"></i> {{ $c->location }}, Maharashtra
+                                    <i class="fa-solid fa-location-dot"></i> {{ $c->location }}{{ $c->state ? ', ' . $c->state : '' }}
                                 </div>
                                 
                                 <div class="card-meta">
@@ -250,7 +250,7 @@
             <button class="modal-close" onclick="closeNonModal(event)">&times;</button>
             <div id="mCourse" style="font-size:11px; font-weight:700; color:#059669; text-transform:uppercase; margin-bottom:8px;">COURSE TYPE</div>
             <h2 id="mName" style="font-family:'Sora'; font-size:26px; color:#064e3b; line-height:1.2;">College Name</h2>
-            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-body">
             <div class="detail-sec">

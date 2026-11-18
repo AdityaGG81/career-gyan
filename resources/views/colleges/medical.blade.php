@@ -374,7 +374,8 @@
             if(neet === "500") matchNeet = !cutoffStr.includes('580') || c.type === 'Government' || c.type === 'Private';
             if(neet === "350") matchNeet = c.type === 'Private' || c.type === 'Deemed';
 
-            return matchQ && matchLoc && matchType && matchNeet;
+            let matchState = state === '' || c.state === state;
+            return matchQ && matchLoc && matchType && matchState && matchNeet;
         });
 
         renderCards(filtered.slice(0, 100));

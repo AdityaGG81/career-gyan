@@ -242,7 +242,7 @@
             <button class="modal-close" onclick="closePharmaModal(event)">&times;</button>
             <div id="mType" style="font-size:11px; font-weight:700; color:#db2777; margin-bottom:8px; text-transform:uppercase;">TYPE</div>
             <h2 id="mName" style="font-family:'Sora'; font-size:24px; color:#1e293b; line-height:1.2;">College Name</h2>
-            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-body">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
@@ -316,11 +316,12 @@
 
     function filterPharma() {
         let q = sInp.value.toLowerCase();
+        let state = document.getElementById('pharmaState').value;
         let loc = sLoc.value;
 
         let totalVis = 0;
 
-        if(q !== '' || loc !== '') {
+        if(q !== '' || loc !== '' || state !== '') {
             hlArea.style.display = 'none';
         } else {
             hlArea.style.display = 'block';
@@ -333,10 +334,12 @@
 
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
+                let cardState = card.getAttribute('data-state');
                 let matchQ = name.includes(q);
+                let matchState = state === '' || cardState === state;
                 let matchLoc = loc === '' || dLoc === loc;
 
-                if(matchQ && matchLoc) {
+                if(matchQ && matchLoc && matchState) {
                     card.style.display = 'flex';
                     visCount++;
                     totalVis++;
@@ -351,6 +354,30 @@
         document.getElementById('noResults').style.display = totalVis === 0 ? 'block' : 'none';
     }
 
+    function populatePharmaLocations(selectedState) {
+        const currentLoc = sLoc.value;
+        sLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(pharmaColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            sLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            sLoc.value = currentLoc;
+        } else {
+            sLoc.value = "";
+        }
+    }
+
+    document.getElementById('pharmaState').addEventListener('change', () => {
+        populatePharmaLocations(document.getElementById('pharmaState').value);
+        filterPharma();
+    });
     sInp.addEventListener('input', filterPharma);
     sLoc.addEventListener('change', filterPharma);
 

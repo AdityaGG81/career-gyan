@@ -195,7 +195,7 @@
                             <div class="card-top">
                                 <div class="{{ $badgeClass }} tier-badge">{{ $c->tier }}</div>
                                 <h3 class="card-title">{{ $c->name }}</h3>
-                                <div class="card-location"><i class="fa-solid fa-location-dot"></i> {{ $c->location }}, Maharashtra</div>
+                                <div class="card-location"><i class="fa-solid fa-location-dot"></i> {{ $c->location }}{{ $c->state ? ', ' . $c->state : '' }}</div>
                                 
                                 <div class="card-info">
                                     <i class="fa-solid fa-graduation-cap"></i>
@@ -346,7 +346,7 @@
         let visibleTotal = 0;
 
         // Hide featured section if any filter is active
-        if(q !== '' || loc !== '' || tier !== '') {
+        if(q !== '' || loc !== '' || tier !== '' || state !== '') {
             featuredSec.style.display = 'none';
         } else {
             featuredSec.style.display = 'block';
@@ -382,7 +382,30 @@
         document.getElementById('noHotelResults').style.display = visibleTotal === 0 ? 'block' : 'none';
     }
 
-    document.getElementById('hotelState').addEventListener('change', filterHotels);
+    function populateHotelLocations(selectedState) {
+        const currentLoc = hLoc.value;
+        hLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(hotelColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            hLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            hLoc.value = currentLoc;
+        } else {
+            hLoc.value = "";
+        }
+    }
+
+    document.getElementById('hotelState').addEventListener('change', () => {
+        populateHotelLocations(document.getElementById('hotelState').value);
+        filterHotels();
+    });
     hSearch.addEventListener('input', filterHotels);
     hLoc.addEventListener('change', filterHotels);
     hTier.addEventListener('change', filterHotels);

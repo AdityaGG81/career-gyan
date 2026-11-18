@@ -29,7 +29,14 @@ class ExploreController extends Controller
                           ->orderBy('name')
                           ->get();
 
-        return view('explore', compact('fields', 'subjects', 'careers'));
+        $featuredColleges = College::with('field')
+            ->whereNotNull('rank')
+            ->whereNotNull('state')
+            ->orderBy('rank')
+            ->get()
+            ->groupBy(fn($c) => $c->field ? $c->field->slug : 'other');
+
+        return view('explore', compact('fields', 'subjects', 'careers', 'featuredColleges'));
     }
 
     /* ─────────────────────────────────────────────

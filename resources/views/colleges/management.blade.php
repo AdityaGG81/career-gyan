@@ -262,7 +262,7 @@
             <button class="modal-close" onclick="closeMgmtModal(event)">&times;</button>
             <div id="mType" style="font-size:11px; font-weight:700; text-transform:uppercase; color:#3b82f6; margin-bottom:8px;">TYPE</div>
             <h2 id="mName" style="font-family:'Sora'; font-size:26px; color:#1e3a8a; line-height:1.2;">College Name</h2>
-            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-body">
             <div class="detail-box" style="margin-bottom:24px;">
@@ -352,13 +352,14 @@
 
     function filterMgmt() {
         let q = mSearch.value.toLowerCase();
+        let state = document.getElementById('mgmtState').value;
         let loc = mLoc.value;
         let type = mType.value;
 
         let totalVisible = 0;
 
         // Toggle Top 10
-        if(q !== '' || loc !== '' || type !== '') {
+        if(q !== '' || loc !== '' || type !== '' || state !== '') {
             top10Sec.style.display = 'none';
         } else {
             top10Sec.style.display = 'block';
@@ -371,13 +372,15 @@
 
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
+                let cardState = card.getAttribute('data-state');
                 let cType = card.getAttribute('data-type');
 
                 let matchQ = name.includes(q);
+                let matchState = state === '' || cardState === state;
                 let matchLoc = loc === '' || dLoc === loc;
                 let matchType = type === '' || cType === type;
 
-                if(matchQ && matchLoc && matchType) {
+                if(matchQ && matchLoc && matchType && matchState) {
                     card.style.display = 'flex';
                     sectionVisibleCount++;
                     totalVisible++;
@@ -392,6 +395,30 @@
         document.getElementById('noResults').style.display = totalVisible === 0 ? 'block' : 'none';
     }
 
+    function populateMgmtLocations(selectedState) {
+        const currentLoc = mLoc.value;
+        mLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(mgmtColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            mLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            mLoc.value = currentLoc;
+        } else {
+            mLoc.value = "";
+        }
+    }
+
+    document.getElementById('mgmtState').addEventListener('change', () => {
+        populateMgmtLocations(document.getElementById('mgmtState').value);
+        filterMgmt();
+    });
     mSearch.addEventListener('input', filterMgmt);
     mLoc.addEventListener('change', filterMgmt);
     mType.addEventListener('change', filterMgmt);

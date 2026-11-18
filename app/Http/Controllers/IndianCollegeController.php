@@ -375,67 +375,39 @@ class IndianCollegeController extends Controller
         $qLower = strtolower($q);
         $expansions = array_filter($synonyms, fn($s) => strtolower($s) !== $qLower);
 
-        // Phase 1: High-precision exact + acronym search across college_name, university, city, district, state
+        // Phase 1: High-precision exact + acronym search — only college_name
         $results = IndianCollege::where(function ($qb) use ($q, $expansions) {
                 $qLen = strlen($q);
 
-                $qb->where(function ($sub) use ($q, $qLen) {
-                    if ($qLen <= 6) {
-                        $sub->where('college_name', 'like', "%({$q})%")
-                           ->orWhere('college_name', 'like', "%({$q} %")
-                           ->orWhere('college_name', 'like', "%({$q}-%")
-                           ->orWhere('college_name', 'like', "%({$q}/%")
-                           ->orWhere('college_name', 'like', "{$q} %")
-                           ->orWhere('college_name', 'like', "% {$q} %")
-                           ->orWhere('college_name', 'like', "% {$q}")
-                           ->orWhere('college_name', '=', $q)
-                           ->orWhere('college_name', 'like', "%{$q}%")
-                           ->orWhere('university_name', 'like', "%{$q}%")
-                           ->orWhere('city', 'like', "%{$q}%")
-                           ->orWhere('district', 'like', "%{$q}%")
-                           ->orWhere('state', 'like', "%{$q}%");
+                if ($qLen <= 6) {
+                    $qb->where('college_name', 'like', "%({$q})%")
+                       ->orWhere('college_name', 'like', "{$q} %")
+                       ->orWhere('college_name', 'like', "% {$q} %")
+                       ->orWhere('college_name', 'like', "% {$q}")
+                       ->orWhere('city', 'like', "%{$q}%");
+                } else {
+                    $qb->where('college_name', 'like', "%{$q}%")
+                       ->orWhere('city', 'like', "%{$q}%");
+                }
+
+                foreach ($expansions as $syn) {
+                    $synLen = strlen($syn);
+                    if ($synLen < 2) continue;
+
+                    if ($synLen <= 8) {
+                        $qb->orWhere('college_name', 'like', "%({$syn})%")
+                           ->orWhere('college_name', 'like', "{$syn} %")
+                           ->orWhere('college_name', 'like', "% {$syn} %")
+                           ->orWhere('college_name', 'like', "% {$syn}");
                     } else {
-                        $sub->where('college_name', 'like', "%{$q}%")
-                           ->orWhere('university_name', 'like', "%{$q}%")
-                           ->orWhere('city', 'like', "%{$q}%")
-                           ->orWhere('district', 'like', "%{$q}%")
-                           ->orWhere('state', 'like', "%{$q}%");
-                    }
-                });
-
-                if (!empty($expansions)) {
-                    foreach ($expansions as $syn) {
-                        $synLen = strlen($syn);
-                        if ($synLen < 2) continue;
-
-                        if ($synLen <= 8) {
-                            $qb->orWhere('college_name', 'like', "%({$syn})%")
-                               ->orWhere('college_name', 'like', "%({$syn} %")
-                               ->orWhere('college_name', 'like', "{$syn} %")
-                               ->orWhere('college_name', 'like', "% {$syn} %")
-                               ->orWhere('college_name', 'like', "% {$syn}")
-                               ->orWhere('college_name', 'like', "%{$syn}%");
-                        } else {
-                            $qb->orWhere('college_name', 'like', "%{$syn}%")
-                               ->orWhere('university_name', 'like', "%{$syn}%");
-                        }
+                        $qb->orWhere('college_name', 'like', "%{$syn}%");
                     }
                 }
             })
-            ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name', 'course_name')
-            ->orderByRaw("
-                (CASE WHEN college_name NOT LIKE '%JR. COLLEGE%' AND college_name NOT LIKE '%SCHOOL%' THEN 1 ELSE 0 END) DESC,
-                (CASE WHEN college_type LIKE '%University%' OR college_type LIKE '%National Importance%' THEN 2 
-                      WHEN college_type LIKE '%College%' THEN 1 ELSE 0 END) DESC,
-                (CASE WHEN course_name IS NOT NULL AND course_name != '' THEN 1 ELSE 0 END) DESC,
-                (CASE WHEN college_name LIKE '%({$q})%' OR college_name LIKE '%({$q} %' THEN 3
-                      WHEN college_name LIKE '{$q} %' THEN 2
-                      ELSE 1 END) DESC
-            ")
-            ->limit(35)
+            ->select('id', 'college_name', 'district', 'state', 'college_type', 'management', 'university_name')
+            ->limit(15)
             ->get()
             ->unique('college_name')
-            ->take(15)
             ->values();
 
         $didYouMean = null;

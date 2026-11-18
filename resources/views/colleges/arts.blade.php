@@ -148,7 +148,7 @@
             <div class="elite-card" onclick="openArtsDetails({{ $c->id }})">
                 <i class="fa-solid fa-building-columns fa-2x"></i>
                 <h3 style="font-family:'Sora'; font-size:16px;">{{ $c->name }}</h3>
-                <p style="font-size:12px; color:#64748b; margin-top:8px;">{{ $c->location }}, Maharashtra</p>
+                <p style="font-size:12px; color:#64748b; margin-top:8px;">{{ $c->location }}{{ $c->state ? ', ' . $c->state : '' }}</p>
             </div>
             @endforeach
         </div>
@@ -235,7 +235,7 @@
             <button class="modal-close" onclick="closeArtsModal(event)">&times;</button>
             <div id="mType" style="font-size:11px; font-weight:700; color:#7c3aed; text-transform:uppercase; margin-bottom:10px;">TYPE</div>
             <h2 id="mName" style="font-family:'Sora'; font-size:26px; color:#1e293b;">College Name</h2>
-            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span>, Maharashtra</div>
+            <div style="margin-top:8px; color:#64748b;"><i class="fa-solid fa-location-dot"></i> <span id="mLoc">Location</span></div>
         </div>
         <div class="modal-body">
             <div class="detail-sec">
@@ -310,12 +310,13 @@
 
     function filterArts() {
         let q = aInp.value.toLowerCase();
+        let state = document.getElementById('artsState').value;
         let loc = aLoc.value;
         let type = aType.value;
 
         let totalVis = 0;
 
-        if(q !== '' || loc !== '' || type !== '') {
+        if(q !== '' || loc !== '' || type !== '' || state !== '') {
             eliteArea.style.display = 'none';
         } else {
             eliteArea.style.display = 'block';
@@ -328,13 +329,15 @@
 
             cards.forEach(card => {
                 let name = card.getAttribute('data-name');
+                let cardState = card.getAttribute('data-state');
                 let cardType = card.getAttribute('data-type');
 
                 let matchQ = name.includes(q);
+                let matchState = state === '' || cardState === state;
                 let matchLoc = loc === '' || secLoc === loc;
                 let matchType = type === '' || cardType === type;
 
-                if(matchQ && matchLoc && matchType) {
+                if(matchQ && matchLoc && matchType && matchState) {
                     card.style.display = 'flex';
                     visInSec++;
                     totalVis++;
@@ -349,6 +352,30 @@
         document.getElementById('noResults').style.display = totalVis === 0 && eliteArea.style.display === 'none' ? 'block' : 'none';
     }
 
+    function populateArtsLocations(selectedState) {
+        const currentLoc = aLoc.value;
+        aLoc.innerHTML = '<option value="">All Locations</option>';
+        let locations = [...new Set(artsColleges
+            .filter(c => !selectedState || c.state === selectedState)
+            .map(c => c.location)
+        )].sort();
+        locations.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l;
+            opt.textContent = l;
+            aLoc.appendChild(opt);
+        });
+        if (locations.includes(currentLoc)) {
+            aLoc.value = currentLoc;
+        } else {
+            aLoc.value = "";
+        }
+    }
+
+    document.getElementById('artsState').addEventListener('change', () => {
+        populateArtsLocations(document.getElementById('artsState').value);
+        filterArts();
+    });
     aInp.addEventListener('input', filterArts);
     aLoc.addEventListener('change', filterArts);
     aType.addEventListener('change', filterArts);
